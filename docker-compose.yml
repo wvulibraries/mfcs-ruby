@@ -1,0 +1,58 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    restart: always
+    image: postgres:10
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=docker
+    volumes:
+      - ./postgresdata/db:/var/lib/postgresql/data
+
+  elasticsearch:
+    image: elasticsearch:6.6.0
+    container_name: elasticsearch
+    restart: always
+    volumes: 
+      - ./search_data:/usr/share/elasticsearch/data
+    ports: 
+      - 9200:9200
+      - 9300:9300
+  
+  webpacker:
+    build: .
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    command: ./bin/webpack-dev-server
+    volumes:
+      - .:/home/mfcs
+    ports:
+      - '3035:3035'
+  
+  mfcs: 
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    tty: true
+    stdin_open: true
+    container_name: mfcs
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    environment:
+      - SECRET_KEY_BASE=test
+      - DATABASE_PASSWORD=docker
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - TERM=xterm 
+      # - SELENIUM_REMOTE_HOST=selenium
+      # - RAILS_ENV=production # replace with your current environment development or production
+    volumes:
+      - ./:/home/mfcs
+    ports:
+      - "3000:3000" 
+      - "3001:3001"
+    links:
+      - elasticsearch
+      - db

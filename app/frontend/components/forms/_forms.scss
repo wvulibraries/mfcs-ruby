@@ -1,0 +1,414 @@
+$font-color:#666; 
+$input-bg: #eee; 
+$input-border: #666;
+$label-color:$font-color; 
+$fieldset:#666; 
+$borders: 1px solid $input-border; 
+$easeOutExpo:cubic-bezier(0.19, 1, 0.22, 1); /* easeOutExpo */
+$easeInOutExpo:cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
+
+h2 { 
+  margin-top:0;
+}
+
+form{
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%;
+  position:relative;
+  z-index:55;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  * { margin: 0; padding: 0px; }
+
+  fieldset { 
+    padding:1rem; 
+    border: $borders; 
+    text-align: left;
+    position: relative; 
+    margin-top:1rem; 
+
+    > legend { 
+      padding: 0 1rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: $font-color;
+    }
+  }
+
+  label, .heading { 
+    text-align:left;
+    display:block; 
+    width:100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color:$font-color;
+    position: relative;
+    
+    &.required { 
+      &:after { 
+        content: "*";
+        color: $error;
+        font-size:2.2rem;
+        position: absolute; 
+        top:-7px; 
+        padding-left:5px;
+        font-weight:100;
+      }
+    }
+  }
+
+  .legend { 
+      width:100%; 
+      display:block; 
+      float:left; 
+      border: $borders; 
+      padding:5px 5px 5px 40px; 
+      margin:20px 0;
+      font-size:12px; 
+      position:relative; 
+      text-align:left; 
+
+      span.required { 
+        color: $error;
+          font-size:4rem;
+          position:absolute; 
+          top:37%; 
+          left:10px; 
+      }
+  }
+
+  .heading { 
+      text-align: left;
+      display: block;
+      width: 100%;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color:$font-color;
+  }
+
+  .checkbox-wrapper { 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 100%;
+
+      .checkbox { 
+        float: left;
+        display: block;
+        margin-right: 2.3576520234%;
+        width: 100%;
+        background:$input-bg;
+        padding:5px; 
+        width:100%; 
+        display:block;
+      }
+
+      .heading { 
+        text-align: left;
+        display: block;
+        width: 100%;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color:$font-color;
+      }
+
+      label {
+        float: left;
+        display: inline-block; 
+        width:calc(100% - 40px);
+        margin:0;  
+        text-transform:none; 
+        font-size:12px;
+      } 
+
+      input[type='hidden'] { 
+        display:none; 
+      }
+
+      input[type='checkbox'], input[type='radio'] { 
+        float:left; 
+        display:inline-block; 
+        width:20px;
+        text-align:left;
+        margin:0 5px 0 0; 
+        height:unset;
+      }
+  }
+
+  .field{
+    margin-top:1rem;
+
+    &:first-of-type { 
+      margin-top:0; 
+    }
+  }
+
+  input:not([type='submit']){
+      width:100%;
+      height:60px;
+      padding:1.25rem; 
+      border:none;
+      background:$input-bg;
+      font-weight:500;
+      letter-spacing: 1px;
+      transition: color 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
+                  border 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
+                  background 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+      border: 2px solid darken($input-bg,10%);
+      
+      &:focus, &:hover { 
+        border: 2px solid $link-color;
+        background: lighten($input-bg,2%);
+      }
+
+      &::placeholder { 
+        color:darken($input-bg,20%);
+      }
+  }
+
+  input[type='file']{
+    height:unset;
+  }
+
+  textarea{
+    width:100%;
+    max-width:100%;
+    border:none;
+    font-size:1rem; 
+    line-height:1.5; 
+    font-weight:500;
+    letter-spacing: 1px;
+    background:$input-bg;
+    padding:1.25rem;
+    margin-top:.5rem;
+    transition: color 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
+                border 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
+                background 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+    border: 2px solid darken($input-bg,10%);
+
+    &:focus, &:hover { 
+      border: 2px solid $link-color;
+      background: lighten($input-bg,2%);
+    }
+
+    &::placeholder { 
+      color:darken($input-bg,20%);
+    }
+  }
+
+  .select-style {
+    font-size:1rem; 
+    padding: 0;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+    overflow: hidden;
+    background: #eee;
+    position:relative;
+    font-weight:500;
+    letter-spacing: 1px;
+    border: 2px solid darken($input-bg,10%);  
+    transition: color 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
+                border 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
+                background 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+
+    &:focus, &:hover { 
+      border: 2px solid $link-color;
+      background: lighten($input-bg,2%);
+    }
+
+    &:before {
+      content: "\f078";
+      color:rgba( #000, .3);
+      font-size: 1.2rem; 
+      text-align: center;
+      font-family: 'Font Awesome 5 Free';
+      font-weight: 900;
+      display:block; 
+      position:absolute;
+      width:2rem; 
+      right:10px;
+      top:calc(50% - .7rem); 
+      z-index:0; 
+    }
+    select {
+      padding:1rem; 
+      width: 100%;
+      height:55px;
+      font-size:1rem;
+      border: none;
+      box-shadow: none;
+      background-color: transparent;
+      background-image: none;
+      -webkit-appearance: none;
+         -moz-appearance: none;
+              appearance: none;
+      position:relative;
+      z-index:2;
+      color:#000;
+    }
+  }
+
+  // ERRORS 
+  .field_with_errors { 
+    input, textarea, .select-style { 
+      border: 2px solid $error;
+      background: lighten($error,40%);
+    }
+    label { color:$error; }
+  }
+}
+
+.image-preview { 
+  max-width:320px; 
+  margin-bottom:.5rem; 
+}
+
+#error_explanation { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%;
+  padding:1rem; 
+  color:$error; 
+  background: rgba($error, .1); 
+  border: 2px solid $error; 
+  margin-bottom:2rem; 
+  h3 { color:$error; }
+  ul { 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 100%;
+    padding:1rem;
+    padding-left:2.5rem; 
+  }
+}
+
+.actions { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%;
+  padding:1rem 0;
+  margin-top:1rem; 
+  position:relative; 
+  input { position: relative; top:-2px; }
+}
+
+.full, .row { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%; 
+}
+
+.two-third {
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%; 
+  @media screen and (min-width:720px){ 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 65.8807826589%;
+  }
+}
+
+.one-third { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%; 
+  @media screen and (min-width:720px){ 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 31.7615653177%;
+  }
+}
+
+.third { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%; 
+  @media screen and (min-width:720px){ 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 31.7615653177%;
+    &:nth-child(3n){ 
+      margin-right: 0;
+    }
+  }
+}
+
+.one-fourth { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%; 
+  @media screen and (min-width:720px){ 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 23.2317609825%;
+  }
+}
+
+.two-fourth, .half { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%; 
+  @media screen and (min-width:720px){ 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 48.8211739883%;
+  }
+}
+
+.three-fourth { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%;
+  @media screen and (min-width:720px){ 
+    float: left;
+    display: block;
+    margin-right: 2.3576520234%;
+    width: 74.4105869942%;
+  }
+}
+
+.last { 
+  margin-right:0;
+}
+
+.micro-text { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%;
+  padding:1rem .5rem; 
+  letter-spacing:1px; 
+  font-weight:400; 
+  color:#5f5f5f; 
+  font-size:.75rem; 
+}
+
+.preview-image { 
+  display : block;
+  margin : auto;
+  max-width:300px; 
+  border:$border;
+  padding: 1rem;
+}

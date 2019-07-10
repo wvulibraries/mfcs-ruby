@@ -1,0 +1,8 @@
+<% flash.each do |key, value| %>
+  <div class="alert <%= key %>">
+    <div class="content"> <%= value %> </div>
+    <div class="exit-alert"> 
+      <%= image_pack_tag 'media/packs/images/interface/close-button-1.svg', class: 'close-img' %>
+    </div>
+  </div>
+<% end %>

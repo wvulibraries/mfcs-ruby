@@ -1,0 +1,83 @@
+// Colors and Text Color Values Checked with WCAG AAA Contrast Ratio
+// Must match AAA accessibility requirement. 
+
+.alert {
+  width:100%; 
+  float:left; 
+  display:block; 
+  padding: 1rem;
+  color:#000;
+  font-size: 1rem;
+  font-weight:bold;
+  margin-bottom:1rem;
+  position: relative;
+
+  &.warning, &.alert { 
+    background: #f47c3c; 
+    color: #551700 // 5.17 Contrast Ratio AAA PASS
+  }
+
+  &.notice { 
+    background: #29abe0; 
+    color: #000036; // 7.59 Contrast Ratio AAA PASS
+  }
+  &.error { 
+    background: #C70D00; 
+    color: #fff; // 6.02 Contrast Ratio AAA PASS
+  }
+  &.success { 
+    background: #5BED21;  
+    color: #002A00; // 10.2 Contrast Ratio   AAA PASS
+  }
+}
+
+.exit-alert { 
+  position:absolute; 
+  width:1.5rem; 
+  height:1.5rem; 
+  right:1rem; 
+  padding: .25rem;
+  top:calc(50% - .75rem); 
+
+  &:hover, &:focus { 
+    cursor: pointer;
+    width:2rem; 
+    height: 2rem; 
+    top: calc(50% - 1rem); 
+  }
+}
+
+.warning .exit-alert, .alert .exit-alert { 
+  // Change the color of the X image from black to #000036
+  .close-img { 
+    filter: invert(11%) sepia(92%) saturate(1943%) hue-rotate(10deg) brightness(90%) contrast(105%);
+  }
+}
+
+.error .exit-alert { 
+  // Change the color of the X from black to #fff
+  .close-img { 
+    filter: invert(100%);
+  }
+}
+
+.notice .exit-alert { 
+  // Change the color of the X image from black to #000036
+  .close-img { 
+    filter: invert(6%) sepia(39%) saturate(5608%) hue-rotate(235deg) brightness(91%) contrast(120%); 
+  }
+}
+
+.success .exit-alert { 
+  // Change the color of the X image from black to #000036
+  .close-img { 
+    filter: invert(12%) sepia(53%) saturate(1144%) hue-rotate(78deg) brightness(100%) contrast(106%); 
+  }
+}
+
+.alert .content { 
+  width: 100%;
+  display:block;
+  float:left; 
+  padding-right: 4rem; 
+}

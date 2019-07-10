@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mfcs</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_pack_tag 'application' %>
+  </head>
+
+  <body>
+    <!-- Alerts -->
+    <%= render "components/alerts/alerts" %>
+
+    <!-- Content Yield -->
+    <%= yield %>
+
+
+    <!-- Logout ... change this at somepoint. -->
+    <%# link_to('Logout', destroy_user_session_path, method: :delete) %>
+    
+    <!-- Webpack JS -->
+    <%= javascript_pack_tag 'application' %>
+  </body> 
+</html>

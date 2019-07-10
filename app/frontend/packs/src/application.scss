@@ -1,0 +1,18 @@
+// Normalize / Base
+// ----------------------------------------------------
+@import './normalize.css'; 
+@import '../../components/vars/variables'; 
+@import './base.scss';
+
+// Alerts
+//-----------------------------------------------------
+@import '../../components/alerts/alerts';
+@import '../../components/forms/forms';
+
+// Login
+// ----------------------------------------------------
+@import '../../components/login/login';
+
+// Homepage 
+// ----------------------------------------------------
+@import '../../components/homepage/homepage';
