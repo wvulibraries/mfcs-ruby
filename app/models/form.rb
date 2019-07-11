@@ -7,10 +7,9 @@ class Form < ApplicationRecord
   # RAILS CALLBACKS
   # -----------------------------------------------------
   # default values
-  before_validation :mint_uuid, on: [:create]
   after_initialize :set_defaults
 
-  private 
+  private
   # Setting some defaults for the forms to match current behaviors of the existing app.
   # These will be the defaults 
   # @author David J. Davis
@@ -20,11 +19,11 @@ class Form < ApplicationRecord
     # set strings
     self.submit_button ||= 'Submit'
     self.update_button ||= 'Update'
-    # set bools 
+    # set bools
     self.container ||= false
-    self.production ||= true 
-    self.export_public ||= true 
+    self.production ||= true
+    self.export_public ||= true
     self.export_oai ||= true
-  end 
+  end
 
 end

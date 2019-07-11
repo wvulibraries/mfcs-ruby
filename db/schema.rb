@@ -10,11 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_09_173749) do
+ActiveRecord::Schema.define(version: 2019_07_11_140031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
+
+  create_table "fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.string "type"
+  end
 
   create_table "forms", force: :cascade do |t|
     t.string "title"
@@ -42,6 +67,58 @@ ActiveRecord::Schema.define(version: 2019_07_09_173749) do
     t.index ["idno"], name: "index_forms_on_idno", unique: true
     t.index ["navigation"], name: "index_forms_on_navigation", using: :gin
     t.index ["title"], name: "index_forms_on_title", unique: true
+  end
+
+  create_table "idno_fields", force: :cascade do |t|
+    t.integer "numbering_type"
+    t.string "idno_format"
+    t.integer "start_increment"
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+  end
+
+  create_table "text_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "min"
+    t.integer "max"
+    t.integer "format"
   end
 
   create_table "users", force: :cascade do |t|

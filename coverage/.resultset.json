@@ -1,15 +1,54 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/mfcs/app/models/form.rb": [
+      "/home/mfcs/app/models/text_field.rb": [
+        null,
+        null,
         1,
         null,
         1,
+        null,
+        null,
         1,
+        null
+      ],
+      "/home/mfcs/app/models/field.rb": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
         1,
         null
       ]
     },
-    "timestamp": 1562761891
+    "timestamp": 1562856760
   }
 }
