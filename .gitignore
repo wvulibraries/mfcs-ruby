@@ -36,3 +36,5 @@ yarn-debug.log*
 # ignore database persistance
 /postgresdata
 /search_data
+/search_data/*
+.DS_Store
