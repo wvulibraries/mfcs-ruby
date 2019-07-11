@@ -9,7 +9,6 @@ class CreateFields < ActiveRecord::Migration[5.2]
       t.string :local_styles
       t.string :help_type
       t.string :help_info
-
       t.timestamps
     end
   end
