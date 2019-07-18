@@ -31,4 +31,7 @@
 class Field < ApplicationRecord
   # validations
   validates_presence_of :name, :label, :type
+
+  # belongs too
+  belongs_to :formable, polymorphic: true
 end

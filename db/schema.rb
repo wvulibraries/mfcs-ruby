@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_11_140031) do
+ActiveRecord::Schema.define(version: 2019_07_17_150436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -39,6 +39,9 @@ ActiveRecord::Schema.define(version: 2019_07_11_140031) do
     t.boolean "display_in_list"
     t.boolean "hidden"
     t.string "type"
+    t.string "formable_type"
+    t.bigint "formable_id"
+    t.index ["formable_type", "formable_id"], name: "index_fields_on_formable_type_and_formable_id"
   end
 
   create_table "forms", force: :cascade do |t|
@@ -119,6 +122,11 @@ ActiveRecord::Schema.define(version: 2019_07_11_140031) do
     t.integer "min"
     t.integer "max"
     t.integer "format"
+    t.string "formable_type"
+    t.bigint "formable_id"
+    t.integer "position"
+    t.string "placeholder"
+    t.index ["formable_type", "formable_id"], name: "index_text_fields_on_formable_type_and_formable_id"
   end
 
   create_table "users", force: :cascade do |t|

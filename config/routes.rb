@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks", sessions: 'users/sessions' }, sign_out_via: [:get]
   get '/fail', to: 'pages#failure'
 
-  # forms 
+  # forms
   resources :forms
-
 end
