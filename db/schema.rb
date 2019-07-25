@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_17_150436) do
+ActiveRecord::Schema.define(version: 2019_07_18_172832) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 2019_07_17_150436) do
     t.string "type"
     t.string "formable_type"
     t.bigint "formable_id"
+    t.integer "position"
+    t.string "placeholder"
     t.index ["formable_type", "formable_id"], name: "index_fields_on_formable_type_and_formable_id"
   end
 
@@ -96,6 +98,10 @@ ActiveRecord::Schema.define(version: 2019_07_17_150436) do
     t.boolean "searchable"
     t.boolean "display_in_list"
     t.boolean "hidden"
+    t.integer "position"
+    t.string "validation"
+    t.string "validation_regex"
+    t.string "placeholder"
   end
 
   create_table "text_fields", force: :cascade do |t|
@@ -126,7 +132,41 @@ ActiveRecord::Schema.define(version: 2019_07_17_150436) do
     t.bigint "formable_id"
     t.integer "position"
     t.string "placeholder"
+    t.string "validation"
+    t.string "validation_regex"
     t.index ["formable_type", "formable_id"], name: "index_text_fields_on_formable_type_and_formable_id"
+  end
+
+  create_table "textarea_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "min"
+    t.integer "max"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "validation"
+    t.string "validation_regex"
   end
 
   create_table "users", force: :cascade do |t|

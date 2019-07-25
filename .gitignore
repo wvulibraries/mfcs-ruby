@@ -38,3 +38,9 @@ yarn-debug.log*
 /search_data
 /search_data/*
 .DS_Store
+
+#ignore docs
+/doc
+/doc/*
+.yardoc
+.yardoc/*
