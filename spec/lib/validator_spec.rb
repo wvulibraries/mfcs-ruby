@@ -14,31 +14,31 @@ RSpec.describe Validator, type: :model do
       expect(valid).to be false
     end
 
-    it 'valid varients' do
-      valid_numbers = [
-        '(333)111-2385',
-        '333-111-2385',
-        '333.111.2385',
-        '333 111 2385',
-        '(333) 111-2385',
-        '(333).111.2385',
-        '(333) 111 2385',
-        '(333)111.2385',
-        '1-230-234-2356'
-      ]
-      valid_numbers.each do |n|
+    valid_numbers = [
+      '(333)111-2385',
+      '333-111-2385',
+      '333.111.2385',
+      '333 111 2385',
+      '(333) 111-2385',
+      '(333).111.2385',
+      '(333) 111 2385',
+      '(333)111.2385',
+      '1-230-234-2356'
+    ]
+    valid_numbers.each do |n|
+      it "valid #{n}" do
         expect(Validator.phone_number(n)).to be true
       end
     end
 
-    it 'invalid varients' do
-      invalid_numbers = [ 
-        '123.234.123', 
-        'joe', 
-        '123-234-1234x',
-        '1-230-234-2356x'
-      ]
-      invalid_numbers.each do |n|
+    invalid_numbers = [
+      '123.234.123',
+      'joe',
+      '123-234-1234x',
+      '1-230-234-2356x'
+    ]
+    invalid_numbers.each do |n|
+      it "invalid #{n}" do
         expect(Validator.phone_number(n)).to be false
       end
     end
@@ -223,11 +223,113 @@ RSpec.describe Validator, type: :model do
     it 'valid string - space' do
       expect(Validator.integer_spaces('30000 000')).to be true
     end
+    it 'valid trailing space and starting space' do
+      expect(Validator.integer_spaces(' 30000 ')).to be true
+    end 
+    it 'valid with start, trailing, and middle space' do
+      expect(Validator.integer_spaces(' 300 000 ')).to be true
+    end 
+    it 'valid with trailing space' do
+      expect(Validator.integer_spaces('30000 ')).to be true
+    end 
+    it 'valid with starting space' do
+      expect(Validator.integer_spaces(' 30000')).to be true
+    end 
     it 'not valid number - letter' do
       expect(Validator.integer_spaces('3000a')).to be false
     end
     it 'not valid - strings' do
       expect(Validator.integer_spaces('testing')).to be false
+    end
+  end
+
+  context '.alpha_numeric' do
+    it 'does not like scripty shenanigans' do
+      str = "Somealpha823stuff\n<script>alert('pwned')</script>"
+      expect(Validator.alpha_numeric(str)).to be false
+    end
+    it 'does not like other characters' do
+      str = 'Some!_.asdf;'
+      expect(Validator.alpha_numeric(str)).to be false
     end 
+    it 'likes alphabets with spaces' do
+      str = 'AlphaNumerical0003754'
+      expect(Validator.alpha_numeric(str)).to be true
+    end
+    it 'likes numerical' do
+      str = '8234985'
+      expect(Validator.alpha_numeric(str)).to be true
+    end
+  end
+
+  context '.alpha_numeric_spaces' do
+    it 'does not like scripty shenanigans' do
+      str = "Some alpha 823 stuff\n<script>alert('pwned')</script>"
+      expect(Validator.alpha_numeric_spaces(str)).to be false 
+    end
+    it 'does not like other characters' do
+      str = 'Some alpha numerical with punctuation.'
+      expect(Validator.alpha_numeric_spaces(str)).to be false
+    end 
+    it 'likes alphabets with spaces' do
+      str = 'Alpha Numerical stuff'
+      expect(Validator.alpha_numeric_spaces(str)).to be true 
+    end
+    it 'likes alpha and numerical stuff' do
+      str = 'Cat20485'
+      expect(Validator.alpha_numeric_spaces(str)).to be true
+    end 
+    it 'likes alph numerical with spaces' do
+      str = 'Cat Number 12945'
+      expect(Validator.alpha_numeric_spaces(str)).to be true
+    end 
+    it 'likes numerical' do
+      str = '8234985'
+      expect(Validator.alpha_numeric_spaces(str)).to be true
+    end
+  end
+
+  context '.alpha' do
+    it 'hates alpha with spaces' do
+      expect(Validator.alpha('something cool spaces')).to be false
+    end
+    it 'likes all alpha with no spaces' do
+      expect(Validator.alpha('somethingCoolMan')).to be true
+    end
+    it 'hates punctuation marks' do
+      expect(Validator.alpha('somethingcool.')).to be false
+    end
+    it 'hates numbers' do
+      expect(Validator.alpha('idonotlikenumbers284')).to be false
+    end
+  end
+
+  context '.alpha_spaces' do
+    it 'like all alpha with spaces' do
+      expect(Validator.alpha_spaces('something cool spaces')).to be true
+    end
+    it 'likes all alpha with no spaces' do
+      expect(Validator.alpha_spaces('somethingCoolMan')).to be true
+    end
+    it 'hates punctuation marks' do
+      expect(Validator.alpha_spaces('somethingcool.')).to be false
+    end
+    it 'hates numbers' do
+      expect(Validator.alpha_spaces('idonotlikenumbers284')).to be false
+    end
+  end
+
+  context '.no_special_chars' do
+    chars = '!@#$%^&*()_+{}|:">?<[]\\\';,.`~µñ©æáßðøäåé®þüúíóö'
+    char_array = chars.split('')
+    char_array.each do |char|
+      it "does not like #{char} as a chraacter" do
+        expect(Validator.no_special_chars("testing#{char}")).to be false
+      end
+    end
+
+    it 'likes this because no special characters' do
+      expect(Validator.no_special_chars('testing something')).to be true
+    end
   end
 end
