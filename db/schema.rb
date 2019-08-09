@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_18_172832) do
+ActiveRecord::Schema.define(version: 2019_08_08_185117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
 
-  create_table "fields", force: :cascade do |t|
+  create_table "check_fields", force: :cascade do |t|
     t.string "name"
     t.string "label"
     t.string "value"
@@ -25,8 +25,7 @@ ActiveRecord::Schema.define(version: 2019_07_18_172832) do
     t.string "local_styles"
     t.string "help_type"
     t.string "help_info"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "type"
     t.boolean "required"
     t.boolean "no_duplicates"
     t.boolean "read_only"
@@ -38,12 +37,50 @@ ActiveRecord::Schema.define(version: 2019_07_18_172832) do
     t.boolean "searchable"
     t.boolean "display_in_list"
     t.boolean "hidden"
-    t.string "type"
-    t.string "formable_type"
-    t.bigint "formable_id"
-    t.integer "position"
+    t.integer "format"
     t.string "placeholder"
-    t.index ["formable_type", "formable_id"], name: "index_fields_on_formable_type_and_formable_id"
+    t.integer "position"
+    t.string "choices", default: [], array: true
+    t.integer "default_choice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "email_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.string "validation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fields", force: :cascade do |t|
+    t.string "field_types_type"
+    t.bigint "field_types_id"
+    t.bigint "form_id"
+    t.index ["field_types_type", "field_types_id"], name: "index_fields_on_field_types_type_and_field_types_id"
+    t.index ["form_id"], name: "index_fields_on_form_id"
   end
 
   create_table "forms", force: :cascade do |t|
@@ -104,6 +141,77 @@ ActiveRecord::Schema.define(version: 2019_07_18_172832) do
     t.string "placeholder"
   end
 
+  create_table "integer_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.integer "min"
+    t.integer "max"
+    t.integer "step"
+    t.string "validation"
+    t.string "validation_regex"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "metadata_mappings", force: :cascade do |t|
+    t.integer "schema"
+    t.string "identifier"
+    t.string "qualifier"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "radio_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.string "choices", default: [], array: true
+    t.integer "default_choice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "text_fields", force: :cascade do |t|
     t.string "name"
     t.string "label"
@@ -128,13 +236,10 @@ ActiveRecord::Schema.define(version: 2019_07_18_172832) do
     t.integer "min"
     t.integer "max"
     t.integer "format"
-    t.string "formable_type"
-    t.bigint "formable_id"
     t.integer "position"
     t.string "placeholder"
     t.string "validation"
     t.string "validation_regex"
-    t.index ["formable_type", "formable_id"], name: "index_text_fields_on_formable_type_and_formable_id"
   end
 
   create_table "textarea_fields", force: :cascade do |t|

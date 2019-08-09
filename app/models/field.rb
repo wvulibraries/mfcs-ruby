@@ -1,37 +1,5 @@
-# Generic Field Class, building block for all fields that
-# contains the following information.
-#
-# ==== Strings
-#
-# * name
-# * label
-# * type
-# * value
-# * css_id
-# * css_class
-# * local_styles
-# * help_type
-# * help_info
-# * metadata_schema
-#
-# ==== Booleans
-#
-# * required
-# * no_duplicates
-# * read_only
-# * disabled
-# * disabled_on_insert
-# * public_release
-# * oai_release
-# * sortable
-# * searchable
-# * display_in_list
-# * hidden
-#
+# This is now a join table for allowing forms to have many fields of different types. 
 class Field < ApplicationRecord
-  # validations
-  validates_presence_of :name, :label, :type
-
-  # belongs too
-  belongs_to :formable, polymorphic: true
+  belongs_to :form
+  belongs_to :field_types, polymorphic: true
 end

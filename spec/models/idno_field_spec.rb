@@ -1,13 +1,15 @@
 require 'rails_helper'
-require './spec/shared/a_field'
 
 RSpec.describe IdnoField, type: :model do
   let(:idno) { IdnoField.new }
 
-  context 'database columns' do
+  context 'shared tests' do
     # covers all default field items
     it_behaves_like 'a field'
+    it_behaves_like 'fieldable'
+  end 
 
+  context 'database columns' do
     context 'idno field specific' do
       context 'strings' do
         it { should have_db_column(:validation).of_type(:string) }
@@ -69,6 +71,11 @@ RSpec.describe IdnoField, type: :model do
     it 'css_id should be set to idno and be a string' do
       expect(idno.name).to be_a(String)
       expect(idno.css_id).to eq 'idno'
+    end
+
+    it 'type should be set to idno' do
+      expect(idno.type).to be_a(String)
+      expect(idno.type).to eq 'idno'
     end
   end
 end

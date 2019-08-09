@@ -6,7 +6,6 @@ RSpec.describe Form, type: :model do
     context 'strings' do
       it { should have_db_column(:title).of_type(:string) }
       it { should have_db_column(:description).of_type(:text) }
-      it { should have_db_column(:idno).of_type(:string) }
       it { should have_db_column(:submit_button).of_type(:string) }
       it { should have_db_column(:update_button).of_type(:string) }
       it { should have_db_column(:display_title).of_type(:string) }
@@ -15,6 +14,7 @@ RSpec.describe Form, type: :model do
     end
 
     context 'booleans' do
+      it { should have_db_column(:production).of_type(:boolean) }
       it { should have_db_column(:container).of_type(:boolean) }
       it { should have_db_column(:metadata).of_type(:boolean) }
       it { should have_db_column(:export_public).of_type(:boolean) }
@@ -52,15 +52,8 @@ RSpec.describe Form, type: :model do
       it { should validate_length_of(:display_title).is_at_most(250) }
       it { should validate_uniqueness_of(:display_title) }
     end
-
-    context 'Form.idno' do
-      it { should validate_presence_of(:idno) }
-      it { should validate_length_of(:idno).is_at_least(1) }
-      it { should validate_length_of(:idno).is_at_most(250) }
-      it { should validate_uniqueness_of(:idno) }
-    end
   end
-  
+
   # form associations
   context 'associations' do
     it { should have_many :fields }

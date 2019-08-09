@@ -1,8 +1,9 @@
 # TextField uses base class and extends it with min, max values 
 # based on characters or words.  
-class TextField < Field
-  # set the table name to use a different table than the parent class
-  self.table_name = 'text_fields'
+class TextField < ApplicationRecord
+  # Concerns
+  # -----------------------------------------------------
+  include Fieldable
 
   # RAILS CALLBACKS
   # -----------------------------------------------------
@@ -27,6 +28,7 @@ class TextField < Field
     # set strings
     self.name ||= 'Untitled'
     self.label ||= 'Untitled'
+    self.type ||= 'text'
     # set bools
     self.public_release ||= true
   end

@@ -8,7 +8,7 @@ ruby '2.6.3'
 gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
-gem 'webpacker'
+gem 'webpacker', '~> 4.0', '>= 4.0.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -22,9 +22,13 @@ gem 'elasticsearch-model', '~> 6.0'
 gem 'elasticsearch-rails', '~> 6.0'
 
 # authentication
-gem 'devise'
-gem 'omniauth'
-gem 'omniauth-cas'
+gem 'devise', '~> 4.6', '>= 4.6.2'
+gem 'omniauth', '~> 1.9'
+gem 'omniauth-cas', '~> 1.1', '>= 1.1.1'
+
+# metadata / library of congress specific
+gem 'edtf', '~> 3.0', '>= 3.0.4'
+gem 'edtf-humanize', '~> 0.0.7'
 
 # Test Suite
 # =====================================================================================

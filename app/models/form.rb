@@ -12,14 +12,9 @@ class Form < ApplicationRecord
             length: { within: 1..250 },
             uniqueness: true
 
-  validates :idno,
-            presence: true,
-            length: { within: 1..250 },
-            uniqueness: true
-
   # Associations
   # -----------------------------------------------------
-  has_many :fields, as: :formable
+  has_many :fields, dependent: :destroy
 
   # RAILS CALLBACKS
   # -----------------------------------------------------

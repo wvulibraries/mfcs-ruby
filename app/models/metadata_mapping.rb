@@ -1,0 +1,2 @@
+class MetadataMapping < ApplicationRecord
+end

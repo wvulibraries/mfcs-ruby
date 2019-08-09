@@ -1,4 +1,4 @@
-class TextareaField < ApplicationRecord
+class EmailField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
   include Fieldable
@@ -8,15 +8,6 @@ class TextareaField < ApplicationRecord
   # default values
   after_initialize :set_defaults
 
-  # ENUMERATIONS
-  # -----------------------------------------------------
-  enum format: { 'Characters' => 0, 'Words' => 1 }
-
-  # PUBLIC METHODS
-  # -----------------------------------------------------
-
-  # PRIVATE METHODS
-  # -----------------------------------------------------
   private
   # Providing default values for the feild for rendering.
   # @author David J. Davis
@@ -24,11 +15,11 @@ class TextareaField < ApplicationRecord
   # @return truthy
   def set_defaults
     # set strings
-    self.name ||= 'Untitled'
+    self.name ||= 'untitled'
     self.label ||= 'Untitled'
-    self.type ||= 'textarea'
+    self.type ||= 'email'
+    self.validation ||= 'email'
     # set bools
     self.public_release ||= true
   end
-  
 end

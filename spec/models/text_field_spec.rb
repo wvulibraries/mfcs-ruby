@@ -4,10 +4,12 @@ require './spec/shared/a_field'
 RSpec.describe TextField, type: :model do
   let(:text) { TextField.new }
 
-  context 'database columns' do
-    # covers all default field items
+  context 'shared tests' do
     it_behaves_like 'a field'
+    it_behaves_like 'fieldable'
+  end 
 
+  context 'database columns' do
     context 'text field specific' do
       context 'strings' do
         it { should have_db_column(:validation).of_type(:string) }
@@ -41,6 +43,11 @@ RSpec.describe TextField, type: :model do
     it 'label should be untitled' do
       expect(text.label).to be_a(String)
       expect(text.label.downcase).to eq 'untitled'
+    end
+
+    it 'sets types to Text' do
+      expect(text.type).to be_a(String)
+      expect(text.type.downcase).to eq 'text'
     end
   end
 end

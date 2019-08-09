@@ -30,11 +30,4 @@ RSpec.shared_examples "a field" do
       it { should have_db_column(:position).of_type(:integer) }
     end
   end
-
-  context 'validations' do
-    # from parent class
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:type) }
-    it { should validate_presence_of(:label) }
-  end
 end

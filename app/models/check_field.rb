@@ -1,22 +1,13 @@
-class TextareaField < ApplicationRecord
-  # Concerns
+class CheckField < ApplicationRecord
+    # Concerns
   # -----------------------------------------------------
   include Fieldable
-
+  
   # RAILS CALLBACKS
   # -----------------------------------------------------
   # default values
   after_initialize :set_defaults
 
-  # ENUMERATIONS
-  # -----------------------------------------------------
-  enum format: { 'Characters' => 0, 'Words' => 1 }
-
-  # PUBLIC METHODS
-  # -----------------------------------------------------
-
-  # PRIVATE METHODS
-  # -----------------------------------------------------
   private
   # Providing default values for the feild for rendering.
   # @author David J. Davis
@@ -24,11 +15,10 @@ class TextareaField < ApplicationRecord
   # @return truthy
   def set_defaults
     # set strings
-    self.name ||= 'Untitled'
-    self.label ||= 'Untitled'
-    self.type ||= 'textarea'
+    self.name ||= 'untitled'
+    self.label ||= 'untitled'
+    self.type ||= 'checkbox'
     # set bools
     self.public_release ||= true
   end
-  
 end

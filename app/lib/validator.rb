@@ -228,12 +228,34 @@ module Validator
     !!(str =~ /\A[\sa-z]+\z/i)
   end
 
-  # Validates that there are no special characters 
-  # 
-  # @example 
-  #   Validator.no_special_chars('#hashtag') # false 
-  #   Validator.no_special_chars('not hashtag') # true 
+  # Validates that there are no special characters
+  #
+  # @example
+  #   Validator.no_special_chars('#hashtag') # false
+  #   Validator.no_special_chars('not hashtag') # true
+  #
+  # @param [String] str - the string parameter to evaluate.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
   def self.no_special_chars(str)
     !!(str =~ /\A[a-z0-9\s]+\z/i)
   end
+
+  # Validates as a edtf date.  Edtf will silently fail
+  # as nil if the edtf date is not valid. See 
+  # specs for full examples of valid edtf dates.
+  #
+  # @example
+  #   Validator.date('#hashtag') # false
+  #   Validator.date(1984?/2004?~') # true
+  #
+  # @param [String] str - the string parameter to evaluate.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.date(date_str)
+    !Date.edtf(date_str).nil?
+  end
+
 end

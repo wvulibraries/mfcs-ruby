@@ -1,18 +1,13 @@
 require 'rails_helper'
-require './spec/shared/a_field'
 
 RSpec.describe Field, type: :model do
-  it_behaves_like 'a field'
-
-  context 'validations' do
-    it { should validate_presence_of(:name) }
-    it { should validate_presence_of(:type) }
-    it { should validate_presence_of(:label) }
+  context 'Database' do
+    it { should have_db_column(:field_types_type).of_type(:string) }
+    it { should have_db_column(:field_types_id).of_type(:integer) }
+    it { should have_db_column(:form_id).of_type(:integer) }
   end
 
-  context 'associations' do
-    it { should have_db_column(:formable_id).of_type(:integer) }
-    it { should have_db_column(:formable_type).of_type(:string) }
-    it { should belong_to(:formable) }
+  context 'Association' do
+    it { should belong_to(:field_types) }
   end
 end

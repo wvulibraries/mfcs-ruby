@@ -1,6 +1,7 @@
-class IdnoField < Field
-  # set the table name to use a different table than the parent class
-  self.table_name = 'idno_fields'
+class IdnoField < ApplicationRecord
+  # Concerns
+  # -----------------------------------------------------
+  include Fieldable
 
   # RAILS CALLBACKS
   # -----------------------------------------------------
@@ -17,6 +18,7 @@ class IdnoField < Field
     self.name ||= 'idno'
     self.label ||= 'IDNO'
     self.css_id ||= 'idno'
+    self.type ||= 'idno'
     # set bools
     self.required ||= true
     self.no_duplicates ||= true
