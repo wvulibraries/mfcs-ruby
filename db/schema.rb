@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_08_185117) do
+ActiveRecord::Schema.define(version: 2019_08_09_135514) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -42,6 +42,35 @@ ActiveRecord::Schema.define(version: 2019_08_08_185117) do
     t.integer "position"
     t.string "choices", default: [], array: true
     t.integer "default_choice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "date_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.string "validation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -182,6 +211,35 @@ ActiveRecord::Schema.define(version: 2019_08_08_185117) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "phone_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.string "validation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "radio_fields", force: :cascade do |t|
     t.string "name"
     t.string "label"
@@ -274,6 +332,35 @@ ActiveRecord::Schema.define(version: 2019_08_08_185117) do
     t.string "validation_regex"
   end
 
+  create_table "time_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.string "validation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -297,6 +384,35 @@ ActiveRecord::Schema.define(version: 2019_08_08_185117) do
     t.inet "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
+
+  create_table "website_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.string "validation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
