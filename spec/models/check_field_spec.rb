@@ -16,9 +16,13 @@ RSpec.describe CheckField, type: :model do
 
       context 'integers' do
         it { should have_db_column(:default_choice).of_type(:integer) }
+        it { should have_db_column(:default_choice).of_type(:integer) }
       end
     end
   end
+
+  context 'enumeration' do
+  end 
 
   context 'default values' do
     it 'public_release should be true' do

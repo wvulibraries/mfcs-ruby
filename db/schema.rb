@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_09_135514) do
+ActiveRecord::Schema.define(version: 2019_08_19_182145) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -112,6 +112,56 @@ ActiveRecord::Schema.define(version: 2019_08_09_135514) do
     t.index ["form_id"], name: "index_fields_on_form_id"
   end
 
+  create_table "file_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.string "extensions", default: [], array: true
+    t.string "image_options", default: [], array: true
+    t.string "audio_options", default: [], array: true
+    t.string "video_options", default: [], array: true
+    t.integer "thumbnail_height"
+    t.integer "thumbnail_width"
+    t.string "thumbnail_format"
+    t.integer "img_height"
+    t.integer "img_width"
+    t.string "img_format"
+    t.integer "img_dpi"
+    t.boolean "img_watermark"
+    t.boolean "img_border"
+    t.integer "border_height"
+    t.integer "border_width"
+    t.string "border_color"
+    t.integer "watermark_img"
+    t.string "watermark_location"
+    t.integer "audio_bitrate"
+    t.integer "video_bitrate"
+    t.string "audio_format"
+    t.string "video_format"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "forms", force: :cascade do |t|
     t.string "title"
     t.text "description"
@@ -211,6 +261,39 @@ ActiveRecord::Schema.define(version: 2019_08_09_135514) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "multi_select_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.integer "choice_type"
+    t.integer "choice_form_id"
+    t.integer "choice_form_field"
+    t.string "choices", default: [], array: true
+    t.integer "default_choice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "phone_fields", force: :cascade do |t|
     t.string "name"
     t.string "label"
@@ -236,6 +319,13 @@ ActiveRecord::Schema.define(version: 2019_08_09_135514) do
     t.string "placeholder"
     t.integer "position"
     t.string "validation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "projects", force: :cascade do |t|
+    t.string "name"
+    t.string "project_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -266,6 +356,46 @@ ActiveRecord::Schema.define(version: 2019_08_09_135514) do
     t.integer "position"
     t.string "choices", default: [], array: true
     t.integer "default_choice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "select_fields", force: :cascade do |t|
+    t.string "name"
+    t.string "label"
+    t.string "value"
+    t.string "css_id"
+    t.string "css_class"
+    t.string "local_styles"
+    t.string "help_type"
+    t.string "help_info"
+    t.string "type"
+    t.boolean "required"
+    t.boolean "no_duplicates"
+    t.boolean "read_only"
+    t.boolean "disabled"
+    t.boolean "disabled_on_insert"
+    t.boolean "public_release"
+    t.boolean "oai_release"
+    t.boolean "sortable"
+    t.boolean "searchable"
+    t.boolean "display_in_list"
+    t.boolean "hidden"
+    t.integer "format"
+    t.string "placeholder"
+    t.integer "position"
+    t.integer "choice_type"
+    t.integer "choice_form_id"
+    t.integer "choice_form_field"
+    t.string "choices", default: [], array: true
+    t.integer "default_choice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "systems", force: :cascade do |t|
+    t.string "name"
+    t.boolean "value"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
