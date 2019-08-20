@@ -2,6 +2,7 @@ class TextareaField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
 
   # RAILS CALLBACKS
   # -----------------------------------------------------

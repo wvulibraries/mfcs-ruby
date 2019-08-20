@@ -1,5 +1,9 @@
 # Form class which we be a base class for building forms.
 class Form < ApplicationRecord
+  # Concerns
+  # -----------------------------------------------------
+  include Readonly
+
   # Validations
   # -----------------------------------------------------
   validates :title,

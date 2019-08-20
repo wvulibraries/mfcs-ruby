@@ -1,7 +1,8 @@
 class CheckField < ApplicationRecord
-    # Concerns
+  # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
   
   # RAILS CALLBACKS
   # -----------------------------------------------------

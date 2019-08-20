@@ -2,6 +2,7 @@ class TimeField < ApplicationRecord
     # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
 
   # RAILS CALLBACKS
   # -----------------------------------------------------

@@ -6,6 +6,7 @@ RSpec.describe FileField, type: :model do
   context 'shared tests' do
     it_behaves_like 'a field'
     it_behaves_like 'fieldable'
+    it_behaves_like 'readonly'
   end
 
   context 'array options for file field' do

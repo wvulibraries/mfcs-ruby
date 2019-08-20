@@ -2,6 +2,7 @@ class EmailField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
 
   # RAILS CALLBACKS
   # -----------------------------------------------------

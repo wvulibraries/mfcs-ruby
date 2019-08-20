@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_182145) do
+ActiveRecord::Schema.define(version: 2019_08_20_175447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -108,6 +108,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_182145) do
     t.string "field_types_type"
     t.bigint "field_types_id"
     t.bigint "form_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["field_types_type", "field_types_id"], name: "index_fields_on_field_types_type_and_field_types_id"
     t.index ["form_id"], name: "index_fields_on_form_id"
   end
@@ -218,6 +220,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_182145) do
     t.string "validation"
     t.string "validation_regex"
     t.string "placeholder"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "integer_fields", force: :cascade do |t|
@@ -428,6 +432,8 @@ ActiveRecord::Schema.define(version: 2019_08_19_182145) do
     t.string "placeholder"
     t.string "validation"
     t.string "validation_regex"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "textarea_fields", force: :cascade do |t|

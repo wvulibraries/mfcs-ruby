@@ -2,6 +2,7 @@ class MultiSelectField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
 
   # Enums
   # -----------------------------------------------------

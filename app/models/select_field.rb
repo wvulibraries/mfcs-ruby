@@ -2,6 +2,7 @@ class SelectField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
 
   # Enums
   # -----------------------------------------------------

@@ -1,6 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Form, type: :model do
+  # shared examples 
+  context 'shared examples' do
+    it_behaves_like 'readonly'
+  end
+  
   # database fields
   context 'database fields' do
     context 'strings' do

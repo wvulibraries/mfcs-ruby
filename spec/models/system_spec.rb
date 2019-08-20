@@ -22,6 +22,6 @@ RSpec.describe System, type: :model do
     it 'nil value for readonly should return false' do
       System.delete_all # delete everything just in case
       expect(System.check('readonly')).to eq false
-    end 
+    end
   end
 end

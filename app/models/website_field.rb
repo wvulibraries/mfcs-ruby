@@ -2,6 +2,7 @@ class WebsiteField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
 
   # RAILS CALLBACKS
   # -----------------------------------------------------

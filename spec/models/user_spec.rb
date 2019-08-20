@@ -5,6 +5,11 @@ RSpec.describe User, type: :model do
   let(:user) { FactoryBot.create :user }
   let(:admin) { FactoryBot.create :user, :admin }
 
+  # shared examples 
+  context 'shared examples' do
+    it_behaves_like 'readonly'
+  end
+
   # validations
   context 'validations' do
     context 'User.first_name' do

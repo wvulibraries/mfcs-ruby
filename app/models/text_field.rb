@@ -4,6 +4,7 @@ class TextField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
   include Fieldable
+  include Readonly
 
   # RAILS CALLBACKS
   # -----------------------------------------------------
