@@ -9,15 +9,25 @@
   </head>
 
   <body>
+    <!-- Header -->
+    <%= render "components/header/header" %>
+
+    <!-- Breadcrumbs -->
+    <%= render "components/top_bar/top_bar" %>
+    
     <!-- Alerts -->
     <%= render "components/alerts/alerts" %>
 
     <!-- Content Yield -->
-    <%= yield %>
-
-
+    <main> 
+      <%= yield %>
+    </main> 
+    
     <!-- Logout ... change this at somepoint. -->
     <%# link_to('Logout', destroy_user_session_path, method: :delete) %>
+
+    <!-- Footer -->
+    <%= render "components/footer/footer" %>
     
     <!-- Webpack JS -->
     <%= javascript_pack_tag 'application' %>

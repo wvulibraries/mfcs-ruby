@@ -76,4 +76,11 @@ RSpec.describe Form, type: :model do
       expect(form.export_oai).to be true
     end
   end
+
+  context 'factory bot tests' do
+    it 'has a valid factory' do
+      form = FactoryBot.build(:form)
+      expect(form).to be_valid
+    end
+  end 
 end

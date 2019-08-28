@@ -8,4 +8,7 @@ class ApplicationController < ActionController::Base
 
   # authentication
   before_action :authenticate_user!
+
+  # add a basic breadcrumb
+  # add_breadcrumb "home", :root_path
 end

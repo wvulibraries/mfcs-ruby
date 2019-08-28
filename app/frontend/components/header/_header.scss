@@ -1,0 +1,84 @@
+$header_height: 3.625rem; 
+
+body { 
+  margin-top: $header_height * 2;
+}
+
+header { 
+  background:#eee; 
+  background: darken($blue, 10%);
+  position:fixed; 
+  top:0; 
+  left:0; 
+  width:100%;
+  height:$header_height;
+  border-bottom: .2rem solid #eee;
+
+  .site-title { 
+    height:100%; 
+    width:50%; 
+    display:inline-block; 
+    float: left;
+    padding:.5rem;
+
+    a { 
+      text-transform: uppercase; 
+      color: $blue;
+      font-size: $header_height / 2.6; 
+      padding-top: $header_height * .05;
+      padding-left: $header_height + .5;
+      display: inline-block; 
+      color: #fff; 
+      text-decoration: none; 
+      letter-spacing: 2px; 
+
+      &:hover, &:active, &:visited { 
+        text-decoration: underline;  
+      }
+    }
+
+    .header-logo {
+      position:absolute; 
+      left:0.625rem; 
+      top:0.625rem; 
+      width:auto; 
+      height: calc(#{$header_height} - .3rem);
+      
+    }
+  }
+
+  .buttons {
+    height:100%; 
+    width:50%; 
+    display:inline-block;
+    float:left;
+    padding:.5rem;
+    text-align: right;
+  }
+}
+
+#menu-button { 
+  position: relative;
+  padding-left: 3rem; 
+  text-transform: uppercase;
+
+  .menu-icon { 
+    width:auto; 
+    height: 1rem; 
+    position: absolute; 
+    left:1rem; 
+  }
+}
+
+#selected-projects { 
+  position: relative;
+  padding-left: 3rem; 
+  text-transform: uppercase;
+
+  .project-icon { 
+    width:auto; 
+    height: 1rem; 
+    position: absolute; 
+    left:1rem; 
+  }
+}

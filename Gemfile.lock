@@ -50,6 +50,7 @@ GEM
     bindex (0.7.0)
     bootsnap (1.4.4)
       msgpack (~> 1.0)
+    breadcrumbs_on_rails (3.0.1)
     builder (3.2.3)
     bullet (6.0.0)
       activesupport (>= 3.0.0)
@@ -279,6 +280,7 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  breadcrumbs_on_rails
   bullet
   byebug
   capybara (>= 2.15, < 4.0)

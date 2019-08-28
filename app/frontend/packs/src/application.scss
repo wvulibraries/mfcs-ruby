@@ -4,14 +4,26 @@
 @import '../../components/vars/variables'; 
 @import './base.scss';
 
-// Alerts
+// Components
 //-----------------------------------------------------
 @import '../../components/alerts/alerts';
 @import '../../components/forms/forms';
+@import '../../components/buttons/buttons';
 
 // Login
 // ----------------------------------------------------
 @import '../../components/login/login';
+
+// Header & Footer
+// ----------------------------------------------------
+@import '../../components/header/header';
+@import '../../components/footer/footer'; 
+@import '../../components/top_bar/top_bar';
+@import '../../components/breadcrumbs/breadcrumbs';
+
+// Main 
+// ----------------------------------------------------
+@import '../../components/main/main';
 
 // Homepage 
 // ----------------------------------------------------

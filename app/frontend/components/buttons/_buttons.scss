@@ -1,0 +1,59 @@
+@mixin button_maker($color, $type) {
+  display:inline-block;
+  padding:.635rem 1.675rem;
+  border-radius: .25rem;
+
+  @if $type == 'ghost' {
+    background-color: transparent;
+    color: $color;
+    border: .25rem solid $color;
+  } @else {
+    background-color: $color;
+    color: #fff;
+  }
+
+  &:visited {
+    @if $type == 'ghost' {
+      background-color: transparent;
+      color: $color;
+      border: .25rem solid $color;
+    } @else {
+      background-color: $color;
+      color: #fff;
+    }
+    border-color: $color;
+  }
+
+  &:hover,&:active,&:focus {
+    @if type == 'ghost' {
+      background-color: transparent;
+      border-color: #fff;
+      border: .25rem solid #fff;
+      color:#fff;
+    } @else {
+      background-color: darken($color, 10%);
+      border-color: darken($color, 10%);
+    }
+    color:#fff;
+  }
+}
+
+.show-button {
+  @include button_maker($success, 'solid');
+  color:#fff;
+}
+
+.edit-button {
+  @include button_maker($warning, 'solid');
+  color:#fff;
+}
+
+.delete-button {
+  @include button_maker($error, 'solid');
+  color:#fff;
+}
+
+.button, button { 
+  @include button_maker($link-color, 'solid');
+  color:#fff; 
+}

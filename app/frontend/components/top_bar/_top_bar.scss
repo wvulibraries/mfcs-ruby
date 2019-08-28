@@ -1,0 +1,10 @@
+$header_height: 3.625rem; 
+
+.top_bar { 
+  background:#eee;
+  width: 100%; 
+  padding: .625rem; 
+  margin-bottom:1rem; 
+  position: fixed; 
+  top: $header_height;
+}

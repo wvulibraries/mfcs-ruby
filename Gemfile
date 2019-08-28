@@ -14,7 +14,7 @@ gem 'webpacker', '~> 4.0', '>= 4.0.7'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 
-# Applications 
+# Application Specific
 # =================================================================
 
 # elasticsearch
@@ -29,6 +29,10 @@ gem 'omniauth-cas', '~> 1.1', '>= 1.1.1'
 # metadata / library of congress specific
 gem 'edtf', '~> 3.0', '>= 3.0.4'
 gem 'edtf-humanize', '~> 0.0.7'
+
+# breadcrumbs
+gem 'breadcrumbs_on_rails'
+
 
 # Test Suite
 # =====================================================================================
@@ -51,7 +55,9 @@ group :development, :test do
   gem 'pry'
   gem 'pry-rails'
   gem 'factory_bot_rails'
+end
 
+group :test do
   # test suite
   gem 'rspec-rails'
   gem 'shoulda'
