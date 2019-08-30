@@ -4,6 +4,7 @@ RSpec.describe Project, type: :model do
   # shared examples 
   context 'shared examples' do
     it_behaves_like 'readonly'
+    it_behaves_like 'a valid factory' # factorybot
   end
   
   context 'database columns' do

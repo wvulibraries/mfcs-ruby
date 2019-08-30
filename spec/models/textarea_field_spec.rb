@@ -8,6 +8,7 @@ RSpec.describe TextareaField, type: :model do
     it_behaves_like 'a field'
     it_behaves_like 'fieldable'
     it_behaves_like 'readonly'
+    it_behaves_like 'a valid factory' # factorybot
   end 
   
   context 'database columns' do

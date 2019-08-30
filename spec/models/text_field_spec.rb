@@ -8,6 +8,7 @@ RSpec.describe TextField, type: :model do
     it_behaves_like 'a field'
     it_behaves_like 'fieldable'
     it_behaves_like 'readonly'
+    it_behaves_like 'a valid factory' # factorybot
   end 
 
   context 'database columns' do
@@ -49,6 +50,13 @@ RSpec.describe TextField, type: :model do
     it 'sets types to Text' do
       expect(text.type).to be_a(String)
       expect(text.type.downcase).to eq 'text'
+    end
+  end
+
+  context 'FactoryBot testing' do
+    it 'has a valid factory' do
+      factory_idno = FactoryBot.build(:idno_field)
+      expect(factory_idno).to be_valid
     end
   end
 end

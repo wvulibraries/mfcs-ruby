@@ -1,5 +1,5 @@
 # TextField uses base class and extends it with min, max values 
-# based on characters or words.  
+# based on characters or words.
 class TextField < ApplicationRecord
   # Concerns
   # -----------------------------------------------------

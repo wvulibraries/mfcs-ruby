@@ -4,6 +4,10 @@ class IdnoField < ApplicationRecord
   include Fieldable
   include Readonly
 
+  # Enums
+  # -----------------------------------------------------
+  enum numbering_type: %i[user system]
+
   # RAILS CALLBACKS
   # -----------------------------------------------------
   # default values

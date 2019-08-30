@@ -4,10 +4,10 @@ RSpec.describe IdnoField, type: :model do
   let(:idno) { IdnoField.new }
 
   context 'shared tests' do
-    # covers all default field items
-    it_behaves_like 'a field'
-    it_behaves_like 'fieldable'
-    it_behaves_like 'readonly'
+    it_behaves_like 'a field' # covers all default field items
+    it_behaves_like 'fieldable' # linking of fields to form
+    it_behaves_like 'readonly' # readonly mode
+    it_behaves_like 'a valid factory' # factorybot
   end 
 
   context 'database columns' do
@@ -24,6 +24,11 @@ RSpec.describe IdnoField, type: :model do
         it { should have_db_column(:start_increment).of_type(:integer) }
       end
     end
+  end
+
+  context 'enumerations' do
+    it { should define_enum_for(:numbering_type) }
+    it { should define_enum_for(:numbering_type).with_values('user' => 0, 'system' => 1) }
   end
 
   context 'default values' do

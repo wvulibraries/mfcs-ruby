@@ -4,7 +4,6 @@ FactoryBot.define do
   factory :form do
     title { faker_title}
     description { Faker::Lorem.paragraph }
-    fields { }
     idno { Faker::Internet.uuid }
     container { false }
     production { false }
@@ -17,8 +16,6 @@ FactoryBot.define do
     update_button { "Update" }
     count { 1 }
     display_title { faker_title }
-    object_title_field {  }
-    navigation {  }
     link_title { faker_title }
   end
 end
