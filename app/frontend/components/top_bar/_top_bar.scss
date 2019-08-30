@@ -7,4 +7,6 @@ $header_height: 3.625rem;
   margin-bottom:1rem; 
   position: fixed; 
   top: $header_height;
+  z-index: 2;
+  border-bottom: .625em solid #fff; 
 }

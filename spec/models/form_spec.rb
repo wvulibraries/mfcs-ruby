@@ -102,10 +102,10 @@ RSpec.describe Form, type: :model do
         form.fields.build(field_types: FactoryBot.create(t))
       end
 
-      # save form and check count 
+      # save form and check count
       form.save!
       expect(form).to be_valid
       expect(form.fields.count).to eq types.count
-    end 
+    end
   end
 end

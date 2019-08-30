@@ -1,0 +1,69 @@
+<%= form_for form_settings do |form| %>
+  <% if form_settings.errors.any? %>
+    <div id="error_explanation">
+      <h3><%= pluralize(form_settings.errors.count, "error") %> prohibited this subject from being saved:</h3>
+
+      <ul>
+      <% form_settings.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title, class: 'required' %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :display_title, class: 'required' %>
+    <%= form.text_field :display_title %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: 'required' %>
+    <%= form.text_area :description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :submit_button, class: 'required' %>
+    <%= form.text_field :submit_button %>
+  </div>
+
+  <div class="field">
+    <%= form.label :update_button, class: 'required' %>
+    <%= form.text_field :update_button %>
+  </div>
+
+  <div class="field checkbox-wrapper"> 
+    <div class="checkbox">
+      <%= form.check_box :container %>
+      <%= form.label :container, 'Acts as Container' %>
+    </div>
+    <div class="checkbox">
+      <%= form.check_box :production %>
+      <%= form.label :production, 'Production Ready' %>
+    </div>
+    <div class="checkbox">
+      <%= form.check_box :export_public %>
+      <%= form.label :export_public, 'Export to Public' %>
+    </div>
+    <div class="checkbox">
+      <%= form.check_box :export_oai %>
+      <%= form.label :export_oai, 'OAI-PMH Export' %>
+    </div>
+    <div class="checkbox">
+      <%= form.check_box :object_public_release_show %>
+      <%= form.label :object_public_release_show,  'Display Public Release' %>
+    </div>
+    <div class="checkbox">
+      <%= form.check_box :object_public_release_default %>
+      <%= form.label :object_public_release_default, 'Public Release Default "Yes"' %>
+    </div>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

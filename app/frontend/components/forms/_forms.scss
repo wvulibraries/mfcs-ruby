@@ -17,7 +17,7 @@ form{
   margin-right: 2.3576520234%;
   width: 100%;
   position:relative;
-  z-index:55;
+  z-index:0;
 
   &:last-child {
     margin-right: 0;
@@ -96,52 +96,11 @@ form{
     display: block;
     margin-right: 2.3576520234%;
     width: 100%;
-
-      .checkbox { 
-        float: left;
-        display: block;
-        margin-right: 2.3576520234%;
-        width: 100%;
-        background:$input-bg;
-        padding:5px; 
-        width:100%; 
-        display:block;
-      }
-
-      .heading { 
-        text-align: left;
-        display: block;
-        width: 100%;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color:$font-color;
-      }
-
-      label {
-        float: left;
-        display: inline-block; 
-        width:calc(100% - 40px);
-        margin:0;  
-        text-transform:none; 
-        font-size:12px;
-      } 
-
-      input[type='hidden'] { 
-        display:none; 
-      }
-
-      input[type='checkbox'], input[type='radio'] { 
-        float:left; 
-        display:inline-block; 
-        width:20px;
-        text-align:left;
-        margin:0 5px 0 0; 
-        height:unset;
-      }
   }
 
   .field{
     margin-top:1rem;
+    clear: both; 
 
     &:first-of-type { 
       margin-top:0; 
@@ -405,10 +364,240 @@ form{
   font-size:.75rem; 
 }
 
-.preview-image { 
-  display : block;
-  margin : auto;
-  max-width:300px; 
-  border:$border;
-  padding: 1rem;
+
+//////////////////////////////////////////////////////////////////////////////////////
+// CHECKBOX PATTERN - A11Y Project Styles
+//////////////////////////////////////////////////////////////////////////////////////
+// NOTE: THIS IS NOT MY PATTERN.  THIS CONCEPT WAS TAKEN FROM CSS BY THE A11Y PROJECT
+// FOR ACCESSIBILITY AND ADAPTED TO BE EDITABLE SCSS.  I SIMPLY CUSTOMIZED FOR MY USE
+// AND TURNED CSS TO SCSS.
+
+$checkbox-color: #444;
+$checkbox-border: 1px solid $checkbox-color;
+$checkbox-box-shadow: 0 0 0 2px $checkbox-color;
+
+$check-hover-color: lighten(#002855,10%);
+$checkbox-border-hover: 1px solid $check-hover-color;
+$checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
+
+.checkbox {
+  padding: 2rem;
+  position: relative;
+  width:100%;
+
+  @media (min-width: 768px) {
+    max-width:50%;
+  }
+
+  &:focus-within {
+    border: 2px dotted $check-hover-color;
+  }
+
+  // children of the checkbox class only
+  > {
+    // label
+    label {
+      display: inline-block;
+      padding: .75rem .5rem;
+      vertical-align: top;
+
+      &:before, &:after {
+        border: 1px solid;
+        content: " ";
+        position: absolute;
+        transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out, transform .2s ease-in-out;
+      }
+
+      &:before {
+        border-color: $checkbox-border;
+        border-radius: 1px;
+        box-shadow: $checkbox-box-shadow;
+        height: 1.125rem;
+        left: .125rem;
+        top: .825rem;
+        width: 1.125rem;
+      }
+
+      &:after {
+        border: 0;
+        border-bottom: 2px solid $checkbox-color;
+        border-right: 2px solid $checkbox-color;
+        height: .825rem;
+        left: .425rem;
+        top: .825rem;
+        transform-origin: center center;
+        transform: rotate(45deg) scale(0);
+        width: .5rem;
+      }
+    }
+
+    // input
+    input[type="checkbox"] {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      margin-left: -2rem;
+      margin-top: .75rem;
+      opacity: .00001;
+      position: absolute;
+      vertical-align: top;
+      z-index: 2;
+      height: 1.125rem;
+      left: .125rem;
+      width: 1.125rem;
+    }
+
+    input {
+      &:checked ~ label:before {
+        border-color: transparent;
+        box-shadow: $checkbox-box-shadow-hover;
+      }
+
+      &:focus ~ label:before {
+        border-color: transparent;
+        box-shadow: $checkbox-box-shadow-hover;
+        outline-offset: 2px;
+        outline: 2px solid transparent;
+      }
+
+      &:focus + label {
+        border-color: transparent;
+        //box-shadow: $checkbox-box-shadow-hover;
+      }
+
+      &:checked {
+        ~ label:after {
+          transform: rotate(45deg) scale(1);
+        }
+        &:focus ~ label:after {
+          border-color: $check-hover-color;
+        }
+      }
+      &[disabled] ~ label {
+        opacity: .625;
+      }
+      &:invalid {
+        ~ label:before {
+          border-color: #f00;
+          box-shadow: 0 0 0 1px #f00;
+        }
+        &:focus ~ label:before {
+          box-shadow: 0 0 0 2px #f00;
+        }
+      }
+    }
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// RADIO BUTTON PATTERN - A11Y Project Styles
+//////////////////////////////////////////////////////////////////////////////////////
+// NOTE: THIS IS NOT MY PATTERN.  THIS CONCEPT WAS TAKEN FROM CSS BY THE A11Y PROJECT
+// FOR ACCESSIBILITY AND ADAPTED TO BE EDITABLE SCSS.  I SIMPLY CUSTOMIZED FOR MY USE
+// AND TURNED CSS TO SCSS.
+
+$radio-color: #444;
+$radio-border: 1px solid $radio-color;
+$radio-box-shadow: 0 0 0 2px $radio-color;
+
+$radio-hover-color: lighten(#002855,10%);
+$radio-border-hover: 1px solid $radio-hover-color;
+$radio-box-shadow-hover: 0 0 0 2px $radio-hover-color;
+
+.radiobutton {
+  max-width:100%;
+
+  @media (min-width: 768px) {
+    max-width:50%;
+  }
+
+  &:focus-within {
+    border: 2px dotted $radio-hover-color;
+  }
+}
+
+.radio-group {
+  position: relative;
+  display: inline-block;
+
+  > {
+
+    input[type="radio"] {
+      -moz-appearance: none;
+      -webkit-appearance: none;
+      appearance: none;
+      background: none;
+      opacity: .00001;
+      z-index: 2;
+      border: 1px solid;
+      height: 1.125rem;
+      left: .125rem;
+      position: absolute;
+      top: .825rem;
+      width: 1.125rem;
+      border-radius: 100%;
+      content: " ";
+      transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+    }
+
+    label {
+      display: inline-block;
+      padding: .75rem .5rem .75rem 2rem;
+
+      &:before, &:after {
+        border: 1px solid;
+        height: 1.125rem;
+        left: .125rem;
+        position: absolute;
+        top: .825rem;
+        width: 1.125rem;
+      }
+
+      &:before {
+        border-radius: 100%;
+        content: " ";
+        transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+        border-color: transparent;
+        box-shadow: 0 0 0 0px rgba(0, 0, 0, 0);
+      }
+
+      &:after {
+        border-radius: 100%;
+        content: " ";
+        transition: border-color .2s ease-in-out, box-shadow .2s ease-in-out;
+        border-color: $radio-color;
+      }
+    }
+
+    input {
+      &:checked ~ label:before {
+        border-color: transparent;
+        box-shadow: $radio-box-shadow-hover;
+      }
+      &:focus ~ label:before {
+        border-color: transparent;
+        box-shadow: $radio-box-shadow-hover;
+      }
+      &:checked ~ label:after {
+        border-color: #fff;
+        border-width: 1px;
+        box-shadow: inset 0 0 0 4px $radio-hover-color;
+      }
+      &:focus ~ label {
+        color: $radio-hover-color;
+      }
+      &[disabled] ~ label {
+        opacity: .5;
+      }
+    }
+
+  } // end child
+} // end radio-group
+
+@media screen and (-ms-high-contrast: active) {
+  .radio-group > input:checked ~ label:before {
+    background: window;
+    border: 6px solid buttonface;
+    box-shadow: none;
+  }
 }
