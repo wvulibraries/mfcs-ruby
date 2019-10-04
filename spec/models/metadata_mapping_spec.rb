@@ -15,4 +15,8 @@ RSpec.describe MetadataMapping, type: :model do
     schema = { '0' => 'Dublin Core' }
     it { should define_enum_for(:schema).with_values(schema) }
   end
+
+  context 'Association' do
+    it { should belong_to(:field) }
+  end
 end

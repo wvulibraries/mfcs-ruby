@@ -1,30 +1,31 @@
-// Normalize / Base
-// ----------------------------------------------------
-@import './normalize.css'; 
-@import '../../components/vars/variables'; 
-@import './base.scss';
+// Bootstrap
+// --------------------------------------------------------------------------------
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
 
-// Components
-//-----------------------------------------------------
-@import '../../components/alerts/alerts';
-@import '../../components/forms/forms';
-@import '../../components/buttons/buttons';
+@import '../../components/wvu_scss/wvu-variables'; // WVU ./custom Variables - UR WEB
 
-// Login
-// ----------------------------------------------------
+body { background: $primary; }
+
+
+@import "~bootstrap/scss/bootstrap";
+
+// WVU Components
+// --------------------------------------------------------------------------------
+@import '../../components/wvu_scss/mixins/wvu-bar';
+@import '../../components/wvu_scss/mixins/wvu-bg-blend-mode';
+@import '../../components/wvu_scss/mixins/wvu-bg-pattern';
+@import '../../components/wvu_scss/mixins/wvu-bg-tint';
+@import '../../components/wvu_scss/mixins/wvu-bg-vignetting';
+@import '../../components/wvu_scss/mixins/wvu-co-branding';
+@import '../../components/wvu_scss/mixins/wvu-logo-lockup';
+@import '../../components/wvu_scss/mixins/wvu-slash';
+@import '../../components/wvu_scss/mixins/wvu-type';
+
+
+
+// MFCS Entire Application Components 
+// ---------------------------------------------------------------------------------
+@import '../../components/footer/footer';
 @import '../../components/login/login';
-
-// Header & Footer
-// ----------------------------------------------------
-@import '../../components/header/header';
-@import '../../components/footer/footer'; 
-@import '../../components/top_bar/top_bar';
-@import '../../components/breadcrumbs/breadcrumbs';
-
-// Main 
-// ----------------------------------------------------
-@import '../../components/main/main';
-
-// Homepage 
-// ----------------------------------------------------
-@import '../../components/homepage/homepage';
+@import '../../components/alerts/alerts.scss';

@@ -1,5 +1,5 @@
 .login-page { 
-  background:#eee;   
+  // background:#eee;   
   width: 100vw;
   height:100vh;
   display: block; 
@@ -7,118 +7,17 @@
   position: relative; 
 }
 
+.login-box { 
+  background:rgba(#fff,.8); 
+  border-top:.5rem solid $wvu-gold;
+}
+
 .mfcs-logo { 
   position:absolute; 
   height:400px; 
   width:400px;
   bottom: -5%;
-  right: 5%;
+  left: 5%;
   transform: rotate(-12deg);
-  z-index: 1;
-}
-
-.login-box {
-  min-width: 300px;  
-  width: 60%;
-  max-width: 500px; 
-  height: 39rem; 
-  position:relative; 
-  top: calc(50% - 20rem); 
-  margin: 0 auto; 
-  background: rgab(#fff, .7);
-  box-shadow: 0 0 1rem .25rem rgba(#000,.15);
-  z-index:4;
-
-  h1 {
-    width:100%; 
-    padding:1rem; 
-    background: rgba(#333F48, .9);
-    color:#fff; 
-    text-align: center;
-    letter-spacing: 2px;
-    text-transform: uppercase; 
-    margin:0; 
-  }
-
-  .box-body { 
-    width:100%; 
-    float:left;
-    display:block; 
-    clear:both; 
-  }
-  
-  .database-login { 
-    float: left;
-    display: block;
-    width: 100%; 
-    padding:2rem; 
-  }
-
-  .cas-login { 
-    float: left;
-    display: block;
-    width: 100%; 
-    padding:2rem; 
-    background:rgba(#333F48, .9);
-    padding:2rem; 
-  }
-
-  .blue-button { 
-    background-color: #005EB8;
-    box-shadow: 0 .5rem 0 darken(#005EB8, 10%);
-    color: white;
-    padding: 1.5rem;
-    font-size:1.5rem;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
-    width:100%; 
-    display: block; 
-    float:left; 
-    margin-bottom:2rem; 
-    text-align: center; 
-    margin-bottom:0; 
-
-    &:hover, &:focus { 
-      background-color: lighten(#005EB8, 10%);
-      cursor: pointer;
-    }
-
-    &:active { 
-      box-shadow: none;
-      top: 5px;
-    }
-  }
-
-  .gold-button  {
-    background:none;
-    border:none;
-    @extend .blue-button;
-    background-color: #EAAA00; 
-    box-shadow: 0 .5rem 0 darken(#EAAA00, 10%);
-    color:#000; 
-
-    &:hover, &:focus { 
-      background-color: lighten(#EAAA00, 10%);
-    }
-
-    margin-bottom:0; 
-  } 
-
-  .box-footer { 
-    width:100%; 
-    float:left;
-    display:block; 
-    clear:both;  
-    background:rgba(#333F48, .9);
-
-    p { 
-      width:100%; 
-      letter-spacing: 1px;
-      padding:2rem; 
-      margin:0; 
-      color: #fff;
-      text-align: center; 
-    }
-  }
+  z-index: 0;
 }

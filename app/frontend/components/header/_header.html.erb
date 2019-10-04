@@ -1,16 +1,26 @@
-<header> 
-  <div class="site-title"> 
-    <%= image_pack_tag 'media/packs/images/mfcs_logo.svg', class:'header-logo', alt: 'logo character for mfcs' %> 
-    <a href="/" title="Metadata Form Creation System"> MFCS </a> 
+<nav id="sidebar">
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
+    <a class="" href="#" title="Metadata Form Creation System"> 
+      <%= image_pack_tag 'media/packs/images/mfcs_logo.svg', class:'header-logo d-inline-block align-top', width:'30', height:'30', alt: 'logo character for mfcs' %>
+      MFCS 
+    </a>
   </div>
-  <div class="buttons"> 
-    <button id="selected-projects"> 
-      <%= image_pack_tag 'media/packs/images/interface/folder.svg', class:'project-icon', alt: 'decorative folder icon' %> 
-      Selected Projects 
-    </button>
-    <button id="menu-button"> 
-      <%= image_pack_tag 'media/packs/images/interface/menu.svg', class:'menu-icon', alt: 'decorative menu icon' %> 
-      Menu 
-    </button>
-  </div>
-</header>
+
+  <!-- Sidebar Links -->
+  <ul class="list-unstyled components">
+      <li class="active"><a href="#">Home</a></li>
+      <li><a href="#">About</a></li>
+      <li><!-- Link with dropdown items -->
+          <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Pages</a>
+          <ul class="collapse list-unstyled" id="homeSubmenu">
+              <li><a href="#">Page</a></li>
+              <li><a href="#">Page</a></li>
+              <li><a href="#">Page</a></li>
+          </ul>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+
+

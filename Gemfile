@@ -31,8 +31,7 @@ gem 'edtf', '~> 3.0', '>= 3.0.4'
 gem 'edtf-humanize', '~> 0.0.7'
 
 # breadcrumbs
-gem 'breadcrumbs_on_rails'
-
+gem 'loaf'
 
 # Test Suite
 # =====================================================================================

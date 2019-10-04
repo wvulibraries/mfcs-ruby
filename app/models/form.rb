@@ -20,9 +20,12 @@ class Form < ApplicationRecord
   # -----------------------------------------------------
   has_many :fields, dependent: :destroy
 
+  # Form Helpers
+  # -----------------------------------------------------
+  accepts_nested_attributes_for :fields
+
   # RAILS CALLBACKS
   # -----------------------------------------------------
-  # default values
   after_initialize :set_defaults
 
   private

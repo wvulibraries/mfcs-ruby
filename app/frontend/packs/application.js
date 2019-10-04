@@ -14,17 +14,13 @@
 const images = require.context('./images', true);
 const imagePath = (name) => images(name, true)
 
-
 // Rails Documentation says these have to be added
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-// Import the main scss for the applcation 
-import "./src/application.scss";
+// bootstrap
+import './src/application.scss';
+import 'bootstrap/dist/js/bootstrap';
 
-// Alerts JavaScript, allows users to close alerts. 
-import "../components/alerts/alerts";
-
-
-
-console.log('Hello World! Bad');
+// stimulus 
+import "controllers"

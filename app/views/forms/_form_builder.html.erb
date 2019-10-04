@@ -1,10 +1,11 @@
-<%= form_for form_settings do |form| %>
-  <% if form_settings.errors.any? %>
+<%= form_for form_builder do |form| %>
+
+  <% if form_builder.errors.any? %>
     <div id="error_explanation">
-      <h3><%= pluralize(form_settings.errors.count, "error") %> prohibited this subject from being saved:</h3>
+      <h3><%= pluralize(form_builder.errors.count, "error") %> prohibited this subject from being saved:</h3>
 
       <ul>
-      <% form_settings.errors.full_messages.each do |message| %>
+      <% form_builder.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
       </ul>
@@ -67,3 +68,4 @@
     <%= form.submit %>
   </div>
 <% end %>
+

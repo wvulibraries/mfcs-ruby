@@ -1,3 +1,7 @@
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Basic Variables
+//////////////////////////////////////////////////////////////////////////////////////
 $font-color:#666; 
 $input-bg: #eee; 
 $input-border: #666;
@@ -7,10 +11,51 @@ $borders: 1px solid $input-border;
 $easeOutExpo:cubic-bezier(0.19, 1, 0.22, 1); /* easeOutExpo */
 $easeInOutExpo:cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
 
+//////////////////////////////////////////////////////////////////////////////////////
+// FORM RESETS
+//////////////////////////////////////////////////////////////////////////////////////
+input,
+button,
+textarea,
+select {
+  border-radius: 0; /* may change, but start consistently */
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: normal;
+  margin: 0;
+  overflow: visible; /* show overflow in Edge */
+  text-transform: none; /* remove inheritance Edge, Firefox, IE */
+}
+
+input::-ms-clear {
+  display: none;
+  height: 0;
+  width: 0;
+}
+
+button::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+legend {
+  color: inherit; /* 1 */
+  display: table; /* 2 */
+  line-height: normal;
+  max-width: 100%; /* 2 */
+  white-space: normal; /* 2 */
+}
+
 h2 { 
   margin-top:0;
 }
 
+
+//////////////////////////////////////////////////////////////////////////////////////
+// FORM PATTERNS
+//////////////////////////////////////////////////////////////////////////////////////
 form{
   float: left;
   display: block;
@@ -25,6 +70,10 @@ form{
 
   * { margin: 0; padding: 0px; }
 
+
+  //////////////////////////////////////////////////////////////////////////////////////
+  // FIELDSET
+  //////////////////////////////////////////////////////////////////////////////////////
   fieldset { 
     padding:1rem; 
     border: $borders; 
@@ -40,6 +89,29 @@ form{
     }
   }
 
+  .legend { 
+    width:100%; 
+    display:block; 
+    float:left; 
+    border: $borders; 
+    padding:5px 5px 5px 40px; 
+    margin:20px 0;
+    font-size:12px; 
+    position:relative; 
+    text-align:left; 
+
+    span.required { 
+      color: $error;
+        font-size:4rem;
+        position:absolute; 
+        top:37%; 
+        left:10px; 
+    }
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////
+  // LABELS
+  //////////////////////////////////////////////////////////////////////////////////////
   label, .heading { 
     text-align:left;
     display:block; 
@@ -62,51 +134,18 @@ form{
     }
   }
 
-  .legend { 
-      width:100%; 
-      display:block; 
-      float:left; 
-      border: $borders; 
-      padding:5px 5px 5px 40px; 
-      margin:20px 0;
-      font-size:12px; 
-      position:relative; 
-      text-align:left; 
-
-      span.required { 
-        color: $error;
-          font-size:4rem;
-          position:absolute; 
-          top:37%; 
-          left:10px; 
-      }
-  }
-
   .heading { 
-      text-align: left;
-      display: block;
-      width: 100%;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color:$font-color;
-  }
-
-  .checkbox-wrapper { 
-    float: left;
+    text-align: left;
     display: block;
-    margin-right: 2.3576520234%;
     width: 100%;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color:$font-color;
   }
 
-  .field{
-    margin-top:1rem;
-    clear: both; 
-
-    &:first-of-type { 
-      margin-top:0; 
-    }
-  }
-
+  //////////////////////////////////////////////////////////////////////////////////////
+  // BASIC INPUT
+  //////////////////////////////////////////////////////////////////////////////////////
   input:not([type='submit']){
       width:100%;
       height:60px;
@@ -134,6 +173,9 @@ form{
     height:unset;
   }
 
+  //////////////////////////////////////////////////////////////////////////////////////
+  // TEXTAREA
+  //////////////////////////////////////////////////////////////////////////////////////
   textarea{
     width:100%;
     max-width:100%;
@@ -160,7 +202,10 @@ form{
     }
   }
 
-  .select-style {
+  //////////////////////////////////////////////////////////////////////////////////////
+  // SELECTS
+  //////////////////////////////////////////////////////////////////////////////////////
+  .select-style { 
     font-size:1rem; 
     padding: 0;
     margin: 0;
@@ -213,7 +258,17 @@ form{
     }
   }
 
-  // ERRORS 
+  //////////////////////////////////////////////////////////////////////////////////////
+  // Form Field Styles
+  //////////////////////////////////////////////////////////////////////////////////////
+  .field{
+    margin-top:1rem;
+    clear: both; 
+    &:first-of-type { 
+      margin-top:0; 
+    }
+  }
+
   .field_with_errors { 
     input, textarea, .select-style { 
       border: 2px solid $error;
@@ -221,13 +276,12 @@ form{
     }
     label { color:$error; }
   }
-}
 
-.image-preview { 
-  max-width:320px; 
-  margin-bottom:.5rem; 
-}
+} // end form
 
+//////////////////////////////////////////////////////////////////////////////////////
+// RAILS ERROR EXPLAINATION FORM
+//////////////////////////////////////////////////////////////////////////////////////
 #error_explanation { 
   float: left;
   display: block;
@@ -260,6 +314,9 @@ form{
   input { position: relative; top:-2px; }
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+// GRID STUFF
+//////////////////////////////////////////////////////////////////////////////////////
 .full, .row { 
   float: left;
   display: block;
@@ -352,6 +409,9 @@ form{
   margin-right:0;
 }
 
+//////////////////////////////////////////////////////////////////////////////////////
+// Explanation Text or Microtext used in various parts of forms.
+//////////////////////////////////////////////////////////////////////////////////////
 .micro-text { 
   float: left;
   display: block;
@@ -369,25 +429,31 @@ form{
 // CHECKBOX PATTERN - A11Y Project Styles
 //////////////////////////////////////////////////////////////////////////////////////
 // NOTE: THIS IS NOT MY PATTERN.  THIS CONCEPT WAS TAKEN FROM CSS BY THE A11Y PROJECT
-// FOR ACCESSIBILITY AND ADAPTED TO BE EDITABLE SCSS.  I SIMPLY CUSTOMIZED FOR MY USE
-// AND TURNED CSS TO SCSS.
 
 $checkbox-color: #444;
 $checkbox-border: 1px solid $checkbox-color;
-$checkbox-box-shadow: 0 0 0 2px $checkbox-color;
+$checkbox-box-shadow: 0 0 0 px $checkbox-color;
 
 $check-hover-color: lighten(#002855,10%);
 $checkbox-border-hover: 1px solid $check-hover-color;
 $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
 
-.checkbox {
-  padding: 2rem;
-  position: relative;
-  width:100%;
 
-  @media (min-width: 768px) {
-    max-width:50%;
-  }
+.checkbox-wrapper { 
+  float: left;
+  display: block;
+  margin-right: 2.3576520234%;
+  width: 100%;
+}
+
+.checkbox {
+  // padding: 2rem;
+  position: relative;
+  // width:100%;
+
+  // @media (min-width: 768px) {
+  //   max-width:50%;
+  // }
 
   &:focus-within {
     border: 2px dotted $check-hover-color;
@@ -400,6 +466,8 @@ $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
       display: inline-block;
       padding: .75rem .5rem;
       vertical-align: top;
+      width: auto;
+      padding-left:2rem;
 
       &:before, &:after {
         border: 1px solid;
@@ -409,12 +477,12 @@ $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
       }
 
       &:before {
-        border-color: $checkbox-border;
+        border: $checkbox-border;
         border-radius: 1px;
         box-shadow: $checkbox-box-shadow;
         height: 1.125rem;
         left: .125rem;
-        top: .825rem;
+        top: 1rem;
         width: 1.125rem;
       }
 
@@ -424,7 +492,7 @@ $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
         border-right: 2px solid $checkbox-color;
         height: .825rem;
         left: .425rem;
-        top: .825rem;
+        top: 1rem;
         transform-origin: center center;
         transform: rotate(45deg) scale(0);
         width: .5rem;
@@ -436,15 +504,10 @@ $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
       -moz-appearance: none;
       -webkit-appearance: none;
       appearance: none;
-      margin-left: -2rem;
-      margin-top: .75rem;
       opacity: .00001;
       position: absolute;
       vertical-align: top;
       z-index: 2;
-      height: 1.125rem;
-      left: .125rem;
-      width: 1.125rem;
     }
 
     input {
@@ -473,9 +536,11 @@ $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
           border-color: $check-hover-color;
         }
       }
+
       &[disabled] ~ label {
         opacity: .625;
       }
+      
       &:invalid {
         ~ label:before {
           border-color: #f00;
@@ -493,8 +558,6 @@ $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
 // RADIO BUTTON PATTERN - A11Y Project Styles
 //////////////////////////////////////////////////////////////////////////////////////
 // NOTE: THIS IS NOT MY PATTERN.  THIS CONCEPT WAS TAKEN FROM CSS BY THE A11Y PROJECT
-// FOR ACCESSIBILITY AND ADAPTED TO BE EDITABLE SCSS.  I SIMPLY CUSTOMIZED FOR MY USE
-// AND TURNED CSS TO SCSS.
 
 $radio-color: #444;
 $radio-border: 1px solid $radio-color;
@@ -533,7 +596,7 @@ $radio-box-shadow-hover: 0 0 0 2px $radio-hover-color;
       height: 1.125rem;
       left: .125rem;
       position: absolute;
-      top: .825rem;
+      top: 1rem;
       width: 1.125rem;
       border-radius: 100%;
       content: " ";
@@ -549,7 +612,7 @@ $radio-box-shadow-hover: 0 0 0 2px $radio-hover-color;
         height: 1.125rem;
         left: .125rem;
         position: absolute;
-        top: .825rem;
+        top: 1rem;
         width: 1.125rem;
       }
 

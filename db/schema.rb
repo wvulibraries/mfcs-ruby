@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_20_175447) do
+ActiveRecord::Schema.define(version: 2019_09_25_154906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 2019_08_20_175447) do
     t.bigint "form_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "position"
     t.index ["field_types_type", "field_types_id"], name: "index_fields_on_field_types_type_and_field_types_id"
     t.index ["form_id"], name: "index_fields_on_form_id"
   end
@@ -263,6 +264,8 @@ ActiveRecord::Schema.define(version: 2019_08_20_175447) do
     t.string "qualifier"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "field_id"
+    t.index ["field_id"], name: "index_metadata_mappings_on_field_id"
   end
 
   create_table "multi_select_fields", force: :cascade do |t|
@@ -551,4 +554,5 @@ ActiveRecord::Schema.define(version: 2019_08_20_175447) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "metadata_mappings", "fields"
 end

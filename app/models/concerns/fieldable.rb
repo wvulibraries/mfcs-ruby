@@ -1,7 +1,6 @@
 # simply connects fields with common logic.
 module Fieldable
   extend ActiveSupport::Concern
-
   included do
     # validations
     validates_presence_of :name, :label, :type

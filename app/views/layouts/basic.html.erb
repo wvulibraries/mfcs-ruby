@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mfcs</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <!-- Stylesheet pack tag -->
+    <%= stylesheet_pack_tag 'src/application' %>
+  </head>
+
+  <body>  
+    <!-- Content Yield -->
+    <main> 
+      <%= yield %>
+    </main> 
+    
+    <!-- Logout ... change this at somepoint. -->
+    <%# link_to('Logout', destroy_user_session_path, method: :delete) %>
+
+    <!-- Footer -->
+    <%= render "components/footer/footer" %>
+    
+    <!-- Webpack JS -->
+    <%= javascript_pack_tag 'application' %>
+  </body> 
+</html>

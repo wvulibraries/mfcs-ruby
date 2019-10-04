@@ -1,9 +1,8 @@
 class FormsController < ApplicationController
-  add_breadcrumb "home", :root_path
   
   # GET /forms
   def index
-    add_breadcrumb 'List Forms', forms_path, title: 'List Forms'
+    breadcrumb 'List Forms', forms_path, title: 'List Forms'
     @form = Form.order(:name)
   end
 
@@ -12,6 +11,8 @@ class FormsController < ApplicationController
 
   # GET /forms
   def new
+    breadcrumb 'List Forms', '/forms', title: 'List Forms', match: :exact
+    breadcrumb 'New Form', '/forms/new', title: 'New Form', match: :exact
     @form = Form.new
   end
 

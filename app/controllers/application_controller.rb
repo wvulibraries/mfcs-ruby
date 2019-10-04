@@ -10,5 +10,17 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
 
   # add a basic breadcrumb
-  # add_breadcrumb "home", :root_path
+  breadcrumb 'Home', :root_path
+
+  layout :layout_by_resource
+
+  private
+
+  def layout_by_resource
+    if devise_controller?
+      "basic"
+    else
+      "application"
+    end
+  end
 end
