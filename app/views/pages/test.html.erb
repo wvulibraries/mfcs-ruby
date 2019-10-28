@@ -1,0 +1,9 @@
+<div class="container-fluid">
+  <h1> Staging Zone for testing HTML / Stimulus / Rails </h1> 
+
+  <%= form_with model: IdnoField.new(), class: 'something' do |f| %>
+    <%= render "components/form_builder/fields/shared/general", form: f %>
+    <%= render "components/form_builder/fields/shared/metadata_schemas", metadata_mapping_form: f %>
+    <%= render "components/form_builder/fields/shared/field_help", form: f %>
+  <% end %>
+</div>

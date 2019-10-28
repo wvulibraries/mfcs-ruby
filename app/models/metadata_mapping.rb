@@ -9,5 +9,5 @@ class MetadataMapping < ApplicationRecord
 
   # Associations
   # -----------------------------------------------------
-  belongs_to :field
+  # belongs_to :field
 end

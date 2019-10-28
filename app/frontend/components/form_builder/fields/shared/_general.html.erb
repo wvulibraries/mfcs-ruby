@@ -1,0 +1,121 @@
+<fieldset> 
+  <legend> General </legend>
+
+  <div class="row">
+    <div class="field col"> 
+      <!-- Label -->
+      <%= form.label :name %> 
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The field name is a unique value that is used to identify a field."></span>
+      <!-- Feild --> 
+      <%= form.text_field :name %>
+    </div>
+    <div class="field col">
+      <!-- Label -->
+      <%= form.label :label %>
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The field label tells your users what to enter in this field."></span>
+      <!-- Feild --> 
+      <%= form.text_field :label %> 
+    </div>
+  </div>
+
+  <div class="row"> 
+    <div class="field col">
+      <!-- Label -->
+      <%= form.label :value %>
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="When the form is first displayed, this value will already be prepopulated."></span>
+      <span class="fas fa-info-circle field-help" data-toggle="modal" data-target="#exampleModalCenter"></span>
+      <!-- Feild --> 
+      <%= form.text_field :value %> 
+    </div>
+
+    <div class="field col">
+      <!-- Label -->
+      <%= form.label :placeholder %>
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The value that appears in the field, but is only there as placeholder text until the field has been filled out.  A good place for an example of data that should be there."></span>
+      <!-- Feild --> 
+      <%= form.text_field :placeholder %> 
+    </div>
+  </div>
+  
+  <div class="row"> 
+    <div class="field col">
+      <!-- Label -->
+      <%= form.label :css_id, 'CSS ID' %>
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The ID is a unique value that can be used to identify a field."></span>
+      <!-- Feild --> 
+      <%= form.text_field :css_id %> 
+    </div>
+
+    <div class="field col">
+      <!-- Label -->
+      <%= form.label :css_class %>
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="Classes can be entered to give the field a different look and feel."></span>
+      <!-- Feild --> 
+      <%= form.text_field :css_class %> 
+    </div>
+  </div>
+
+  <div class="row"> 
+    <div class="field col"> 
+      <!-- Label -->
+      <%= form.label :local_styles %>
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="You can set any HTML styles and they will only apply to this field.  This should only be done if you know exactly what your doing because it may cause accessibility issues."></span>
+      <!-- Feild --> 
+      <%= form.text_field :local_styles %> 
+    </div>
+  </div>
+</fieldset>
+
+<%= content_for :modals do %>
+<!-- Variable Modal --> 
+<div class="modal fade" id="exampleModalCenter" tabindex="1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"> Variable Values </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+	        <b>User</b>
+	        <ul>
+	            <li><b>%userid%</b><br>The user id for the currently logged in user. (<i>Example: 28</i>)</li>
+	            <li><b>%username%</b><br>The username for the currently logged in user. (<i>Example: jsmith</i>)</li>
+	            <li><b>%firstname%</b><br>The first name for the currently logged in user. (<i>Example: Joesph </i>)</li>
+	            <li><b>%lastname%</b><br>The last name for the currently logged in user. (<i>Example: Smith</i>)</li>
+	        </ul>
+	        <hr>
+	        <b>Static Date/Time</b>
+	        <ul>
+	            <li><b>%date%</b><br>The current date as MM/DD/YYYY. (<i>Example: 2019-10-17</i>)</li>
+	            <li><b>%time%</b><br>The current time as HH:MM:SS. (<i>Example: 09:12:12</i>)</li>
+	            <li><b>%time12%</b><br>The current 12-hr time. (<i>Example: 9:12:12 AM</i>)</li>
+	            <li><b>%time24%</b><br>The current 24-hr time. (<i>Example: 09:12:12</i>)</li>
+	            <li><b>%timestamp%</b><br>The current UNIX system timestamp. (<i>Example: 1571317932</i>)</li>
+	        </ul>
+	        <hr>
+	        <b>Custom Date/Time</b>
+	        <ul style="list-style: none;">
+	            <li>
+	                <b>%date(FORMAT)%</b><br>
+	                You can specify a custom format when creating dates and times where FORMAT is a PHP <a href="http://us2.php.net/manual/en/function.date.php" target="_blank">date()</a> format string.
+	                <br>
+	                <b><i>Example:</i></b> %date(l, m j Y)% becomes Thursday, October 17 2019	  
+              </li>
+	        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>

@@ -8,6 +8,7 @@ RSpec.describe IdnoField, type: :model do
     it_behaves_like 'fieldable' # linking of fields to form
     it_behaves_like 'readonly' # readonly mode
     it_behaves_like 'a valid factory' # factorybot
+    it_behaves_like 'helpable' # logic for help enumerations
   end 
 
   context 'database columns' do

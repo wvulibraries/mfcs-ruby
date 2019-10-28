@@ -185,6 +185,7 @@ $theme-colors: (
   info:#29abe0,
   warning:#f47c3c,
   danger:#C70D00,
+  error: $danger,
   light: $wvu-neutral--light-gray,
   dark: $wvu-neutral--dark-gray
 );

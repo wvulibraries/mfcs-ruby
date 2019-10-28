@@ -8,6 +8,7 @@ ruby '2.6.3'
 gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
+gem 'turbolinks', '~> 5.2.0'
 gem 'webpacker', '~> 4.0', '>= 4.0.7'
 
 # Reduces boot times through caching; required in config/boot.rb

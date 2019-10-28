@@ -1,0 +1,25 @@
+ <div class="metadata-row row no-gutters">
+    <div class="field col-2"> 
+      <%= metadata_mapping_form.label :schema %>
+      <div class="select-style">
+        <%= metadata_mapping_form.select :schema, MetadataMapping.schemas.map {|k, v| [v.humanize.capitalize, k]} %>
+      </div>
+    </div>
+
+    <div class="field col">
+      <%= metadata_mapping_form.label :identifier %>
+      <%= metadata_mapping_form.text_field :identifier %>
+    </div>
+    
+    <div class="field col">
+      <%= metadata_mapping_form.label :qualifier %>
+      <%= metadata_mapping_form.text_field :qualifier %>
+    </div>
+
+    <div class="field col-1">
+      <div class="metadata-actions row no-gutters align-bottom">
+     
+        <%= button_tag("-", {data: { action: "click->metadata-schema#remove" }, class:'btn btn-danger col'}) %>
+      </div>
+    </div>
+  </div> 

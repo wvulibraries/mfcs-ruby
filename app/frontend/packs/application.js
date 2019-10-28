@@ -15,12 +15,27 @@ const images = require.context('./images', true);
 const imagePath = (name) => images(name, true)
 
 // Rails Documentation says these have to be added
+// ===================================================================== 
 import "core-js/stable";
 import "regenerator-runtime/runtime";
 
-// bootstrap
+// TurboLinks
+// ===================================================================== 
+require("turbolinks").start()
+
+// scss
+// ===================================================================== 
 import './src/application.scss';
-import 'bootstrap/dist/js/bootstrap';
+
+// Bootstrap JavaScript
+// ===================================================================== 
+import 'bootstrap/dist/js/bootstrap.bundle.min';
+
+$(document).on("turbolinks:load",function(){
+  $('[data-toggle="popover"]').popover();
+  $('[data-toggle="tooltip"]').tooltip()
+});
 
 // stimulus 
-import "controllers"
+// ===================================================================== 
+import "../controllers"

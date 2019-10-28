@@ -8,8 +8,6 @@ RSpec.shared_examples "a field" do
       it { should have_db_column(:css_id).of_type(:string) }
       it { should have_db_column(:css_class).of_type(:string) }
       it { should have_db_column(:local_styles).of_type(:string) }
-      it { should have_db_column(:help_type).of_type(:string) }
-      it { should have_db_column(:help_info).of_type(:string) }
     end
 
     context 'booleans' do

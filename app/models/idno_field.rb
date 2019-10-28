@@ -3,6 +3,7 @@ class IdnoField < ApplicationRecord
   # -----------------------------------------------------
   include Fieldable
   include Readonly
+  include Helpable
 
   # Enums
   # -----------------------------------------------------

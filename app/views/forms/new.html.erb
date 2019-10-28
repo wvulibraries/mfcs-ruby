@@ -1,26 +1,44 @@
-<h1> Form Creator </h1>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12">
+      <h1> Form Creator </h1>
+    </div>
+  </div> 
+  
+    <!--  ============================================================================= -->
+    <!-- Control Panel =============================================================== -->
+    <!-- ============================================================================= -->
+  <div class="row">
+    <div class="form-control-panel col-sm-4 p-3" id="controlPanel">
+      <div class="menu btn-group d-flex mb-3" role="group" aria-label="Form Control Panel"> 
+          <button type="button" class="btn btn-secondary w-100" data-toggle="collapse" role="button" aria-expanded="false" data-target="#addFields" aria-controls="addFields"> Add A Feild </button>
+          <button type="button" class="btn btn-secondary w-100" data-target="#fieldSettings" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="fieldSettings">Field Settings</button>
+          <button type="button" class="btn btn-secondary w-100 active" data-target="#formSettings" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="formSettings">Form Settings</button>
+      </div>
 
+      <div class="form-container"> 
+        <div id="formSettings" class="collapse show" data-parent="#controlPanel"> 
+          <%= render 'components/form_builder/form_settings', form_builder: @form %>
+        </div>
+        <div id="addFields" class="collapse" data-parent="#controlPanel"> 
+          <%= render 'components/form_builder/add_fields' %>
+        </div>
+        <div id="fieldSettings" class="collapse" data-parent="#controlPanel">
+          Field Settings Here
+        </div>
+      </div>
+    </div>
 
-<!-- ============================================================================= -->
-<!-- Control Panel =============================================================== -->
-<!-- ============================================================================= -->
-<div class="form-control-panel">
-  <div class="menu"> 
-    <ul>
-      <li> Add A Feild </li>
-      <li> Field Settings </li>
-      <li> Form Settings </li>
-    </ul>
-  </div>
-
-  <div class="form-container"> 
-    <%= render 'form_builder', form_builder: @form %>
+    <!-- ============================================================================= -->
+    <!-- Form Preview ================================================================ -->
+    <!-- ============================================================================= -->
+    <div class="form-preview col-sm-8"> </div>
   </div>
 </div>
 
 <!-- ============================================================================= -->
-<!-- Form Preview ================================================================ -->
+<!-- Content Yield for JS / CSS ================================================== -->
 <!-- ============================================================================= -->
-<div class="form-preview"> </div>
-
-
+<%= content_for :js do %>
+  <%= javascript_pack_tag 'form_builder', 'data-turbolinks-track': 'reload' %>
+<% end %>

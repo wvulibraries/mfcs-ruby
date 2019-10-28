@@ -13,27 +13,43 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :title, class: 'required' %>
-    <%= form.text_field :title %>
+    <!-- Label -->
+    <%= form.label :title, class: 'required' %> 
+    <!-- Popover -->
+    <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The form name is a unique value that is used to identify a form."></span>
+    <!-- Field -->
+    <%= form.text_field :title, class: 'required' %>
   </div>
 
   <div class="field">
-    <%= form.label :display_title, class: 'required' %>
+    <%= form.label :display_title %>
+    <!-- Popover -->
+    <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The display title is none unique and is used when the forms are listed.  This is the text you will read when using the interface, unless it is left empty."></span>
+    <!-- Field -->
     <%= form.text_field :display_title %>
   </div>
 
   <div class="field">
     <%= form.label :description, class: 'required' %>
+    <!-- Popover -->
+    <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The form description explains the purpose of this form to users."></span>
+    <!-- Field -->
     <%= form.text_area :description %>
   </div>
 
   <div class="field">
     <%= form.label :submit_button, class: 'required' %>
+    <!-- Popover -->
+    <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="During data entry this text will show up as the submit button."></span>
+    <!-- Field -->
     <%= form.text_field :submit_button %>
   </div>
 
   <div class="field">
     <%= form.label :update_button, class: 'required' %>
+       <!-- Popover -->
+    <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="During data entry this text will show up as the update button."></span>
+    <!-- Field -->
     <%= form.text_field :update_button %>
   </div>
 

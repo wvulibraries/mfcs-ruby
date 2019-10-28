@@ -1,0 +1,12 @@
+<fieldset> 
+  <legend> Metadata Schemas </legend>
+
+  <div class="mscontroller" data-controller="metadata-schema">
+    <div data-target='metadata-schema.metadataFeilds'>
+      <%= render "components/form_builder/fields/shared/metadata_fields", metadata_mapping_form: metadata_mapping_form %>
+    </div>
+    <div class="row no-gutters">
+      <%= button_tag("Add Metadata Mapping + ", {data: { action: "click->metadata-schema#add", html: "#{render "components/form_builder/fields/shared/metadata_fields", metadata_mapping_form: metadata_mapping_form}" },  class:'btn btn-info col'}) %>
+    </div>
+  </div>
+</fieldset>

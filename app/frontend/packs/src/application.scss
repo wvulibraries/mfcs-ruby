@@ -2,13 +2,15 @@
 // --------------------------------------------------------------------------------
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-
 @import '../../components/wvu_scss/wvu-variables'; // WVU ./custom Variables - UR WEB
-
-body { background: $primary; }
-
-
 @import "~bootstrap/scss/bootstrap";
+
+// Font Awesome
+// --------------------------------------------------------------------------------
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts'; 
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
 
 // WVU Components
 // --------------------------------------------------------------------------------
@@ -22,10 +24,45 @@ body { background: $primary; }
 @import '../../components/wvu_scss/mixins/wvu-slash';
 @import '../../components/wvu_scss/mixins/wvu-type';
 
-
-
 // MFCS Entire Application Components 
 // ---------------------------------------------------------------------------------
+@import '../../components/forms/forms'; 
+@import '../../components/form_builder/form_builder'; 
 @import '../../components/footer/footer';
 @import '../../components/login/login';
 @import '../../components/alerts/alerts.scss';
+
+
+// Bootstrap Modal Overwrite 
+// ----------------------------------------------------------------------------------
+.modal { 
+  width:100vw; 
+  height:100vh; 
+  overflow: hidden; 
+}
+
+.modal-dialog {
+  margin: 10vh auto;
+}
+
+.modal-content {
+  max-height: 80vh;
+}
+
+.modal-body {
+  max-height: 80vh;
+  overflow-y: auto;
+  overflow-x: hidden; 
+}
+
+// Force the Scrollbar to exist
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 10px;
+  padding:2px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0,0,0,.5);
+  box-shadow: 0 0 1px rgba(255,255,255,.5);
+}

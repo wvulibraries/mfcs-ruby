@@ -13,6 +13,7 @@ class FormsController < ApplicationController
   def new
     breadcrumb 'List Forms', '/forms', title: 'List Forms', match: :exact
     breadcrumb 'New Form', '/forms/new', title: 'New Form', match: :exact
+    flash.now[:notice] = 'Some stupid alert that is needed to test stuff.'
     @form = Form.new
   end
 

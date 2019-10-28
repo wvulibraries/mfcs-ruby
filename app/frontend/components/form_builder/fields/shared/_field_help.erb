@@ -1,0 +1,23 @@
+<fieldset data-controller="help-field"> 
+  <legend> Help </legend>
+  <div class="field col-12"> 
+    <%= form.label :help_type %>
+    <!-- Icon -->
+    <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="You can set any help text you want displayed with this field. Any angle brackets in HTML text will be treated as HTML"></span>
+    <div class="select-style">
+      <%= form.select :help_type, form.object.class.help_types.map {|k, v| [k.humanize.titleize, v]}, {}, {class: 'something', data: {action:'change->help-field#select'}}  %>
+    </div>
+  </div>
+
+  <div class="field col-12 help_data"> 
+    <!-- Label -->
+    <%= form.label :help_info %>
+
+    <!-- Help Info Fields -->
+    
+
+    <%= form.url_field :help_info, class: 'helpUrlField', data: {target:"help-field.urlField" } %>
+    <%= form.text_area :help_info, class: 'helpTextField', data: { target:"help-field.textField" }%>
+  </div>
+
+</fieldset>

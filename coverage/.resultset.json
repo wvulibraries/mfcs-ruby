@@ -1,6 +1,75 @@
 {
   "RSpec": {
     "coverage": {
+      "/home/mfcs/app/models/idno_field.rb": [
+        1,
+        null,
+        null,
+        1,
+        1,
+        1,
+        null,
+        null,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        1,
+        null,
+        null,
+        null,
+        null,
+        1,
+        null,
+        54,
+        54,
+        54,
+        54,
+        null,
+        54,
+        54,
+        54,
+        54,
+        54,
+        54,
+        54,
+        54,
+        null,
+        null
+      ],
+      "/home/mfcs/app/models/concerns/fieldable.rb": [
+        null,
+        1,
+        1,
+        1,
+        null,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null
+      ],
+      "/home/mfcs/app/models/concerns/helpable.rb": [
+        null,
+        1,
+        1,
+        1,
+        1,
+        null,
+        null
+      ],
+      "/home/mfcs/app/models/system.rb": [
+        1,
+        1,
+        10,
+        null,
+        null
+      ],
       "/home/mfcs/app/models/field.rb": [
         null,
         1,
@@ -12,28 +81,6 @@
         null,
         1,
         1,
-        null,
-        1,
-        null,
-        null,
-        null,
-        1,
-        null
-      ],
-      "/home/mfcs/app/models/system.rb": [
-        1,
-        1,
-        10,
-        null,
-        null
-      ],
-      "/home/mfcs/app/models/metadata_mapping.rb": [
-        1,
-        null,
-        null,
-        1,
-        null,
-        null,
         null,
         1,
         null,
@@ -67,6 +114,9 @@
         null,
         null,
         null,
+        1,
+        null,
+        null,
         null,
         1,
         null,
@@ -89,6 +139,6 @@
         null
       ]
     },
-    "timestamp": 1569426633
+    "timestamp": 1571857622
   }
 }

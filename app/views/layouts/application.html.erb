@@ -7,11 +7,15 @@
 
     <!-- Stylesheet pack tag -->
     <%= stylesheet_pack_tag 'src/application' %>
+    <%= yield :css %>
+    
+    <!-- Base Webpack JS -->
+    <%= javascript_pack_tag 'application' %>
   </head>
 
   <body>
     <!-- Header -->
-    <%= render "components/header/header" %>
+    <%# render "components/header/header" %>
 
     <!-- Breadcrumbs -->
     <%= render "components/top_bar/top_bar" %>
@@ -30,7 +34,7 @@
     <!-- Footer -->
     <%= render "components/footer/footer" %>
     
-    <!-- Webpack JS -->
-    <%= javascript_pack_tag 'application' %>
+    <%= yield :modals %>
+    <%= yield :js %>
   </body> 
 </html>
