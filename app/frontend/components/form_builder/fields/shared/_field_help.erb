@@ -11,13 +11,19 @@
 
   <div class="field col-12 help_data"> 
     <!-- Label -->
-    <%= form.label :help_info %>
+   
 
     <!-- Help Info Fields -->
-    
+    <div data-target="help-field.urlField">
+      <%= form.label :help_info, 'Help Url' %>
+      <%= form.url_field :help_info, class: 'helpUrlField', data: { action: 'change->help-field#validURL keyup->help-field#validURL'} %>
+    </div>
 
-    <%= form.url_field :help_info, class: 'helpUrlField', data: {target:"help-field.urlField" } %>
-    <%= form.text_area :help_info, class: 'helpTextField', data: { target:"help-field.textField" }%>
+    <div data-target="help-field.textField">
+      <%= form.label :help_info, 'Help Text' %>
+      <%= form.text_area :help_info, class: 'helpTextField' %>
+    </div>
+    
   </div>
 
 </fieldset>

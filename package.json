@@ -16,6 +16,25 @@
     "turbolinks": "^5.2.0"
   },
   "devDependencies": {
+    "babel-jest": "^24.9.0",
+    "babel-preset-es2015": "^6.24.1",
+    "jest": "^24.9.0",
     "webpack-dev-server": "^3.7.2"
+  },
+  "jest": {
+    "roots": [
+      "spec/javascript"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app/frontend/packs",
+      "app/frontend/components"
+    ],
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
+  "scripts": {
+    "test": "jest"
   }
 }
