@@ -7,7 +7,7 @@ RUN apt-get update \
                           gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
 # Node.js
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y nodejs
 
 # yarn
@@ -27,3 +27,4 @@ RUN gem install bundler \
 WORKDIR /home/mfcs
 COPY ./ /home/mfcs
 RUN bundle install --jobs=4 --retry=3 
+RUN yarn install && yarn upgrade

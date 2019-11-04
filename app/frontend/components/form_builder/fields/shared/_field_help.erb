@@ -5,23 +5,24 @@
     <!-- Icon -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="You can set any help text you want displayed with this field. Any angle brackets in HTML text will be treated as HTML"></span>
     <div class="select-style">
-      <%= form.select :help_type, form.object.class.help_types.map {|k, v| [k.humanize.titleize, v]}, {}, {class: 'something', data: {action:'change->help-field#select'}}  %>
+      <%= form.select :help_type, form.object.class.help_types.map {|k, v| [k.humanize.titleize, v]}, {}, {class: '', data: {action:'change->help-field#select', target:"help-field.select"}}  %>
     </div>
   </div>
 
   <div class="field col-12 help_data"> 
     <!-- Label -->
-   
-
     <!-- Help Info Fields -->
     <div data-target="help-field.urlField">
       <%= form.label :help_info, 'Help Url' %>
-      <%= form.url_field :help_info, class: 'helpUrlField', data: { action: 'change->help-field#validURL keyup->help-field#validURL'} %>
+      <%= form.url_field :help_info, class: 'helpUrlField', id: 'helpUrlField', data: { action: 'change->help-field#validURL keyup->help-field#validURL'} %>
+      <div class="invalid-feedback">
+        Please put in a valid url ex: https://www.google.com. 
+      </div>
     </div>
 
     <div data-target="help-field.textField">
       <%= form.label :help_info, 'Help Text' %>
-      <%= form.text_area :help_info, class: 'helpTextField' %>
+      <%= form.text_area :help_info, class: 'helpTextField', id: 'helpTextField', data: { action: 'change->help-field#modifyHTML focus->help-field#modifyHTML'}  %>
     </div>
     
   </div>

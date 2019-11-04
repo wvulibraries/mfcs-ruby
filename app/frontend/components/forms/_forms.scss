@@ -277,6 +277,11 @@ form{
     input, textarea, .select-style { 
       border: 2px solid $error;
       background: lighten($error,40%);
+      &:hover, &:focus { 
+        border: 2px solid $error;
+        background: lighten($error,40%);
+        outline: none; 
+      }
     }
     label { color:$error; }
   }

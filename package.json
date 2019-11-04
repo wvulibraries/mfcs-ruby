@@ -18,7 +18,10 @@
   "devDependencies": {
     "babel-jest": "^24.9.0",
     "babel-preset-es2015": "^6.24.1",
+    "html-loader-jest": "^0.2.1",
     "jest": "^24.9.0",
+    "jsdom-mount": "^0.1.0",
+    "mutationobserver-shim": "^0.3.3",
     "webpack-dev-server": "^3.7.2"
   },
   "jest": {
@@ -28,10 +31,14 @@
     "moduleDirectories": [
       "node_modules",
       "app/frontend/packs",
-      "app/frontend/components"
+      "app/frontend/components",
+      "app/frontend/controllers"
+    ],
+    "setupFiles": [
+      "./spec/javascript/setup.js"
     ],
     "transform": {
-      "^.+\\.[t|j]sx?$": "babel-jest"
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     }
   },
   "scripts": {
