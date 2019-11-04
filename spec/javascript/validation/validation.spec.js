@@ -172,3 +172,18 @@ describe('#stripHTML', () =>{
     });
   }
 });
+
+/**
+ * validRegex
+ * ============================================================================
+*/
+describe('#stripHTML', () =>{
+  it('Valid Regex', () =>{
+    let testString = "/@(\w+)/g";
+    expect(Validation.validRegex(testString)).toEqual(true);
+  });
+  it('invalid regex', () => { 
+    let testString = "[catdog";
+    expect(Validation.validRegex(testString)).toEqual(false);
+  });
+});

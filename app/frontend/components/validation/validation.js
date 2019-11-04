@@ -65,4 +65,21 @@ export default class Validation {
   static stripHTML(input){ 
     return input.replace(/<[^>]*>?/gm, '');
   }
+
+  /**
+   * validRegex
+   * This takes an input that is supposed to be a regular expression and checks it is valid.
+   * Only simple tests have been done because valid regex can be tricky.  Also we are using
+   * A regex parser to do the testing so all possible validations should be caught. 
+   * @param {string} input from input field.
+   * @return {boolean}  
+  */
+  static validRegex(input){ 
+    try {
+      new RegExp(input);
+    } catch(e) {
+      return false; 
+    }
+    return true; 
+  }
 }
