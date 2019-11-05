@@ -1,0 +1,32 @@
+  <%= form_with model: IdnoField.new(), class: 'something' do |f| %>
+    <!-- General Components -->
+    <%= render "components/form_builder/fields/shared/general", form: f %>
+    <%= render "components/form_builder/fields/shared/metadata_schemas", metadata_mapping_form: f %>
+    <%= render "components/form_builder/fields/shared/field_help", form: f %>
+
+    <!-- IDNO Specific -->
+    <fieldset>
+      <legend> IDNO Numbering Options </legend>
+
+      <div class="field"> 
+        <%= f.label :numbering_type %>
+        <div class="select-style"> 
+          <%= f.select :numbering_type, f.object.class.numbering_types.map {|k, v| [k.humanize.titleize, v]}, {}, {} %> 
+        </div>
+      </div>
+
+      <div class="field"> 
+        <%= f.label :idno_format %>
+        <%= f.text_field :idno_format %>
+      </div>
+
+      <div class="field"> 
+        <%= f.label :start_increment, 'Auto Increment Start' %>
+        <%= f.number_field :start_increment %>
+      </div>
+    </fieldset>
+
+    <!-- Shared Valdiations and Options -->
+    <%= render "components/form_builder/fields/shared/field_options", form: f %>
+    <%= render "components/form_builder/fields/shared/validation", form: f %>
+  <% end %>

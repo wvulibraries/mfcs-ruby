@@ -373,6 +373,13 @@ $checkbox-box-shadow-hover: 0 0 0 2px $check-hover-color;
     border: 2px dotted $check-hover-color;
   }
 
+  .field-help { 
+    position: absolute;
+    z-index: 9999;
+    top: 3px;
+    right: 20px;
+  }
+
   // children of the checkbox class only
   > {
     // label

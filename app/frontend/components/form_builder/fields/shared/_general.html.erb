@@ -4,7 +4,7 @@
   <div class="row">
     <div class="field col"> 
       <!-- Label -->
-      <%= form.label :name %> 
+      <%= form.label :name, :name, class:'required' %> 
       <!-- Popover -->
       <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The field name is a unique value that is used to identify a field."></span>
       <!-- Feild --> 
@@ -12,7 +12,7 @@
     </div>
     <div class="field col">
       <!-- Label -->
-      <%= form.label :label %>
+      <%= form.label :label, :label, class:'required' %>
       <!-- Popover -->
       <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The field label tells your users what to enter in this field."></span>
       <!-- Feild --> 

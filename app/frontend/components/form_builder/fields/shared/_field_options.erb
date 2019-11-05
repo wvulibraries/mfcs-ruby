@@ -1,0 +1,62 @@
+<fieldset>
+  <legend> Options </legend>
+  <div class="field checkbox-wrapper">
+    <div class="row">
+      <div class="checkbox col-6">
+        <%= form.check_box :required %>
+        <%= form.label :required %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is required to be filled out."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :no_duplicates %>
+        <%= form.label :no_duplicates %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Duplicate entries for this form are not allowed."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :read_only %>
+        <%= form.label :read_only %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is read-only, data is pulled from form definition on insert, previous revision on update, not from POST."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :disabled %>
+        <%= form.label :disabled %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is disabled and not submitted to POST."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :disabled_on_insert %>
+        <%= form.label :disabled_on_insert %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is disabled and not submitted to POST, but can be changed on an update."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :public_release %>
+        <%= form.label :public_release %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Dependant on Export Script: Metadata check to determine if field should be exported to XML."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :oai_release %>
+        <%= form.label :oai_release %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="OAI Application will cache this field."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :sortable %>
+        <%= form.label :sortable %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is Sortable in list table in MFCS."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :searchable %>
+        <%= form.label :searchable %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is Searchable in list table in MFCS."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :display_in_list %>
+        <%= form.label :display_in_list %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is displayed in the listing table in MFCS."></span>
+      </div>
+      <div class="checkbox col-6">
+        <%= form.check_box :hidden %>
+        <%= form.label :hidden %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Input type is set to Hidden."></span>
+      </div>
+    </div>
+  </div>
+</fieldset>

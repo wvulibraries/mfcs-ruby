@@ -152,7 +152,7 @@ describe('#isEmpty', () => {
 });
 
 /**
- * sanitizeInput
+ * stripHTML
  * ============================================================================
 */
 describe('#stripHTML', () =>{
@@ -177,7 +177,7 @@ describe('#stripHTML', () =>{
  * validRegex
  * ============================================================================
 */
-describe('#stripHTML', () =>{
+describe('#validRegex', () =>{
   it('Valid Regex', () =>{
     let testString = "/@(\w+)/g";
     expect(Validation.validRegex(testString)).toEqual(true);
