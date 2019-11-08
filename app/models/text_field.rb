@@ -5,6 +5,7 @@ class TextField < ApplicationRecord
   # -----------------------------------------------------
   include Fieldable
   include Readonly
+  include Helpable
 
   # RAILS CALLBACKS
   # -----------------------------------------------------

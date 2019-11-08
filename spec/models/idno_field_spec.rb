@@ -84,5 +84,10 @@ RSpec.describe IdnoField, type: :model do
       expect(idno.type).to be_a(String)
       expect(idno.type).to eq 'idno'
     end
+
+    it 'defaults to system for number_type' do
+      expect(idno.numbering_type).to be_a(Integer)
+      expect(idno.numbering_type).to eq 'system'
+    end
   end
 end

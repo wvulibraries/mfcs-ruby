@@ -1,5 +1,5 @@
  <div class="metadata-row row no-gutters">
-    <div class="field col-2"> 
+    <div class="field col-12 col-sm"> 
       <%= metadata_mapping_form.label :schema %>
       <div class="select-style">
         <%= metadata_mapping_form.select :schema, MetadataMapping.schemas.map {|k, v| [v.humanize.capitalize, k]} %>
@@ -8,12 +8,12 @@
 
     <div class="field col">
       <%= metadata_mapping_form.label :identifier %>
-      <%= metadata_mapping_form.text_field :identifier %>
+      <%= metadata_mapping_form.text_field :identifier, multiple: true %>
     </div>
     
     <div class="field col">
       <%= metadata_mapping_form.label :qualifier %>
-      <%= metadata_mapping_form.text_field :qualifier %>
+      <%= metadata_mapping_form.text_field :qualifier, multiple: true %>
     </div>
 
     <div class="field col-1">

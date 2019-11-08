@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_23_150554) do
+ActiveRecord::Schema.define(version: 2019_11_08_154947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 2019_10_23_150554) do
     t.integer "default_choice"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "choice_type"
   end
 
   create_table "date_fields", force: :cascade do |t|
@@ -386,6 +387,7 @@ ActiveRecord::Schema.define(version: 2019_10_23_150554) do
     t.integer "default_choice"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "choice_type"
   end
 
   create_table "select_fields", force: :cascade do |t|

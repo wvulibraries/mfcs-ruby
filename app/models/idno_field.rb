@@ -25,6 +25,7 @@ class IdnoField < ApplicationRecord
     self.label ||= 'IDNO'
     self.css_id ||= 'idno'
     self.type ||= 'idno'
+    self.numbering_type ||= 1
     # set bools
     self.required ||= true
     self.no_duplicates ||= true

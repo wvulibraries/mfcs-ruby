@@ -23,6 +23,7 @@ services:
   
   webpacker:
     build: .
+    container_name: webpacker
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development

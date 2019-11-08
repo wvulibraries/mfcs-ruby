@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   get '/fail', to: 'pages#failure'
 
   # forms
-  resources :forms, :metadata_mappings, :idno_fields
+  resources :forms, :metadata_mappings, :idno_fields, :text_fields, :check_fields
 
   # test route for dave to not lose his mind
   get '/test', to: 'pages#test'

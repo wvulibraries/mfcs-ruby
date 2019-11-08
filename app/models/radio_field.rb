@@ -3,6 +3,11 @@ class RadioField < ApplicationRecord
   # -----------------------------------------------------
   include Fieldable
   include Readonly
+  include Helpable
+
+  # Enums
+  # -----------------------------------------------------
+  enum choice_type: %i[manual form]
   
   # RAILS CALLBACKS
   # -----------------------------------------------------
