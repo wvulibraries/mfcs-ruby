@@ -4,8 +4,8 @@
     <%= render "components/form_builder/fields/shared/metadata_schemas", metadata_mapping_form: f %>
     <%= render "components/form_builder/fields/shared/field_help", form: f %>
 
-    <!-- IDNO Specific -->
-    <fieldset data-controller="idno-field">
+    <!-- Choices Specific -->
+    <fieldset data-controller="choices-field">
       <legend> Choices </legend>
 
       <div class="row"> 
@@ -20,18 +20,14 @@
       </div>
 
       <div class="row">
+        <%= f.hidden_field :default_choice, {data: { target: 'choices-field.defaultChoice' }} %>
         <div class="field col">
           <%= f.label :choices %>
-          <div class="input-group"> 
-            <div class="input-group-prepend">
-              <%= button_tag(raw('<span class="fas fa-check"></span>'), {data: { action: "" }, class:'btn btn-dark', type: ''} ) %>
-            </div>
-            <%= f.text_field :choices, multiple: true, class:'col' %>
-            <div class="input-group-append"> 
-              <%= button_tag(raw('<span class="fas fa-plus"></span>'), {data: { action: "" }, class:'btn btn-info', type: ''} ) %>   
-              <%= button_tag(raw('<span class="fas fa-minus"></span>'), {data: { action: "" }, class:'btn btn-danger', type: ''} ) %>
-            </div>
+          <div class="choices-container" data-target="choices-field.container">
+            <%= render "components/form_builder/fields/shared/choice_group", f: f %>
           </div>
+
+          <div class="hidden d-none" data-target="choices-field.choiceHtml" data-html='<%= render "components/form_builder/fields/shared/choice_group", f: f %>'></div>
         </div>      
       </div>
     </fieldset>

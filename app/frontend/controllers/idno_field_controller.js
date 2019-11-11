@@ -21,7 +21,6 @@ export default class extends Controller {
   // grabs html from a rendered data component and adds to the DOM
   // @author: David J. Davis
   select(e) {
-    console.log('select changed');
     if(e.target.value == 'system'){ 
       this.systemFieldTarget.classList.remove('d-none');
     } else { 
