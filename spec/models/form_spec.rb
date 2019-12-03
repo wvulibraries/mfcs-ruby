@@ -60,11 +60,6 @@ RSpec.describe Form, type: :model do
     end
   end
 
-  # form associations
-  context 'associations' do
-    it { should have_many :fields }
-  end
-
   # set defaults
   context 'defaults' do
     it 'should init and set default values' do
@@ -75,37 +70,6 @@ RSpec.describe Form, type: :model do
       expect(form.production).to be true
       expect(form.export_public).to be true
       expect(form.export_oai).to be true
-    end
-  end
-
-  context 'creating a simple form with fields' do
-    it "simple form with three fields" do
-      form = FactoryBot.build(:form)
-      idno_field = FactoryBot.create(:idno_field)
-      text_field = FactoryBot.create(:text_field)
-      textarea_field = FactoryBot.create(:textarea_field)
-      form.fields.build(field_types: idno_field)
-      form.fields.build(field_types: text_field)
-      form.fields.build(field_types: textarea_field)
-      form.save!
-      expect(form).to be_valid
-      expect(form.fields.count).to eq 3
-    end
-
-    it 'creates a simple form with all possible fields' do
-      form = FactoryBot.build(:form)
-      # create a list of all the different types to test 
-      types = %i[idno_field check_field date_field email_field file_field integer_field multi_select_field phone_field radio_field select_field text_field textarea_field time_field website_field]
-
-      # add all the fields
-      types.each do |t|
-        form.fields.build(field_types: FactoryBot.create(t))
-      end
-
-      # save form and check count
-      form.save!
-      expect(form).to be_valid
-      expect(form.fields.count).to eq types.count
     end
   end
 end
