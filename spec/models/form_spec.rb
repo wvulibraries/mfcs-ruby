@@ -38,8 +38,11 @@ RSpec.describe Form, type: :model do
       it { should have_db_column(:updated_at).of_type(:datetime) }
     end
 
-    context 'navigation' do
+    context 'hstores' do
       it { should have_db_column(:navigation).of_type(:hstore) }
+      it { should have_db_column(:fields).of_type(:hstore) }
+      it { should have_db_column(:permissions).of_type(:hstore) }
+      it { should have_db_column(:idno).of_type(:hstore) }
     end
   end
 

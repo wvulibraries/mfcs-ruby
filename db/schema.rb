@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_03_155516) do
+ActiveRecord::Schema.define(version: 2019_12_04_203035) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -37,22 +37,10 @@ ActiveRecord::Schema.define(version: 2019_12_03_155516) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "fields", force: :cascade do |t|
-    t.string "field_types_type"
-    t.bigint "field_types_id"
-    t.bigint "form_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position"
-    t.index ["field_types_type", "field_types_id"], name: "index_fields_on_field_types_type_and_field_types_id"
-    t.index ["form_id"], name: "index_fields_on_form_id"
-  end
-
   create_table "forms", force: :cascade do |t|
     t.string "title"
     t.text "description"
     t.hstore "fields"
-    t.string "idno"
     t.boolean "container"
     t.boolean "production"
     t.boolean "metadata"
@@ -69,21 +57,12 @@ ActiveRecord::Schema.define(version: 2019_12_03_155516) do
     t.string "link_title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["display_title"], name: "index_forms_on_display_title", unique: true
-    t.index ["fields"], name: "index_forms_on_fields", using: :gin
-    t.index ["idno"], name: "index_forms_on_idno", unique: true
-    t.index ["navigation"], name: "index_forms_on_navigation", using: :gin
-    t.index ["title"], name: "index_forms_on_title", unique: true
-  end
-
-  create_table "metadata_mappings", force: :cascade do |t|
-    t.integer "schema"
-    t.string "identifier"
-    t.string "qualifier"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "field_id"
-    t.index ["field_id"], name: "index_metadata_mappings_on_field_id"
+    t.hstore "permissions"
+    t.hstore "idno"
+    t.index ["fields"], name: "index_forms_on_fields", using: :gist
+    t.index ["idno"], name: "index_forms_on_idno", using: :gist
+    t.index ["navigation"], name: "index_forms_on_navigation", using: :gist
+    t.index ["permissions"], name: "index_forms_on_permissions", using: :gist
   end
 
   create_table "projects", force: :cascade do |t|
@@ -126,5 +105,4 @@ ActiveRecord::Schema.define(version: 2019_12_03_155516) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "metadata_mappings", "fields"
 end

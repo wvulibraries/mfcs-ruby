@@ -21,4 +21,20 @@ module ApplicationHelper
       date: 'Date'
     }.map(&:reverse)
   end
+
+  def help_types
+    [:no_help, :plain_text, :html_text, :web_url].map.with_index { |x, i| [x.to_s.titleize, i] }
+  end
+
+  def metadata_types
+    { '0' => 'Dublin Core' }
+  end 
+
+  def idno_numbering_types
+    ['user', 'system'].map { |k, v| [k.humanize.titleize, k] }
+  end
+
+  def choice_types
+    ['manual', 'link_to_form'].map {|k, v| [k.humanize.titleize, k]}
+  end
 end

@@ -4,6 +4,10 @@ class Form < ApplicationRecord
   # -----------------------------------------------------
   include Readonly
 
+  # Hstores
+  # -----------------------------------------------------
+  store_accessor :fields, :navigation, :permissions
+
   # Validations
   # -----------------------------------------------------
   validates :title,
@@ -15,18 +19,21 @@ class Form < ApplicationRecord
             presence: true,
             length: { within: 1..250 },
             uniqueness: true
-
-  # Associations
+            
+  # SCOPES
   # -----------------------------------------------------
-  has_many :fields, dependent: :destroy
-
-  # Form Helpers
-  # -----------------------------------------------------
-  accepts_nested_attributes_for :fields
+  scope :object_forms, -> { where(metadata: 'false').order(:title) }
 
   # RAILS CALLBACKS
   # -----------------------------------------------------
   after_initialize :set_defaults
+
+  # Get an array of linked metadata fields from the field hash
+  # @author David J. Davis
+  # @return object[Array <Integer>] Array of ids to identify the forms. 
+  # def linked_forms
+  #   field_hash = self.fields
+  # end
 
   private
   # Setting some defaults for the forms to match current behaviors
