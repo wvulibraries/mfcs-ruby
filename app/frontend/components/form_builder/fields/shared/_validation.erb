@@ -10,7 +10,7 @@
 
 		<div class="regex" data-target="validation-field.regexContainer"> 
 			<%= form.label :validation_regex, 'Regular Expression' %>
-			<%= form.text_field :validaiton_regex, { data: { target: 'validation-field.regexField', action: 'keyup->validation-field#validRegex change->validation-field#validRegex' }} %>
+			<%= form.text_field :validation_regex, { data: { target: 'validation-field.regexField', action: 'keyup->validation-field#validRegex change->validation-field#validRegex' }} %>
 			<div class="invalid-feedback">
         Please make sure that you use a valid regular expression.
       </div>

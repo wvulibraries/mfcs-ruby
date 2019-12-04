@@ -1,25 +1,24 @@
- <div class="metadata-row row no-gutters">
-    <div class="field col-12 col-sm"> 
-      <%= metadata_mapping_form.label :schema %>
-      <div class="select-style">
-        <%= metadata_mapping_form.select :schema, MetadataMapping.schemas.map {|k, v| [v.humanize.capitalize, k]} %>
+ <div class="metadata-row row no-gutters input-group">
+    <div class="col-12 heading"> Schema / Identifier / Qualifier </div>
+    <div class="input-group-prepend col-sm-12 col-md-4"> 
+      <%# form.label :schema %>
+      <div class="select-style col-12">
+        <%= form.select :schema, metadata_types.map {|k, v| [v.humanize.capitalize, k]}, 'aria-label' => 'schema' %>
       </div>
     </div>
 
     <div class="field col">
-      <%= metadata_mapping_form.label :identifier %>
-      <%= metadata_mapping_form.text_field :identifier, multiple: true %>
+      <%# form.label :identifier %>
+      <%= form.text_field :identifier, multiple: true, placeholder: 'Identifier', 'aria-label' => 'identifier' %>
     </div>
     
     <div class="field col">
-      <%= metadata_mapping_form.label :qualifier %>
-      <%= metadata_mapping_form.text_field :qualifier, multiple: true %>
+      <%# form.label :qualifier %>
+      <%= form.text_field :qualifier, multiple: true, placeholder: 'Qualifier', 'aria-label' => 'qualifier' %>
     </div>
 
-    <div class="field col-1">
-      <div class="metadata-actions row no-gutters align-bottom">
-     
-        <%= button_tag("-", {data: { action: "click->metadata-schema#remove" }, class:'btn btn-danger col'}) %>
-      </div>
+    <div class="metadata-actions input-group-append">
+        <%= button_tag(raw('<span class="fas fa-minus"></span>'), {data: { action: "click->metadata-schema#remove" }, class:'btn btn-danger col'}) %> 
+        <%= button_tag(raw('<span class="fas fa-plus"></span>'), {data: { action: "click->metadata-schema#add" },  class:'btn btn-info col'}) %>
     </div>
   </div> 

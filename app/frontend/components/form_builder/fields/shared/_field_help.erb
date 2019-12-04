@@ -5,8 +5,9 @@
       <%= form.label :help_type %>
       <!-- Icon -->
       <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="You can set any help text you want displayed with this field. Any angle brackets in HTML text will be treated as HTML"></span>
+
       <div class="select-style">
-        <%= form.select :help_type, form.object.class.help_types.map {|k, v| [k.humanize.titleize, v]}, {}, {class: '', data: {action:'change->help-field#select', target:"help-field.select"}}  %>
+        <%= form.select :help_type, help_types.to_h, {}, {class: '', data: {action:'change->help-field#select', target:"help-field.select"}}  %>
       </div>
     </div>
 

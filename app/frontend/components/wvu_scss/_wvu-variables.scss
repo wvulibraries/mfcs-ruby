@@ -187,7 +187,8 @@ $theme-colors: (
   danger:#C70D00,
   error: $danger,
   light: $wvu-neutral--light-gray,
-  dark: $wvu-neutral--dark-gray
+  dark: $wvu-neutral--dark-gray,
+  link: #007bff 
 );
 
 $grid-breakpoints: (
@@ -217,7 +218,7 @@ $spacers: (
   6: ($spacer * 6)
 );
 
-$blue: #006FE6;
+$blue: #007bff;
 $card-border-radius: 0;
 $card-border-width: 0;
 $card-bg: transparent;
@@ -229,6 +230,7 @@ $font-family-sans-serif: $helvetica-neue-fallback;
 $jumbotron-bg: transparent;
 $jumbotron-padding: 4rem;
 $lead-font-size: ($font-size-base * 1.5);
+$link: #007bff; 
 $link-decoration: underline;
 $pink: #DB1A74;
 $small-font-size: 80%;

@@ -3,7 +3,7 @@ class FormsController < ApplicationController
   # GET /forms
   def index
     breadcrumb 'List Forms', forms_path, title: 'List Forms'
-    @form = Form.order(:name)
+    @form = Form.object_forms
   end
 
   # GET /forms

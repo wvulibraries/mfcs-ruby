@@ -16,17 +16,31 @@
           <button type="button" class="btn btn-secondary w-100 active" data-target="#formSettings" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="formSettings">Form Settings</button>
       </div>
 
-      <div class="form-container"> 
+      <div class="form-container" data-controller="form-builder"> 
+      <%= form_for @form, url: { action:'create' }, html: { class:'form-builder' } do |f| %>
+        <% if @form.errors.any? %>
+          <div id="error_explanation">
+            <h3><%= pluralize(f.errors.count, "error") %> prohibited this subject from being saved:</h3>
+
+            <ul>
+            <% @form.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
         <div id="formSettings" class="collapse show" data-parent="#controlPanel"> 
-          <%= render 'components/form_builder/form_settings', form_builder: @form %>
+          <%= render 'components/form_builder/form_settings', form: f %>
         </div>
         <div id="addFields" class="collapse" data-parent="#controlPanel"> 
-          <%= render 'components/form_builder/add_fields' %>
+          <%= render 'components/form_builder/add_fields', form: f %>
         </div>
         <div id="fieldSettings" class="collapse" data-parent="#controlPanel">
           Field Settings Here
         </div>
       </div>
+      <% end %>
     </div>
 
     <!-- ============================================================================= -->

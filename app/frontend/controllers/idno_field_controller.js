@@ -26,23 +26,5 @@ export default class extends Controller {
     } else { 
       this.systemFieldTarget.classList.add('d-none');
     }
-    
-   
-    // this.textFieldTarget.classList.remove('d-block');
-    // this.urlFieldTarget.classList.remove('d-block');
-
-    // if(e.target.value == 1 || e.target.value == 2){ 
-    //   console.log('help text / html'); 
-    //   this.textFieldTarget.classList.add('d-block');
-    //   this.urlFieldTarget.classList.add('d-none');
-    // } else if(e.target.value == 3){ 
-    //   console.log('url'); 
-    //   this.urlFieldTarget.classList.add('d-block');
-    //   this.textFieldTarget.classList.add('d-none');
-    // } else { 
-    //   console.log('none');
-    //   this.textFieldTarget.classList.add('d-none');
-    //   this.urlFieldTarget.classList.add('d-none');
-    // }
   }
 }

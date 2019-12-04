@@ -1,7 +1,6 @@
-  <%= form_with model: IdnoField.new(), class: 'something' do |f| %>
     <!-- General Components -->
     <%= render "components/form_builder/fields/shared/general", form: f %>
-    <%= render "components/form_builder/fields/shared/metadata_schemas", metadata_mapping_form: f %>
+    <%# render "components/form_builder/fields/shared/metadata_schemas", metadata_mapping_form: f %>
     <%= render "components/form_builder/fields/shared/field_help", form: f %>
 
     <!-- IDNO Specific -->
@@ -35,4 +34,4 @@
     <!-- Shared Valdiations and Options -->
     <%= render "components/form_builder/fields/shared/field_options", form: f %>
     <%= render "components/form_builder/fields/shared/validation", form: f %>
-  <% end %>
+

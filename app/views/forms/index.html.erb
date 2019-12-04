@@ -1,3 +1,46 @@
-<h2> Select a Form </h2>
+  <div class="col-12"> 
+    <h2> Select a Form </h2>
+  </div>
+  
+  <% @form.each do |f| %>
+    <% unique_id = "#{f.id}_form_#{f.title}" %>
+    <div class="card card-default col-12 mb-1">
+      <div class="card-header row no-gutters border p-0">
+          <div class="col-8 col-md-6 col-lg-10"> 
+            <a href="#link" class="form-link col text-left btn btn-default p-1"> <%= f.title || f.display_title %> </a>
+          </div> 
 
-Do Something else too! 
+          <div class="col-4 col-md-6 col-lg-2">
+            <div class="row no-gutters">
+              <button class="col btn btn-default border-left rounded-0 p-1"> 
+                <span class="fas fa-list-ol"></span>
+              </button>
+              <button class="col btn btn-default border-left rounded-0 p-1">       <span class="fas fa-list-ul"></span>
+              </button>
+              <button class="col btn btn-default border-left rounded-0 p-1">       <span class="fas fa-images"></span>
+              </button>
+              <button class="col btn btn-default border-left rounded-0 p-1"
+              type="button" data-toggle="collapse" data-target="#<%= unique_id %>" aria-expanded="false" aria-controls="<%= unique_id %>"
+              >       <span class="fas fa-plus-square"></span>
+              </button>
+            </div>
+        </div>
+      </div>
+      <div class="collapse" id="<%=unique_id%>">
+        <div class="card-body">
+          <ul>
+            metadata forms here
+          </ul>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+
+  <% f = Form.where(title: 'Printed Ephemera Collection') %>
+  <%= f.fields %>
+
+
+
+<h3> Unassigned Metadata Forms </h3>
+
