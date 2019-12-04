@@ -1,0 +1,88 @@
+{
+  "title": "PEC -- Subject Personal Names",
+  "description": null,
+  "fields": [
+    {
+      "name": "name",
+      "position": "0",
+      "type": "text",
+      "label": "New Subject",
+      "value": "",
+      "placeholder": "Personal Name",
+      "id": "name",
+      "class": "",
+      "style": "",
+      "helpType": "",
+      "required": "true",
+      "duplicates": "true",
+      "readonly": "false",
+      "disabled": "false",
+      "disabledInsert": "false",
+      "disabledUpdate": "false",
+      "publicRelease": "true",
+      "oaiRelease": "",
+      "sortable": "true",
+      "searchable": "true",
+      "displayTable": "true",
+      "hidden": "",
+      "validation": "",
+      "validationRegex": "",
+      "access": "",
+      "fieldset": "",
+      "metadataStandard": ":",
+      "help": "null|",
+      "externalUpdateForm": "",
+      "externalUpdateField": "",
+      "min": "",
+      "max": "",
+      "step": "",
+      "format": "characters"
+    }
+  ],
+  "idno": null,
+  "container": "0",
+  "production": "1",
+  "metadata": "1",
+  "count": "0",
+  "navigation": null,
+  "permissions": [
+    {
+      "userID": "5",
+      "type": "1"
+    },
+    {
+      "userID": "2",
+      "type": "1"
+    },
+    {
+      "userID": "5",
+      "type": "2"
+    },
+    {
+      "userID": "2",
+      "type": "2"
+    },
+    {
+      "userID": "45",
+      "type": "2"
+    },
+    {
+      "userID": "5",
+      "type": "3"
+    },
+    {
+      "userID": "2",
+      "type": "3"
+    }
+  ],
+  "id": "6",
+  "export_public": "0",
+  "export_oai": "0",
+  "object_public_release_show": "1",
+  "object_public_release_default": "1",
+  "submit_button": "Submit",
+  "update_button": "Update",
+  "display_title": "Subject Personal Names",
+  "object_title_field": "name",
+  "link_title": null
+}
