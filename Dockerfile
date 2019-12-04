@@ -6,6 +6,10 @@ RUN apt-get update \
     && apt-get install -y xvfb git qt5-default libqt5webkit5-dev \
                           gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
+# Use JEMALLOC instead
+RUN apt-get install libjemalloc1 && rm -rf /var/lib/apt/lists/*
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.1
+
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
     && apt-get install -y nodejs
