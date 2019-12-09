@@ -4,6 +4,7 @@ class FormsController < ApplicationController
   def index
     breadcrumb 'List Forms', forms_path, title: 'List Forms'
     @form = Form.object_forms
+    @metadata_forms = Form.metadata_forms
   end
 
   # GET /forms

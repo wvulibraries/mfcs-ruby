@@ -1,13 +1,16 @@
-  <div class="col-12"> 
+  <% used_forms = [] %>
+  
+  <div class="col-12" id="test"> 
     <h2> Select a Form </h2>
   </div>
   
+  
   <% @form.each do |f| %>
-    <% unique_id = "#{f.id}_form_#{f.title}" %>
+    <% unique_id = "form_#{f.id}" %>
     <div class="card card-default col-12 mb-1">
       <div class="card-header row no-gutters border p-0">
           <div class="col-8 col-md-6 col-lg-10"> 
-            <a href="#link" class="form-link col text-left btn btn-default p-1"> <%= f.title || f.display_title %> </a>
+            <a href="#link/<%=f.id%>" class="form-link col text-left btn btn-default p-1"> <%= f.title || f.display_title %> </a>
           </div> 
 
           <div class="col-4 col-md-6 col-lg-2">
@@ -27,20 +30,33 @@
         </div>
       </div>
       <div class="collapse" id="<%=unique_id%>">
-        <div class="card-body">
+        <div class="card-body border">
           <ul>
-            metadata forms here
+            <%= @metadata_forms.find_all { |m| f.linked_forms.include? m.id } %>
+            <% f.linked_forms.map { |v| used_forms << v } %>
+            <% @metadata_forms.find_all { |m| f.linked_forms.include?(m.id) }.each do |mf| %> 
+              <li>
+                <a href="#link/<%=mf.id%>">
+                  <%= mf.display_title %>
+                </a>
+              </li> 
+            <% end %>
           </ul>
         </div>
       </div>
     </div>
   <% end %>
 
-
-  <% f = Form.where(title: 'Printed Ephemera Collection') %>
-  <%= f.fields %>
-
-
-
+<div class="col-12"> 
 <h3> Unassigned Metadata Forms </h3>
-
+  <% unused_forms = @metadata_forms.metadata_forms.where.not( id: used_forms.uniq ) %>
+  <ul>
+  <% unused_forms.each do |uf| %> 
+    <li>
+      <a href="#link/<%=uf.id%>">
+        <%= uf.display_title %>
+      </a>
+    </li> 
+  <% end %>
+  </ul>
+</div>

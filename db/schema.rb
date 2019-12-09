@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_04_203035) do
+ActiveRecord::Schema.define(version: 2019_12_09_152751) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2019_12_04_203035) do
   create_table "forms", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.hstore "fields"
     t.boolean "container"
     t.boolean "production"
     t.boolean "metadata"
@@ -59,7 +58,7 @@ ActiveRecord::Schema.define(version: 2019_12_04_203035) do
     t.datetime "updated_at", null: false
     t.hstore "permissions"
     t.hstore "idno"
-    t.index ["fields"], name: "index_forms_on_fields", using: :gist
+    t.jsonb "fields"
     t.index ["idno"], name: "index_forms_on_idno", using: :gist
     t.index ["navigation"], name: "index_forms_on_navigation", using: :gist
     t.index ["permissions"], name: "index_forms_on_permissions", using: :gist

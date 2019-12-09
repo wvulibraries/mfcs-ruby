@@ -6,7 +6,7 @@ class Form < ApplicationRecord
 
   # Hstores
   # -----------------------------------------------------
-  store_accessor :fields, :navigation, :permissions
+  store_accessor :fields, :navigation, :permissions, :idno
 
   # Validations
   # -----------------------------------------------------
@@ -23,7 +23,7 @@ class Form < ApplicationRecord
   # SCOPES
   # -----------------------------------------------------
   scope :object_forms, -> { where(metadata: 'false').order(:title) }
-
+  scope :metadata_forms, -> { where(metadata: 'true').order(:title) }
   # RAILS CALLBACKS
   # -----------------------------------------------------
   after_initialize :set_defaults
@@ -31,9 +31,9 @@ class Form < ApplicationRecord
   # Get an array of linked metadata fields from the field hash
   # @author David J. Davis
   # @return object[Array <Integer>] Array of ids to identify the forms. 
-  # def linked_forms
-  #   field_hash = self.fields
-  # end
+  def linked_forms
+    self.fields.map { |k,v| v }.pluck('choicesForm').compact
+  end
 
   private
   # Setting some defaults for the forms to match current behaviors

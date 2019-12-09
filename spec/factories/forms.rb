@@ -4,7 +4,6 @@ FactoryBot.define do
   factory :form do
     title { faker_title }
     description { Faker::Lorem.paragraph }
-    idno { Faker::Internet.uuid }
     container { false }
     production { false }
     metadata { false }
