@@ -32,7 +32,8 @@ class Form < ApplicationRecord
   # @author David J. Davis
   # @return object[Array <Integer>] Array of ids to identify the forms. 
   def linked_forms
-    self.fields.map { |k,v| v }.pluck('choicesForm').compact
+    return nil if self.fields.blank? || self.fields.class != Hash
+    self.fields.map { |k,v| v }.pluck('choicesForm').compact.map(&:to_i)
   end
 
   private

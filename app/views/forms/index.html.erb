@@ -32,11 +32,11 @@
       <div class="collapse" id="<%=unique_id%>">
         <div class="card-body border">
           <ul>
-            <%= @metadata_forms.find_all { |m| f.linked_forms.include? m.id } %>
             <% f.linked_forms.map { |v| used_forms << v } %>
-            <% @metadata_forms.find_all { |m| f.linked_forms.include?(m.id) }.each do |mf| %> 
+            <% linked_forms = @metadata_forms.find_all { |form| f.linked_forms.include?(form.id)  }%>
+            <% linked_forms.each do |mf| %> 
               <li>
-                <a href="#link/<%=mf.id%>">
+                <a href="#link/<%= mf.id %>">
                   <%= mf.display_title %>
                 </a>
               </li> 
@@ -49,7 +49,7 @@
 
 <div class="col-12"> 
 <h3> Unassigned Metadata Forms </h3>
-  <% unused_forms = @metadata_forms.metadata_forms.where.not( id: used_forms.uniq ) %>
+  <% unused_forms = @metadata_forms.find_all { |form| !used_forms.uniq.include?(form.id) } %>
   <ul>
   <% unused_forms.each do |uf| %> 
     <li>

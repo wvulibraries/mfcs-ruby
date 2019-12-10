@@ -1,6 +1,5 @@
 FactoryBot.define do
   faker_title = Faker::Lorem.sentence
-
   factory :form do
     title { faker_title }
     description { Faker::Lorem.paragraph }

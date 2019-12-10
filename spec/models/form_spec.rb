@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'json'
 
 RSpec.describe Form, type: :model do
   # shared examples 
@@ -40,7 +41,7 @@ RSpec.describe Form, type: :model do
 
     context 'hstores' do
       it { should have_db_column(:navigation).of_type(:hstore) }
-      it { should have_db_column(:fields).of_type(:hstore) }
+      it { should have_db_column(:fields).of_type(:jsonb) }
       it { should have_db_column(:permissions).of_type(:hstore) }
       it { should have_db_column(:idno).of_type(:hstore) }
     end
@@ -75,4 +76,70 @@ RSpec.describe Form, type: :model do
       expect(form.export_oai).to be true
     end
   end
+
+  # settings some json field data 
+  context 'imported data' do
+    it 'valid json production data that will save in the database' do
+      form_data = JSON.parse(file_fixture('pec.json').read)
+      f = Form.new(form_data)
+      expect(f.valid?).to be true
+      expect(f.save).to be true
+    end
+  end
+
+  context '.linked_forms' do
+    it 'expects nil for a non hash object' do
+      data = FactoryBot.build(:form)
+      puts data.linked_forms.inspect
+      expect(data.linked_forms).to be nil
+    end
+
+    it 'expects empty array for items without links' do
+      data = FactoryBot.build(:form)
+      data.fields = { item: 'testing', idno: '192848;dflkjadsf' }
+      expect(data.linked_forms).to be_a Array
+      expect(data.linked_forms).to eq []
+    end
+
+    it 'expects an array of integers from productions style data' do
+      form_data = JSON.parse(file_fixture('pec.json').read)
+      f = Form.new(form_data)
+      expect(f.linked_forms).to eq([1, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14])
+    end
+  end
+
+  context 'scopes' do
+    context '.object_forms' do
+      it 'expects it to include the form' do
+        data = FactoryBot.build(:form)
+        data.metadata = false
+        data.save 
+        expect(Form.object_forms).to include(data)
+      end 
+
+      it 'expects it to include the form' do
+        data = FactoryBot.build(:form)
+        data.metadata = true
+        data.save 
+        expect(Form.object_forms).to_not include(data)
+      end
+    end
+
+    context '.metadata_forms' do
+      it 'expects it to include the form' do
+        data = FactoryBot.build(:form)
+        data.metadata = true
+        data.save 
+        expect(Form.metadata_forms).to include(data)
+      end 
+
+      it 'expects it to include the form' do
+        data = FactoryBot.build(:form)
+        data.metadata = false
+        data.save 
+        expect(Form.metadata_forms).to_not include(data)
+      end
+    end
+  end
+
 end
