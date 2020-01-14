@@ -19,11 +19,12 @@ class Form < ApplicationRecord
             presence: true,
             length: { within: 1..250 },
             uniqueness: true
-            
+
   # SCOPES
   # -----------------------------------------------------
   scope :object_forms, -> { where(metadata: 'false').order(:title) }
   scope :metadata_forms, -> { where(metadata: 'true').order(:title) }
+ 
   # RAILS CALLBACKS
   # -----------------------------------------------------
   after_initialize :set_defaults
@@ -33,6 +34,7 @@ class Form < ApplicationRecord
   # @return object[Array <Integer>] Array of ids to identify the forms. 
   def linked_forms
     return nil if self.fields.blank? || self.fields.class != Hash
+
     self.fields.map { |k,v| v }.pluck('choicesForm').compact.map(&:to_i)
   end
 

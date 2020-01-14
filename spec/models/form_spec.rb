@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe Form, type: :model do
-  # shared examples 
+  # shared examples
   context 'shared examples' do
     it_behaves_like 'readonly'
     it_behaves_like 'a valid factory' # factorybot

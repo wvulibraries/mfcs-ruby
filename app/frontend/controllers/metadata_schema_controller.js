@@ -1,7 +1,7 @@
 import {Controller} from "stimulus"
 export default class extends Controller {
   // sets stimulus controller to have the proper targets
-  static targets = ["metadata-schema", "metadataFeilds", "template"]
+  static targets = ["metadata-schema", "metadatafields", "template"]
 
   // add
   // -------------------------------------------------------------
@@ -10,7 +10,7 @@ export default class extends Controller {
   add(e) {
     e.preventDefault();
     var html = this.templateTarget.innerHTML; 
-    this.metadataFeildsTarget.insertAdjacentHTML( 'beforeend', html);
+    this.metadatafieldsTarget.insertAdjacentHTML( 'beforeend', html);
   }
 
   // remove
@@ -19,7 +19,7 @@ export default class extends Controller {
   // @author: David J. Davis
   remove(e) {
     e.preventDefault();  
-    if(this.metadataFeildsTarget.childElementCount > 1) { 
+    if(this.metadatafieldsTarget.childElementCount > 1) { 
       e.target.closest('div.metadata-row').remove();
     }
   }

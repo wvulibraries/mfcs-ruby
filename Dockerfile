@@ -7,8 +7,8 @@ RUN apt-get update \
                           gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
 # Use JEMALLOC instead
-RUN apt-get install libjemalloc1 && rm -rf /var/lib/apt/lists/*
-ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so.1
+RUN apt-get install -y libjemalloc2 libjemalloc-dev
+ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \

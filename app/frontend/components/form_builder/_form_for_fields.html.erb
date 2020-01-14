@@ -1,85 +1,17 @@
-<%= form_for :fields do |form| %>
-  <%= render "components/form_builder/fields/shared/general", form: form %>
-  <%= render "components/form_builder/fields/shared/field_help", form: form %>
-  <%= render "components/form_builder/fields/shared/metadata_schemas", form: form %>
-
-  <!-- IDNO Specific -->
-  <fieldset data-controller="idno-field">
-  <legend> IDNO Numbering Options </legend>
-
-  <div class="row">
-    <div class="field col-sm-12"> 
-      <%= form.label :numbering_type, class: 'required' %>
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="The IDNO can be handled automatically by the system or by user entered data.  No duplicates are allowed."></span>
-      <div class="select-style"> 
-        <%= form.select :numbering_type, idno_numbering_types, {selected: 'system'}, {class: '', data: {action:'change->idno-field#select', target:"idno-field.select"}} %> 
-      </div>
-    </div>
+<% form_for :form_builder, form  do |f| %>
+  <div class="field">
+    <!-- Label -->
+    <%= form.label :title, class: 'required' %> 
+    <!-- Popover -->
+    <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The form name is a unique value that is used to identify a form."></span>
+    <!-- Field -->
+    <%= form.text_field :title, class: 'required' %>
   </div>
+<% end %>
 
-    <div class="row" data-target="idno-field.systemField">    
-      <div class="field col"> 
-        <%= form.label :idno_format, class: 'required' %>
-        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="The format is any given set of letters and # symbols.  The # symbols will be replaced by the numerical value starting at what is in the start increment. ex: ### = 001"></span>
-        <%= form.text_field :idno_format, placeholder: 'st_###' %>
-      </div>
+<%= form_for :fields do |form| %>
 
-      <div class="field col"> 
-        <%= form.label :start_increment, 'Start #', class: 'required' %>
-        <%= form.number_field :start_increment %>
-      </div>
-    </div>    
-  </fieldset>
-
-  <!-- Choices Specific -->
-  <fieldset data-controller="choices-field">
-    <legend> Choices </legend>
-
-    <div class="row"> 
-      <div class="field col">
-        <%= form.label :choice_type, class: 'required' %>
-        <!-- Icon -->
-        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select manual choices or choices by linking the data to another specifically a metadata form."></span>
-        <div class="select-style"> 
-          <%= form.select :choice_type, choice_types, {selected: 'manual'}, {class: '', data: {action:'load@window->choices-field#toggle_choices change->choices-field#toggle_choices', target:"choices-field.toggle"}} %>
-        </div>
-      </div>
-    </div>
-
-    <div class="row d-none" data-target="choices-field.manual">
-      <%= form.hidden_field :default_choice, {data: { target: 'choices-field.defaultChoice' }} %>
-        <div class="col-12"> 
-          <%= form.label :choices, class: 'required' %>
-        </div>
-
-        <div class="choices-container col" data-target="choices-field.container">
-          <%= render "components/form_builder/fields/shared/choice_group", f: form %>
-        </div>
-
-        <template data-target='choices-field.template'>
-          <%= render "components/form_builder/fields/shared/choice_group", f: form %>
-        </template>
-    </div>
-
-    <div class="row d-none" data-target="choices-field.linkedForms"> 
-      <div class="field col-12">
-        <%= form.label :choices_form, class: 'required' %>
-        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a metdata form to use for the data that will populate this field."></span>
-        <div class="select-style"> 
-          <%= form.select :choice_form, {}, {}, {class: ''} %>
-        </div>
-      </div>
-
-      <div class="field col-12">
-        <%= form.label :choices_form_field, class: 'required' %>
-        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a field that will represent the value in the metadata form."></span>
-        <div class="select-style"> 
-          <%= form.select :choice_form_field, {}, {}, {class: ''} %>
-        </div>
-      </div>
-    </div>
-  </fieldset>
-
+  <%= render "components/form_builder/fields/shared/general", form: form %>
   <%= render "components/form_builder/fields/shared/field_options", form: form %>
   <%= render "components/form_builder/fields/shared/validation", form: form %>
   <%= form.submit  %>

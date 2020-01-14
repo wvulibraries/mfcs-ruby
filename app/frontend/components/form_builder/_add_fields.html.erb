@@ -1,15 +1,60 @@
 <ul class="">
   <li class="">
-    <%= button_tag('ID Number', { data: { action: "form-builder#add"}}) %>
-    <template data-target='form-builder.idnoTemplate'> 
-      <%= form.fields_for :fields, IdnoField.new, child_index: 'NEW_RECORD' do |form| %>
-        <%= render 'components/form_builder/fields/idno_field', f: form %>
-      <% end %>
-    </template>
-  
+    <!-- data attributes are used to hook into JS events -->
+    <a href="#" data-action="click->form-builder#newField"
+                data-template="text" 
+                data-json='{
+                  "name": "idno",
+                  "position": "",
+                  "type": "idno",
+                  "label": "Identifier",
+                  "value": "",
+                  "placeholder": "",
+                  "id": "idno",
+                  "class": "",
+                  "style": "",
+                  "required": "true",
+                  "duplicates": "true",
+                  "readonly": "false",
+                  "disabled": "false",
+                  "disabledInsert": "false",
+                  "disabledUpdate": "false",
+                  "publicRelease": "true",
+                  "oaiRelease": "true",
+                  "sortable": "true",
+                  "searchable": "true",
+                  "displayTable": "true",
+                  "hidden": "",
+                  "validation": "",
+                  "validationRegex": "",
+                  "access": "",
+                  "fieldset": "",
+                  "metadataStandard": [],
+                  "helpType": "",
+                  "help": "",
+                  "managedBy": "user",
+                  "idnoFormat": "",
+                  "startIncrement": "1",
+                  "idnoConfirm": "false"
+                  }'
+    > 
+      IDNO 
+    </a>
   </li>
-  <li class=""><a href="#">Single Line Text</a></li>
-  <li class=""><a href="#">Paragraph Text</a></li>
+  <li class="">
+    <!-- data attributes are used to hook into JS events -->
+    <a href="#" data-action="click->form-builder#newField" 
+                data-fieldtype="textTemplate" > 
+      Single Line Text
+    </a>
+  </li>
+  <li class="">
+    <!-- data attributes are used to hook into JS events -->
+    <a href="#" data-action="click->form-builder#newField" 
+                data-fieldtype="textareaTemplate" > 
+     Paragraph Text 
+    </a>
+  </li>
   <li class=""><a href="#">Radio</a></li>
   <li class=""><a href="#">Checkboxes</a></li>
   <li class=""><a href="#">Number</a></li>
@@ -24,4 +69,3 @@
   <li class=""><a href="#">Website</a></li>
   <li class=""><a href="#">Field Set</a></li>
 </ul>
-

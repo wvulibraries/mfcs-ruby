@@ -4,7 +4,7 @@
     <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The form name is a unique value that is used to identify a form."></span>
     <!-- Field -->
-    <%= form.text_field :title, class: 'required' %>
+    <%= form.text_field :title, class: 'required', data: {action: "keyup->form-preview#settingChange", preview: "title" } %>
   </div>
 
   <div class="field">
@@ -12,7 +12,7 @@
     <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The display title is none unique and is used when the forms are listed.  This is the text you will read when using the interface, unless it is left empty."></span>
     <!-- Field -->
-    <%= form.text_field :display_title %>
+    <%= form.text_field :display_title, data: {action: "keyup->form-preview#settingChange", preview: "displayTitle" } %>
   </div>
 
   <div class="field">
@@ -20,7 +20,7 @@
     <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The form description explains the purpose of this form to users."></span>
     <!-- Field -->
-    <%= form.text_area :description %>
+    <%= form.text_area :description, data: {action: "keyup->form-preview#settingChange", preview: "description" } %>
   </div>
 
   <div class="field">
@@ -28,7 +28,7 @@
     <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="During data entry this text will show up as the submit button."></span>
     <!-- Field -->
-    <%= form.text_field :submit_button %>
+    <%= form.text_field :submit_button, data: {action: "keyup->form-preview#settingChange", preview: "submitButton" } %>
   </div>
 
   <div class="field">
@@ -36,7 +36,7 @@
        <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="During data entry this text will show up as the update button."></span>
     <!-- Field -->
-    <%= form.text_field :update_button %>
+    <%= form.text_field :update_button, data: {action: "keyup->form-preview#settingChange", preview: "updateButton" } %>
   </div>
 
   <div class="field checkbox-wrapper"> 
@@ -64,6 +64,12 @@
       <%= form.check_box :object_public_release_default %>
       <%= form.label :object_public_release_default, 'Public Release Default "Yes"' %>
     </div>
+  </div>
+
+  <div class="hidden field">
+    <%= form.hidden_field :fields %> 
+    <%= form.hidden_field :idno %>
+    <%= form.hidden_field :permissions %>
   </div>
 
   <div class="actions">
