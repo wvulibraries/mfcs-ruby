@@ -39,11 +39,11 @@
         </div>
         <div id="fieldSettings" class="collapse" data-parent="#controlPanel">
           <%= form_for :form_fields do |f| %>
-            <%# render "components/form_builder/fields/shared/general", form: f %>
-            <%# render "components/form_builder/fields/shared/metadata_schemas", form: f %>
-            <%# render "components/form_builder/fields/shared/field_help", form: f%>
-            <%# render "components/form_builder/fields/shared/field_options", form: f %>
-            <%# render "components/form_builder/fields/shared/validation", form: f %>
+            <%= render "components/form_builder/fields/shared/general", form: f %>
+            <%= render "components/form_builder/fields/shared/metadata_schemas", form: f %>
+            <%= render "components/form_builder/fields/shared/field_help", form: f%>
+            <%= render "components/form_builder/fields/shared/field_options", form: f %>
+            <%= render "components/form_builder/fields/shared/validation", form: f %>
           <% end %>
         </div>
       </div>

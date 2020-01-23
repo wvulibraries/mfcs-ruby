@@ -1,4 +1,14 @@
-<div class="control">
-  <label for="" data-target="field-preview.label"></label>
-  <input type="text" data-target="field-preview.input" />
-</div>
+<template data-target="form-builder.idnoTemplate">
+  <div class="field-preview {{id}}" data-id="{{id}}" data-sort="{{sort}}" data-feildType="{{type}}" data-action="click->form-builder#editField">
+    <div class="settings" data-json="{{json}}"></div>
+    <div class="help"> 
+    </div>
+    <div class="field row"> 
+      <label for="fp_{{id}}" class="col-12 label_{{id}}"> {{label}} :: Managed By {{managedBy}} </label>
+      <input type="text" id="fp_{{id}}" class="col-12 input_{{id}}" value="{{idnoFormat}}" placeholder="{{placeholder}}" style="{{style}}" disabled>
+    </div>
+  </div>
+  <div class="remove {{id}}" data-id="{{id}}" data-action="click->form-builder#removeField">
+    X
+  </div>
+</template>

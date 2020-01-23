@@ -2,7 +2,8 @@
   <li class="">
     <!-- data attributes are used to hook into JS events -->
     <a href="#" data-action="click->form-builder#newField"
-                data-template="text" 
+                data-type="idno"
+                data-template="idnoTemplate" 
                 data-json='{
                   "name": "idno",
                   "position": "",
@@ -27,15 +28,12 @@
                   "hidden": "",
                   "validation": "",
                   "validationRegex": "",
-                  "access": "",
-                  "fieldset": "",
                   "metadataStandard": [],
                   "helpType": "",
                   "help": "",
                   "managedBy": "user",
-                  "idnoFormat": "",
-                  "startIncrement": "1",
-                  "idnoConfirm": "false"
+                  "idnoFormat": "sample_###",
+                  "startIncrement": "1"
                   }'
     > 
       IDNO 
@@ -69,3 +67,6 @@
   <li class=""><a href="#">Website</a></li>
   <li class=""><a href="#">Field Set</a></li>
 </ul>
+
+<!-- New Field Templates -->
+ <%= render 'components/form_builder/templates/idno_template' %>
