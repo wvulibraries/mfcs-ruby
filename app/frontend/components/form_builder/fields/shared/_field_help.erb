@@ -1,13 +1,13 @@
-<fieldset data-controller="help-field"> 
+<fieldset data-controller="help-field" class="commonFieldSettings"> 
   <legend> Help </legend>
   <div class="row">
     <div class="field col-12"> 
-      <%= form.label :help_type %>
+      <%= label_tag :help_type %>
       <!-- Icon -->
       <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="You can set any help text you want displayed with this field. Any angle brackets in HTML text will be treated as HTML"></span>
 
       <div class="select-style">
-        <%= form.select :help_type, help_types.to_h, {}, {class: '', data: {action:'change->help-field#select', target:"help-field.select"}}  %>
+        <%= select_tag :help_type, options_for_select(help_types.to_h), {class: '', data: {action:'change->help-field#select', target:"help-field.select"}}  %>
       </div>
     </div>
 
@@ -15,16 +15,16 @@
       <!-- Label -->
       <!-- Help Info Fields -->
       <div data-target="help-field.urlField">
-        <%= form.label :help_info, 'Help Url' %>
-        <%= form.url_field :help_info, class: 'helpUrlField', id: 'helpUrlField', data: { action: 'change->help-field#validURL keyup->help-field#validURL'} %>
+        <%= label_tag :help_info, 'Help Url' %>
+        <%= url_field_tag :help_info, nil, class: 'helpUrlField', id: 'helpUrlField', data: { action: 'change->help-field#validURL keyup->help-field#validURL'} %>
         <div class="invalid-feedback">
           Please put in a valid url ex: https://www.google.com. 
         </div>
       </div>
 
       <div data-target="help-field.textField">
-        <%= form.label :help_info, 'Help Text' %>
-        <%= form.text_area :help_info, class: 'helpTextField', id: 'helpTextField', data: { action: 'change->help-field#modifyHTML focus->help-field#modifyHTML'}  %>
+        <%= label_tag :help_info, 'Help Text' %>
+        <%= text_area_tag :help_info, nil, { class: 'helpTextField', id: 'helpTextField', data: { action: 'change->help-field#modifyHTML focus->help-field#modifyHTML'}}  %>
       </div>
     </div>
   </div>

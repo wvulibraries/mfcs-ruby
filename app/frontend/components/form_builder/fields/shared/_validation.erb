@@ -1,16 +1,16 @@
-<fieldset  data-controller="validation-field">
+<fieldset class="commonFieldSettings" data-controller="validation-field">
 	<legend> Validations </legend>
 
 	<div class="field"> 
-		<%= form.label :validation %>
+		<%= label_tag :validation %>
 		<span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Validation is set to happen on insertion to the form field."></span>
 		<div class="select-style"> 
-			<%= form.select :validation, form_validation_options, { prompt: 'None' }, data: { target: 'validation-field.validationSelect', action: 'change->validation-field#select' } %>
+			<%= select_tag :validation, options_for_select(form_validation_options), prompt: 'Select Validation Type', data: { target: 'validation-field.validationSelect', action: 'change->validation-field#select' } %>
 		</div>
 
 		<div class="regex" data-target="validation-field.regexContainer"> 
-			<%= form.label :validation_regex, 'Regular Expression' %>
-			<%= form.text_field :validation_regex, { data: { target: 'validation-field.regexField', action: 'keyup->validation-field#validRegex change->validation-field#validRegex' }} %>
+			<%= label_tag :validation_regex, 'Regular Expression' %>
+			<%= text_field_tag :validation_regex, nil, { data: { target: 'validation-field.regexField', action: 'keyup->validation-field#validRegex change->validation-field#validRegex' }} %>
 			<div class="invalid-feedback">
         Please make sure that you use a valid regular expression.
       </div>

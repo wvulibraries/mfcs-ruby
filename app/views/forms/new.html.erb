@@ -10,15 +10,14 @@
     <!-- ============================================================================= -->
   <div class="row" data-controller="form-builder form-preview">
     <div class="form-control-panel col-md-6 p-3" id="controlPanel">
+
       <div class="menu btn-group d-flex mb-3" role="group" aria-label="Form Control Panel"> 
-          <button type="button" class="btn btn-secondary w-100" data-toggle="collapse" role="button" aria-expanded="false" data-target="#addFields" aria-controls="addFields"> Add A Field </button>
-          <button type="button" class="btn btn-secondary w-100" data-target="#fieldSettings" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="fieldSettings">Field Settings</button>
-          <button type="button" class="btn btn-secondary w-100 active" data-target="#formSettings" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="formSettings">Form Settings</button>
+          <button type="button" class="btn btn-secondary w-100" data-toggle="collapse" role="button" aria-expanded="false" data-target="#addFields" aria-controls="addFields" data-action="click->form-builder#saveChanges"> Add A Field </button>
+          <button type="button" class="fieldSettingsBtn btn btn-secondary w-100" data-target="#fieldSettings" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="fieldSettings" data-action="click->form-builder#saveChanges">Field Settings</button>
+          <button type="button" class="btn btn-secondary w-100 active" data-target="#formSettings" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="formSettings" data-action="click->form-builder#saveChanges">Form Settings</button>
       </div>
 
       <div class="form-container"> 
-
-
         <div id="formSettings" class="collapse show" data-parent="#controlPanel">
           <%= form_for @form, url: { action:'create' }, html: { class:'form-builder' } do |f| %>
             <% if @form.errors.any? %>
@@ -38,13 +37,7 @@
           <%= render 'components/form_builder/add_fields' %>
         </div>
         <div id="fieldSettings" class="collapse" data-parent="#controlPanel">
-          <%= form_for :form_fields do |f| %>
-            <%= render "components/form_builder/fields/shared/general", form: f %>
-            <%= render "components/form_builder/fields/shared/metadata_schemas", form: f %>
-            <%= render "components/form_builder/fields/shared/field_help", form: f%>
-            <%= render "components/form_builder/fields/shared/field_options", form: f %>
-            <%= render "components/form_builder/fields/shared/validation", form: f %>
-          <% end %>
+          <%= render 'components/form_builder/field_settings'%>
         </div>
       </div>
 

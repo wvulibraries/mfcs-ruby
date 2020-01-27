@@ -18,31 +18,63 @@
                   "duplicates": "true",
                   "readonly": "false",
                   "disabled": "false",
-                  "disabledInsert": "false",
-                  "disabledUpdate": "false",
-                  "publicRelease": "true",
-                  "oaiRelease": "true",
+                  "disabled_insert": "false",
+                  "disabled_update": "false",
+                  "public_release": "true",
+                  "oai_release": "true",
                   "sortable": "true",
                   "searchable": "true",
-                  "displayTable": "true",
+                  "display_in_list": "true",
                   "hidden": "",
                   "validation": "",
-                  "validationRegex": "",
-                  "metadataStandard": [],
-                  "helpType": "",
+                  "validation_regex": "",
+                  "metadata_standard": [],
+                  "help_type": "",
                   "help": "",
-                  "managedBy": "user",
-                  "idnoFormat": "sample_###",
-                  "startIncrement": "1"
-                  }'
+                  "managed_by": "user",
+                  "idno_format": "",
+                  "start_increment": "1"
+                }'
     > 
       IDNO 
     </a>
   </li>
   <li class="">
     <!-- data attributes are used to hook into JS events -->
-    <a href="#" data-action="click->form-builder#newField" 
-                data-fieldtype="textTemplate" > 
+    <a href="#" data-action="click->form-builder#newField"
+                data-type="text"
+                data-template="textTemplate" 
+                data-json='{
+                  "name": "Untitled",
+                  "position": "",
+                  "type": "text",
+                  "label": "Untitled",
+                  "value": "",
+                  "placeholder": "Untitled Text",
+                  "id": "",
+                  "class": "",
+                  "style": "",
+                  "help_type": "",
+                  "required": "true",
+                  "duplicates": "true",
+                  "readonly": "false",
+                  "disabled": "false",
+                  "disabled_insert": "false",
+                  "disabled_update": "false",
+                  "public_release": "true",
+                  "oai_release": "",
+                  "sortable": "true",
+                  "searchable": "true",
+                  "display_in_list": "true",
+                  "hidden": "",
+                  "validation": "",
+                  "validation_regex": "",
+                  "metadata_standard": ":",
+                  "help": "",
+                  "min": "",
+                  "max": "",
+                  "format": "characters"
+                }' > 
       Single Line Text
     </a>
   </li>
@@ -69,4 +101,8 @@
 </ul>
 
 <!-- New Field Templates -->
- <%= render 'components/form_builder/templates/idno_template' %>
+ <%# render 'components/form_builder/templates/idno_template' %>
+ <% base_template_path = 'components/form_builder/templates'%>
+ <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/idno_template", target_name: 'form-builder.idnoTemplate' } %>
+
+ <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/text_template", target_name: 'form-builder.textTemplate' } %>

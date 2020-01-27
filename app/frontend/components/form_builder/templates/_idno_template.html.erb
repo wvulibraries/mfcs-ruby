@@ -1,4 +1,4 @@
-<template data-target="form-builder.idnoTemplate">
+<%# <template data-target="form-builder.idnoTemplate">
   <div class="field-preview {{id}}" data-id="{{id}}" data-sort="{{sort}}" data-feildType="{{type}}" data-action="click->form-builder#editField">
     <div class="settings" data-json="{{json}}"></div>
     <div class="help"> 
@@ -11,4 +11,7 @@
   <div class="remove {{id}}" data-id="{{id}}" data-action="click->form-builder#removeField">
     X
   </div>
-</template>
+</template> %>
+
+<label for="fp_{{id}}" class="col-12 label_{{id}}"> {{label}} :: Managed By {{managedBy}} </label>
+<input type="text" id="fp_{{id}}" class="col-12 input_{{id}}" value="{{idnoFormat}}" placeholder="{{placeholder}}" style="{{style}}" disabled>

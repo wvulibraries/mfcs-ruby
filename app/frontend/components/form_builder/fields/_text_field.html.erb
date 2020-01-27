@@ -1,0 +1,20 @@
+<fieldset class="textFieldSettings">
+  <legend> Text Formatting </legend>
+
+  <div class="row no-gutters">
+    <div class="field col col-sm-2"> 
+      <%= label_tag :min %>
+      <%= number_field_tag :min %>
+    </div>        
+    <div class="field col col-sm-2"> 
+      <%= label_tag :max %>
+      <%= number_field_tag :max %>
+    </div>
+    <div class="field col-sm"> 
+      <%= label_tag :format %>
+      <div class="select-style">
+        <%= select_tag :format, text_formats, { }, {class: ''} %> 
+      </div>
+    </div>
+  </div>
+</fieldset>

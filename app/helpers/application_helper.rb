@@ -27,7 +27,7 @@ module ApplicationHelper
   end
 
   def metadata_types
-    { '0' => 'Dublin Core' }
+    ['dublin_core'].map { |k, v| [k.humanize.titleize, k] }
   end 
 
   def idno_numbering_types
@@ -35,6 +35,10 @@ module ApplicationHelper
   end
 
   def choice_types
-    ['manual', 'link_to_form'].map {|k, v| [k.humanize.titleize, k]}
+    ['manual', 'link_to_form'].map {|k, v| [k.humanize.titleize, k] }
+  end
+
+  def text_formats
+    ['word', 'characters'].map {|k, v| [k.humanize.titleize, k] }
   end
 end

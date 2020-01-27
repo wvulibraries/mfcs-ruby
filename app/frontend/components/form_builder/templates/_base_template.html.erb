@@ -1,0 +1,14 @@
+<template <% unless target_name.nil? %> data-target="<%= target_name %>" <% end %>>
+  <div class="field-preview {{id}}" data-id="{{id}}" data-sort="{{sort}}" data-feildType="{{type}}" data-action="click->form-builder#editField">
+    <div class="settings" data-json="{{json}}"></div>
+    <div class="help"> 
+      <span class="far fa-question-circle" data-toggle="popover" data-trigger="click focus" data-content="{{help}}"></span>
+    </div>
+    <div class="field row"> 
+      <%= render partial: template_path %>
+    </div>
+  </div>
+  <div class="remove {{id}}">
+    <span class="far fa-trash-alt" data-id="{{id}}" data-action="click->form-builder#removeField"></span>
+  </div>
+</template>

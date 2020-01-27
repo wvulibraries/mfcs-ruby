@@ -1,36 +1,27 @@
-    <!-- General Components -->
-    <%= render "components/form_builder/fields/shared/general", form: f %>
-    <%= render "components/form_builder/fields/shared/field_help", form: f %>
-
     <!-- IDNO Specific -->
-    <fieldset data-controller="idno-field">
+    <fieldset class="idnoFieldSettings" data-controller="idno-field">
       <legend> IDNO Numbering Options </legend>
 
       <div class="row">
         <div class="field col-sm-12"> 
-          <%= f.label :numbering_type, class: 'required' %>
+          <%= label_tag :numbering_type, 'Numbering Type', class: 'required' %>
           <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="The IDNO can be handled automatically by the system or by user entered data.  No duplicates are allowed."></span>
           <div class="select-style"> 
-            <%= f.select :numbering_type, f.object.class.numbering_types.map {|k, v| [k.humanize.titleize, k]}, { selected: f.object.numbering_type}, {class: '', data: {action:'change->idno-field#select', target:"idno-field.select"}} %> 
+            <%= select_tag :numbering_type, options_for_select(idno_numbering_types.map {|k, v| [k.humanize.titleize, k]}), {class: '', data: { action:'change->idno-field#selectType', target:"idno-field.select"}} %> 
           </div>
         </div>
       </div>
 
       <div class="row" data-target="idno-field.systemField">    
           <div class="field col"> 
-            <%= f.label :idno_format, class: 'required' %>
+            <%= label_tag :idno_format, 'Idno Format', class: 'required' %>
             <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="The format is any given set of letters and # symbols.  The # symbols will be replaced by the numerical value starting at what is in the start increment. ex: ### = 001"></span>
-            <%= f.text_field :idno_format, placeholder: 'st_###' %>
+            <%= text_field_tag :idno_format, nil, placeholder: 'st_###' %>
           </div>
 
           <div class="field col"> 
-            <%= f.label :start_increment, 'Auto Increment Start', class: 'required' %>
-            <%= f.number_field :start_increment %>
+            <%= label_tag :start_increment, 'Auto Increment Start', class: 'required' %>
+            <%= number_field_tag :start_increment %>
           </div>
         </div>    
     </fieldset>
-
-    <!-- Shared Valdiations and Options -->
-    <%= render "components/form_builder/fields/shared/field_options", form: f %>
-    <%= render "components/form_builder/fields/shared/validation", form: f %>
-

@@ -1,12 +1,12 @@
-<fieldset data-controller="metadata-schema"> 
+<fieldset class="commonFieldSettings" data-controller="metadata-schema"> 
   <legend> Metadata Schemas </legend>
   <div class="mscontroller" >
     <template data-target="metadata-schema.template">
-      <%= render "components/form_builder/fields/shared/metadata_fields", form: form %>
+      <%= render "components/form_builder/fields/shared/metadata_fields"%>
     </template>
 
     <div data-target='metadata-schema.metadatafields'>
-      <%= render "components/form_builder/fields/shared/metadata_fields", form: form %>
+      <%= render "components/form_builder/fields/shared/metadata_fields"%>
     </div>
   </div>
 </fieldset>

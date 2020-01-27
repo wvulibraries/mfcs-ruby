@@ -3,7 +3,7 @@ import Validation from "../components/validation/validation";
 
 export default class extends Controller {
   // targets
-  static targets = ['textTemplate', 'idnoTemplate', 'formPreview']
+  static targets = ['fieldSettingsForm', 'textTemplate', 'idnoTemplate', 'formPreview']
 
   // newField(e)
   // -------------------------------------------------------------
@@ -29,6 +29,7 @@ export default class extends Controller {
     // sets html the initial preview
     let previewHTML = this.preview(fieldInfo);
     this.formPreviewTarget.insertAdjacentHTML( 'beforeend', previewHTML );
+    this.fieldSettingsDisplay(fieldInfo); 
   }
 
   // editField(e)
@@ -101,15 +102,96 @@ export default class extends Controller {
     let html = this.modifyTemplateString({"id": id, "json": json, "template": template, "sort": sort}); 
     Object.keys(objs).forEach( function(key) { 
       let regEx = new RegExp('{{'+key+'}}', 'g');
-
-      // TO DO 
-      // EACH PREVIEW IS GOING TO HAVE DIFFERENT ELEMENTS THAT NEED TO BE CREATED
-      // HTML For ARRAYS / HASHES / ETC MAY BE DIFFERENT
-      if(objs[key]) { 
-        html = html.replace(regEx, objs[key]);
-      }
+      html = html.replace(regEx, objs[key]);
     });
     return html;
+  }
+
+  // fieldSettingsDisplay(type, state)
+  // -------------------------------------------------------------
+  // type and state of field settings that need to be displayed.  
+  // @author: David J. Davis
+  fieldSettingsDisplay({id, json, type}){
+    this.resetFieldSettingDisplays(); // reset DOM
+    this.commonFieldsDisplay('block'); // show common form fields 
+    this.typeFieldsDisplay(type, 'block'); // show type specific fields
+    this.click(document.querySelector('.fieldSettingsBtn')); // show field settings 
+    this.populateForm(id, json); // Loop over JSON Data & Insert into form
+  }
+
+  // fieldSettingsDisplay(type, state)
+  // -------------------------------------------------------------
+  // type and state of field settings that need to be displayed.  
+  // @author: David J. Davis
+  populateForm(id, json){
+    let data = JSON.parse(json);
+    let form = this.fieldSettingsFormTarget; 
+    Object.keys(data).forEach(function(key) {    
+      let input = form.querySelector('[name='+key+']');  
+      if(key == 'position' || input == undefined || input == null){ return; };
+
+      if(input.type == 'checkbox' || input.type == 'radio'){ 
+        input.checked = data[key]; 
+      } else { 
+        input.value = data[key]; 
+      }
+    }); 
+  }
+
+  // typeFieldsDisplay(type, state)
+  // -------------------------------------------------------------
+  // display or hide the common fields 
+  // @author: David J. Davis
+  typeFieldsDisplay(type, state){ 
+    let typeClass = '.' + type.toLowerCase() + 'FieldSettings'; 
+    let typeFields = document.querySelectorAll(typeClass);
+    for (let i = 0; i < typeFields.length; i++) {
+      typeFields[i].style.display = state;
+    }
+  }
+
+  // commonFieldsDisplay(state)
+  // -------------------------------------------------------------
+  // display or hide the common fields 
+  // @author: David J. Davis
+  commonFieldsDisplay(state){ 
+    let commonFields = document.querySelectorAll('.commonFieldSettings'); 
+    for (let i = 0; i < commonFields.length; i++) {
+      commonFields[i].style.display = state;
+    }
+  }
+
+  // resetFieldSettingDisplays()
+  // -------------------------------------------------------------
+  // determining how to display and hide all elements.  
+  // @author: David J. Davis
+  resetFieldSettingDisplays(){ 
+    let fieldsets = document.querySelectorAll('#fieldSettings > form > fieldset');
+    for (let i = 0; i < fieldsets.length; i++) {
+      fieldsets[i].style.display = 'none';
+    }
+  }
+
+  // saveChanges(e)
+  // -------------------------------------------------------------
+  // gather and save all fields and idnos into the proper place.
+  // @author: David J. Davis
+  saveChanges(e) { 
+    //console.log('save changes triggered!');
+  }
+
+  // click
+  // -------------------------------------------------------------
+  // Simulate a click event.
+  // @param {Element} elem  the element to simulate a click on
+    // @author: David J. Davis
+  click(elem){ 
+    let evt = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    let canceled = !elem.dispatchEvent(evt);
   }
 
 

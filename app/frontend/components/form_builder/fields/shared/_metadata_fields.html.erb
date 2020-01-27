@@ -1,20 +1,20 @@
  <div class="metadata-row row no-gutters input-group">
     <div class="col-12 heading"> Schema / Identifier / Qualifier </div>
     <div class="input-group-prepend col-sm-12 col-md-4"> 
-      <%# form.label :schema %>
+      <%# label_tag :schema %>
       <div class="select-style col-12">
-        <%= form.select :schema, metadata_types.map {|k, v| [v.humanize.capitalize, k]}, 'aria-label' => 'schema' %>
+        <%= select_tag :schema, options_for_select(metadata_types.map {|k, v| [v.humanize.capitalize, k]}), 'aria-label' => 'schema' %>
       </div>
     </div>
 
     <div class="field col">
-      <%# form.label :identifier %>
-      <%= form.text_field :identifier, multiple: true, placeholder: 'Identifier', 'aria-label' => 'identifier' %>
+      <%# label_tag :identifier %>
+      <%= text_field_tag :identifier, nil, multiple: true, placeholder: 'Identifier', 'aria-label' => 'identifier' %>
     </div>
     
     <div class="field col">
-      <%# form.label :qualifier %>
-      <%= form.text_field :qualifier, multiple: true, placeholder: 'Qualifier', 'aria-label' => 'qualifier' %>
+      <%# label_tag :qualifier %>
+      <%= text_field_tag :qualifier, nil, multiple: true, placeholder: 'Qualifier', 'aria-label' => 'qualifier' %>
     </div>
 
     <div class="metadata-actions input-group-append">

@@ -1,0 +1,14 @@
+ <%= form_tag '/forms/new', data: {action: "submit->form-builder#saveFields", target: "form-builder.fieldSettingsForm" } do |f| %>
+    <%= render "components/form_builder/fields/shared/general" %>
+    <%= render "components/form_builder/fields/shared/metadata_schemas" %>
+    <%= render "components/form_builder/fields/shared/field_help" %>
+
+    <!-- Type Specific -->
+    <%= render "components/form_builder/fields/idno_field" %>
+    <%= render "components/form_builder/fields/shared/field_options" %>
+    <%= render "components/form_builder/fields/shared/validation" %>
+
+
+    <%= button_tag(raw('<span class="fas fa-save"></span> Save Settings'), {data: { action: "click->metadata-schema#remove" }, class:'btn btn-info col'}) %> 
+
+  <% end %>
