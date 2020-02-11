@@ -1,12 +1,15 @@
 <fieldset class="commonFieldSettings"> 
   <legend> General </legend>
 
+  <%= hidden_field_tag :field_id %>
+  <%= hidden_field_tag :type %>
+
   <div class="row">
     <div class="field col"> 
       <!-- Label -->
       <%= label_tag :name, :name, class:'required' %> 
       <!-- Popover -->
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The field name is a unique value that is used to identify a field."></span>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="The field name is a unique value that is used to identify a field."></span>
       <!-- field --> 
       <%= text_field_tag :name %>
     </div>
@@ -14,7 +17,7 @@
       <!-- Label -->
       <%= label_tag :label, :label, class:'required' %>
       <!-- Popover -->
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The field label tells your users what to enter in this field."></span>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="The field label tells your users what to enter in this field."></span>
       <!-- field --> 
       <%= text_field_tag :label %> 
     </div>
@@ -25,7 +28,7 @@
       <!-- Label -->
       <%= label_tag :value %>
       <!-- Popover -->
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="When the form is first displayed, this value will already be prepopulated."></span>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="When the form is first displayed, this value will already be prepopulated."></span>
       <span class="fas fa-info-circle field-help" data-toggle="modal" data-target="#exampleModalCenter"></span>
       <!-- field --> 
       <%= text_field_tag :value %> 
@@ -35,7 +38,7 @@
       <!-- Label -->
       <%= label_tag :placeholder %>
       <!-- Popover -->
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The value that appears in the field, but is only there as placeholder text until the field has been filled out.  A good place for an example of data that should be there."></span>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="The value that appears in the field, but is only there as placeholder text until the field has been filled out.  A good place for an example of data that should be there."></span>
       <!-- field --> 
       <%= text_field_tag :placeholder %> 
     </div>
@@ -46,7 +49,7 @@
       <!-- Label -->
       <%= label_tag :css_id, 'CSS ID' %>
       <!-- Popover -->
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="The ID is a unique value that can be used to identify a field."></span>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="The ID is a unique value that can be used to identify a field."></span>
       <!-- field --> 
       <%= text_field_tag :css_id %> 
     </div>
@@ -55,9 +58,19 @@
       <!-- Label -->
       <%= label_tag :css_class %>
       <!-- Popover -->
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="Classes can be entered to give the field a different look and feel."></span>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="Classes can be entered to give the field a different look and feel."></span>
       <!-- field --> 
       <%= text_field_tag :css_class %> 
+    </div>
+
+    <div class="field col">
+      <!-- Label -->
+      <%= label_tag :sort_order %>
+      <!-- Popover -->
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="Sort order Number, updated automatically, but you can change it to be a higher number."></span>
+      <!-- field --> 
+      <%= number_field_tag :sort_order %> 
+    
     </div>
   </div>
 
@@ -66,7 +79,7 @@
       <!-- Label -->
       <%= label_tag :local_styles %>
       <!-- Popover -->
-      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus" data-content="You can set any HTML styles and they will only apply to this field.  This should only be done if you know exactly what your doing because it may cause accessibility issues."></span>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="You can set any HTML styles and they will only apply to this field.  This should only be done if you know exactly what your doing because it may cause accessibility issues."></span>
       <!-- field --> 
       <%= text_field_tag :local_styles %> 
     </div>

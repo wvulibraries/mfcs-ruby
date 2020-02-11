@@ -12,9 +12,9 @@
     <div class="form-control-panel col-md-6 p-3" id="controlPanel">
 
       <div class="menu btn-group d-flex mb-3" role="group" aria-label="Form Control Panel"> 
-          <button type="button" class="btn btn-secondary w-100" data-toggle="collapse" role="button" aria-expanded="false" data-target="#addFields" aria-controls="addFields" data-action="click->form-builder#saveChanges"> Add A Field </button>
-          <button type="button" class="fieldSettingsBtn btn btn-secondary w-100" data-target="#fieldSettings" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="fieldSettings" data-action="click->form-builder#saveChanges">Field Settings</button>
-          <button type="button" class="btn btn-secondary w-100 active" data-target="#formSettings" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="formSettings" data-action="click->form-builder#saveChanges">Form Settings</button>
+          <button type="button" class="btn btn-secondary w-100" data-toggle="collapse" role="button" aria-expanded="false" data-target="#addFields" aria-controls="addFields" data-action="click->form-builder#saveFieldSettings"> Add A Field </button>
+          <button type="button" class="fieldSettingsBtn btn btn-secondary w-100" data-target="#fieldSettings" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="fieldSettings" data-action="click->form-builder#saveFieldSettings">Field Settings</button>
+          <button type="button" class="btn btn-secondary w-100 active" data-target="#formSettings" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="formSettings" data-action="click->form-builder#saveFieldSettings">Form Settings</button>
       </div>
 
       <div class="form-container"> 
@@ -40,7 +40,30 @@
           <%= render 'components/form_builder/field_settings'%>
         </div>
       </div>
+    </div>
 
+    <!-- ============================================================================= -->
+    <!-- Form Button Modals ========================================================== -->
+    <!-- ============================================================================= -->
+    <div id="formTypeModal" class="modal" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"> Form Type </h5>
+          </div>
+          <div class="modal-body">
+            <p> What type of form will this be? </p>
+            <p> <strong> Metadata </strong> - This form type will include 1 field or more that is used to populate data in object forms.  <br />
+            <strong> Object </strong> - This form type will be used for creating objects that include metadata.  
+            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" data-action="click->form-builder#metadataForm"> Metadata </button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal"
+            data-action="click->form-builder#objectForm"> Object </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ============================================================================= -->
@@ -62,6 +85,9 @@
     </div>
   </div>
 </div>
+
+
+
 
 <!-- ============================================================================= -->
 <!-- Content Yield for JS / CSS ================================================== -->

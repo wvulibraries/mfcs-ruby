@@ -1,4 +1,11 @@
  <%= form_tag '/forms/new', data: {action: "submit->form-builder#saveFields", target: "form-builder.fieldSettingsForm" } do |f| %>
+    <!-- Warning for use when no form is selected -->
+    <div class="alert alert-warning" data-target="form-builder.warningMessage">
+        <strong>No Field Selected</strong>
+        <p> To change a field, click on it in the form preview to the right. </p>
+    </div>
+
+    <!-- Basic Form Stuff -->
     <%= render "components/form_builder/fields/shared/general" %>
     <%= render "components/form_builder/fields/shared/metadata_schemas" %>
     <%= render "components/form_builder/fields/shared/field_help" %>
@@ -9,6 +16,6 @@
     <%= render "components/form_builder/fields/shared/validation" %>
 
 
-    <%= button_tag(raw('<span class="fas fa-save"></span> Save Settings'), {data: { action: "click->metadata-schema#remove" }, class:'btn btn-info col'}) %> 
+    <%= button_tag(raw('<span class="fas fa-save"></span> Save Settings'), {data: { action: "click->form-builder#saveFieldSettings" }, class:'btn btn-info col'}) %> 
 
   <% end %>

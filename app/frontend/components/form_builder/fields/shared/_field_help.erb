@@ -15,8 +15,7 @@
       <!-- Label -->
       <!-- Help Info Fields -->
       <div data-target="help-field.urlField">
-        <%= label_tag :help_info, 'Help Url' %>
-        <%= url_field_tag :help_info, nil, class: 'helpUrlField', id: 'helpUrlField', data: { action: 'change->help-field#validURL keyup->help-field#validURL'} %>
+        <%= url_field_tag :help_url, nil, class: 'helpUrlField', id: 'helpUrlField', data: { action: 'change->help-field#validURL keyup->help-field#validURL'}, 'aria-label' => 'Help Url' %>
         <div class="invalid-feedback">
           Please put in a valid url ex: https://www.google.com. 
         </div>
@@ -24,7 +23,7 @@
 
       <div data-target="help-field.textField">
         <%= label_tag :help_info, 'Help Text' %>
-        <%= text_area_tag :help_info, nil, { class: 'helpTextField', id: 'helpTextField', data: { action: 'change->help-field#modifyHTML focus->help-field#modifyHTML'}}  %>
+        <%= text_area_tag :help_info, nil, { class: 'helpTextField', id: 'helpTextField', data: { action: 'change->help-field#modifyHTML focus->help-field#modifyHTML'}, 'aria-label' => 'Help Info'}  %>
       </div>
     </div>
   </div>

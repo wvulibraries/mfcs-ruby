@@ -5,8 +5,12 @@
       <%= render "components/form_builder/fields/shared/metadata_fields"%>
     </template>
 
+    <%= hidden_field_tag :metadata_standards, nil, { data: { target: 'metadata-schema.hidden' }} %>
+
     <div data-target='metadata-schema.metadatafields'>
       <%= render "components/form_builder/fields/shared/metadata_fields"%>
     </div>
+
+    <button class="metadata-refresh" data-action='click->metadata-schema#reprocess' class="hidden"> REPROCESS VIEW </button>
   </div>
 </fieldset>

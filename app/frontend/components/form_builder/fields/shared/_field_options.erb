@@ -28,6 +28,11 @@
         <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is disabled and not submitted to POST, but can be changed on an update."></span>
       </div>
       <div class="checkbox col-6">
+        <%= check_box_tag :disabled_on_update %>
+        <%= label_tag :disabled_on_update %>
+        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Field is disabled and not submitted to PATCH / POST. "></span>
+      </div>
+      <div class="checkbox col-6">
         <%= check_box_tag :public_release %>
         <%= label_tag :public_release %>
         <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Dependant on Export Script: Metadata check to determine if field should be exported to XML."></span>

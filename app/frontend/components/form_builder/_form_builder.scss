@@ -4,9 +4,14 @@
 //   }
 // }
 
+@mixin cross-hatch($color){ 
+  background-image: 
+  repeating-linear-gradient(-45deg, rgba($color, 0.95), rgba($color, 0.95) 1px, transparent, transparent 1px, transparent 3px), 
+  repeating-linear-gradient(45deg, rgba(lighten($color, 10%), 0.95), rgba(lighten($color, 10%), 0.95) 1px, transparent, transparent 1px, transparent 3px);
+}
+
 .form-group { 
   padding:2rem;
-  border:2px solid blue; 
 }
 
 fieldset { 
@@ -16,10 +21,70 @@ fieldset {
 
 .fields { 
 
-  .field-preview { 
-    border:1px dotted blue; 
+  .field-preview {
+    background-color: #fff;
+    border:2px solid #ccc;    
+    position: relative;
     padding: 1em; 
-    margin-bottom:1em; 
+    margin-bottom:3em; 
+
+    &:before { 
+      content: "";
+      display: block;
+      width:100%; 
+      height:100%;
+      position: absolute;
+      top:.5em; 
+      right:.5em; 
+      background-size: 8px;
+      z-index:-3;
+      @include cross-hatch(#ccc);
+    }
+
+    &.active { 
+      border-color:$link; 
+      &:before { 
+        @include cross-hatch($link);
+      }
+    }
+
+    &:hover { 
+      border-color:$link; 
+      &:before { 
+        @include cross-hatch($link);
+      }
+    }
+
+    .remove span{ 
+      display: block;
+      position: absolute;
+      top: -1.5em;
+      right: .5em;
+      background: #C70D00;
+      width: 3em;
+      height: 3em;
+      padding:1em;
+      border-radius: 2em;
+      text-align: center;
+      color:#fff;
+      box-shadow: 0px 0px 10px rgba(darken(#C70D00, 10%), .4);
+    }
+
+    .help { 
+      display: block;
+      position: absolute;
+      top: -1.5em;
+      right: 4em;
+      background: #333;
+      width: 3em;
+      height: 3em;
+      padding:.75em;
+      border-radius: 2em;
+      text-align: center;
+      color:#fff;
+      box-shadow: 0px 0px 10px rgba(darken(#333, 10%), .4);
+      z-index:1;
+    }
     
     &:last-of-type { 
       margin-bottom: none;

@@ -4,8 +4,7 @@
     <a href="#" data-action="click->form-builder#newField"
                 data-type="idno"
                 data-template="idnoTemplate" 
-                data-json='{
-                  "name": "idno",
+                data-json='{"name": "idno",
                   "position": "",
                   "type": "idno",
                   "label": "Identifier",
@@ -16,10 +15,10 @@
                   "style": "",
                   "required": "true",
                   "duplicates": "true",
-                  "readonly": "false",
+                  "read_only": "false",
                   "disabled": "false",
-                  "disabled_insert": "false",
-                  "disabled_update": "false",
+                  "disabled_on_insert": "false",
+                  "disabled_on_update": "false",
                   "public_release": "true",
                   "oai_release": "true",
                   "sortable": "true",
@@ -28,7 +27,7 @@
                   "hidden": "",
                   "validation": "",
                   "validation_regex": "",
-                  "metadata_standard": [],
+                  "metadata_standards": [],
                   "help_type": "",
                   "help": "",
                   "managed_by": "user",
@@ -55,17 +54,17 @@
                   "class": "",
                   "style": "",
                   "help_type": "",
-                  "required": "true",
-                  "duplicates": "true",
+                  "required": "false",
+                  "duplicates": "false",
                   "readonly": "false",
                   "disabled": "false",
                   "disabled_insert": "false",
                   "disabled_update": "false",
-                  "public_release": "true",
+                  "public_release": "false",
                   "oai_release": "",
-                  "sortable": "true",
-                  "searchable": "true",
-                  "display_in_list": "true",
+                  "sortable": "false",
+                  "searchable": "false",
+                  "display_in_list": "false",
                   "hidden": "",
                   "validation": "",
                   "validation_regex": "",
@@ -81,7 +80,41 @@
   <li class="">
     <!-- data attributes are used to hook into JS events -->
     <a href="#" data-action="click->form-builder#newField" 
-                data-fieldtype="textareaTemplate" > 
+                data-type="textarea"
+                data-template="textareaTemplate" 
+                data-json='{
+                  "name": "Untitled",
+                  "position": "",
+                  "type": "textarea",
+                  "label": "Untitled",
+                  "value": "",
+                  "placeholder": "Untitled Text",
+                  "id": "",
+                  "class": "",
+                  "style": "",
+                  "help_type": "",
+                  "required": "false",
+                  "duplicates": "false",
+                  "readonly": "false",
+                  "disabled": "false",
+                  "disabled_insert": "false",
+                  "disabled_update": "false",
+                  "public_release": "false",
+                  "oai_release": "",
+                  "sortable": "false",
+                  "searchable": "false",
+                  "display_in_list": "false",
+                  "hidden": "",
+                  "validation": "",
+                  "validation_regex": "",
+                  "metadata_standard": ":",
+                  "help": "",
+                  "min": "",
+                  "max": "",
+                  "format": "characters"
+                }' 
+                
+    > 
      Paragraph Text 
     </a>
   </li>
@@ -106,3 +139,5 @@
  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/idno_template", target_name: 'form-builder.idnoTemplate' } %>
 
  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/text_template", target_name: 'form-builder.textTemplate' } %>
+
+  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/textarea_template", target_name: 'form-builder.textareaTemplate' } %>

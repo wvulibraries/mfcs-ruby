@@ -3,18 +3,18 @@
     <div class="input-group-prepend col-sm-12 col-md-4"> 
       <%# label_tag :schema %>
       <div class="select-style col-12">
-        <%= select_tag :schema, options_for_select(metadata_types.map {|k, v| [v.humanize.capitalize, k]}), 'aria-label' => 'schema' %>
+        <%= select_tag :schema, options_for_select(metadata_types.map {|k, v| [v.humanize.capitalize, k]}), 'aria-label' => 'schema', 'data-action' => 'change->metadata-schema#formatData' %>
       </div>
-    </div>
+    </div>.
 
     <div class="field col">
       <%# label_tag :identifier %>
-      <%= text_field_tag :identifier, nil, multiple: true, placeholder: 'Identifier', 'aria-label' => 'identifier' %>
+      <%= text_field_tag :identifier, nil, multiple: true, placeholder: 'Identifier', 'aria-label' => 'identifier', 'data-action' => 'change->metadata-schema#formatData' %>
     </div>
     
     <div class="field col">
       <%# label_tag :qualifier %>
-      <%= text_field_tag :qualifier, nil, multiple: true, placeholder: 'Qualifier', 'aria-label' => 'qualifier' %>
+      <%= text_field_tag :qualifier, nil, multiple: true, placeholder: 'Qualifier', 'aria-label' => 'qualifier', 'data-action' => 'change->metadata-schema#formatData' %>
     </div>
 
     <div class="metadata-actions input-group-append">
