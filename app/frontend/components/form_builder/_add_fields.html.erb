@@ -1,7 +1,8 @@
-<ul class="">
-  <li class="">
-    <!-- data attributes are used to hook into JS events -->
-    <a href="#" data-action="click->form-builder#newField"
+<div class="row">
+  <div class=" col-6">
+    <!-- IDNO FIELD -->
+    <!-- ====================================== --> 
+    <a href="#" class="add-field-btn col mb-1"  data-action="click->form-builder#newField"
                 data-type="idno"
                 data-template="idnoTemplate" 
                 data-json='{"name": "idno",
@@ -30,17 +31,20 @@
                   "metadata_standards": [],
                   "help_type": "",
                   "help": "",
-                  "managed_by": "user",
+                  "managed_by": "User",
                   "idno_format": "",
                   "start_increment": "1"
                 }'
     > 
       IDNO 
     </a>
-  </li>
-  <li class="">
+  </div>
+
+  <!-- SINGLE LINE TEXT FIELD -->
+  <!-- ====================================== --> 
+  <div class=" col-6">
     <!-- data attributes are used to hook into JS events -->
-    <a href="#" data-action="click->form-builder#newField"
+    <a href="#" class="add-field-btn col mb-1"  data-action="click->form-builder#newField"
                 data-type="text"
                 data-template="textTemplate" 
                 data-json='{
@@ -74,12 +78,14 @@
                   "max": "",
                   "format": "characters"
                 }' > 
-      Single Line Text
+      Single line Text
     </a>
-  </li>
-  <li class="">
+  </div>
+
+  <div class=" col-6">
     <!-- data attributes are used to hook into JS events -->
-    <a href="#" data-action="click->form-builder#newField" 
+    <a href="#" class="add-field-btn col mb-1"          
+                data-action="click->form-builder#newField" 
                 data-type="textarea"
                 data-template="textareaTemplate" 
                 data-json='{
@@ -113,25 +119,188 @@
                   "max": "",
                   "format": "characters"
                 }' 
-                
     > 
      Paragraph Text 
     </a>
-  </li>
-  <li class=""><a href="#">Radio</a></li>
-  <li class=""><a href="#">Checkboxes</a></li>
-  <li class=""><a href="#">Number</a></li>
-  <li class=""><a href="#">Email</a></li>
-  <li class=""><a href="#">Phone</a></li>
-  <li class=""><a href="#">Dropdown</a></li>
-  <li class=""><a href="#">Multi-Select</a></li>
-  <li class=""><a href="#">File Upload</a></li>
-  <li class=""><a href="#">WYSIWYG</a></li>
-  <li class=""><a href="#">Date</a></li>
-  <li class=""><a href="#">Time</a></li>
-  <li class=""><a href="#">Website</a></li>
-  <li class=""><a href="#">Field Set</a></li>
-</ul>
+  </div>
+
+  <div class=" col-6">
+    <a href="#" class="add-field-btn col mb-1" 
+        data-action="click->form-builder#newField" 
+        data-type="number"
+        data-template="numberTemplate" 
+        data-json='{
+          "name": "Untitled",
+          "position": "",
+          "type": "textarea",
+          "label": "Untitled",
+          "value": "",
+          "placeholder": "Untitled Text",
+          "id": "",
+          "class": "",
+          "style": "",
+          "help_type": "",
+          "required": "false",
+          "duplicates": "false",
+          "readonly": "false",
+          "disabled": "false",
+          "disabledInsert": "false",
+          "disabledUpdate": "false",
+          "publicRelease": "true",
+          "oaiRelease": "",
+          "sortable": "",
+          "searchable": "",
+          "displayTable": "",
+          "hidden": "",
+          "validation": "integer",
+          "validationRegex": "",
+          "access": "",
+          "fieldset": "",
+          "metadataStandard": "",
+          "help": "",
+          "min": "",
+          "max": "",
+          "step": "",
+          "format": "value"
+        }' 
+    >
+    Number
+    </a>
+  </div>
+
+  <div class=" col-6">
+    <a href="#" class="add-field-btn col mb-1"
+        data-action="click->form-builder#newField" 
+        data-type="select"
+        data-template="selectTemplate" 
+        data-json='{
+                    "name": "untitled",
+                    "position": "",
+                    "type": "select",
+                    "label": "Untitled Dropdown",
+                    "value": "",
+                    "placeholder": "",
+                    "id": "",
+                    "type",
+                    "class": "",
+                    "style": "",
+                    "helpType": "",
+                    "required": "false",
+                    "duplicates": "false",
+                    "readonly": "false",
+                    "disabled": "false",
+                    "disabledInsert": "false",
+                    "disabledUpdate": "false",
+                    "publicRelease": "true",
+                    "oaiRelease": "",
+                    "sortable": "",
+                    "searchable": "",
+                    "displayTable": "",
+                    "hidden": "",
+                    "validation": "",
+                    "validationRegex": "",
+                    "access": "",
+                    "fieldset": "",
+                    "metadataStandard": "",
+                    "help": "",
+                    "choicesType": "manual",
+                    "choicesNull": "true",
+                    "choicesForm": "",
+                    "choicesField": "",
+                    "choicesFieldDefault": ""
+                  },' 
+    > Dropdown </a>
+  </div>
+
+  <div class=" col-6">
+    <a href="#" class="add-field-btn col mb-1" 
+      data-action="click->form-builder#newField" 
+      data-type="multiselect"
+      data-template="multiselectTemplate" 
+      data-json='{
+                  "name": "untitled",
+                  "position": "",
+                  "type": "multiselect",
+                  "label": "Untitled MultiSelect",
+                  "value": "",
+                  "placeholder": "",
+                  "id": "",
+                  "type",
+                  "class": "",
+                  "style": "",
+                  "helpType": "",
+                  "required": "false",
+                  "duplicates": "false",
+                  "readonly": "false",
+                  "disabled": "false",
+                  "disabledInsert": "false",
+                  "disabledUpdate": "false",
+                  "publicRelease": "true",
+                  "oaiRelease": "",
+                  "sortable": "",
+                  "searchable": "",
+                  "displayTable": "",
+                  "hidden": "",
+                  "validation": "",
+                  "validationRegex": "",
+                  "access": "",
+                  "fieldset": "",
+                  "metadataStandard": "",
+                  "help": "",
+                  "choicesType": "manual",
+                  "choicesNull": "true",
+                  "choicesForm": "",
+                  "choicesField": "",
+                  "choicesFieldDefault": ""
+                },'
+    >Multi-Select</a>
+  </div>
+
+  <div class=" col-6">
+    <a href="#" class="add-field-btn col mb-1">
+      
+    File Upload</a>
+  </div>
+
+  <div class=" col-6">
+    <a href="#" class="add-field-btn col mb-1" 
+                data-action="click->form-builder#newField" 
+                data-type="textarea"
+                data-template="textareaTemplate" 
+                data-json='{
+                  "name": "Untitled",
+                  "position": "",
+                  "type": "textarea",
+                  "label": "Untitled",
+                  "value": "",
+                  "placeholder": "Untitled Text",
+                  "id": "",
+                  "class": "",
+                  "style": "",
+                  "help_type": "",
+                  "required": "false",
+                  "duplicates": "false",
+                  "readonly": "false",
+                  "disabled": "false",
+                  "disabled_insert": "false",
+                  "disabled_update": "false",
+                  "public_release": "false",
+                  "oai_release": "",
+                  "sortable": "false",
+                  "searchable": "false",
+                  "display_in_list": "false",
+                  "hidden": "",
+                  "validation": "",
+                  "validation_regex": "",
+                  "metadata_standard": ":",
+                  "help": "",
+                  "min": "",
+                  "max": "",
+                  "format": "characters"
+                }' 
+    >WYSIWYG</a>
+  </div>
+</div>
 
 <!-- New Field Templates -->
  <%# render 'components/form_builder/templates/idno_template' %>

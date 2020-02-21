@@ -27,11 +27,11 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 // MFCS Entire Application Components 
 // ---------------------------------------------------------------------------------
 @import '../../components/forms/forms'; 
-@import '../../components/form_builder/form_builder'; 
 @import '../../components/forms/list_forms';
 @import '../../components/footer/footer';
+@import '../../components/main/main';
 @import '../../components/login/login';
-@import '../../components/alerts/alerts.scss';
+@import '../../components/alerts/alerts';
 
 
 // Bootstrap Modal Overwrite 

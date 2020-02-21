@@ -34,7 +34,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 $(document).on("turbolinks:load",function(){
   $('[data-toggle="popover"]').popover();
   $('[data-toggle="tooltip"]').tooltip();
-  $('.collapse').collapse({ toggle:false });
 });
 
 // stimulus 

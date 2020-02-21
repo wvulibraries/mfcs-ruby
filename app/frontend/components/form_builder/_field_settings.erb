@@ -15,7 +15,14 @@
     <%= render "components/form_builder/fields/shared/field_options" %>
     <%= render "components/form_builder/fields/shared/validation" %>
 
+    <!-- Text Field Specific -->
+    <%= render "components/form_builder/fields/text_field" %>
 
-    <%= button_tag(raw('<span class="fas fa-save"></span> Save Settings'), {data: { action: "click->form-builder#saveFieldSettings" }, class:'btn btn-info col'}) %> 
+    <!-- Phone /  Email / Date / Time --> 
+    <!-- ::: require no extra fields ::: --> 
+
+
+
+    <%#  button_tag(raw('<span class="fas fa-save"></span> Save Settings'), {data: { action: "click->form-builder#saveFieldSettings" }, class:'btn btn-info col'}) %> 
 
   <% end %>

@@ -9,20 +9,20 @@
     <!-- Control Panel =============================================================== -->
     <!-- ============================================================================= -->
   <div class="row" data-controller="form-builder form-preview">
-    <div class="form-control-panel col-md-6 p-3" id="controlPanel">
-
-      <div class="menu btn-group d-flex mb-3" role="group" aria-label="Form Control Panel"> 
-          <button type="button" class="btn btn-secondary w-100" data-toggle="collapse" role="button" aria-expanded="false" data-target="#addFields" aria-controls="addFields" data-action="click->form-builder#saveFieldSettings"> Add A Field </button>
-          <button type="button" class="fieldSettingsBtn btn btn-secondary w-100" data-target="#fieldSettings" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="fieldSettings" data-action="click->form-builder#saveFieldSettings">Field Settings</button>
-          <button type="button" class="btn btn-secondary w-100 active" data-target="#formSettings" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="formSettings" data-action="click->form-builder#saveFieldSettings">Form Settings</button>
+        
+    <div class="form-control-panel col-md-6 p-3" id="control-panel">
+      <div class="menu btn-group d-flex mb-3" data-target="form-builder.panes" role="group" aria-label="Form Control Panel"> 
+          <button type="button" class="btn col btn-secondary w-100" data-action="click->form-builder#addFieldPane"> Add A Field </button>
+          <button type="button" class="fieldSettingsBtn btn col btn-secondary" data-action="click->form-builder#fieldSettingsPane">Field Settings</button>
+          <button type="button" class="btn btn-secondary col w-100 active" data-action="click->form-builder#formSettingsPane"> Form Settings </button>
       </div>
 
       <div class="form-container"> 
-        <div id="formSettings" class="collapse show" data-parent="#controlPanel">
+        <div id="formSettings" class="hide show" data-target="form-builder.formSettings">
           <%= form_for @form, url: { action:'create' }, html: { class:'form-builder' } do |f| %>
             <% if @form.errors.any? %>
               <div id="error_explanation">
-                <h3><%= pluralize(f.errors.count, "error") %> prohibited this subject from being saved:</h3>
+                <h3><%= pluralize(@form.errors.count, "error") %> prohibited this subject from being saved:</h3>
                 <ul>
                 <% @form.errors.full_messages.each do |message| %>
                   <li><%= message %></li>
@@ -33,12 +33,18 @@
             <%= render 'components/form_builder/form_settings', form: f %>
           <% end %>
         </div>
-        <div id="addFields" class="collapse" data-parent="#controlPanel"> 
+        <div id="addFields" class="hide" data-target="form-builder.addFields"> 
           <%= render 'components/form_builder/add_fields' %>
         </div>
-        <div id="fieldSettings" class="collapse" data-parent="#controlPanel">
+        <div id="fieldSettings" class="hide" data-target="form-builder.fieldSettings">
           <%= render 'components/form_builder/field_settings'%>
         </div>
+      </div>
+
+      <div class="save">
+        <button class="fieldSettingsBtn btn btn-primary col-12" data-action="click->form-builder#saveSubmit">
+          <span class="fas fa-save"></span> Save
+        </button>
       </div>
     </div>
 

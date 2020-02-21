@@ -1,0 +1,23 @@
+// Bootstrap
+// --------------------------------------------------------------------------------
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import '../../components/wvu_scss/wvu-variables'; // WVU ./custom Variables - UR WEB
+@import "~bootstrap/scss/bootstrap";
+
+// QUILL
+// --------------------------------------------------------------------------------
+// @import '~quill/dist/quill.core.css';
+// @import '~quill/dist/quill.bubble.css';
+// @import '~quill/dist/quill.snow.css';
+
+// Font Awesome
+// --------------------------------------------------------------------------------
+$fa-font-path: '~@fortawesome/fontawesome-free/webfonts'; 
+@import '~@fortawesome/fontawesome-free/scss/fontawesome';
+@import '~@fortawesome/fontawesome-free/scss/solid';
+@import '~@fortawesome/fontawesome-free/scss/regular';
+
+// Form Builder Components
+// ------------------------------------------------------------------------------
+@import '../../components/form_builder/form_builder'; 

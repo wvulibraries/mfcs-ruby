@@ -1,22 +1,21 @@
-/**
-* The following code simply allows for the active class to 
-* be switched back and fourth from the button group in the 
-* form creator section.  
-*/
-// $(document).on("turbolinks:load",function(){
-//   $('.form-control-panel button').click(function(event){
-//     $('.form-control-panel button').removeClass('active');
-//   });
-// });
+// scss
+// ===================================================================== 
+import './src/form_builder.scss';
 
-// $('#formSettings').on('show.bs.collapse', function (event) {
-//   $(#)
-// });
 
-// $('#addFields').on('show.bs.collapse', function (event) {
-  
-// });
+// // import quill 
+// import Quill from '../components/wysiwyg/quill';
 
-// $('#addSettings').on('show.bs.collapse', function (event) {
-  
-// });
+// // var quill = new Quill('.wysiwig', {
+// //   modules: {
+// //     toolbar: [
+// //       [{ header: [1, 2, false] }],
+// //       ['bold', 'italic', 'underline']
+// //     ]
+// //   },
+// //   placeholder: 'Compose something cool',
+// //   theme: 'snow'  // or 'bubble'
+// // });
+
+// //var myEditor = document.querySelector('#editor')
+// //var html = myEditor.children[0].innerHTML

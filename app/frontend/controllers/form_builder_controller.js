@@ -5,8 +5,12 @@ import change from "../components/events/change";
 import metadata_schema_controller from "./metadata_schema_controller";
 
 export default class extends Controller {
+  // =============================================================
+  // Controller Constructors 
+  // =============================================================
+  
   // targets
-  static targets = ['warningMessage', 'fieldSettingsForm', 'textTemplate', 'textareaTemplate', 'idnoTemplate', 'formPreview'];
+  static targets = ['formSettings', 'addFields', 'fieldSettings', 'warningMessage', 'fieldSettingsForm', 'textTemplate', 'textareaTemplate', 'idnoTemplate', 'formPreview', 'panes'];
 
   // Connect 
   //  Basically Document Read Function
@@ -15,11 +19,112 @@ export default class extends Controller {
     $("#formTypeModal").modal('show');
   }
 
+  // =============================================================
+  // EVENTS BASED METHODS
+  // =============================================================
+
+  // saveSubmit(e)
+  // -------------------------------------------------------------
+  // click event
+  // Handles the actual form submission of the object.
+  // @author: David J. Davis
+  saveSubmit(event) {
+    this.saveFieldSettings(event); 
+    this.formSettingsTarget.querySelector('form').submit(); 
+  }
+
+  // editField(e)
+  // -------------------------------------------------------------
+  // click event
+  // This sets the form elements, previews, and templates for editing the
+  // field.  If another field is clicked or any element of the page exits the 
+  // settings field, then the elements should be saved in the hidden field in form settings.
+  // @author: David J. Davis
+  editField(e) { 
+    // prevention of bubbling and default
+    e.preventDefault(); 
+    e.stopPropagation();
+
+    // resets 
+    this.saveFieldSettings(event); 
+    
+    // panes 
+    this.interfacePanes();
+    e.currentTarget.classList.add('active');
+
+    // datasets
+    let tmpJSON = JSON.parse(e.currentTarget.dataset.json.replace(/'/g, '"'));
+    let id = e.currentTarget.dataset.id; 
+
+    // use html data to get some information 
+    let fieldInfo = { 
+      'json': tmpJSON, 
+      'id': id,
+      'sort': e.currentTarget.dataset.sort,
+      'type': e.currentTarget.dataset.fieldtype, 
+    };
+    fieldInfo['json'] = this.mergeFieldInfo(fieldInfo); 
+    // show settings on click
+    this.fieldSettingsDisplay(fieldInfo); 
+  }
+
+  // addFieldPane(e)
+  // -------------------------------------------------------------
+  // click event logic tied to the menu items
+  // triggers a clear, save, and adjusts menu state
+  // @author: David J. Davis
+  addFieldPane(e) {
+    e.preventDefault(); 
+    this.clearInterfacePanes(); 
+    this.saveFieldSettings(event); 
+    
+    e.currentTarget.classList.add('active');
+    this.addFieldsTarget.classList.add('show'); 
+  }
+
+  // fieldSettingsPane(e)
+  // -------------------------------------------------------------
+  // click event logic tied to the menu items
+  // triggers a clear, save, and adjusts menu state
+  // @author: David J. Davis
+  fieldSettingsPane(e) {
+    e.preventDefault(); 
+    this.clearInterfacePanes(); 
+    this.saveFieldSettings(event); 
+
+    e.currentTarget.classList.add('active');
+    this.fieldSettingsTarget.classList.add('show');
+  }
+
+  // formSettingsPane(e)
+  // -------------------------------------------------------------
+  // click event logic tied to the menu items
+  // triggers a clear, save, and adjusts menu state
+  // @author: David J. Davis
+  formSettingsPane(e) {
+    e.preventDefault(); 
+    this.clearInterfacePanes(); 
+    this.saveFieldSettings(event); 
+    
+    e.currentTarget.classList.add('active');
+    this.formSettingsTarget.classList.add('show'); 
+  }
+
+  // metadataForm(e)
+  // -------------------------------------------------------------
+  // click event
+  // Sets up a metadata field using appropriate fields.
+  // @author: David J. Davis
   metadataForm(e){ 
     // create a single line item for title  
     this.createTitleField(); 
   }
 
+  // objectForm(e)
+  // -------------------------------------------------------------
+  // click event
+  // Sets up an object form using the appropriate fields.
+  // @author: David J. Davis
   objectForm(e){ 
     // create and IDNO Field 
     this.createIDNOField(); 
@@ -51,31 +156,29 @@ export default class extends Controller {
     // sets html the initial preview
     let previewHTML = this.preview(fieldInfo);
     this.formPreviewTarget.insertAdjacentHTML( 'beforeend', previewHTML );
+
+    // clear the interface panes 
+    // set the field settings form
+    this.interfacePanes();
     this.fieldSettingsDisplay(fieldInfo); 
+
+    // set new element to active
+    let newElm = document.querySelector(`[data-id='${fieldInfo['id']}']`);
+    newElm.classList.add('active');
   }
 
-  // editField(e)
+  // popover(e)
   // -------------------------------------------------------------
-  // click event
-  // This sets the form elements, previews, and templates for editing the
-  // field.  If another field is clicked or any element of the page exits the 
-  // settings field, then the elements should be saved in the hidden field in form settings.
+  // makes the popovers work because bootstrap doesn't work with dynamic data very well. 
   // @author: David J. Davis
-  editField(e) { 
-    e.preventDefault; 
+  popover(e) { 
+    e.preventDefault;
     e.stopPropagation();
-    let tmpJSON = JSON.parse(e.currentTarget.dataset.json.replace(/'/g, '"'));
-    let id = e.currentTarget.dataset.id; 
-    // use html data to get some information 
-    let fieldInfo = { 
-      'json': tmpJSON, 
-      'id': id,
-      'sort': e.currentTarget.dataset.sort,
-      'type': e.currentTarget.dataset.fieldtype, 
-    };
-    fieldInfo['json'] = this.mergeFieldInfo(fieldInfo); 
-    // show settings on click
-    this.fieldSettingsDisplay(fieldInfo); 
+    $(e.currentTarget).popover({
+      placement: e.currentTarget.dataset.placement,
+      html: true,
+      content: e.currentTarget.dataset.content 
+    });
   }
 
   // removeField(e)
@@ -93,19 +196,66 @@ export default class extends Controller {
     }  
   }
 
-  // popover(e)
+  // saveFieldSettings(e)
   // -------------------------------------------------------------
-  // makes the popovers work because bootstrap doesn't work with dynamic data very well. 
+  // Saves the field settings into the elements json
   // @author: David J. Davis
-  popover(e) { 
-    e.preventDefault;
-    e.stopPropagation();
-    $(e.currentTarget).popover({
-      placement: e.currentTarget.dataset.placement,
-      html: true,
-      content: e.currentTarget.dataset.content 
-    });
+  saveFieldSettings(e) { 
+    e.preventDefault();
+
+    // save data to json
+    var data = {};
+    let form_elements = this.fieldSettingsFormTarget.elements;
+    for (let i = 0; i < form_elements.length; i++){
+      let field_type = form_elements[i].type.toLowerCase();
+      let field_name = form_elements[i].name; 
+      let field_value = form_elements[i].value;
+      let skip_fields = ['utf8', 'authenticity_token'];
+      let input_fields = ["text", "password", "textarea", "url", "number", "email", "tel", "hidden", "date", "datetime-local", "month", "range", "time", "week", "radio", "checkbox", "select-one", "select-multi"]; 
+
+      if(skip_fields.includes(field_name) || !input_fields.includes(field_type)) {  
+        continue;
+      }
+      
+      // only look for the following elements 
+      if(field_type == 'checkbox' || field_type == 'radio'){ 
+        let field_checked = form_elements[i].checked;
+        if(field_checked) { 
+          data[field_name] = true
+        } else { 
+          data[field_name] = false
+        }
+      } else {
+        data[field_name] = field_value;
+      } 
+    }
+
+    // replace element with a new one 
+    let id = data['field_id'];
+    if(id) { 
+      let template = `${data['type']}Template`;
+      let fieldInfo = { 
+        'json': data, 
+        'id': id,
+        'sort': data['sort_order'],
+        'type': data['type'],
+        'template': this.targets.find(template).innerHTML
+      };
+      let elmToRemove = document.getElementsByClassName(id);
+      let previewHTML = this.preview(fieldInfo);
+      elmToRemove[0].parentNode.removeChild(elmToRemove[0]); 
+      this.formPreviewTarget.insertAdjacentHTML( 'beforeend', previewHTML );
+      this.sortPreview(); 
+
+      // resets
+      this.clearActiveFormPreview();
+      this.resetFieldSettingDisplays();
+    }
   }
+
+  // =============================================================
+  // METHODS WITH RETURN
+  // =============================================================
 
   // mergeFieldInfo({fieldInfo Params})
   // -------------------------------------------------------------
@@ -136,21 +286,6 @@ export default class extends Controller {
     return this.formPreviewTarget.childElementCount;
   }
 
-  // sortPreview()
-  // -------------------------------------------------------------
-  // This function is primarily view related.  It sorts the HTML in a given
-  // view based on a data-sort attribute. 
-  // @author: David J. Davis
-  sortPreview(){ 
-    let container = this.formPreviewTarget;
-    let elements = Array.from(container.children); 
-    let sorted = elements.sort(function(a,b){ 
-      return +a.dataset.sort - +b.dataset.sort
-    });
-    container.innerHTML = '';
-    sorted.forEach(elm => container.append(elm));
-  }
-
   // modifyTemplateString()
   // -------------------------------------------------------------
   // replaces template variables with proper values
@@ -178,6 +313,25 @@ export default class extends Controller {
     return html;
   }
 
+  // =============================================================
+  // DOM BASED METHODS
+  // =============================================================
+
+  // sortPreview()
+  // -------------------------------------------------------------
+  // This function is primarily view related.  It sorts the HTML in a given
+  // view based on a data-sort attribute. 
+  // @author: David J. Davis
+  sortPreview(){ 
+    let container = this.formPreviewTarget;
+    let elements = Array.from(container.children); 
+    let sorted = elements.sort(function(a,b){ 
+      return +a.dataset.sort - +b.dataset.sort
+    });
+    container.innerHTML = '';
+    sorted.forEach(elm => container.append(elm));
+  }
+
   // fieldSettingsDisplay(type, state)
   // -------------------------------------------------------------
   // type and state of field settings that need to be displayed.  
@@ -190,6 +344,12 @@ export default class extends Controller {
     this.refreshMetadataFields(); // refresh metadata
   }
 
+  // fieldSettingsDisplay(type, state)
+  // -------------------------------------------------------------
+  // triggers a click on a hidden button this click causes an event
+  // in the metadata controller to fire
+  // done to be a seperation of concerns for metadata objects  
+  // @author: David J. Davis
   refreshMetadataFields(){ 
     let elm = document.querySelector('.metadata-refresh'); 
     click(elm); 
@@ -206,26 +366,19 @@ export default class extends Controller {
       let input = form.querySelector('[name='+key+']');  
       if(key == 'position' || input == undefined || input == null){ return; };
       if(input.type == 'checkbox' || input.type == 'radio'){ 
-        if(data[key] == 'true'){ 
-          input.value = 1;
-          input.setAttribute('checked', 'checked');
+        if(data[key] == 'true' || data[key] == 1){ 
+          input.checked = true; 
         } else { 
-          input.value = 0;
+          input.checked = false; 
         }
       } else { 
         input.value = data[key]; 
       }
-      change(input);
-    }); 
-  }
-
-  // fieldSettingsBindings()
-  // -------------------------------------------------------------
-  // This sets up the bindings each time the form is reset. 
-  // @author: David J. Davis
-  fieldSettingsBindings(){ 
-    document.addEventListener('change keyup', function(e){
-      console.log(e.target); 
+      // this determines if an event change needs fired
+      let change_event_elms = ['help', 'help_type','managed_by']
+      if (change_event_elms.includes(key)){
+        change(input);
+      }
     }); 
   }
 
@@ -276,51 +429,6 @@ export default class extends Controller {
       this.warningMessageTarget.style.display = 'block';
     } else { 
       this.warningMessageTarget.style.display = 'none';
-    }
-  }
-
-  // saveFieldSettings(e)
-  // -------------------------------------------------------------
-  // Saves the field settings into the elements json
-  // @author: David J. Davis
-  saveFieldSettings(e) { 
-    e.preventDefault();
-    // let formData = new FormData(this.fieldSettingsFormTarget)
-    var data = {};
-    let form_elements = this.fieldSettingsFormTarget.elements;
-    for (let i = 0; i < form_elements.length; i++){
-      let field_type = form_elements[i].type.toLowerCase();
-      let field_name = form_elements[i].name; 
-      let field_value = form_elements[i].value;
-      let skip_fields = ['utf8', 'authenticity_token'];
-      let input_fields = ["text", "password", "textarea", "url", "number", "email", "tel", "hidden", "date", "datetime-local", "month", "range", "time", "week", "radio", "checkbox", "select-one", "select-multi"]; 
-
-      if(skip_fields.includes(field_name) || !input_fields.includes(field_type)) {  
-        continue;
-      }
-      
-      // only look for the following elements 
-      data[field_name] = field_value; 
-    }
-
-    // replace element with a new one 
-    let id = data['field_id'];
-    if(id) { 
-      let template = `${data['type']}Template`;
-      let fieldInfo = { 
-        'json': data, 
-        'id': id,
-        'sort': data['sort_order'],
-        'type': data['type'],
-        'template': this.targets.find(template).innerHTML
-      };
-      let elmToRemove = document.getElementsByClassName(id);
-      let previewHTML = this.preview(fieldInfo);
-      elmToRemove[0].parentNode.removeChild(elmToRemove[0]); 
-      this.formPreviewTarget.insertAdjacentHTML( 'beforeend', previewHTML );
-      this.sortPreview(); 
-    } else { 
-      console.log('nothing to save moving on'); 
     }
   }
 
@@ -406,7 +514,7 @@ export default class extends Controller {
       'type': 'text', 
       'template': this.textTemplateTarget.innerHTML
     };
-    console.log(fieldInfo); 
+
     fieldInfo['json'] = this.mergeFieldInfo(fieldInfo); 
 
     // sets html the initial preview
@@ -447,7 +555,7 @@ export default class extends Controller {
       "metadata_standards": [],
       "help_type": "",
       "help": "",
-      "managed_by": "user",
+      "managed_by": "User",
       "idno_format": "",
       "start_increment": "1"
     }; 
@@ -460,7 +568,7 @@ export default class extends Controller {
       'type': 'idno', 
       'template': this.idnoTemplateTarget.innerHTML
     };
-    console.log(fieldInfo); 
+
     fieldInfo['json'] = this.mergeFieldInfo(fieldInfo); 
 
     // sets html the initial preview
@@ -469,13 +577,44 @@ export default class extends Controller {
     this.fieldSettingsDisplay(fieldInfo); 
   }
 
+  // interfacePanes()
+  // -------------------------------------------------------------
+  // This calls clear interface panes which removes all formatting and styles
+  // from the panes and hides them.  Thenshows the filed settings and
+  // makes that button active. 
+  // @author: David J. Davis
+  interfacePanes(){ 
+    this.clearInterfacePanes();
+    // then set active class for fieldSettingsPane
+    this.fieldSettingsTarget.classList.add('show'); 
+    document.querySelector('.fieldSettingsBtn').classList.add('active'); 
+  }
 
-  //save(){}
-  //delete(){}
-  //form(){}
-  //edit(){}
-  //preview(){}
-  //modfiyPreview(){}
-  //validation(){}
-  //type(){}
+  // clearInterfacePanes()
+  // -------------------------------------------------------------
+  // Loops through all the button elements and removes active classes.
+  // Then removes active/show classes on the panes.
+  // @author: David J. Davis
+  clearInterfacePanes(){ 
+    let panes = this.panesTarget.querySelectorAll('button');
+    [].forEach.call(panes, function(el) {
+      el.classList.remove("active");
+    });
+    // clear panes
+    this.formSettingsTarget.classList.remove('show'); 
+    this.addFieldsTarget.classList.remove('show'); 
+    this.fieldSettingsTarget.classList.remove('show');
+  }
+
+  // clearActiveFormPreview()
+  // -------------------------------------------------------------
+  // Loops through all the field previews and removes the active class.
+  // active class shows which one is being edited.
+  // @author: David J. Davis
+  clearActiveFormPreview(){ 
+    let previews = document.querySelectorAll('.field-preview'); 
+    [].forEach.call(previews, function(el) {
+      el.classList.remove("active");
+    });
+  }
 }

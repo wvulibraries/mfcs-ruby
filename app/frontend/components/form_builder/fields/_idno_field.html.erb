@@ -4,10 +4,10 @@
 
       <div class="row">
         <div class="field col-sm-12"> 
-          <%= label_tag :numbering_type, 'Numbering Type', class: 'required' %>
+          <%= label_tag :managed_by, 'Numbering Type', class: 'required' %>
           <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="The IDNO can be handled automatically by the system or by user entered data.  No duplicates are allowed."></span>
           <div class="select-style"> 
-            <%= select_tag :numbering_type, options_for_select(idno_numbering_types.map {|k, v| [k.humanize.titleize, k]}), {class: '', data: { action:'change->idno-field#selectType', target:"idno-field.select"}} %> 
+            <%= select_tag :managed_by, options_for_select(idno_numbering_types.map {|k, v| [k.humanize.titleize, k]}), {class: '', data: { action:'change->idno-field#selectType', target:"idno-field.select"}} %> 
           </div>
         </div>
       </div>
