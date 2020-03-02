@@ -51,7 +51,6 @@ export default class extends Controller {
   // @author: David J. Davis
   reprocess(e){
     e.preventDefault();
-    console.log('reprocessing metadata!'); 
     this.metadatafieldsTarget.innerHTML = ""; 
     let jsonData = this.hiddenTarget.value; 
     let form_html = this.templateTarget.innerHTML;     

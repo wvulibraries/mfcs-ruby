@@ -106,7 +106,7 @@
                   "disabled_insert": "false",
                   "disabled_update": "false",
                   "public_release": "false",
-                  "oai_release": "",
+                  "oai_release": "false",
                   "sortable": "false",
                   "searchable": "false",
                   "display_in_list": "false",
@@ -130,12 +130,12 @@
         data-type="number"
         data-template="numberTemplate" 
         data-json='{
-          "name": "Untitled",
+          "name": "UntitledNumberField",
           "position": "",
           "type": "textarea",
-          "label": "Untitled",
+          "label": "Untitled Number Field",
           "value": "",
-          "placeholder": "Untitled Text",
+          "placeholder": "1",
           "id": "",
           "class": "",
           "style": "",
@@ -144,23 +144,21 @@
           "duplicates": "false",
           "readonly": "false",
           "disabled": "false",
-          "disabledInsert": "false",
-          "disabledUpdate": "false",
-          "publicRelease": "true",
-          "oaiRelease": "",
-          "sortable": "",
-          "searchable": "",
-          "displayTable": "",
-          "hidden": "",
+          "disabled_insert": "false",
+          "disabled_update": "false",
+          "public_release": "true",
+          "oai_release": "false",
+          "sortable": "false",
+          "searchable": "false",
+          "display_table": "false",
+          "hidden": "false",
           "validation": "integer",
-          "validationRegex": "",
-          "access": "",
-          "fieldset": "",
-          "metadataStandard": "",
+          "validation_regex": "",
+          "metadata_standard": [],
           "help": "",
-          "min": "",
-          "max": "",
-          "step": "",
+          "min_number": "",
+          "max_number": "",
+          "step": "1",
           "format": "value"
         }' 
     >
@@ -174,41 +172,38 @@
         data-type="select"
         data-template="selectTemplate" 
         data-json='{
-                    "name": "untitled",
-                    "position": "",
-                    "type": "select",
-                    "label": "Untitled Dropdown",
-                    "value": "",
-                    "placeholder": "",
-                    "id": "",
-                    "type",
-                    "class": "",
-                    "style": "",
-                    "helpType": "",
-                    "required": "false",
-                    "duplicates": "false",
-                    "readonly": "false",
-                    "disabled": "false",
-                    "disabledInsert": "false",
-                    "disabledUpdate": "false",
-                    "publicRelease": "true",
-                    "oaiRelease": "",
-                    "sortable": "",
-                    "searchable": "",
-                    "displayTable": "",
-                    "hidden": "",
-                    "validation": "",
-                    "validationRegex": "",
-                    "access": "",
-                    "fieldset": "",
-                    "metadataStandard": "",
-                    "help": "",
-                    "choicesType": "manual",
-                    "choicesNull": "true",
-                    "choicesForm": "",
-                    "choicesField": "",
-                    "choicesFieldDefault": ""
-                  },' 
+          "name": "untitled",
+          "position": "",
+          "type": "select",
+          "label": "Untitled Dropdown",
+          "value": "",
+          "placeholder": "",
+          "id": "",
+          "class": "",
+          "style": "",
+          "help_type": "",
+          "required": "false",
+          "duplicates": "false",
+          "readonly": "false",
+          "disabled": "false",
+          "disabled_insert": "false",
+          "disabled_update": "false",
+          "public_release": "true",
+          "oai_release": "false",
+          "sortable": "false",
+          "searchable": "false",
+          "display_table": "false",
+          "hidden": "",
+          "validation": "",
+          "validation_regex": "",
+          "metadata_standard": [],
+          "help": "",
+          "choices_type": "manual",
+          "choices_null": "true",
+          "choices_form": "",
+          "choices_field": "",
+          "choices_field_default": ""
+        }' 
     > Dropdown </a>
   </div>
 
@@ -218,60 +213,123 @@
       data-type="multiselect"
       data-template="multiselectTemplate" 
       data-json='{
-                  "name": "untitled",
-                  "position": "",
-                  "type": "multiselect",
-                  "label": "Untitled MultiSelect",
-                  "value": "",
-                  "placeholder": "",
-                  "id": "",
-                  "type",
-                  "class": "",
-                  "style": "",
-                  "helpType": "",
-                  "required": "false",
-                  "duplicates": "false",
-                  "readonly": "false",
-                  "disabled": "false",
-                  "disabledInsert": "false",
-                  "disabledUpdate": "false",
-                  "publicRelease": "true",
-                  "oaiRelease": "",
-                  "sortable": "",
-                  "searchable": "",
-                  "displayTable": "",
-                  "hidden": "",
-                  "validation": "",
-                  "validationRegex": "",
-                  "access": "",
-                  "fieldset": "",
-                  "metadataStandard": "",
-                  "help": "",
-                  "choicesType": "manual",
-                  "choicesNull": "true",
-                  "choicesForm": "",
-                  "choicesField": "",
-                  "choicesFieldDefault": ""
-                },'
+        "name": "untitled",
+        "position": "",
+        "type": "multiselect",
+        "label": "Untitled MultiSelect",
+        "value": "",
+        "placeholder": "",
+        "id": "",
+        "class": "",
+        "style": "",
+        "help_type": "",
+        "required": "false",
+        "duplicates": "false",
+        "readonly": "false",
+        "disabled": "false",
+        "disabled_insert": "false",
+        "disabled_update": "false",
+        "public_release": "true",
+        "oai_release": "",
+        "sortable": "",
+        "searchable": "",
+        "display_table": "",
+        "hidden": "",
+        "validation": "",
+        "validation_regex": "",
+        "metadata_standard": [],
+        "help": "",
+        "choices_type": "manual",
+        "choices_null": "true",
+        "choices_form": "",
+        "choices_field": "",
+        "choices_field_default": ""
+      }'
     >Multi-Select</a>
   </div>
 
   <div class=" col-6">
-    <a href="#" class="add-field-btn col mb-1">
-      
-    File Upload</a>
+    <a href="#" class="add-field-btn col mb-1"
+      data-action="click->form-builder#newField" 
+      data-type="file"
+      data-template="fileTemplate" 
+      data-json='{      
+        "name": "files",
+        "type": "file",
+        "label": "File Uploads",
+        "value": "",
+        "placeholder": "",
+        "id": "",
+        "class": "",
+        "style": "",
+        "help_type": "",
+        "required": "false",
+        "duplicates": "false",
+        "readonly": "false",
+        "disabled": "false",
+        "disabled_insert": "false",
+        "disabled_update": "false",
+        "public_release": "true",
+        "oai_release": "",
+        "sortable": "",
+        "searchable": "",
+        "display_table": "false",
+        "hidden": "",
+        "validation": "",
+        "validation_regex": "",
+        "metadata_standard": [],
+        "help": "",
+        "multiple_files": "true",
+        "combine": "true",
+        "ocr": "false",
+        "convert": "false",
+        "convert_height": "",
+        "convert_width": "",
+        "watermark": "false",
+        "watermark_image": "",
+        "watermark_location": "",
+        "border": "false",
+        "border_height": "",
+        "border_width": "",
+        "border_color": "",
+        "thumbnail": "true",
+        "convert_audio": "",
+        "bit_rate": "",
+        "audio_format": "",
+        "convert_video": "",
+        "video_height": "",
+        "video_width": "",
+        "videobit_rate": "",
+        "aspect_ratio": "",
+        "video_format": "",
+        "videothumbnail": "",
+        "video_thumb_frames": "",
+        "video_thumb_height": "",
+        "video_thumb_width": "",
+        "video_format_thumb": "",
+        "bg_processing": "true",
+        "allowed_extensions": [
+          "tif"
+        ],
+        "convert_resolution": "192",
+        "convert_format": "JPG",
+        "thumbnail_height": "200",
+        "thumbnail_width": "130",
+        "thumbnail_format": "JPG"
+      }'
+    > File Upload</a>
   </div>
 
   <div class=" col-6">
     <a href="#" class="add-field-btn col mb-1" 
                 data-action="click->form-builder#newField" 
-                data-type="textarea"
-                data-template="textareaTemplate" 
+                data-type="wysiwyg"
+                data-template="wysiwygTemplate" 
                 data-json='{
-                  "name": "Untitled",
+                  "name": "UntitledWYSIWYG",
                   "position": "",
-                  "type": "textarea",
-                  "label": "Untitled",
+                  "type": "wysiwyg",
+                  "label": "Untitled WYSIWYG",
                   "value": "",
                   "placeholder": "Untitled Text",
                   "id": "",
@@ -285,7 +343,7 @@
                   "disabled_insert": "false",
                   "disabled_update": "false",
                   "public_release": "false",
-                  "oai_release": "",
+                  "oai_release": "false",
                   "sortable": "false",
                   "searchable": "false",
                   "display_in_list": "false",
@@ -303,10 +361,20 @@
 </div>
 
 <!-- New Field Templates -->
- <%# render 'components/form_builder/templates/idno_template' %>
- <% base_template_path = 'components/form_builder/templates'%>
- <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/idno_template", target_name: 'form-builder.idnoTemplate' } %>
+  <% base_template_path = 'components/form_builder/templates'%>
 
- <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/text_template", target_name: 'form-builder.textTemplate' } %>
+  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/idno_template", target_name: 'form-builder.idnoTemplate' } %>
+
+  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/text_template", target_name: 'form-builder.textTemplate' } %>
 
   <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/textarea_template", target_name: 'form-builder.textareaTemplate' } %>
+
+  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/select_template", target_name: 'form-builder.selectTemplate' } %>
+
+    <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/multiselect_template", target_name: 'form-builder.multiselectTemplate' } %>
+
+  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/number_template", target_name: 'form-builder.numberTemplate' } %>
+
+  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/wysiwyg_template", target_name: 'form-builder.wysiwygTemplate' } %>
+
+  <%= render partial: "#{base_template_path}/base_template", locals: { template_path: "#{base_template_path}/file_template", target_name: 'form-builder.fileTemplate' } %>

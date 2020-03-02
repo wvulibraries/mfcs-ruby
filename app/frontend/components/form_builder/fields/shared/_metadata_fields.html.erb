@@ -5,7 +5,7 @@
       <div class="select-style col-12">
         <%= select_tag :schema, options_for_select(metadata_types.map {|k, v| [v.humanize.capitalize, k]}), 'aria-label' => 'schema', 'data-action' => 'change->metadata-schema#formatData' %>
       </div>
-    </div>.
+    </div>
 
     <div class="field col">
       <%# label_tag :identifier %>

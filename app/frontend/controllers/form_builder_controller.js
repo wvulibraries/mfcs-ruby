@@ -190,6 +190,11 @@ export default class extends Controller {
   removeField(e) { 
     e.preventDefault;
     e.stopPropagation();
+
+    // reset interfaces and save them in the current state
+    this.saveFieldSettings(event); 
+
+    // delete the stuff 
     let elmsToRemove = document.getElementsByClassName(e.target.dataset.id);
     while (elmsToRemove[0]){ 
       elmsToRemove[0].parentNode.removeChild(elmsToRemove[0]);
@@ -202,6 +207,7 @@ export default class extends Controller {
   // @author: David J. Davis
   saveFieldSettings(e) { 
     e.preventDefault();
+    console.log('save settings triggered');
 
     // save data to json
     var data = {};
@@ -344,7 +350,7 @@ export default class extends Controller {
     this.refreshMetadataFields(); // refresh metadata
   }
 
-  // fieldSettingsDisplay(type, state)
+  // refreshMetadataFields
   // -------------------------------------------------------------
   // triggers a click on a hidden button this click causes an event
   // in the metadata controller to fire
@@ -355,7 +361,7 @@ export default class extends Controller {
     click(elm); 
   }
 
-  // fieldSettingsDisplay(type, state)
+  // populateForm(id, json)
   // -------------------------------------------------------------
   // type and state of field settings that need to be displayed.  
   // @author: David J. Davis
