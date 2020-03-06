@@ -44,3 +44,5 @@ yarn-debug.log*
 /doc/*
 .yardoc
 .yardoc/*
+# Ignore application configuration
+/config/application.yml

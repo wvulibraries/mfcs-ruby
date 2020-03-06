@@ -34,6 +34,9 @@ gem 'edtf-humanize', '~> 0.0.7'
 # breadcrumbs
 gem 'loaf'
 
+# configruation
+gem "figaro"
+
 # Test Suite
 # =====================================================================================
 # group :test do
