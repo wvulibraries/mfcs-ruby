@@ -8,6 +8,16 @@ Rails.application.routes.draw do
   # forms
   resources :forms, :metadata_mappings, :idno_fields, :text_fields, :check_fields
 
+  # API
+  namespace :api do
+    namespace :v1, defaults: { format: :json } do
+      # forms
+      get 'form/:id', to: 'forms#forms'
+      get 'forms', to: 'forms#forms'
+      get 'forms/metadata', to: 'forms#metadata'
+    end
+  end
+
   # test route for dave to not lose his mind
   get '/test', to: 'pages#test'
 end
