@@ -2,22 +2,22 @@
     <fieldset class="commonFieldSettings choiceFieldSettings" data-controller="choices-field">
       <legend> Choice Field Options </legend>
 
-
       <div class="row"> 
         <div class="field col">
           <%= label_tag :choice_type, 'Choice Type', class: 'required' %>
           <!-- Icon -->
           <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select manual choices or choices by linking the data to another specifically a metadata form."></span>
           <div class="select-style"> 
-            <%= select_tag :choice_type, choice_types, {class: '', data: {action:'load@window->choices-field#toggle_choices change->choices-field#toggle_choices', target:"choices-field.toggle"}} %>
+            <%= select_tag :choice_type, options_for_select(choice_types), {class: '', data: {action:'load@window->choices-field#toggle_choices change->choices-field#toggle_choices', target:"choices-field.toggle"}} %>
           </div>
         </div>
       </div>
 
-    <div class="row d-none" data-target="choices-field.manual">
-      <%= hidden_field_tag :default_choice, {data: { target: 'choices-field.defaultChoice' }} %>
+      <div class="row d-none" data-target="choices-field.manual">
+        <%= hidden_field_tag :default_choice, {data: { target: 'choices-field.defaultChoice' }} %>
+
         <div class="col-12"> 
-          <%= label_tag :choices, class: 'required' %>
+          <%= label_tag :choices, "Manual Choices", class: 'required' %>
         </div>
 
         <div class="choices-container col" data-target="choices-field.container">
@@ -27,23 +27,23 @@
         <template data-target='choices-field.template'>
           <%= render "components/form_builder/fields/shared/choice_group" %>
         </template>
-    </div>
-
-    <div class="row d-none" data-target="choices-field.linkedForms"> 
-      <div class="field col-12">
-        <%= label_tag :choices_form, class: 'required' %>
-        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a metdata form to use for the data that will populate this field."></span>
-        <div class="select-style"> 
-          <%= select_tag :choice_form, {}, {class: ''} %>
-        </div>
       </div>
 
-      <div class="field col-12">
-        <%= label_tag :choices_form_field, class: 'required' %>
-        <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a field that will represent the value in the metadata form."></span>
-        <div class="select-style"> 
-          <%= select_tag :choice_form_field, {}, {class: ''} %>
+      <div class="row d-none" data-target="choices-field.linkedForms"> 
+        <div class="field col-12">
+          <%= label_tag :choices_form, "Metadata Form", class: 'required' %>
+          <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a metdata form to use for the data that will populate this field."></span>
+          <div class="select-style"> 
+            <%= select_tag :choice_form, {}, {class: ''} %>
+          </div>
+        </div>
+
+        <div class="field col-12">
+          <%= label_tag :choices_form_field, "Metadata Field", class: 'required' %>
+          <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a field that will represent the value in the metadata form."></span>
+          <div class="select-style"> 
+            <%= select_tag :choice_form_field, {}, {class: ''} %>
+          </div>
         </div>
       </div>
-    </div>
   </fieldset>

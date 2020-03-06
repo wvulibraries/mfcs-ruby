@@ -13,7 +13,7 @@
     <div class="field col-sm"> 
       <%= label_tag :format %>
       <div class="select-style">
-        <%= select_tag :format, text_formats, {class: ''} %> 
+        <%= select_tag :format, options_for_select(text_formats), {class: ''} %> 
       </div>
     </div>
   </div>
