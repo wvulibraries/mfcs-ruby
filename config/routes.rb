@@ -13,8 +13,11 @@ Rails.application.routes.draw do
     namespace :v1, defaults: { format: :json } do
       # forms
       get 'form/:id', to: 'forms#forms'
+      get 'form', to: 'forms#forms'
       get 'forms', to: 'forms#forms'
       get 'forms/metadata', to: 'forms#metadata'
+      get 'forms/metadata/names', to: 'forms#metadata'
+      get 'form/:id/fields', to: 'forms#field_names'
     end
   end
 

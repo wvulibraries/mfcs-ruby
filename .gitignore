@@ -39,6 +39,10 @@ yarn-debug.log*
 /search_data/*
 .DS_Store
 
+# ignore data we are grabbing and doing transformative things on
+/mfcs_transform_data
+/mfcs_transform_data/*
+
 #ignore docs
 /doc
 /doc/*

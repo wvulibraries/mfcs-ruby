@@ -21,13 +21,22 @@ class Api::V1::FormsController < ActionController::Base
   # @author David J. Davis
   # @return object[Array <JSON>] Array of form json objects 
   def metadata
-    render json: JSON.pretty_generate(Form.metadata_forms.as_json)
+    render json: JSON.pretty_generate(Form.metadata_forms.to_json)
   end
 
-  # # Returns JSON for all metadata forms   
-  # # @author David J. Davis
-  # # @return object[Array <JSON>] Array of form json objects 
-  # def metadata
-  #   render json: Form.metadata_forms.to_json
-  # end
+  # Returns JSON for all metadata forms   
+  # @author David J. Davis
+  # @return object[Array <JSON>] Array of form json objects 
+  def metadata_names
+    render json: JSON.pretty_generate(Form.metadata_forms.select(:id, :title).as_json)
+  end
+
+  # Returns JSON for all metadata forms   
+  # @author David J. Davis
+  # @return object[Array <JSON>] Array of form json objects 
+  def field_names
+    render json: JSON.pretty_generate({error: 'The form ID must exist'}) if params[:id].nil?
+    fields = Form.select(:fields).where(id: params[:id]).as_json
+    render json: JSON.pretty_generate(fields)
+  end
 end 

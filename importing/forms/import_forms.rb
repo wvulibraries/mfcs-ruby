@@ -18,12 +18,20 @@ Dir.foreach(data_directory) do |filename|
   json['fields'] = morph_to_hash json['fields']
   json['permissions'] = morph_to_hash json['permissions']
   json['navigation'] = morph_to_hash json['navigation']
+  
 
   f = Form.new(json)
 
   f.title = "Untitled #{f.id}" if f.title.nil? || f.title.empty? 
   f.display_title = "Untitled #{f.id}" if f.display_title.nil? || f.title.empty?
   f.idno = json['idno'] unless json['idno'].nil?
+  f.fields = json['fields']
+  f.permissions = json['permissions']
+  f.navigation = json['navigation']
+
+  pp f.fields
+
+  abort
 
   f.save(validate: false)
 end

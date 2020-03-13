@@ -27,7 +27,7 @@ class Form < ApplicationRecord
  
   # RAILS CALLBACKS
   # -----------------------------------------------------
-  after_initialize :set_defaults
+  after_initialize :set_defaults, unless: :persisted?
 
   # Get an array of linked metadata fields from the field hash
   # @author David J. Davis
