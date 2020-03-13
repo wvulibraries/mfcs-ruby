@@ -42,6 +42,7 @@ yarn-debug.log*
 # ignore data we are grabbing and doing transformative things on
 /mfcs_transform_data
 /mfcs_transform_data/*
+/importing/data/* 
 
 #ignore docs
 /doc
