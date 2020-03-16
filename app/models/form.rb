@@ -6,7 +6,7 @@ class Form < ApplicationRecord
 
   # Hstores
   # -----------------------------------------------------
-  store_accessor :fields, :navigation, :permissions, :idno
+  # attr_accessor :fields, :navigation, :permissions, :idno
 
   # Validations
   # -----------------------------------------------------
@@ -35,7 +35,7 @@ class Form < ApplicationRecord
   def linked_forms
     return nil if self.fields.blank? || self.fields.class != Hash
 
-    self.fields.map { |k,v| v }.pluck('choicesForm').compact.map(&:to_i)
+    self.fields.map { |k,v| v }.pluck('choices_form').compact.map(&:to_i)
   end
 
   private

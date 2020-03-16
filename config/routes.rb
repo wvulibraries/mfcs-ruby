@@ -16,7 +16,7 @@ Rails.application.routes.draw do
       get 'form', to: 'forms#forms'
       get 'forms', to: 'forms#forms'
       get 'forms/metadata', to: 'forms#metadata'
-      get 'forms/metadata/names', to: 'forms#metadata'
+      get 'forms/metadata/names', to: 'forms#metadata_names'
       get 'form/:id/fields', to: 'forms#field_names'
     end
   end

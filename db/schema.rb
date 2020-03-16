@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_12_194751) do
+ActiveRecord::Schema.define(version: 2020_03_13_171732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -59,10 +59,7 @@ ActiveRecord::Schema.define(version: 2020_03_12_194751) do
     t.jsonb "navigation", default: [], array: true
     t.jsonb "permissions", default: [], array: true
     t.jsonb "idno", default: {}
-    t.index ["fields"], name: "index_forms_on_fields"
     t.index ["idno"], name: "index_forms_on_idno"
-    t.index ["navigation"], name: "index_forms_on_navigation"
-    t.index ["permissions"], name: "index_forms_on_permissions"
   end
 
   create_table "projects", force: :cascade do |t|
