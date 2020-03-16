@@ -37,16 +37,11 @@ class Api::V1::FormsController < ActionController::Base
   # @return object[Array <JSON>] Array of form json objects 
   def field_names
     render json: JSON.pretty_generate({error: 'The form ID must exist'}) if params[:id].nil?
-    
-    form = Form.select(:fields).where(id: params[:id]).first
-    fields = form.fields
-    
-    keys_to_extract = ['name', 'label']
+
+    fields = Form.select(:fields).where(id: params[:id]).first.fields    
     field_names = []
-    fields.map do |field|
-      field_names << field.select { |key, value| keys_to_extract.include? key }
-    end
-    
+    fields.map { |field| field_names << field.slice('name', 'label') }  
+  
     render json: JSON.pretty_generate(field_names)
   end
 end 
