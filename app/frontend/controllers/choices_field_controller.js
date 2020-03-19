@@ -3,8 +3,36 @@ import Validation from "../components/validation/validation";
 
 export default class extends Controller {
   // sets stimulus controller to have the proper targets
-  static targets = ["choiceHtml", "defaultChoice", "defaultChoiceBtn", "container", "template", "toggle", "manual", "linkedForms"]
+  static targets = ["choiceHtml", "defaultChoice", "defaultChoiceBtn", "container", "template", "toggle", "manual", "linkedForms", "formChoice", "fieldChoice", 'choiceArray']
 
+  // create_form_field_options(e)
+  // ------------------------------------------------------------
+  // this toggles between metadata forms and manual choice values
+  // @author: David J. Davis
+  create_form_field_options(e){
+    // get the value then create a fetch option
+    let form_id = e.target.value; 
+    let field_select = this.fieldChoiceTarget; 
+    // let id = 2; 
+    let url = `/api/v1/form/${form_id}/fields`;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "api_key": "something",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+      data.forEach(function(option){ 
+        field_select.add(
+        new Option(option.name, option.label, false));
+      });
+    })
+    .catch(function(error) {
+      console.log('Error with the API, please contact developers.'); 
+    });
+  }
   // toggle_choices(e)
   // ------------------------------------------------------------
   // this toggles between metadata forms and manual choice values
@@ -98,5 +126,33 @@ export default class extends Controller {
         this.defaultChoiceTarget.value  = ''; 
       }
     }
+  }
+
+  // reprocess
+  // -------------------------------------------------------------
+  // this is fired when a field is clicked on to update, or when it is created.
+  // this should be fired so that the proper amount of fields show up for the number of options
+  // available. 
+  // @author: David J. Davis
+  reprocess(e){
+    e.preventDefault();
+    let choices = this.choiceArrayTarget.value.split(',');
+    console.log(choices);
+    console.log('should reprocess choices');
+  }
+  
+  // create_choice_array
+  // -------------------------------------------------------------
+  // create the array from choices and save it
+  // to the hidden field
+  // @author: David J. Davis
+  create_choice_array(e){ 
+    e.preventDefault(); 
+    let choices = this.containerTarget.querySelectorAll('input'); 
+    let choiceArray = []; 
+    for (let i = 0; i < choices.length; i++){
+      choiceArray.push(choices[i].value); 
+    }
+    this.choiceArrayTarget.value = choiceArray; 
   }
 }

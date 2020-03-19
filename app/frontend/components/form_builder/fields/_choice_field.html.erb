@@ -14,7 +14,9 @@
       </div>
 
       <div class="row d-none" data-target="choices-field.manual">
-        <%= hidden_field_tag :default_choice, {data: { target: 'choices-field.defaultChoice' }} %>
+        <%= hidden_field_tag :default_choice, nil, {data: { target: 'choices-field.defaultChoice' }} %>
+
+        <%= hidden_field_tag :choice_array, nil, {data: { target: 'choices-field.choiceArray' }} %>
 
         <div class="col-12"> 
           <%= label_tag :choices, "Manual Choices", class: 'required' %>
@@ -27,6 +29,8 @@
         <template data-target='choices-field.template'>
           <%= render "components/form_builder/fields/shared/choice_group" %>
         </template>
+
+         <button class="choices-refresh" data-action='click->choices-field#reprocess'> Reprocess Manual </button>
       </div>
 
       <div class="row d-none" data-target="choices-field.linkedForms"> 
@@ -34,7 +38,8 @@
           <%= label_tag :choices_form, "Metadata Form", class: 'required' %>
           <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a metdata form to use for the data that will populate this field."></span>
           <div class="select-style"> 
-            <%= select_tag :choice_form, {}, {class: ''} %>
+            <%= select_tag :choice_form, options_from_collection_for_select(@forms, "id", "title"), { class: 'choices_form', data: { action: "change->choices-field#create_form_field_options", target: "choices-field.formChoice" }} 
+            %>
           </div>
         </div>
 
@@ -42,7 +47,7 @@
           <%= label_tag :choices_form_field, "Metadata Field", class: 'required' %>
           <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Select a field that will represent the value in the metadata form."></span>
           <div class="select-style"> 
-            <%= select_tag :choice_form_field, {}, {class: ''} %>
+            <%= select_tag :choice_form_field, {}, {class: 'choices_form_field', "data-target" => "choices-field.fieldChoice"} %>
           </div>
         </div>
       </div>

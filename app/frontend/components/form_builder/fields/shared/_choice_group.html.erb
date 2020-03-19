@@ -2,7 +2,7 @@
   <div class="input-group-prepend">
     <%= button_tag(raw('<span class="fas fa-check"></span>'), {data: { action: "click->choices-field#default_choice", target: 'defaultChoiceBtn' }, class:'defaultChoiceButtons btn btn-dark', type: ''} ) %>
   </div>
-  <%= text_field_tag :choices, nil, multiple: true, class:'col', data: { action: 'keyup->choices-field#modify_default_value'}, placeholder: 'Choice' %>
+  <%= text_field_tag :choices, nil, multiple: true, class:'col', data: { action: 'keyup->choices-field#modify_default_value keyup->choices-field#create_choice_array'}, placeholder: 'Choice' %>
   <div class="input-group-append"> 
     <%= button_tag(raw('<span class="fas fa-plus"></span>'), {data: { action: "click->choices-field#add_choice" }, class:'choice btn btn-info', type: ''} ) %>   
     <%= button_tag(raw('<span class="fas fa-minus"></span>'), {data: { action: "click->choices-field#remove_choice" }, class:'btn btn-danger', type: ''} ) %>

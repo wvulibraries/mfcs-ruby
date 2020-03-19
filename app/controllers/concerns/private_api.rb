@@ -16,8 +16,10 @@ module PrivateApi
   # @author David J. Davis
   # @return object[Array <Integer>] Array of ids to identify the forms. 
   def check_api_key
-    if params[:api_key].nil? || params[:api_key] != ENV['mfcs_api_key']
-      render json: { error: "Invalid API Key, please make sure you have the proper API Key. #{params[:api_key].inspect}" }
+    api_key = request.headers['HTTP_API_KEY']
+    # if (params[:api_key].nil? && params[:api_key] != ENV['mfcs_api_key']) || (api_key.nil? && api_key != ENV['mfcs_api_key']) 
+    if (params[:api_key].nil? && params[:api_key] != ENV['mfcs_api_key']) && (api_key.nil? && api_key != ENV['mfcs_api_key'])
+      render json: { error: "Invalid API Key, please make sure you have the proper API Key. #{params[:api_key].inspect} || #{api_key.inspect}" }
     end 
   end
 

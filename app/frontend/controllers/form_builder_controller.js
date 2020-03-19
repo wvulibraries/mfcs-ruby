@@ -2,7 +2,7 @@ import {Controller} from "stimulus";
 import Validation from "../components/validation/validation";
 import click from "../components/events/click";
 import change from "../components/events/change";
-import metadata_schema_controller from "./metadata_schema_controller";
+
 
 export default class extends Controller {
   // =============================================================
@@ -381,7 +381,7 @@ export default class extends Controller {
         input.value = data[key]; 
       }
       // this determines if an event change needs fired
-      let change_event_elms = ['help', 'help_type','managed_by']
+      let change_event_elms = ['help', 'help_type','managed_by', 'choice_type']
       if (change_event_elms.includes(key)){
         change(input);
       }
