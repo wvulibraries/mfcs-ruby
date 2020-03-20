@@ -348,6 +348,7 @@ export default class extends Controller {
     this.typeFieldsDisplay(type, 'block'); // show type specific fields
     this.populateForm(id, json); // Loop over JSON Data & Insert into form
     this.refreshMetadataFields(); // refresh metadata
+    this.refreshChoiceFields(); // refresh choices
   }
 
   // refreshMetadataFields
@@ -358,6 +359,15 @@ export default class extends Controller {
   // @author: David J. Davis
   refreshMetadataFields(){ 
     let elm = document.querySelector('.metadata-refresh'); 
+    click(elm); 
+  }
+
+  // refreshChoiceFields
+  // -------------------------------------------------------------
+  // Trigger choice fields to refresh.
+  // @author: David J. Davis
+  refreshChoiceFields(){ 
+    let elm = document.querySelector('.choices-refresh'); 
     click(elm); 
   }
 

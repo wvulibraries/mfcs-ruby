@@ -137,8 +137,22 @@ export default class extends Controller {
   reprocess(e){
     e.preventDefault();
     let choices = this.choiceArrayTarget.value.split(',');
-    console.log(choices);
-    console.log('should reprocess choices');
+    let html = this.templateTarget.innerHTML;
+    this.containerTarget.innerHTML = "";
+    for (let i = 0; i < choices.length; i++){
+      // insert html
+      this.containerTarget.insertAdjacentHTML( 'beforeend', html);
+      // adjust input elements 
+      let input_elms = this.containerTarget.querySelectorAll("input");
+      input_elms[i].value = choices[i]; 
+
+      if (this.defaultChoiceTarget.value == choices[i]){ 
+        let buttons = this.containerTarget.querySelectorAll(".defaultChoiceButtons");
+        buttons[i].classList.remove('btn-dark');
+        buttons[i].classList.add('btn-success'); 
+        buttons[i].classList.add('activeDefaultChoice');
+      }
+    }
   }
   
   // create_choice_array
@@ -147,7 +161,7 @@ export default class extends Controller {
   // to the hidden field
   // @author: David J. Davis
   create_choice_array(e){ 
-    e.preventDefault(); 
+    e.preventDefault();
     let choices = this.containerTarget.querySelectorAll('input'); 
     let choiceArray = []; 
     for (let i = 0; i < choices.length; i++){
