@@ -1,5 +1,17 @@
 <template <% unless target_name.nil? %> data-target="<%= target_name %>" <% end %>>
-  <div class="field-preview {{id}}" data-id="{{id}}" data-sort="{{sort}}" data-fieldtype="{{type}}" data-json='{{json}}' data-action="click->form-builder#editField">
+  <div class="field-preview {{id}}" 
+    data-id="{{id}}" 
+    data-sort="{{sort}}" 
+    data-fieldtype="{{type}}" 
+    data-json='{{json}}' 
+    data-action="click->form-builder#editField
+      dragstart->sort#start
+      dragover->sort#collision
+      dragleave->sort#exitCollision
+      drag->sort#drag
+      dragend->sort#drop  
+    " 
+    draggable='true' >
 
     <a href="javascript:void(0)" class="help" data-toggle="popover" data-action="click->form-builder#popover" title="Help" data-content="{{help}} ." data-placement="left"> 
       <span class="far fa-question-circle"></span>
@@ -11,6 +23,11 @@
 
     <div class="remove">
       <span class="far fa-trash-alt" data-id="{{id}}" data-action="click->form-builder#removeField"></span>
+    </div>
+
+    <div class="sort-buttons"> 
+      <span class="fas fa-arrow-circle-up sort-up" data-action="click->sort#sortUp"></span>
+      <span class="fas fa-arrow-circle-down sort-down" data-action="click->sort#sortDown"></span>
     </div>
   </div>
 

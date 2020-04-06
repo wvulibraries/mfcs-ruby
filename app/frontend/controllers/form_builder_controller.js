@@ -289,7 +289,7 @@ export default class extends Controller {
   // Might be added to later. 
   // @author: David J. Davis
   sortOrder(){ 
-    return this.formPreviewTarget.childElementCount;
+    return this.formPreviewTarget.childElementCount + 1;
   }
 
   // modifyTemplateString()

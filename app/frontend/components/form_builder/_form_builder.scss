@@ -20,10 +20,22 @@ fieldset {
 }
 
 .form-preview { 
-  padding: 0 3rem;
+  padding: 0 0 0 3rem;
+}
+
+.description { 
+  margin: 1rem 0 3rem;
+  font-size: 1.25rem; 
+  word-wrap: break-word;
+}
+
+.title { 
+  font-size: 1.5rem; 
 }
 
 .fields { 
+
+  padding-bottom:1em; 
 
   .field-preview {
     background-color: #fff;
@@ -31,6 +43,16 @@ fieldset {
     position: relative;
     padding: 1em; 
     margin-bottom:3em; 
+    cursor: move; 
+    width:calc(100% - 2em);
+
+    &:first-child { 
+      .sort-up { cursor:block; opacity:.2; }
+    }
+
+    &:last-child { 
+      .sort-down { cursor:block; opacity:.2; }
+    }
 
     &:before { 
       content: "";
@@ -59,7 +81,12 @@ fieldset {
       }
     }
 
+    * { 
+      pointer-events: none;
+    }
+
     .remove span{ 
+      pointer-events: all;
       display: block;
       position: absolute;
       top: -1.5em;
@@ -74,7 +101,35 @@ fieldset {
       box-shadow: 0px 0px 10px rgba(darken(#C70D00, 10%), .4);
     }
 
+    .sort-buttons { 
+      display:block;
+      height:100%;
+      width:0; 
+      top:0; right:0;  
+      position: absolute; 
+      font-size: 2em;
+      cursor: pointer;
+
+      .sort-up, .sort-down { 
+        pointer-events: all;
+        position:absolute;
+        top: calc(50% - 1em);
+        right: -1.5em; 
+        color:$link; 
+        &:hover, &:active, &:focus { 
+          color: darken($link,10%);
+        }
+      }
+      
+      .sort-down { 
+        bottom: calc(50% - 1.5em); 
+        top:unset;
+        right: -1.5em; 
+      }
+    }
+
     .help { 
+      pointer-events: all;
       display: block;
       position: absolute;
       top: -1.5em;
@@ -170,3 +225,13 @@ fieldset {
     }
   }
 }
+
+$collision-border: 10px solid rgba($link, .8) !important; 
+.collision-border-top {
+  border-top: $collision-border; 
+} 
+
+.collision-border-bottom {
+  border-bottom: $collision-border; 
+} 
+
