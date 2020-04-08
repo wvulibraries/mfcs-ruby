@@ -30,7 +30,7 @@ export default class extends Controller {
       });
     })
     .catch(function(error) {
-      console.log('Error with the API, please contact developers.'); 
+      console.error('Error with the API, please contact developers.'); 
     });
   }
   // toggle_choices(e)
