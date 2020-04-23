@@ -9,3 +9,11 @@ main {
 .show { 
   display: block;
 }
+
+ul, ol, dl { 
+  padding-left:2rem; 
+}
+
+nav, menu { 
+  ul, ol, dl { padding-left:unset; }
+}

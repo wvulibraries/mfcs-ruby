@@ -75,7 +75,7 @@ fieldset {
     }
 
     &:hover { 
-      border-color:$link; 
+      border-color:$link;
       &:before { 
         @include cross-hatch($link);
       }
@@ -234,4 +234,21 @@ $collision-border: 10px solid rgba($link, .8) !important;
 .collision-border-bottom {
   border-bottom: $collision-border; 
 } 
+
+.fileFieldSettings { 
+  .heading { 
+    font-weight: bolder;
+    font-size:1.2rem; 
+    margin-bottom:.5rem; 
+  }
+  // needs unset in the wrapper so that it can wrap.
+  .checkbox-wrapper { 
+    margin-right: unset; 
+    padding-left: 2rem;
+  }
+
+  .row { 
+    margin-bottom:1rem; 
+  }
+}
 

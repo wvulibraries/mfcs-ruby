@@ -1,7 +1,7 @@
 import {Controller} from "stimulus";
 import Validation from "../components/validation/validation";
 
-export default class extends Controller {
+export default class HelpField extends Controller {
   // sets stimulus controller to have the proper targets
   static targets = ["helpFields", "urlField", "textField", "select"]
   
@@ -60,15 +60,14 @@ export default class extends Controller {
     this.urlFieldTarget.classList.remove('d-block');
 
     if(e.target.value == 1 || e.target.value == 2){ 
-      console.log('help text / html'); 
       this.textFieldTarget.classList.add('d-block');
+      this.textFieldTarget.classList.remove('d-none');
       this.urlFieldTarget.classList.add('d-none');
     } else if(e.target.value == 3){ 
-      console.log('url'); 
       this.urlFieldTarget.classList.add('d-block');
+      this.urlFieldTarget.classList.remove('d-none');
       this.textFieldTarget.classList.add('d-none');
     } else { 
-      console.log('none');
       this.textFieldTarget.classList.add('d-none');
       this.urlFieldTarget.classList.add('d-none');
     }

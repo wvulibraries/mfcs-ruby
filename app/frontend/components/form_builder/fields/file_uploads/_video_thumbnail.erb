@@ -1,0 +1,29 @@
+<fieldset class="fileFieldSettings">
+  <legend> Video Thumbnail Options </legend>
+
+  <div class="row no-gutters input-group">
+
+    <div class="field col">
+      <%= label_tag :video_video_thumbnail_height, "Height" %>
+      <%= number_field_tag :video_thumbnail_height %>
+    </div>
+    
+    <div class="field col">
+      <%= label_tag :video_thumbnail_width, "Width" %>  
+      <%= number_field_tag :video_thumbnail_width %>
+    </div>
+
+    <div class="field col">
+      <%= label_tag :video_thumbnail_frames, "Number" %>  
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="The number of thumbnails to grab by frames to 1-10."></span>
+      <%= number_field_tag :video_thumbnail_frames %>
+    </div>
+    
+    <div class="field col">
+      <%= label_tag :video_thumbnail_format, "Format" %> 
+      <div class="select-style col">
+        <%= select_tag :video_thumbnail_format, options_for_select(I18n.t 'form_builder.image_file_types' ),include_blank: "Video Thumbnail Format" %>
+      </div>
+    </div>
+  </div>
+</fieldset>

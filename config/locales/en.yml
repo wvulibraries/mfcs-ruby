@@ -32,3 +32,9 @@
 en:
   hello: "Hello world"
   login_failure: 'The login has failed because the user does not exist, or you do not have permission to use this application.  If you believe that this is an error, please contact the system administrator.'
+  form_builder:
+    image_file_types: [['jpg', 'JPG'], ['png', 'PNG'], ['gif', 'GIF'], ['bmp', 'BMP'], ['webp', 'WEBP']]
+    audio_bitrates: [['700kbs (Low Quality)', 700], ['1200kbs (Fast Streaming)', 1200], ['2400kbs (YouTube Quality)', 2400], ['5000kbs (HD Quality)', 5000], ['12000kbs (HDTV Quality)', 12000]]
+    audio_formats: [['MP3 (Recommended)', 'mp3'], ['OGG', ogg], ['WAV', 'wav']]
+    video_bitrates: [['32kbs (Speeches)', 32], ['64kbs (Fast Streaming)', 64], ['128kbs (Recommended)', 128], ['192kbs (High Quality)', 192], ['256kbs (Best Quality)', 256]]
+    video_formats: [['AVI', 'avi'], ['MOV', 'mov'], ['MP4 (Recommended)', 'mp4'], ['3GP', '3gp'], ['WEBM', 'webm'], ['OGV', 'ogv']]

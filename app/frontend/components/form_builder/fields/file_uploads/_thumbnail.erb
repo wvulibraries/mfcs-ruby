@@ -1,0 +1,31 @@
+<fieldset class="fileFieldSettings">
+  <legend> Thumbnail Options </legend>
+
+  <div class="row no-gutters input-group">
+
+    <div class="field col">
+      <%= label_tag :thumbnail_height %>
+          <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="To lock aspect ratio, use a 0. Width must be set to a non-zero integer if 0 is used here."></span>
+      <%= number_field_tag :thumbnail_height %>
+    </div>
+    
+    <div class="field col">
+      <%= label_tag :thumbnail_width %>  
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="To lock aspect ratio, use a 0. Height must be set to a non-zero integer if 0 is used here."></span>
+      <%= number_field_tag :thumbnail_width %>
+    </div>
+
+    <div class="field col">
+      <%= label_tag :thumbnail_resolution %>  
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="It is recommended to keep images between 72-90dpi."></span>
+      <%= number_field_tag :thumbnail_resolution %>
+    </div>
+    
+    <div class="field col">
+      <%= label_tag :thumbnail_format %> 
+      <div class="select-style col">
+        <%= select_tag :thumbnail_format, options_for_select(I18n.t 'form_builder.image_file_types' ), include_blank: "Thumbnail Format" %>
+      </div>
+    </div>
+  </div>
+</fieldset>

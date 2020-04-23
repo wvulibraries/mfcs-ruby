@@ -33,6 +33,7 @@ export default class extends Controller {
       console.error('Error with the API, please contact developers.'); 
     });
   }
+  
   // toggle_choices(e)
   // ------------------------------------------------------------
   // this toggles between metadata forms and manual choice values

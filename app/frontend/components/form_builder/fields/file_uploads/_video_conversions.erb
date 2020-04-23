@@ -1,0 +1,34 @@
+<fieldset class="fileFieldSettings">
+  <legend> Video Options </legend>
+
+  <div class="row">
+    <div class="field col-6">
+      <%= label_tag :video_bitrate %>
+      <div class="select-style col">
+        <%= select_tag :video_bitrate, options_for_select(I18n.t 'form_builder.video_bitrates', ''),  include_blank: "Select Bitrate" %>
+      </div>
+    </div>
+
+    <div class="field col-6">
+      <%= label_tag :video_format %>
+      <div class="select-style col">
+        <%= select_tag :video_format, options_for_select(I18n.t 'form_builder.video_formats', ''),  include_blank: "Select Format" %>
+      </div>
+    </div>  
+  </div>
+
+  <div class="row">
+
+    <div class="field col-6">
+      <%= label_tag :video_height %>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="It is recommended that you maintain aspect ratios when adjusting height and size. Use 4:3 ratios for older screens, and 16:9 aspect ratio for widescreens.  Otherwise porportional changes based on the media size already." data-original-title="" title=""></span>
+      <%= text_field_tag :video_height %>
+    </div>
+
+    <div class="field col-6">
+      <%= label_tag :video_width %>
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="It is recommended that you maintain aspect ratios when adjusting height and size. Use 4:3 ratios for older screens, and 16:9 aspect ratio for widescreens.  Otherwise porportional changes based on the media size already." data-original-title="" title=""></span>
+      <%= text_field_tag :video_width %>
+    </div>  
+  </div>
+</fieldset>

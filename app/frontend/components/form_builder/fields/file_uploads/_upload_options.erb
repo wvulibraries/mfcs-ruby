@@ -1,0 +1,85 @@
+<fieldset class="fileFieldSettings" data-controller="upload-options">
+  <legend> File Upload Options </legend>
+
+  <div class="row">
+    <div class="col-12 heading"> Image Options <br/> </div> 
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :multiple_files %>
+        <%= label_tag :multiple_files %>
+      </div>
+    </div>
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :combine %>
+        <%= label_tag :combine, "Combine into Single PDF" %>
+      </div>
+    </div>
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :ocr %>
+        <%= label_tag :ocr, "Optical Character Recognition (OCR)" %>
+      </div>
+    </div>
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :convert %>
+        <%= label_tag :covert, "Convert Image File" %>
+      </div>
+    </div>
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :thumbnail %>
+        <%= label_tag :thumbnail %>
+      </div>
+    </div>
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :watermark %>
+        <%= label_tag :watermark %>
+      </div>
+    </div>
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :border %>
+        <%= label_tag :border %>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-12 heading"> Audio Options <br/> </div> 
+
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :convert_audio %>
+        <%= label_tag :convert_audio %>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-12 heading"> Video Options <br/> </div> 
+
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :convert_video %>
+        <%= label_tag :convert_video %>
+      </div>
+    </div>
+
+    <div class="field checkbox-wrapper col-12 col-md-6">
+      <div class="checkbox">
+        <%= check_box_tag :video_thumbnail %>
+        <%= label_tag :video_thumbnail %>
+      </div>
+    </div>
+
+  </div>
+
+  
+
+
+</fieldset>

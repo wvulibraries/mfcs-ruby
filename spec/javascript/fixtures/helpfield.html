@@ -1,14 +1,14 @@
 <fieldset data-controller="help-field">
   <legend> Help </legend>
   <div class="field col-12">
-    <label for="idno_field_help_type">Help type</label>
+    <label for="help_type">Help type</label>
     <!-- Icon -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover"
       data-content="You can set any help text you want displayed with this field. Any angle brackets in HTML text will be treated as HTML"
       data-original-title="" title=""></span>
     <div class="select-style">
       <select class="something" data-action="change->help-field#select" name="idno_field[help_type]"
-        id="idno_field_help_type">
+        id="help_type">
         <option value="0">No Help</option>
         <option value="1">Plain Text</option>
         <option value="2">Html Text</option>
@@ -18,13 +18,13 @@
   </div>
 
   <div class="field col-12 help_data">
-    <div data-target="help-field.urlField">
+    <div id="url_container" data-target="help-field.urlField">
       <label for="idno_field_help_info">Help Url</label>
       <input class="helpUrlField" id="helpUrlField" data-action="change->help-field#validURL keyup->help-field#validURL"
         type="url" name="idno_field[help_info]">
     </div>
 
-    <div data-target="help-field.textField">
+    <div id="text_container" data-target="help-field.textField">
       <label for="idno_field_help_info">Help Text</label>
       <textarea class="helpTextField" id="helpTextField" name="idno_field[help_info]"></textarea>
     </div>

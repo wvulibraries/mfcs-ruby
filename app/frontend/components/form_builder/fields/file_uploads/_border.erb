@@ -1,0 +1,24 @@
+<fieldset class="fileFieldSettings">
+  <legend> Border Options </legend>
+
+  <div class="row no-gutters input-group">
+
+    <div class="field col">
+      <%= label_tag :border_height %>
+          <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Top and Bottom Border Size"></span>
+      <%= number_field_tag :border_height %>
+    </div>
+    
+    <div class="field col">
+      <%= label_tag :border_width %>  
+      <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click hover" data-content="Left and Right Border Sizes"></span>
+      <%= number_field_tag :border_width %>
+    </div>
+
+
+    <div class="field col">
+      <%= label_tag :border_color %> 
+      <%= color_field_tag( :border_color ) %>
+    </div>
+  </div>
+</fieldset>
