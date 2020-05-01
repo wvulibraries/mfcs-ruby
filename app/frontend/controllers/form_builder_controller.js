@@ -391,7 +391,7 @@ export default class extends Controller {
         input.value = data[key]; 
       }
       // this determines if an event change needs fired
-      let change_event_elms = ['help', 'help_type','managed_by', 'choice_type']
+      let change_event_elms = ['help', 'help_type','managed_by', 'choice_type','convert_video', 'video_thumbnail', 'convert_audio', 'border', 'watermark', 'thumbnail', 'convert']
       if (change_event_elms.includes(key)){
         change(input);
       }

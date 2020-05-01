@@ -1,4 +1,4 @@
-<fieldset class="fileFieldSettings" data-controller="upload-options">
+<fieldset class="fileFieldSettings">
   <legend> File Upload Options </legend>
 
   <div class="row">
@@ -23,25 +23,26 @@
     </div>
     <div class="field checkbox-wrapper col-12 col-md-6">
       <div class="checkbox">
-        <%= check_box_tag :convert %>
+        <%= check_box_tag :convert, nil, nil, :data => {:action => "change->conversions#change_options", :display_target => "image" } %>
         <%= label_tag :covert, "Convert Image File" %>
       </div>
     </div>
     <div class="field checkbox-wrapper col-12 col-md-6">
       <div class="checkbox">
-        <%= check_box_tag :thumbnail %>
+        <%= check_box_tag :thumbnail, nil, nil, :data => {:action => "change->conversions#change_options", :display_target => "thumbnail" } %>
         <%= label_tag :thumbnail %>
       </div>
     </div>
     <div class="field checkbox-wrapper col-12 col-md-6">
       <div class="checkbox">
+        <%# check_box_tag :watermark, nil, nil, :data => {:action => "change->conversions#change_options", :display_target => "watermark" } %>
         <%= check_box_tag :watermark %>
         <%= label_tag :watermark %>
       </div>
     </div>
     <div class="field checkbox-wrapper col-12 col-md-6">
       <div class="checkbox">
-        <%= check_box_tag :border %>
+        <%= check_box_tag :border, nil, nil, :data => {:action => "change->conversions#change_options", :display_target => "border" } %>
         <%= label_tag :border %>
       </div>
     </div>
@@ -53,7 +54,7 @@
 
     <div class="field checkbox-wrapper col-12 col-md-6">
       <div class="checkbox">
-        <%= check_box_tag :convert_audio %>
+        <%= check_box_tag :convert_audio, nil, nil, :data => {:action => "change->conversions#change_options", :display_target => "audio" } %>
         <%= label_tag :convert_audio %>
       </div>
     </div>
@@ -65,14 +66,14 @@
 
     <div class="field checkbox-wrapper col-12 col-md-6">
       <div class="checkbox">
-        <%= check_box_tag :convert_video %>
+        <%= check_box_tag :convert_video, nil, nil, :data => {:action => "change->conversions#change_options", :display_target => "video" } %>
         <%= label_tag :convert_video %>
       </div>
     </div>
 
     <div class="field checkbox-wrapper col-12 col-md-6">
       <div class="checkbox">
-        <%= check_box_tag :video_thumbnail %>
+        <%= check_box_tag :video_thumbnail, nil, nil, :data => {:action => "change->conversions#change_options", :display_target => "thumbnailVideo" } %>
         <%= label_tag :video_thumbnail %>
       </div>
     </div>
