@@ -348,7 +348,15 @@ export default class extends Controller {
     this.typeFieldsDisplay(type, 'block'); // show type specific fields
     this.populateForm(id, json); // Loop over JSON Data & Insert into form
     this.refreshMetadataFields(); // refresh metadata
-    this.refreshChoiceFields(); // refresh choices
+
+    // types specific refreshes 
+    if(type == 'select' || 'multiselect' || 'choice') { 
+      this.refreshChoiceFields(); // refresh choices
+    }
+    
+    if(type == 'file' || type == 'fileUpload') { 
+      this.refreshFileTypes();  // refresh file types
+    }
   }
 
   // refreshMetadataFields
@@ -368,6 +376,16 @@ export default class extends Controller {
   // @author: David J. Davis
   refreshChoiceFields(){ 
     let elm = document.querySelector('.choices-refresh'); 
+    click(elm); 
+  }
+
+  // refreshFileTypes
+  // -------------------------------------------------------------
+  // Trigger refresh on file types for allowed file types. 
+  // Done by clicking an invisible button to trigger another function from another controller.
+  // @author: David J. Davis
+  refreshFileTypes(){ 
+    let elm = document.querySelector('.file-types-refresh'); 
     click(elm); 
   }
 
@@ -405,6 +423,7 @@ export default class extends Controller {
   typeFieldsDisplay(type, state){ 
     let typeClass = '.' + type.toLowerCase() + 'FieldSettings'; 
     let typeFields = document.querySelectorAll(typeClass);
+    console.log(type); 
     for (let i = 0; i < typeFields.length; i++) {
       typeFields[i].style.display = state;
     }
@@ -428,7 +447,7 @@ export default class extends Controller {
   // @author: David J. Davis
   resetFieldSettingDisplays(){ 
     this.clearForm(this.fieldSettingsFormTarget); // clear form
-    let fieldsets = document.querySelectorAll('#fieldSettings > form > fieldset');
+    let fieldsets = document.querySelectorAll('#fieldSettings > form fieldset');
     for (let i = 0; i < fieldsets.length; i++) {
       fieldsets[i].style.display = 'none';
     }

@@ -234,6 +234,7 @@ export default class extends Controller {
     this.sortPreview(); 
   }
 
+
   // ========================================================================
   // DOM CHANGES
   // ========================================================================
@@ -251,5 +252,7 @@ export default class extends Controller {
 
     this.container.innerHTML = '';
     sorted.forEach(elm => this.container.append(elm));
+    let formSettings = document.querySelector('.formSettingsBtn'); 
+    click(formSettings);
   }
 }
