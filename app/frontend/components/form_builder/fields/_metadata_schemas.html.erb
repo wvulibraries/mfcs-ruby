@@ -2,13 +2,13 @@
   <legend> Metadata Schemas </legend>
   <div class="mscontroller" >
     <template data-target="metadata-schema.template">
-      <%= render "components/form_builder/fields/shared/metadata_fields"%>
+      <%= render "components/form_builder/fields/metadata/metadata_fields"%>
     </template>
 
     <%= hidden_field_tag :metadata_standards, nil, { data: { target: 'metadata-schema.hidden' }} %>
 
     <div data-target='metadata-schema.metadatafields'>
-      <%= render "components/form_builder/fields/shared/metadata_fields"%>
+      <%= render "components/form_builder/fields/metadata/metadata_fields"%>
     </div>
 
     <button class="metadata-refresh visually-hidden sr-only" data-action='click->metadata-schema#reprocess'> REPROCESS VIEW </button>

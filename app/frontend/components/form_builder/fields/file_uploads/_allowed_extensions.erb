@@ -5,17 +5,17 @@
 
       <div class="row" data-target="allowed-extensions.manual">
 
-        <%= hidden_field_tag :allowed_file_types, nil, {data: { target: 'allowed-extensions.file_types' }} %>
+        <%= hidden_field_tag :allowed_file_types, nil, {data: { target: 'allowed-extensions.fileTypes' }} %>
       
         <div class="extensions-container col" data-target="allowed-extensions.container">
           <%= render "components/form_builder/fields/file_uploads/template_allowed_extensions" %>
         </div>
 
         <template data-target='allowed-extensions.template'>
-          <%# render "components/form_builder/fields/file_uploads/template_allowed_extensions" %>
+          <%= render "components/form_builder/fields/file_uploads/template_allowed_extensions" %>
         </template>
 
-         <button class="allowedFileTypesRefresh" data-action='click->allowed-extensions#reprocess'> Reprocess Manual </button>
+         <button class="file-types-refresh visually-hidden sr-only" data-action='click->allowed-extensions#reprocess'> Reprocess Manual </button>
       </div>
 
   </fieldset>

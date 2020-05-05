@@ -6,9 +6,9 @@
     </div>
 
     <!-- Basic Form Stuff -->
-    <%= render "components/form_builder/fields/shared/general" %>
-    <%= render "components/form_builder/fields/shared/metadata_schemas" %>
-    <%= render "components/form_builder/fields/shared/field_help" %>
+    <%= render "components/form_builder/fields/general" %>
+    <%= render "components/form_builder/fields/metadata_schemas" %>
+    <%= render "components/form_builder/fields/field_help" %>
 
     <!-- Type Specific -->
     <%= render "components/form_builder/fields/idno_field" %>
@@ -16,16 +16,16 @@
     <!-- Field Specific -->
     <%= render "components/form_builder/fields/text_field" %>
     <%= render "components/form_builder/fields/number_field" %>
+
+    <!-- Options / Chocies --> 
     <%= render "components/form_builder/fields/choice_field" %>
 
-    <!-- Allowed Extensions -->
+    <!-- File Upload -->
     <%= render "components/form_builder/fields/file_upload" %>
 
     <!-- Shared -->
-    <%= render "components/form_builder/fields/shared/field_options" %>
-    <%= render "components/form_builder/fields/shared/validation" %>
-
-
+    <%= render "components/form_builder/fields/field_options" %>
+    <%= render "components/form_builder/fields/validation" %>
 
 
     <%#  button_tag(raw('<span class="fas fa-save"></span> Save Settings'), {data: { action: "click->form-builder#saveFieldSettings" }, class:'btn btn-info col'}) %> 

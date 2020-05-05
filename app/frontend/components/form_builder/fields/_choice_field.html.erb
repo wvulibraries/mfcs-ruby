@@ -1,5 +1,5 @@
     <!-- Choice Specific -->
-    <fieldset class="choiceFieldSettings" data-controller="choices-field">
+    <fieldset class="selectFieldSettings multiselectFieldSettings" data-controller="choices-field">
       <legend> Choice Field Options </legend>
 
       <div class="row"> 
@@ -23,14 +23,14 @@
         </div>
 
         <div class="choices-container col" data-target="choices-field.container">
-          <%= render "components/form_builder/fields/shared/choice_group" %>
+          <%= render "components/form_builder/fields/choices/choice_group" %>
         </div>
 
         <template data-target='choices-field.template'>
-          <%= render "components/form_builder/fields/shared/choice_group" %>
+          <%= render "components/form_builder/fields/choices/choice_group" %>
         </template>
 
-         <button class="choices-refresh" data-action='click->choices-field#reprocess'> Reprocess Manual </button>
+         <button class="choices-refresh visually-hidden sr-only" data-action='click->choices-field#reprocess'> Reprocess Manual </button>
       </div>
 
       <div class="row d-none" data-target="choices-field.linkedForms"> 

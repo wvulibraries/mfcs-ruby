@@ -1,7 +1,7 @@
-<div class="field input-group mb-1"> 
-  <%= text_field_tag :extension, nil, multiple: true, class:'col', data: { action: 'keyup->allowed-extensions#create_allowed_extensions'}, placeholder: 'file_extension' %>
+<div class="field input-group mb-1 allowed-extensions-group"> 
+  <%= text_field_tag :extension, nil, multiple: true, id: 'ext_{{id}}', class:'col file-types', data: { action: 'keyup->allowed-extensions#create_allowed_extensions'}, placeholder: 'file_extension' %>
   <div class="input-group-append"> 
-    <%= button_tag(raw('<span class="fas fa-plus"></span>'), {data: { action: "click->allowed-extensions#add_extension" }, class:'btn btn-info', type: ''} ) %>   
-    <%= button_tag(raw('<span class="fas fa-minus"></span>'), {data: { action: "click->allowed-extensions#remove_extension" }, class:'btn btn-danger', type: ''} ) %>
+    <%= button_tag(raw('<span class="fas fa-plus"></span>'), {data: { action: "click->allowed-extensions#add" }, class:'btn btn-info', type: ''} ) %>   
+    <%= button_tag(raw('<span class="fas fa-minus"></span>'), {data: { action: "click->allowed-extensions#remove" }, class:'btn btn-danger', type: ''} ) %>
   </div>
 </div>
