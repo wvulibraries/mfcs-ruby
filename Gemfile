@@ -76,6 +76,7 @@ group :development do
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'annotate'
   # performance helper
   gem 'bullet' # helps to eliminate N+1 Queries 
 end
