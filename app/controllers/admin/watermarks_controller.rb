@@ -28,7 +28,7 @@ class Admin::WatermarksController < ApplicationController
     if @watermark.update(watermark_params)
       redirect_to admin_watermarks_url, success: 'Watermark was successfully updated.'
     else
-      render :edit
+      render :edit, error: 'Watermark was unable to update.'
     end
   end
 
