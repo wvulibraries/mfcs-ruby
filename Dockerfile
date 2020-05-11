@@ -1,4 +1,4 @@
-FROM ruby:2.6.3
+FROM ruby:2.7.1
 MAINTAINER David J. Davis <ddavisgraphics>
 
 # Install capybara-webkit deps

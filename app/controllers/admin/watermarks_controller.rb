@@ -1,0 +1,50 @@
+class Admin::WatermarksController < ApplicationController
+  before_action :set_watermark, only: [:show, :edit, :update, :destroy]
+
+  # GET /watermarks
+  def index
+    @watermarks = Watermark.all
+    @watermark = Watermark.new
+  end
+
+  # GET /watermarks/1/edit
+  def edit
+  end
+
+  # POST /watermarks
+  def create
+    @watermark = Watermark.new(watermark_params)
+
+    if @watermark.save
+      redirect_to admin_watermarks_url, success: 'Watermark was successfully created.'
+    else
+      render :new
+    end
+  end
+
+  # PATCH/PUT /watermarks/1
+  def update
+    if @watermark.update(watermark_params)
+      redirect_to admin_watermarks_url, success: 'Watermark was successfully updated.'
+    else
+      render :edit
+    end
+  end
+
+  # DELETE /watermarks/1
+  def destroy
+    @watermark.destroy
+    redirect_to admin_watermarks_url, success: 'Watermark was successfully destroyed.'
+  end
+
+  private
+    # Use callbacks to share common setup or constraints between actions.
+    def set_watermark
+      @watermark = Watermark.find(params[:id])
+    end
+
+    # Only allow a trusted parameter "white list" through.
+    def watermark_params
+      params.fetch(:watermark, {}).permit(:id, :name, :image)
+    end
+end

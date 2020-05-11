@@ -51,7 +51,7 @@ RSpec.describe Validator, type: :model do
     end
 
     it 'less than limit - automated string' do
-      expect(Validator.limit_words(Faker::Lorem.sentence(8), 10)).to be true
+      expect(Validator.limit_words(Faker::Lorem.sentence(word_count: 8), 10)).to be true
     end
 
     it 'string has equal words than the limit' do
@@ -60,7 +60,7 @@ RSpec.describe Validator, type: :model do
     end
 
     it 'equal to limit - automated string' do
-      expect(Validator.limit_words(Faker::Lorem.sentence(10), 10)).to be true
+      expect(Validator.limit_words(Faker::Lorem.sentence(word_count: 10), 10)).to be true
     end
 
     it 'more than limit - manual string' do
@@ -69,21 +69,21 @@ RSpec.describe Validator, type: :model do
     end
 
     it 'more than limit - automated string' do
-      expect(Validator.limit_words(Faker::Lorem.sentence(12), 3)).to be false
+      expect(Validator.limit_words(Faker::Lorem.sentence(word_count: 12), 3)).to be false
     end
   end
 
   context '.limit_chars' do
     it 'less than limit' do
-      expect(Validator.limit_chars(Faker::Lorem.characters(4), 10)).to be true
+      expect(Validator.limit_chars(Faker::Lorem.characters(number: 4), 10)).to be true
     end
 
     it 'equal to limit' do
-      expect(Validator.limit_chars(Faker::Lorem.characters(8), 8)).to be true
+      expect(Validator.limit_chars(Faker::Lorem.characters(number: 8), 8)).to be true
     end
 
     it 'more than limit' do
-      expect(Validator.limit_chars(Faker::Lorem.characters(12), 7)).to be false
+      expect(Validator.limit_chars(Faker::Lorem.characters(number: 12), 7)).to be false
     end
   end
 

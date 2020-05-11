@@ -21,7 +21,11 @@ import "regenerator-runtime/runtime";
 
 // TurboLinks
 // ===================================================================== 
-require("turbolinks").start()
+require("turbolinks").start();
+
+// RAILS UJS 
+// =====================================================================
+require("@rails/ujs").start();
 
 // scss
 // ===================================================================== 

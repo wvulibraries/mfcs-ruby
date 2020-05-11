@@ -1,0 +1,23 @@
+<h2> New Watermark </h2>
+<div class="row justify-content-center">
+  <%= render 'form', watermark: @watermark %>
+</div> 
+
+
+<h2> Edit Watermarks </h2>
+<div class="row justify-content-center">
+  <% @watermarks.each do |watermark| %>
+    <div class="col-3">
+      <h3> <%= watermark.name %> </h3> 
+
+      <% if watermark.image.attached? %> 
+        <div class="attached-image"> 
+          <%= image_tag watermark.image, class: 'img-thumbnail img-fluid' %>
+        </div>
+      <% end %> 
+      
+      <%= link_to 'Edit', edit_admin_watermark_path(watermark) %>
+      <%= link_to 'Destroy', admin_watermark_path(watermark), method: :delete, data: { confirm: 'Are you sure?' } %>
+    </div>
+  <% end %>
+</div>

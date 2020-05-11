@@ -6,7 +6,13 @@ Rails.application.routes.draw do
   get '/fail', to: 'pages#failure'
 
   # forms
-  resources :forms, :metadata_mappings, :idno_fields, :text_fields, :check_fields
+  resources :forms
+  
+  # Admin 
+  namespace :admin do
+    resources :watermarks, only: [:index, :create, :edit, :update, :destroy]
+  end
+  
 
   # API
   namespace :api do
