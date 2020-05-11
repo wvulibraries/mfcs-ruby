@@ -33,6 +33,7 @@
 #       api_v1_forms_metadata GET      /api/v1/forms/metadata(.:format)                                                         api/v1/forms#metadata {:format=>:json}
 # api_v1_forms_metadata_names GET      /api/v1/forms/metadata/names(.:format)                                                   api/v1/forms#metadata_names {:format=>:json}
 #                             GET      /api/v1/form/:id/fields(.:format)                                                        api/v1/forms#field_names {:format=>:json}
+#           api_v1_watermarks GET      /api/v1/watermarks(.:format)                                                             api/v1/watermarks#watermarks {:format=>:json}
 #                        test GET      /test(.:format)                                                                          pages#test
 #          rails_service_blob GET      /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 #   rails_blob_representation GET      /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
@@ -66,6 +67,8 @@ Rails.application.routes.draw do
       get 'forms/metadata', to: 'forms#metadata'
       get 'forms/metadata/names', to: 'forms#metadata_names'
       get 'form/:id/fields', to: 'forms#field_names'
+      # watermarks 
+      get 'watermarks', to: 'watermarks#watermarks'
     end
   end
 

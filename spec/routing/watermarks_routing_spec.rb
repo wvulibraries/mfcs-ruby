@@ -28,3 +28,4 @@ RSpec.describe Admin::WatermarksController, type: :routing do
     end
   end
 end
+ 

@@ -1,15 +1,6 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/mfcs/app/models/system.rb": {
-        "lines": [
-          1,
-          1,
-          2,
-          null,
-          null
-        ]
-      },
       "/home/mfcs/app/controllers/admin/watermarks_controller.rb": {
         "lines": [
           1,
@@ -17,8 +8,8 @@
           null,
           null,
           1,
-          1,
-          1,
+          0,
+          0,
           null,
           null,
           null,
@@ -27,6 +18,7 @@
           null,
           null,
           1,
+          0,
           0,
           null,
           0,
@@ -85,35 +77,118 @@
           1,
           null,
           1,
-          1,
+          0,
           0,
           null,
-          1,
+          0,
           null,
           null,
           null
         ]
       },
-      "/home/mfcs/app/models/watermark.rb": {
+      "/home/mfcs/app/controllers/api/v1/forms_controller.rb": {
         "lines": [
-          1,
-          null,
-          null,
-          1,
           null,
           null,
           null,
           1,
           null,
+          1,
+          1,
           null,
           null,
           null,
           null,
           1,
+          0,
+          0,
+          null,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          0,
+          0,
+          0,
+          null,
+          0,
+          null,
+          null
+        ]
+      },
+      "/home/mfcs/app/controllers/concerns/private_api.rb": {
+        "lines": [
+          null,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          null,
+          0,
+          0,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
+      "/home/mfcs/app/controllers/api/v1/watermarks_controller.rb": {
+        "lines": [
+          null,
+          null,
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          null,
           null
         ]
       }
     },
-    "timestamp": 1588960870
+    "timestamp": 1589211208
   }
 }
