@@ -14,11 +14,12 @@ class Admin::WatermarksController < ApplicationController
   # POST /watermarks
   def create
     @watermark = Watermark.new(watermark_params)
+    @watermarks = Watermark.all
 
     if @watermark.save
       redirect_to admin_watermarks_url, success: 'Watermark was successfully created.'
     else
-      render :new
+      render :index
     end
   end
 

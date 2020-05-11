@@ -1,3 +1,34 @@
+# == Schema Information
+#
+# Table name: forms
+#
+#  id                            :bigint           not null, primary key
+#  container                     :boolean
+#  count                         :integer
+#  description                   :text
+#  display_title                 :string
+#  export_oai                    :boolean
+#  export_public                 :boolean
+#  fields                        :jsonb            is an Array
+#  idno                          :jsonb
+#  link_title                    :string
+#  metadata                      :boolean
+#  navigation                    :jsonb            is an Array
+#  object_public_release_default :boolean
+#  object_public_release_show    :boolean
+#  object_title_field            :string
+#  permissions                   :jsonb            is an Array
+#  production                    :boolean
+#  submit_button                 :string
+#  title                         :string
+#  update_button                 :string
+#  created_at                    :datetime         not null
+#  updated_at                    :datetime         not null
+#
+# Indexes
+#
+#  index_forms_on_idno  (idno)
+#
 require 'rails_helper'
 require 'json'
 
