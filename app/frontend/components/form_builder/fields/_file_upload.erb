@@ -1,19 +1,21 @@
 <div class="upload-options" data-controller="conversions"> 
+  <% form_builder_path = "components/form_builder/fields/file_uploads" %>
 
   <!-- Options and Allowed Extensions --> 
-  <%= render "components/form_builder/fields/file_uploads/allowed_extensions" %>
-  <%= render "components/form_builder/fields/file_uploads/upload_options" %>
+  <%= render "#{form_builder_path}/allowed_extensions" %>
+  <%= render "#{form_builder_path}/upload_options" %>
 
   <!-- Image -->
-  <%= render "components/form_builder/fields/file_uploads/image_conversions" %>
-  <%= render "components/form_builder/fields/file_uploads/thumbnail" %>
-  <%= render "components/form_builder/fields/file_uploads/border" %>
+  <%= render "#{form_builder_path}/image_conversions" %>
+  <%= render "#{form_builder_path}/thumbnail" %>
+  <%= render "#{form_builder_path}/border" %>
+  <%= render "#{form_builder_path}/watermarks"%>
 
   <!-- Audio -->
-  <%= render "components/form_builder/fields/file_uploads/audio_conversions" %>
+  <%= render "#{form_builder_path}/audio_conversions" %>
 
   <!-- Video -->
-  <%= render "components/form_builder/fields/file_uploads/video_conversions" %>
-  <%= render "components/form_builder/fields/file_uploads/video_thumbnail" %>
+  <%= render "#{form_builder_path}/video_conversions" %>
+  <%= render "#{form_builder_path}/video_thumbnail" %>
 
 </div> 

@@ -1,0 +1,21 @@
+<fieldset class="fileFieldSettings d-none" data-target="conversions.watermark" data-controller="watermark">
+  <legend> Watermarks </legend>
+
+  <div class="row" data-target="watermark.container">
+
+    <div class="field col">
+      <%= label_tag :watermark_image %> 
+      <div class="select-style col">
+        <%= select_tag :watermark_image, nil, { class:'watermark_images', data: { target: 'watermark.select'}, include_blank: "Select Watermark Image" } %>
+      </div>
+    </div>
+
+    <div class="field col">
+      <%= label_tag :watermark_location %> 
+      <div class="select-style col">
+        <%= select_tag :watermark_location, options_for_select(I18n.t 'form_builder.watermark_location' ), include_blank: "Watermark Location" %>
+      </div>
+    </div>
+
+  </div>
+</fieldset>

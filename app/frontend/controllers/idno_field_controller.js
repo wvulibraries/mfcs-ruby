@@ -1,5 +1,4 @@
 import {Controller} from "stimulus";
-import Validation from "../components/validation/validation";
 
 export default class extends Controller {
   // sets stimulus controller to have the proper targets

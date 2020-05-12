@@ -1,6 +1,5 @@
 import {Controller} from "stimulus";
 import click from "../components/events/click";
-import Validation from "../components/validation/validation";
 
 export default class extends Controller {
   // stimulus targets
