@@ -87,5 +87,7 @@ describe("PureKeys_IDNO", ()=> {
     "validation":"",
     "validation_regex":""
   }
+  let purge = PurgeKeys.new('idno', idno_json); 
+  purge.delete_keys
 
 });
