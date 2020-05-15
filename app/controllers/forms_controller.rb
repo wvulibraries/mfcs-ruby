@@ -1,5 +1,7 @@
 class FormsController < ApplicationController
-  
+
+  before_action :set_form, only: [:show, :edit, :update, :destroy]
+
   # GET /forms
   def index
     breadcrumb 'List Forms', forms_path, title: 'List Forms'
@@ -14,20 +16,22 @@ class FormsController < ApplicationController
   def new
     breadcrumb 'List Forms', '/forms', title: 'List Forms', match: :exact
     breadcrumb 'New Form', '/forms/new', title: 'New Form', match: :exact
-    flash.now[:notice] = 'Some stupid alert that is needed to test stuff.'
     @form = Form.new
     @forms = Form.metadata_forms
   end
 
   # GET /forms/1/edit
-  def edit; end
+  def edit 
+    @forms = Form.metadata_forms
+  end
 
   # POST /forms
   def create
     @form = Form.new(form_params)
+    @forms = Form.metadata_forms
     respond_to do |format|
       if @form.save
-        format.html { redirect_to admin_form_path(@form), success: I18n.t('form.success') }
+        format.html { redirect_to form_path(@form), success: I18n.t('form.success') }
       else
         format.html { render :new }
       end
@@ -38,7 +42,7 @@ class FormsController < ApplicationController
   def update
     respond_to do |format|
       if @form.update(form_params)
-        format.html { redirect_to admin_form_path(@form), success: I18n.t('form.edited') }
+        format.html { redirect_to form_path(@form), success: I18n.t('form.edited') }
       else
         format.html { render :edit }
       end
@@ -62,6 +66,6 @@ class FormsController < ApplicationController
   end
 
   def form_params
-    params.require(:form).permit()
+  params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button, :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata)
   end
 end

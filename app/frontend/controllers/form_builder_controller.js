@@ -10,13 +10,18 @@ export default class extends Controller {
   // =============================================================
   
   // targets
-  static targets = ['formSettings', 'addFields', 'fieldSettings', 'warningMessage', 'fieldSettingsForm', 'textTemplate', 'textareaTemplate', 'idnoTemplate', 'formPreview', 'panes'];
+  static targets = ['formSettings', 'addFields', 'fieldSettings', 'warningMessage', 'fieldSettingsForm', 'textTemplate', 'textareaTemplate', 'idnoTemplate', 'formPreview', 'panes', 'fieldSettingsJSON'];
 
   // Connect 
   //  Basically Document Read Function
   connect(){
     // this connects the first descision modal
-    $("#formTypeModal").modal('show');
+    if(this.fieldSettingsJSONTarget.value == null || this.fieldSettingsJSONTarget.value == undefined || this.fieldSettingsJSONTarget.value == '' ){ 
+      $("#formTypeModal").modal('show'); // gross icky bootstrap modal
+    } else { 
+      // this means the form is an edit, or an errored form
+      
+    }
   }
 
   // =============================================================
@@ -29,7 +34,9 @@ export default class extends Controller {
   // Handles the actual form submission of the object.
   // @author: David J. Davis
   saveSubmit(event) {
+    event.preventDefault(); 
     this.saveFieldSettings(event); 
+    this.gatherFieldData();
     this.formSettingsTarget.querySelector('form').submit(); 
   }
 
@@ -116,6 +123,8 @@ export default class extends Controller {
   // Sets up a metadata field using appropriate fields.
   // @author: David J. Davis
   metadataForm(e){ 
+    let metadata_field = document.querySelector('#form_metadata');
+    metadata_field.value = true;  
     // create a single line item for title  
     this.createTitleField(); 
   }
@@ -126,6 +135,8 @@ export default class extends Controller {
   // Sets up an object form using the appropriate fields.
   // @author: David J. Davis
   objectForm(e){ 
+    let metadata_field = document.querySelector('#form_metadata');
+    metadata_field.value = false;  
     // create and IDNO Field 
     this.createIDNOField(); 
     this.createTitleField(); 
@@ -222,7 +233,7 @@ export default class extends Controller {
       if(skip_fields.includes(field_name) || !input_fields.includes(field_type)) {  
         continue;
       }
-      
+
       // only look for the following elements 
       if(field_type == 'checkbox' || field_type == 'radio'){ 
         let field_checked = form_elements[i].checked;
@@ -423,7 +434,6 @@ export default class extends Controller {
   typeFieldsDisplay(type, state){ 
     let typeClass = '.' + type.toLowerCase() + 'FieldSettings'; 
     let typeFields = document.querySelectorAll(typeClass);
-    console.log(type); 
     for (let i = 0; i < typeFields.length; i++) {
       typeFields[i].style.display = state;
     }
@@ -651,5 +661,22 @@ export default class extends Controller {
     [].forEach.call(previews, function(el) {
       el.classList.remove("active");
     });
+  }
+
+  // gatherFieldData()
+  // -------------------------------------------------------------
+  // Gets all the form data json that has been created so far and applies it to a
+  // concatenated json object inside of the form as a hidden field.  
+  // @author: David J. Davis
+  gatherFieldData(){
+    let data = this.formPreviewTarget.querySelectorAll('.field-preview');
+    let obj = []; 
+
+    [].forEach.call(data, function(el) {
+      let json = JSON.parse(el.dataset.json.replace(/'/g, '"'));
+      obj.push(json);
+    });
+
+    this.fieldSettingsJSONTarget.value = JSON.stringify(obj); 
   }
 }

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_06_121617) do
+ActiveRecord::Schema.define(version: 2020_05_13_123649) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -40,13 +40,13 @@ ActiveRecord::Schema.define(version: 2020_05_06_121617) do
   create_table "forms", force: :cascade do |t|
     t.string "title"
     t.text "description"
-    t.boolean "container"
-    t.boolean "production"
-    t.boolean "metadata"
-    t.boolean "export_public"
-    t.boolean "export_oai"
-    t.boolean "object_public_release_show"
-    t.boolean "object_public_release_default"
+    t.boolean "container", default: false, null: false
+    t.boolean "production", default: false, null: false
+    t.boolean "metadata", default: false, null: false
+    t.boolean "export_public", default: false, null: false
+    t.boolean "export_oai", default: false, null: false
+    t.boolean "object_public_release_show", default: false, null: false
+    t.boolean "object_public_release_default", default: false, null: false
     t.string "submit_button"
     t.string "update_button"
     t.integer "count"

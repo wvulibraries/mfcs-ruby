@@ -10,7 +10,10 @@
     <div class="card card-default col-12 mb-1">
       <div class="card-header row no-gutters border p-0">
           <div class="col-8 col-md-6 col-lg-10"> 
-            <a href="#link/<%=f.id%>" class="form-link col text-left btn btn-default p-1"> <%= f.title || f.display_title %> </a>
+            <a href="/forms/<%=f.id%>/edit" class="form-link col d-inline-block p-2"> <%= f.title || f.display_title %> 
+            </a>
+            <a href="/forms/<%=f.id%>" class="form-link col d-inline-block p-1"> <span class="fas fa-eye"></span>
+            </a>
           </div> 
 
           <div class="col-4 col-md-6 col-lg-2">
@@ -32,15 +35,7 @@
       <div class="collapse" id="<%=unique_id%>">
         <div class="card-body border">
           <ul>
-            <% f.linked_forms.map { |v| used_forms << v } %>
-            <% linked_forms = @metadata_forms.find_all { |form| f.linked_forms.include?(form.id)  }%>
-            <% linked_forms.each do |mf| %> 
-              <li>
-                <a href="#link/<%= mf.id %>">
-                  <%= mf.display_title %>
-                </a>
-              </li> 
-            <% end %>
+
           </ul>
         </div>
       </div>

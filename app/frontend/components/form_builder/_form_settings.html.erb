@@ -1,3 +1,6 @@
+<fieldset class="mt-0"> 
+  <legend> Form Information </legend>
+
   <div class="field">
     <!-- Label -->
     <%= form.label :title, class: 'required' %> 
@@ -33,44 +36,54 @@
 
   <div class="field">
     <%= form.label :update_button, class: 'required' %>
-       <!-- Popover -->
+      <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="During data entry this text will show up as the update button."></span>
     <!-- Field -->
     <%= form.text_field :update_button, data: {action: "keyup->form-preview#settingChange", preview: "updateButton" } %>
   </div>
+</fieldset>
 
-  <div class="field checkbox-wrapper"> 
-    <div class="checkbox">
-      <%= form.check_box :container %>
-      <%= form.label :container, 'Acts as Container' %>
+<fieldset>
+  <legend> Form Settings </legend>
+  <div class="row">
+    <div class="field checkbox-wrapper col-12 col-md-6 m-0"> 
+      <div class="checkbox">
+        <%= form.check_box :container %>
+        <%= form.label :container, 'Acts as Container' %>
+      </div>
+      <div class="checkbox">
+        <%= form.check_box :production %>
+        <%= form.label :production, 'Production Ready' %>
+      </div>
+      <div class="checkbox">
+        <%= form.check_box :export_public %>
+        <%= form.label :export_public, 'Export to Public' %>
+      </div>
+      <div class="checkbox">
+        <%= form.check_box :export_oai %>
+        <%= form.label :export_oai, 'OAI-PMH Export' %>
+      </div>
     </div>
-    <div class="checkbox">
-      <%= form.check_box :production %>
-      <%= form.label :production, 'Production Ready' %>
-    </div>
-    <div class="checkbox">
-      <%= form.check_box :export_public %>
-      <%= form.label :export_public, 'Export to Public' %>
-    </div>
-    <div class="checkbox">
-      <%= form.check_box :export_oai %>
-      <%= form.label :export_oai, 'OAI-PMH Export' %>
-    </div>
-    <div class="checkbox">
-      <%= form.check_box :object_public_release_show %>
-      <%= form.label :object_public_release_show,  'Display Public Release' %>
-    </div>
-    <div class="checkbox">
-      <%= form.check_box :object_public_release_default %>
-      <%= form.label :object_public_release_default, 'Public Release Default "Yes"' %>
+
+    <div class="field checkbox-wrapper col-12 col-md-6 m-0"> 
+      <div class="checkbox">
+        <%= form.check_box :object_public_release_show %>
+        <%= form.label :object_public_release_show,  'Display Public Release' %>
+      </div>
+      <div class="checkbox">
+        <%= form.check_box :object_public_release_default %>
+        <%= form.label :object_public_release_default, 'Public Release Default "Yes"' %>
+      </div>
     </div>
   </div>
+</fieldset>
 
-  <div class="hidden field">
-    <%= form.hidden_field :fields %> 
-    <%= form.hidden_field :idno %>
-    <%= form.hidden_field :permissions %>
-  </div>
+<div class="hidden field">
+  <%= form.hidden_field :metadata %>
+  <%= form.hidden_field :fields, {data: { target: 'form-builder.fieldSettingsJSON'}} %> 
+  <%= form.hidden_field :idno %>
+  <%= form.hidden_field :permissions %>
+</div>
 
   
 

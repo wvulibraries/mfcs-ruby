@@ -3,22 +3,22 @@
 # Table name: forms
 #
 #  id                            :bigint           not null, primary key
-#  container                     :boolean
+#  container                     :boolean          default(FALSE), not null
 #  count                         :integer
 #  description                   :text
 #  display_title                 :string
-#  export_oai                    :boolean
-#  export_public                 :boolean
+#  export_oai                    :boolean          default(FALSE), not null
+#  export_public                 :boolean          default(FALSE), not null
 #  fields                        :jsonb            is an Array
 #  idno                          :jsonb
 #  link_title                    :string
-#  metadata                      :boolean
+#  metadata                      :boolean          default(FALSE), not null
 #  navigation                    :jsonb            is an Array
-#  object_public_release_default :boolean
-#  object_public_release_show    :boolean
+#  object_public_release_default :boolean          default(FALSE), not null
+#  object_public_release_show    :boolean          default(FALSE), not null
 #  object_title_field            :string
 #  permissions                   :jsonb            is an Array
-#  production                    :boolean
+#  production                    :boolean          default(FALSE), not null
 #  submit_button                 :string
 #  title                         :string
 #  update_button                 :string
@@ -29,7 +29,6 @@
 #
 #  index_forms_on_idno  (idno)
 #
-# Form class which we be a base class for building forms.
 class Form < ApplicationRecord
   # Concerns
   # -----------------------------------------------------
@@ -65,7 +64,6 @@ class Form < ApplicationRecord
   # @return object[Array <Integer>] Array of ids to identify the forms. 
   def linked_forms
     return nil if self.fields.blank? || self.fields.class != Hash
-
     self.fields.map { |k,v| v }.pluck('choices_form').compact.map(&:to_i)
   end
 
