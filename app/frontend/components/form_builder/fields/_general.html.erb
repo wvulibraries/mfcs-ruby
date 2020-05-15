@@ -1,4 +1,4 @@
-<fieldset class="commonFieldSettings"> 
+<fieldset class="commonFieldSettings" data-controller="general-validations"> 
   <legend> General </legend>
 
   <%= hidden_field_tag :field_id %>
@@ -11,7 +11,11 @@
       <!-- Popover -->
       <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="The field name is a unique value that is used to identify a field."></span>
       <!-- field --> 
-      <%= text_field_tag :name %>
+      <%= text_field_tag :name, nil,  data: { action: "keyup->general-validations#validName"} %>
+      <!-- error -->
+      <div class="error-issue text-danger d-none"> 
+       <%= I18n.t 'form_builder.no_spaces_error' %>
+      </div>
     </div>
     <div class="field col">
       <!-- Label -->
@@ -51,7 +55,11 @@
       <!-- Popover -->
       <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="The ID is a unique value that can be used to identify a field."></span>
       <!-- field --> 
-      <%= text_field_tag :css_id %> 
+      <%= text_field_tag :css_id, nil, data: { action: "keyup->general-validations#validName"} %>
+      <!-- error -->
+      <div class="error-issue text-danger d-none"> 
+        <%= I18n.t 'form_builder.no_spaces_error' %>
+      </div>
     </div>
 
     <div class="field col">
@@ -60,7 +68,11 @@
       <!-- Popover -->
       <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="Classes can be entered to give the field a different look and feel."></span>
       <!-- field --> 
-      <%= text_field_tag :css_class %> 
+      <%= text_field_tag :css_class, nil, data: { action: "keyup->general-validations#validName"} %>
+      <!-- error -->
+      <div class="error-issue text-danger d-none"> 
+       <%= I18n.t 'form_builder.no_spaces_error' %>
+      </div>
     </div>
 
     <div class="field col">
