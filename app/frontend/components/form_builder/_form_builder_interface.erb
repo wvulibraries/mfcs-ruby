@@ -19,7 +19,7 @@
 
       <div class="form-container"> 
         <div id="formSettings" class="hide show" data-target="form-builder.formSettings">
-          <%= form_for @form, url: { action:'create' }, html: { class:'form-builder' } do |f| %>
+          <%= form_for @form, html: { class:'form-builder' } do |f| %>
             <% if @form.errors.any? %>
               <div id="error_explanation">
                 <h3><%= pluralize(@form.errors.count, "error") %> prohibited this subject from being saved:</h3>

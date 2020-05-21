@@ -36,7 +36,8 @@ class Form < ApplicationRecord
 
   # Hstores
   # -----------------------------------------------------
-  # attr_accessor :fields, :navigation, :permissions, :idno
+  # attr_accessor :fields
+  # serialize :fields, JSON
 
   # Validations
   # -----------------------------------------------------
@@ -49,6 +50,13 @@ class Form < ApplicationRecord
             presence: true,
             length: { within: 1..250 },
             uniqueness: true
+
+  # Associations 
+  # ----------------------------------------------------- 
+  has_many :creators, class_name: "User"
+  has_many :viewers, class_name: "User"
+  has_many :admins, class_name: "User"
+  has_many :contacts, class_name: "User"
 
   # SCOPES
   # -----------------------------------------------------
@@ -65,6 +73,10 @@ class Form < ApplicationRecord
   def linked_forms
     return nil if self.fields.blank? || self.fields.class != Hash
     self.fields.map { |k,v| v }.pluck('choices_form').compact.map(&:to_i)
+  end
+
+  def fields
+    self[:fields].to_json unless self[:fields].blank?
   end
 
   private

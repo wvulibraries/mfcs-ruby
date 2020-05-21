@@ -1,6 +1,8 @@
 <fieldset class="mt-0"> 
   <legend> Form Information </legend>
 
+  <%= form.hidden_field :id %>
+
   <div class="field">
     <!-- Label -->
     <%= form.label :title, class: 'required' %> 
@@ -39,7 +41,7 @@
       <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="During data entry this text will show up as the update button."></span>
     <!-- Field -->
-    <%= form.text_field :update_button, data: {action: "keyup->form-preview#settingChange", preview: "updateButton" } %>
+    <%= form.text_field :update_button, data: { action: "keyup->form-preview#settingChange", preview: "updateButton" } %>
   </div>
 </fieldset>
 

@@ -45,7 +45,7 @@ export default class PurgeKeys {
   */
   delete_keys(){ 
     let tmp_obj = {}
-    let keys_to_keep = this.delegate_keys(this.type);
+    let keys_to_keep = this.delegate_keys(this.type).sort();
     keys_to_keep.forEach(key => tmp_obj[key] = this.obj[key]);
     return tmp_obj; 
   }

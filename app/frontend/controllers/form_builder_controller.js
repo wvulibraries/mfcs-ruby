@@ -2,6 +2,7 @@ import {Controller} from "stimulus";
 import Validation from "../components/validation/validation";
 import click from "../components/events/click";
 import change from "../components/events/change";
+import PurgeKeys from "../components/form_builder/purge_keys";
 
 
 export default class extends Controller {
@@ -16,11 +17,34 @@ export default class extends Controller {
   //  Basically Document Read Function
   connect(){
     // this connects the first descision modal
-    if(this.fieldSettingsJSONTarget.value == null || this.fieldSettingsJSONTarget.value == undefined || this.fieldSettingsJSONTarget.value == '' ){ 
+    if(this.fieldSettingsJSONTarget.value == null || this.fieldSettingsJSONTarget.value == undefined || this.fieldSettingsJSONTarget.value == ''  || this.fieldSettingsJSONTarget.value.length < 1){ 
       $("#formTypeModal").modal('show'); // gross icky bootstrap modal
     } else { 
       // this means the form is an edit, or an errored form
-      
+      // display the form preview
+      // console.dir(JSON.parse(this.fieldSettingsJSONTarget.value));
+
+      let currentFields = JSON.parse(this.fieldSettingsJSONTarget.value); 
+
+      for (let index = 0; index < currentFields.length; index++) {
+        const field = currentFields[index];
+        console.dir(field); 
+
+        // use field data to get and set information
+        let type = field["type"]; 
+        let template = field["type"] + 'Template'
+        let fieldInfo = { 
+          'json': field, 
+          'id': field['field_id'], 
+          'sort': field['sort_order'], 
+          'type': type, 
+          'template': this.targets.find(template).innerHTML
+        };
+
+        // sets html the initial preview
+        let previewHTML = this.preview(fieldInfo);
+        this.formPreviewTarget.insertAdjacentHTML( 'beforeend', previewHTML );
+      }
     }
   }
 
@@ -674,7 +698,9 @@ export default class extends Controller {
 
     [].forEach.call(data, function(el) {
       let json = JSON.parse(el.dataset.json.replace(/'/g, '"'));
-      obj.push(json);
+      let purge = new PurgeKeys(json['type'], json);
+      let cleaned_json = purge.delete_keys(); 
+      obj.push(cleaned_json);
     });
 
     this.fieldSettingsJSONTarget.value = JSON.stringify(obj); 
