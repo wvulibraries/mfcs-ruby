@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_13_123649) do
+ActiveRecord::Schema.define(version: 2020_05_21_183754) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -62,6 +62,16 @@ ActiveRecord::Schema.define(version: 2020_05_13_123649) do
     t.index ["idno"], name: "index_forms_on_idno"
   end
 
+  create_table "permissions", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "form_id", null: false
+    t.integer "permission"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["form_id"], name: "index_permissions_on_form_id"
+    t.index ["user_id"], name: "index_permissions_on_user_id"
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.string "project_id"
@@ -108,4 +118,6 @@ ActiveRecord::Schema.define(version: 2020_05_13_123649) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "permissions", "forms"
+  add_foreign_key "permissions", "users"
 end

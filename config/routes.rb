@@ -60,7 +60,7 @@ Rails.application.routes.draw do
   # Admin 
   namespace :admin do
     resources :watermarks, only: [:index, :create, :edit, :update, :destroy]
-    resources :permissions, only: [:index, :create, :edit, :update, :destroy]
+    resources :permissions
   end
   
 

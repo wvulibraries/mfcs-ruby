@@ -95,6 +95,74 @@ RSpec.describe Form, type: :model do
     end
   end
 
+  # permissions association
+  context 'permissions' do
+    context 'associations' do
+      it { should have_many(:permissions) }
+      it { should have_many(:viewers) }
+      it { should have_many(:admins) }
+      it { should have_many(:contacts) }
+      it { should have_many(:creators) }
+    end 
+
+    context 'viewers test' do
+      it 'valid permission test' do
+        form = FactoryBot.create(:form)
+        user = FactoryBot.create(:user, :basic) 
+        permission = Permission.create(user: user, form: form, permission: :viewer)
+        expect(permission).to be_valid
+        expect(permission.user).to be_a User
+      end 
+
+      it 'should create some viewers and an admin' do
+        form = FactoryBot.create(:form)
+        user = FactoryBot.create(:user, :basic) 
+        user1 = FactoryBot.create(:user, :admin)
+        user2 = FactoryBot.create(:user, :editor)
+        
+        Permission.create(user: user, form: form, permission: :viewer)
+        Permission.create(user: user1, form: form, permission: :viewer)
+        Permission.create(user: user2, form: form, permission: :admin)
+
+        expect(form.viewers.count).to eq 2
+        expect(form.admins.count).to eq 1
+      end 
+
+
+      it 'should create some of every enum type and give some users duplicates of each' do
+        form = FactoryBot.create(:form)
+        user = FactoryBot.create(:user, :basic) 
+        user1 = FactoryBot.create(:user, :admin)
+        user2 = FactoryBot.create(:user, :editor)
+        user3 = FactoryBot.create(:user, :basic) 
+        user4 = FactoryBot.create(:user, :admin)
+        user5 = FactoryBot.create(:user, :editor)
+        
+        Permission.create(user: user, form: form, permission: :viewer)
+        Permission.create(user: user1, form: form, permission: :viewer)
+        Permission.create(user: user5, form: form, permission: :viewer)
+        Permission.create(user: user2, form: form, permission: :admin)
+        Permission.create(user: user3, form: form, permission: :admin)
+        Permission.create(user: user4, form: form, permission: :creator)
+        Permission.create(user: user5, form: form, permission: :creator)
+        Permission.create(user: user1, form: form, permission: :creator)
+
+
+        Permission.create(user: user, form: form, permission: :contact)
+        Permission.create(user: user1, form: form, permission: :contact)
+        Permission.create(user: user2, form: form, permission: :contact)
+        Permission.create(user: user3, form: form, permission: :contact)
+        Permission.create(user: user4, form: form, permission: :contact)
+        Permission.create(user: user5, form: form, permission: :contact)
+
+        expect(form.viewers.count).to eq 3
+        expect(form.admins.count).to eq 2
+        expect(form.creators.count).to eq 3 
+        expect(form.contacts.count).to eq 6
+      end 
+    end 
+  end 
+
   # set defaults
   context 'defaults' do
     it 'should init and set default values' do
@@ -111,33 +179,45 @@ RSpec.describe Form, type: :model do
   # settings some json field data 
   context 'imported data' do
     it 'valid json production data that will save in the database' do
-      form_data = JSON.parse(file_fixture('pec.json').read)
-      f = Form.new(form_data)
+      f = FactoryBot.build(:form)
+      f.fields = JSON.parse(file_fixture('pec.json').read)
       expect(f.valid?).to be true
       expect(f.save).to be true
     end
   end
 
   context '.linked_forms' do
-    it 'expects nil for a non hash object' do
+    it 'expects empty array for non-hash items' do
       data = FactoryBot.build(:form)
-      puts data.linked_forms.inspect
-      expect(data.linked_forms).to be nil
+      expect(data.linked_forms).to be_a Array
     end
 
     it 'expects empty array for items without links' do
       data = FactoryBot.build(:form)
-      data.fields = { item: 'testing', idno: '192848;dflkjadsf' }
+      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
       expect(data.linked_forms).to be_a Array
       expect(data.linked_forms).to eq []
     end
 
     it 'expects an array of integers from productions style data' do
-      form_data = JSON.parse(file_fixture('pec.json').read)
-      f = Form.new(form_data)
+      f = FactoryBot.build(:form)
+      f.fields = JSON.parse(file_fixture('pec.json').read)
       expect(f.linked_forms).to eq([1, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14])
     end
   end
+
+  context '.fields' do
+    it 'expects the data to be a json string unless blank or nil' do
+      data = FactoryBot.build(:form)
+      expect(data.fields).to be nil
+    end 
+
+    it 'expects that json to be a string' do
+      f = FactoryBot.build(:form)
+      f.fields = JSON.parse(file_fixture('pec.json').read)
+      expect(f.fields).to be_a String
+    end 
+  end 
 
   context 'scopes' do
     context '.object_forms' do

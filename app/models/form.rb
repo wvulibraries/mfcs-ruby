@@ -53,10 +53,17 @@ class Form < ApplicationRecord
 
   # Associations 
   # ----------------------------------------------------- 
-  has_many :creators, class_name: "User"
-  has_many :viewers, class_name: "User"
-  has_many :admins, class_name: "User"
-  has_many :contacts, class_name: "User"
+  has_many :permissions
+
+  # Viewers, Creators, Admins, and Contacts Methods for Permissions System
+  has_many :viewers, -> { where(permission: :viewer) }, class_name: 'Permission'
+  has_many :admins, -> { where(permission: :admin) }, class_name: 'Permission'
+  has_many :contacts, -> { where(permission: :contact) }, class_name: 'Permission'
+  has_many :creators, -> { where(permission: :creator) }, class_name: 'Permission'
+
+  # Nested Models
+  # ----------------------------------------------------
+  accepts_nested_attributes_for :permissions
 
   # SCOPES
   # -----------------------------------------------------
@@ -71,10 +78,14 @@ class Form < ApplicationRecord
   # @author David J. Davis
   # @return object[Array <Integer>] Array of ids to identify the forms. 
   def linked_forms
-    return nil if self.fields.blank? || self.fields.class != Hash
-    self.fields.map { |k,v| v }.pluck('choices_form').compact.map(&:to_i)
+    forms = []
+    self[:fields].map { |h| forms.push(h['choice_form']) }
+    forms.compact.map(&:to_i)
   end
 
+  # Get an array of linked metadata fields from the field hash
+  # @author David J. Davis
+  # @return object[JSON] Returns the fields as json array instead ruby hash
   def fields
     self[:fields].to_json unless self[:fields].blank?
   end
