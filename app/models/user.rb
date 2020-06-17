@@ -54,4 +54,8 @@ class User < ApplicationRecord
   # Enums
   # -----------------------------------------------------
   enum status: %i[user editor admin]
+
+  def name 
+    self.first_name + ' ' + self.last_name 
+  end 
 end

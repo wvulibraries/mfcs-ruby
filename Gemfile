@@ -65,6 +65,7 @@ group :test do
   gem 'rspec-rails'
   gem 'shoulda'
   gem 'shoulda-matchers'
+  gem 'rspec-html-matchers'
   gem 'database_cleaner'
   gem 'simplecov'
   gem 'simplecov-console'

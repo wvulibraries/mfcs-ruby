@@ -43,21 +43,7 @@ class FormsController < ApplicationController
   # PATCH/PUT /forms/1
   def update
     respond_to do |format|
-      @form.fields = @parsed_field_params
-      @form.title = form_params[:title]
-      @form.display_title = form_params[:display_title]
-      @form.description = form_params[:description]
-      @form.submit_button = form_params[:submit_button]
-      @form.update_button = form_params[:update_button]
-      @form.container = form_params[:contianer]
-      @form.production = form_params[:production]
-      @form.export_public = form_params[:export_public]
-      @form.export_oai = form_params[:export_oai]
-      @form.object_public_release_show = form_params[:object_public_release_show]
-      @form.object_public_release_default = form_params[:object_public_release_default]
-      @form.metadata = form_params[:metadata]
-
-      if @form.save
+      if @form.update(update_params)
         format.html { redirect_to form_path(@form), success: I18n.t('form.edited') }
       else
         format.html { render :edit }
@@ -88,6 +74,12 @@ class FormsController < ApplicationController
   end
 
   def form_params
-    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button, :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata)
+    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button, :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata, permissions_attributes: %i[id form_id user_id permission _destroy],)
   end
+
+  def update_params 
+    unsafe_params = params.to_unsafe_hash["form"]
+    unsafe_params['fields'] = JSON.parse(unsafe_params['fields']); 
+    unsafe_params.slice('id', 'title', 'display_title', 'description', 'submit_button', 'update_button', 'container', 'production', 'export_public', 'export_oai', 'object_public_release_show', 'object_public_release_default', 'fields', 'idno', 'permissions_attributes', 'navigation', 'metadata')
+  end 
 end

@@ -2,7 +2,6 @@
   <% if permission.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(permission.errors.count, "error") %> prohibited this permission from being saved:</h2>
-
       <ul>
         <% permission.errors.full_messages.each do |message| %>
           <li><%= message %></li>
@@ -10,6 +9,29 @@
       </ul>
     </div>
   <% end %>
+
+  <div class="row"> 
+    <div class="field col"> 
+      <%= form.label :form_id %>
+      <div class="select-style"> 
+        <%= form.collection_select :form_id, Form.all, :id, :display_title, { prompt: 'Select a Form' } %>
+      </div>
+    </div>
+
+    <div class="field col"> 
+      <%= form.label :user_id %>
+      <div class="select-style"> 
+        <%= form.collection_select :user_id, User.all, :id, :name, { prompt: 'Select a User' } %>
+      </div>
+    </div>
+
+    <div class="field col"> 
+      <%= form.label :permission %>
+      <div class="select-style"> 
+        <%= form.select :permission, options_for_select(Permission.permissions.map {|k, v| [k.humanize.capitalize, k]}, selected: form.object.permission || 'enabled') %>
+      </div>
+    </div>
+  </div>
 
   <div class="actions">
     <%= form.submit %>

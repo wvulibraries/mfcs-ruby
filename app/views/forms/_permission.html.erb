@@ -1,0 +1,27 @@
+<fieldset class="permission">
+  <legend> Permission </legend>
+  <div class="row"> 
+    
+    <%= form.hidden_field :form_id, value: params[:id] %>
+
+    <div class="field col"> 
+      <%= form.label :user_id %>
+      <div class="select-style"> 
+        <%= form.collection_select :user_id, User.all, :id, :name, { prompt: 'Select a User' } %>
+      </div>
+    </div>
+
+    <div class="field col"> 
+      <%= form.label :permission %>
+      <div class="select-style"> 
+        <%= form.select :permission, options_for_select(Permission.permissions.map {|k, v| [k.humanize.capitalize, k]}, selected: form.object.permission || 'enabled') %>
+      </div>
+    </div>
+  </div>
+
+  <div class="action">
+    <%= form.hidden_field :_destroy %>
+    <% form.label :_destroy, "Delete Permission" %>
+    <%= link_to '<span class="fas fa-trash-alt"></span>'.html_safe , '#', class: "remove-fields delete-permission", title: "Delete Permission" %>
+  </div>
+</fieldset>

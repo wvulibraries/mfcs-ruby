@@ -1,7 +1,61 @@
-<%= @form.inspect %>
+<div class="row"> 
+  <pre> 
+    <%= @form.inspect %> 
+  </pre>
+</div>
 
-<br/><br/><br/>
+<div class="row"> 
+  <h2> Form Titles </h2>
+  <div class="col-12"> <strong> Title: </strong> <%= @form.title %> </div>
+  <div class="col-12"> <strong> Display Title: </strong> <%= @form.display_title %> </div>
+  <div class="col-12"> <%= @form.description.strip %>  </div>
+</div>
 
-<%= @form.fields.inspect %>
+<div class="row"> 
+  <h2> Form Settings</h2>
+  <div class="col"> </div>
+</div>
 
-<%= JSON.parse(@form.fields).count %>
+<div class="row"> 
+  <h2> Form Preview </h2>
+</div>
+
+<div class="row"> 
+  <h2 class="col-12"> Form Permissions </h2>
+
+  <div class="col"> 
+    <strong> Data Entry Users (<%= @form.creators.count %> of  <%= @form.permissions.count %>) </strong>
+    <ul> 
+      <% @form.creators.each do |creator| %>
+        <li> <%= creator.user.name %> </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="col"> 
+    <strong> Data Viewers (<%= @form.viewers.count %> of  <%= @form.permissions.count %>) </strong>
+     <ul> 
+      <% @form.viewers.each do |viewer| %>
+        <li> <%= viewer.user.name %> </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="col"> 
+    <strong> Form Admins (<%= @form.admins.count %> of  <%= @form.permissions.count %>) </strong>
+     <ul> 
+      <% @form.admins.each do |admin| %>
+        <li> <%= admin.user.name %> </li>
+      <% end %>
+    </ul>    
+  </div>
+
+  <div class="col"> 
+    <strong> Contacts (<%= @form.contacts.count %> of  <%= @form.permissions.count %>) </strong>
+    <ul> 
+      <% @form.contacts.each do |contact| %>
+        <li> <%= contact.user.name %> </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

@@ -1,4 +1,32 @@
-<p id="notice"><%= notice %></p>
+<div class="row"> 
 
-<%= link_to 'Edit', edit_permission_path(@permission) %> |
+  <div class="col"> 
+    <h2> Form Info </h2>
+
+    <div class="strong"> 
+      <strong> Title : </strong>  <%= @permission.form.title %> 
+    </div> 
+
+    <div class="strong"> 
+      <strong> Display Title : </strong>
+      <%= @permission.form.display_title %>  
+    </div>
+
+    <div class="text"> 
+      <strong> Description : </strong> 
+      <div class="micro-text"> <%= @permission.form.description %> </div>
+    </div>
+  </div>
+
+  <div class="col">
+    <h2> User Info </h2>
+
+    <div class="username"> 
+      <strong> Name : </strong> <%= @permission.user.name %> <br/>
+      <strong> Email : </strong> <%= @permission.user.email %> <br/> 
+      <strong> Username :  </strong> <%= @permission.user.username %> <br/>
+    </div>
+  </div>
+</div>
+
 <%= link_to 'Back', admin_permissions_path %>

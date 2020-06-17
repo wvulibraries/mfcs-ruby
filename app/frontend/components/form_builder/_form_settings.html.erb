@@ -50,41 +50,49 @@
   <div class="row">
     <div class="field checkbox-wrapper col-12 col-md-6 m-0"> 
       <div class="checkbox">
-        <%= form.check_box :container %>
+        <%= form.check_box :container, {}, 'true', 'false' %>
         <%= form.label :container, 'Acts as Container' %>
       </div>
       <div class="checkbox">
-        <%= form.check_box :production %>
+        <%= form.check_box :production, {}, 'true', 'false' %>
         <%= form.label :production, 'Production Ready' %>
       </div>
       <div class="checkbox">
-        <%= form.check_box :export_public %>
+        <%= form.check_box :export_public, {}, 'true', 'false' %>
         <%= form.label :export_public, 'Export to Public' %>
       </div>
       <div class="checkbox">
-        <%= form.check_box :export_oai %>
+        <%= form.check_box :export_oai, {}, 'true', 'false' %>
         <%= form.label :export_oai, 'OAI-PMH Export' %>
       </div>
     </div>
 
     <div class="field checkbox-wrapper col-12 col-md-6 m-0"> 
       <div class="checkbox">
-        <%= form.check_box :object_public_release_show %>
+        <%= form.check_box :object_public_release_show, {}, 'true', 'false' %>
         <%= form.label :object_public_release_show,  'Display Public Release' %>
       </div>
       <div class="checkbox">
-        <%= form.check_box :object_public_release_default %>
+        <%= form.check_box :object_public_release_default, {}, 'true', 'false' %>
         <%= form.label :object_public_release_default, 'Public Release Default "Yes"' %>
       </div>
     </div>
   </div>
 </fieldset>
 
+<fieldset> 
+  <legend> Form Permissions </legend>
+  <%= form.fields_for :permissions do |form| %>
+    <%= render 'permission', form: form %>
+  <% end %>
+
+  <%= link_to_add_fields "Add Permissions", form, :permissions %>
+</fieldset>
+
 <div class="hidden field">
   <%= form.hidden_field :metadata %>
   <%= form.hidden_field :fields, {data: { target: 'form-builder.fieldSettingsJSON'}} %> 
   <%= form.hidden_field :idno %>
-  <%= form.hidden_field :permissions %>
 </div>
 
   

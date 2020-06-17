@@ -90,6 +90,13 @@ class Form < ApplicationRecord
     self[:fields].to_json unless self[:fields].blank?
   end
 
+  # Returns as a fields hash for use in views that aren't javascript produced.
+  # @author David J. Davis
+  # @return ruby hash
+  def fields_hash
+    self[:fields]
+  end
+
   private
   # Setting some defaults for the forms to match current behaviors
   # of the existing app. These will be the defaults.

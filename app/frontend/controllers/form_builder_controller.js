@@ -27,12 +27,11 @@ export default class extends Controller {
       let currentFields = JSON.parse(this.fieldSettingsJSONTarget.value); 
 
       for (let index = 0; index < currentFields.length; index++) {
+        // field JSON
         const field = currentFields[index];
-        console.dir(field); 
-
         // use field data to get and set information
         let type = field["type"]; 
-        let template = field["type"] + 'Template'
+        let template = field["type"] + 'Template';
         let fieldInfo = { 
           'json': field, 
           'id': field['field_id'], 
