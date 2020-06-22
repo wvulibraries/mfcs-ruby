@@ -44,24 +44,86 @@ module FieldBuilder
       end
     end
 
+    # Help html method will return strings or nil based on 
+    # the values located in the field hash.
+    #
+    # @example
+    #   fb = FieldBuilder::Field.new(field_hash)
+    #   fb.help_html
+    #
+    # @author David J. Davis
+    # @return [String] HTML
     def help_html 
       if @field['help_type'].to_i == 3
-        return "<a href='#{@field['help_url']}' class='help_url'> <span class='far fa-question-circle field-help'></span> </a>"
+       <<-HTML
+        <a href="#{@field['help_url']}" class="help_url"> 
+          <span class='far fa-question-circle field-help'></span>
+        </a>
+      HTML
       elsif @field['help_type'].to_i == 1 || @field['help_type'].to_i == 2
         title = "#{@field['name']} Help"
-        return "<span class='far fa-question-circle field-help' data-toggle='popover' data-trigger='click focus hover' data-html='true' data-content='#{@field['help_info']}' data-original-title='#{title}' title='#{title}'></span>"
+        <<-HTML
+        <span class="far fa-question-circle field-help" 
+              data-toggle="popover" 
+              data-trigger="click focus hover" 
+              data-html="true" 
+              data-content="#{@field['help_info']}" 
+              data-original-title="#{title}" 
+              title="#{title}">
+        </span>
+        HTML
       else 
         return nil
       end  
     end 
 
+    # Build input options that will be for each field semi-dynamically.
+    #
+    # @example
+    #   fb = FieldBuilder::Field.new(field_hash)
+    #   fb.input_options
+    #
+    # @author David J. Davis
+    # @return [String] HTML Attributes
     def input_options
-      # a hash of items to pull from to generate options for html inputs
+      html_string = ''
+      options = %w(name label value placeholder required read_only hidden)
+      options.each { |option| html_string << "#{option}=\"#{@field[option]}\" " unless @field[option].to_s.empty? }
+      return html_string
     end 
 
+    # Build data attributes that will be for each field semi-dynamically.
+    #
+    # @example
+    #   fb = FieldBuilder::Field.new(field_hash)
+    #   fb.data_attributes
+    #
+    # @author David J. Davis
+    # @return [String] HTML Attributes
     def data_attributes
-      # a hash of items to generate data attributes for html inputs
+      html = ''
+      attributes = %w(validation validation_regex)
+      attributes.each {|attr| html << "data-#{attr}=\"#{@field[attr]}\" " unless @field[attr].to_s.empty? }
+      return html 
     end
+
+    # HTML strings that help to build each field, this method should be over-written,
+    # but provides a baseline template.
+    #
+    # @example
+    #   fb = FieldBuilder::Field.new(field_hash)
+    #   fb.input_options
+    #
+    # @author David J. Davis
+    # @return [String] HTML
+    def html 
+      <<-HTML
+      <div class="form-field #{@state}">
+        <label> #{@field['label']} </label>
+        <input name="#{@field['name']}" class="#{@field['css_class']}" id="#{@field['css_id']}" #{self.input_options} #{self.data_attributes} disabled="#{self.disabled?}"> 
+      </div>
+      HTML
+    end 
   end
 
 end 
