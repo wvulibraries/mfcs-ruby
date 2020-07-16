@@ -11,13 +11,14 @@ Dir.foreach(data_directory) do |filename|
   puts json_filepath.inspect
   json = JSON.parse(File.read(json_filepath))
   
+  json.delete('permissions')
+  json.delete('navigation')
+  
   f = Form.new(json)
   f.title = "Untitled #{f.id}" if f.title.nil? || f.title.empty? 
   f.display_title = "Untitled #{f.id}" if f.display_title.nil? || f.title.empty?
   f.idno = json['idno'] unless json['idno'].nil?
   f.fields = json['fields']
-  f.permissions = json['permissions'] unless json['permissions'].nil? 
-  f.navigation = json['navigation'] unless json['navigation'].nil? 
 
   f.save(validate: false)
 end

@@ -44,7 +44,7 @@ export default class HelpField extends Controller {
   modifyHTML(e){ 
     let elm = e.target;
     let selectField = this.selectTarget; 
-    if(selectField.value == 1){ 
+    if(selectField.value == 'plain_text'){ 
       elm.value = Validation.stripHTML(elm.value);
     } else { 
       elm.value = Validation.sanitizeInput(elm.value); 
@@ -59,11 +59,11 @@ export default class HelpField extends Controller {
     this.textFieldTarget.classList.remove('d-block');
     this.urlFieldTarget.classList.remove('d-block');
 
-    if(e.target.value == 1 || e.target.value == 2){ 
+    if(e.target.value == 'plain_text' || e.target.value == 'html_text'){ 
       this.textFieldTarget.classList.add('d-block');
       this.textFieldTarget.classList.remove('d-none');
       this.urlFieldTarget.classList.add('d-none');
-    } else if(e.target.value == 3){ 
+    } else if(e.target.value == 'web_url'){ 
       this.urlFieldTarget.classList.add('d-block');
       this.urlFieldTarget.classList.remove('d-none');
       this.textFieldTarget.classList.add('d-none');

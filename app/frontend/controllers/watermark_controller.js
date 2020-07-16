@@ -10,7 +10,6 @@ export default class Watermark extends Controller {
   // this toggles between metadata forms and manual choice values
   // @author: David J. Davis
   connect() {
-    console.log('watermarks controller'); 
     let selectBox = this.selectTarget; 
     let url = `/api/v1/watermarks`;
     fetch(url, {

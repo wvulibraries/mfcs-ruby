@@ -251,7 +251,7 @@ export default class extends Controller {
       let field_name = form_elements[i].name; 
       let field_value = form_elements[i].value;
       let skip_fields = ['utf8', 'authenticity_token'];
-      let input_fields = ["text", "password", "textarea", "url", "number", "email", "tel", "hidden", "date", "datetime-local", "month", "range", "time", "week", "radio", "checkbox", "select-one", "select-multi"]; 
+      let input_fields = ["text", "password", "textarea", "color", "url", "number", "email", "tel", "hidden", "date", "datetime-local", "month", "range", "time", "week", "radio", "checkbox", "select-one", "select-multi"]; 
 
       if(skip_fields.includes(field_name) || !input_fields.includes(field_type)) {  
         continue;
@@ -443,7 +443,7 @@ export default class extends Controller {
         input.value = data[key]; 
       }
       // this determines if an event change needs fired
-      let change_event_elms = ['help', 'help_type','managed_by', 'choice_type','convert_video', 'video_thumbnail', 'convert_audio', 'border', 'watermark', 'thumbnail', 'convert']
+      let change_event_elms = ['help', 'help_type','managed_by', 'choice_type','convert_video', 'video_thumbnail', 'convert_audio', 'border', 'watermark', 'thumbnail', 'convert', 'border_color']
       if (change_event_elms.includes(key)){
         change(input);
       }

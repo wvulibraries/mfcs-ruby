@@ -110,30 +110,30 @@
         </button>
       </div>
       <div class="modal-body">
-	        <b>User</b>
+	        <strong>User</strong>
 	        <ul>
-	            <li><b>%userid%</b><br>The user id for the currently logged in user. (<i>Example: 28</i>)</li>
-	            <li><b>%username%</b><br>The username for the currently logged in user. (<i>Example: jsmith</i>)</li>
-	            <li><b>%firstname%</b><br>The first name for the currently logged in user. (<i>Example: Joesph </i>)</li>
-	            <li><b>%lastname%</b><br>The last name for the currently logged in user. (<i>Example: Smith</i>)</li>
+	            <li><strong>%userid%</strong><br>The user id for the currently logged in user. (<em>Example: 28</em>)</li>
+	            <li><strong>%username%</strong><br>The username for the currently logged in user. (<em>Example: jsmith</em>)</li>
+	            <li><strong>%firstname%</strong><br>The first name for the currently logged in user. (<em>Example: Joesph </em>)</li>
+	            <li><strong>%lastname%</strong><br>The last name for the currently logged in user. (<em>Example: Smith</em>)</li>
 	        </ul>
 	        <hr>
-	        <b>Static Date/Time</b>
+	        <strong>Static Date/Time</strong>
 	        <ul>
-	            <li><b>%date%</b><br>The current date as MM/DD/YYYY. (<i>Example: 2019-10-17</i>)</li>
-	            <li><b>%time%</b><br>The current time as HH:MM:SS. (<i>Example: 09:12:12</i>)</li>
-	            <li><b>%time12%</b><br>The current 12-hr time. (<i>Example: 9:12:12 AM</i>)</li>
-	            <li><b>%time24%</b><br>The current 24-hr time. (<i>Example: 09:12:12</i>)</li>
-	            <li><b>%timestamp%</b><br>The current UNIX system timestamp. (<i>Example: 1571317932</i>)</li>
+	            <li><strong>%date%</strong><br>The current date as MM/DD/YYYY. (<em>Example: 2019-10-17</em>)</li>
+	            <li><strong>%time%</strong><br>The current time as HH:MM:SS. (<em>Example: 09:12:12</em>)</li>
+	            <li><strong>%time12%</strong><br>The current 12-hr time. (<em>Example: 9:12:12 AM</em>)</li>
+	            <li><strong>%time24%</strong><br>The current 24-hr time. (<em>Example: 09:12:12</em>)</li>
+	            <li><strong>%timestamp%</strong><br>The current UNIX system timestamp. (<em>Example: 1571317932</em>)</li>
 	        </ul>
 	        <hr>
-	        <b>Custom Date/Time</b>
+	        <strong>Custom Date/Time</strong>
 	        <ul style="list-style: none;">
 	            <li>
-	                <b>%date(FORMAT)%</b><br>
-	                You can specify a custom format when creating dates and times where FORMAT is a PHP <a href="http://us2.php.net/manual/en/function.date.php" target="_blank">date()</a> format string.
-	                <br>
-	                <b><i>Example:</i></b> %date(l, m j Y)% becomes Thursday, October 17 2019	  
+	                <strong>%date(FORMAT)%</strong><br>
+	                You can specify a custom format when creating dates and times where FORMAT is a ruby function <a href="https://apidock.com/ruby/DateTime/strftime" target="_blank"> strftime </a> which formats date and time objects as custom strings.
+	                <br/><br/>
+	                <strong><em>Example:</em></strong> %date('%A, %B %d %Y')% becomes <%= Time.now.strftime('%A, %B %d %Y') %>.
               </li>
 	        </ul>
       </div>

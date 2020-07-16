@@ -39,7 +39,7 @@ class Api::V1::FormsController < ActionController::Base
   def field_names
     render json: JSON.pretty_generate({error: 'The form ID must exist'}) if params[:id].nil?
     
-    fields = Form.select(:fields).where(id: params[:id]).first.fields
+    fields = Form.find(params[:id]).fields_hash
     field_names = []
     fields.map { |field| field_names << field.slice('name', 'label') }  
   

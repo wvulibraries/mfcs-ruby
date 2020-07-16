@@ -8,7 +8,7 @@
   <h2> Form Titles </h2>
   <div class="col-12"> <strong> Title: </strong> <%= @form.title %> </div>
   <div class="col-12"> <strong> Display Title: </strong> <%= @form.display_title %> </div>
-  <div class="col-12"> <%= @form.description.strip %>  </div>
+  <div class="col-12"> <%= @form.description.to_s.strip %>  </div>
 </div>
 
 <div class="row"> 
@@ -18,6 +18,10 @@
 
 <div class="row"> 
   <h2> Form Preview </h2>
+  <div class="col-12"> 
+    <%= FieldBuilder::IdnoField.new(@form.fields_hash.first, 'preview').html.html_safe %>
+    <%= @form.fields_hash.first %>
+  </div>
 </div>
 
 <div class="row"> 

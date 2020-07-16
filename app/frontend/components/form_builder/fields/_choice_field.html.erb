@@ -11,7 +11,15 @@
             <%= select_tag :choice_type, options_for_select(choice_types), {class: '', data: {action:'load@window->choices-field#toggle_choices change->choices-field#toggle_choices', target:"choices-field.toggle"}} %>
           </div>
         </div>
+
+        <div class="field checkbox-wrapper col-12">
+          <div class="checkbox">
+            <%= check_box_tag :choice_null %>
+            <%= label_tag :choice_null, "Include Placeholder \" Make a Selection \"" %>
+          </div>
+        </div>
       </div>
+
 
       <div class="row d-none" data-target="choices-field.manual">
         <%= hidden_field_tag :default_choice, nil, {data: { target: 'choices-field.defaultChoice' }} %>

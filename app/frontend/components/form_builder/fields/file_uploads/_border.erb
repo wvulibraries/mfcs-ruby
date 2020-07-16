@@ -1,4 +1,4 @@
-<fieldset class="fileFieldSettings d-none" data-target="conversions.border">
+<fieldset class="fileFieldSettings d-none" data-target="conversions.border" data-controller="border">
   <legend> Border Options </legend>
 
   <div class="row no-gutters input-group">
@@ -18,7 +18,7 @@
 
     <div class="field col">
       <%= label_tag :border_color %> 
-      <%= color_field_tag( :border_color ) %>
+      <%= color_field_tag( :border_color, "#ff0000", { "data-target" => "border.bordercolor", "data-action" => "change->border#setValue" } ) %>
     </div>
   </div>
 </fieldset>

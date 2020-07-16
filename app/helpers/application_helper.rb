@@ -23,7 +23,7 @@ module ApplicationHelper
   end
 
   def help_types
-    [:no_help, :plain_text, :html_text, :web_url].map.with_index { |x, i| [x.to_s.titleize, i] }
+    [:no_help, :plain_text, :html_text, :web_url].map { |k, v| [k.to_s.humanize.titleize, k] }
   end
 
   def metadata_types
