@@ -1,3 +1,5 @@
+
+
 # == Schema Information
 #
 # Table name: permissions
@@ -27,7 +29,7 @@ class Permission < ApplicationRecord
   # -----------------------------------------------------
   include Readonly
 
-  # Enums 
+  # Enums
   # ----------------------------------------------------
   enum permission: { admin: 3, viewer: 1, creator: 2, contact: 4 }
 end

@@ -1,3 +1,5 @@
+
+
 # Namespace for classes and modules that handle serving HTML from Field Data Hashes.
 # @since 0.0.0
 module FieldBuilder
@@ -9,13 +11,13 @@ module FieldBuilder
     # Checks that the element is not disabled will be used in the HTML value.
     # @abstract
     # @param field [Hash] which is the hash of field info to turn into HTML
-    # @param state [String] only ['insert', 'update', 'disabled', 'preview', 'create', 'edit'] 
+    # @param state [String] only ['insert', 'update', 'disabled', 'preview', 'create', 'edit']
     # @author David J. Davis
     def initialize(field, state = 'insert')
       @field = field
       @state = state.downcase
 
-      unless field.is_a?(Hash) 
+      unless field.is_a?(Hash)
         raise ArgumentError, 'Field is not a Hash, Field must be a hash to continue.'
       end
     end
@@ -33,14 +35,15 @@ module FieldBuilder
     # @author David J. Davis
     # @return [Boolean]
     def disabled?
-      if @state == 'disabled' || @state == 'preview'
-        return true
-      elsif @state == 'insert' || @state == 'create'
-        return (@field['disabled_on_insert'].to_s.downcase == "true" || @field['disabled'].to_s.downcase == "true")
-      elsif @state == 'edit' || @state == 'update'
-        return (@field['disabled_on_update'].to_s.downcase == "true" || @field['disabled'].to_s.downcase == "true")
+      case @state
+      when 'disabled', 'preview'
+        true
+      when 'insert', 'create'
+        (@field['disabled_on_insert'].to_s.casecmp('true').zero? || @field['disabled'].to_s.casecmp('true').zero?)
+      when 'edit', 'update'
+        (@field['disabled_on_update'].to_s.casecmp('true').zero? || @field['disabled'].to_s.casecmp('true').zero?)
       else
-        return @field['disabled'].to_s.downcase == "true"
+        @field['disabled'].to_s.casecmp('true').zero?
       end
     end
 
@@ -57,7 +60,7 @@ module FieldBuilder
     # @author David J. Davis
     # @return [Boolean]
     def readonly?
-      @field['read_only'].to_s.downcase == "true"
+      @field['read_only'].to_s.casecmp('true').zero?
     end
 
     # Checks that the element is not required
@@ -73,7 +76,7 @@ module FieldBuilder
     # @author David J. Davis
     # @return [Boolean]
     def required?
-      @field['required'].to_s.downcase == "true"
+      @field['required'].to_s.casecmp('true').zero?
     end
 
     # Checks that the element is not hidden
@@ -89,10 +92,10 @@ module FieldBuilder
     # @author David J. Davis
     # @return [Boolean]
     def hidden?
-      @field['hidden'].to_s.downcase == "true"
+      @field['hidden'].to_s.casecmp('true').zero?
     end
 
-    # Help html method will return strings or nil based on 
+    # Help html method will return strings or nil based on
     # the values located in the field hash.
     #
     # @example
@@ -101,14 +104,15 @@ module FieldBuilder
     #
     # @author David J. Davis
     # @return [String] HTML
-    def help_html 
-      if @field['help_type'].to_i == 3
-       <<-HTML
+    def help_html
+      case @field['help_type'].to_i
+      when 3
+        <<-HTML
         <a href="#{@field['help_url']}" class="help_url"> 
           <span class='far fa-question-circle field-help'></span>
         </a>
-      HTML
-      elsif @field['help_type'].to_i == 1 || @field['help_type'].to_i == 2
+        HTML
+      when 1, 2
         title = "#{@field['name']} Help"
         <<-HTML
         <span class="far fa-question-circle field-help" 
@@ -120,10 +124,8 @@ module FieldBuilder
               title="#{title}">
         </span>
         HTML
-      else 
-        return nil
-      end  
-    end 
+      end
+    end
 
     # Build input options that will be for each field semi-dynamically.
     #
@@ -135,10 +137,12 @@ module FieldBuilder
     # @return [String] HTML Attributes
     def input_options
       html_string = ''
-      options = %w(name label value placeholder)
-      options.each { |option| html_string << "#{option}=\"#{@field[option]}\" " unless @field[option].to_s.empty? }
-      return html_string
-    end 
+      options = %w[name label value placeholder]
+      options.each do |option|
+        html_string << "#{option}=\"#{@field[option]}\" " unless @field[option].to_s.empty?
+      end
+      html_string
+    end
 
     # Build data attributes that will be for each field semi-dynamically.
     #
@@ -150,9 +154,11 @@ module FieldBuilder
     # @return [String] HTML Attributes
     def data_attributes
       html = ''
-      attributes = %w(validation validation_regex)
-      attributes.each {|attr| html << "data-#{attr}=\"#{@field[attr]}\" " unless @field[attr].to_s.empty? }
-      return html 
+      attributes = %w[validation validation_regex]
+      attributes.each do |attr|
+        html << "data-#{attr}=\"#{@field[attr]}\" " unless @field[attr].to_s.empty?
+      end
+      html
     end
 
     # Build label information and classes.
@@ -164,11 +170,11 @@ module FieldBuilder
     # @author David J. Davis
     # @return [String] HTML Attributes
     def build_label
-      required_class = self.required? ? 'required' : ''
+      required_class = required? ? 'required' : ''
       <<-HTML
         <label for="#{@field['name']}" class="#{required_class}"> #{@field['label']} </label>
       HTML
-    end 
+    end
 
     # Uses hash data and helper methods to build out the classes to attach.
     #
@@ -178,15 +184,15 @@ module FieldBuilder
     #
     # @author David J. Davis
     # @return [String] CSS classes
-    def css_classes 
+    def css_classes
       classes = []
       classes << "field_#{@field['field_id']}"
-      classes << 'disabled' if self.disabled? 
-      classes << 'readonly' if self.readonly? 
-      classes << 'required' if self.required? 
+      classes << 'disabled' if disabled?
+      classes << 'readonly' if readonly?
+      classes << 'required' if required?
       classes << @field['css_classes']
       classes.join(' ')
-    end  
+    end
 
     # Uses hash data and helper methods to build out the attributes for HTML.
     #
@@ -198,11 +204,11 @@ module FieldBuilder
     # @return [String] CSS classes
     def html_attributes
       attributes = []
-      attributes.push('readonly') if self.readonly?
-      attributes.push('disabled') if self.disabled?
-      attributes.push('required') if self.required?
-      attributes.join(' ') 
-    end 
+      attributes.push('readonly') if readonly?
+      attributes.push('disabled') if disabled?
+      attributes.push('required') if required?
+      attributes.join(' ')
+    end
 
     # HTML strings that help to build each field, this method should be over-written,
     # but provides a baseline template.
@@ -213,18 +219,17 @@ module FieldBuilder
     #
     # @author David J. Davis
     # @return [String] HTML
-    def html 
-      hidden = self.hidden? ? 'hidden hide' : 'show'
+    def html
+      hidden = hidden? ? 'hidden hide' : 'show'
       <<-HTML
       <div class="form-field #{@state} #{hidden}">
         <!-- Label -->
-        #{self.build_label}
+        #{build_label}
 
         <!-- Input--> 
-        <input name="#{@field['name']}" class="#{@field['css_class']}" id="#{@field['css_id']}" #{self.input_options} #{self.data_attributes} disabled="#{self.disabled?}"> 
+        <input name="#{@field['name']}" class="#{@field['css_class']}" id="#{@field['css_id']}" #{input_options} #{data_attributes} disabled="#{disabled?}"> 
       </div>
       HTML
-    end 
+    end
   end
-
-end 
+end

@@ -1,7 +1,8 @@
-class FormsController < ApplicationController
 
-  before_action :set_form, only: [:show, :edit, :update, :destroy]
-  before_action :access_params_hash, only: [:create, :update]
+
+class FormsController < ApplicationController
+  before_action :set_form, only: %i[show edit update destroy]
+  before_action :access_params_hash, only: %i[create update]
 
   # GET /forms
   def index
@@ -22,7 +23,7 @@ class FormsController < ApplicationController
   end
 
   # GET /forms/1/edit
-  def edit 
+  def edit
     @forms = Form.metadata_forms
   end
 
@@ -65,8 +66,8 @@ class FormsController < ApplicationController
   # set unsafe params for post
   def access_params_hash
     unsafe_params = params.to_unsafe_hash
-    @parsed_field_params = JSON.parse(unsafe_params["form"]["fields"])
-  end 
+    @parsed_field_params = JSON.parse(unsafe_params['form']['fields'])
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_form
@@ -74,12 +75,12 @@ class FormsController < ApplicationController
   end
 
   def form_params
-    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button, :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata, permissions_attributes: %i[id form_id user_id permission _destroy],)
+    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button, :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata, permissions_attributes: %i[id form_id user_id permission _destroy])
   end
 
-  def update_params 
-    unsafe_params = params.to_unsafe_hash["form"]
-    unsafe_params['fields'] = JSON.parse(unsafe_params['fields']); 
+  def update_params
+    unsafe_params = params.to_unsafe_hash['form']
+    unsafe_params['fields'] = JSON.parse(unsafe_params['fields'])
     unsafe_params.slice('id', 'title', 'display_title', 'description', 'submit_button', 'update_button', 'container', 'production', 'export_public', 'export_oai', 'object_public_release_show', 'object_public_release_default', 'fields', 'idno', 'permissions_attributes', 'navigation', 'metadata')
-  end 
+  end
 end

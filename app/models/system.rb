@@ -1,3 +1,5 @@
+
+
 # == Schema Information
 #
 # Table name: systems
@@ -10,6 +12,6 @@
 #
 class System < ApplicationRecord
   def self.check(name)
-    !!System.where(name: name).pluck(:value).first
+    !!System.where(name: name).pick(:value)
   end
 end

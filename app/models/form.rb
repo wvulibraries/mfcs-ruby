@@ -1,3 +1,5 @@
+
+
 # == Schema Information
 #
 # Table name: forms
@@ -51,8 +53,8 @@ class Form < ApplicationRecord
             length: { within: 1..250 },
             uniqueness: true
 
-  # Associations 
-  # ----------------------------------------------------- 
+  # Associations
+  # -----------------------------------------------------
   has_many :permissions
 
   # Viewers, Creators, Admins, and Contacts Methods for Permissions System
@@ -69,14 +71,14 @@ class Form < ApplicationRecord
   # -----------------------------------------------------
   scope :object_forms, -> { where(metadata: 'false').order(:title) }
   scope :metadata_forms, -> { where(metadata: 'true').order(:title) }
- 
+
   # RAILS CALLBACKS
   # -----------------------------------------------------
   after_initialize :set_defaults, unless: :persisted?
 
   # Get an array of linked metadata fields from the field hash
   # @author David J. Davis
-  # @return object[Array <Integer>] Array of ids to identify the forms. 
+  # @return object[Array <Integer>] Array of ids to identify the forms.
   def linked_forms
     forms = []
     self[:fields].map { |h| forms.push(h['choice_form']) }
@@ -87,7 +89,7 @@ class Form < ApplicationRecord
   # @author David J. Davis
   # @return object[JSON] Returns the fields as json array instead ruby hash
   def fields
-    self[:fields].to_json unless self[:fields].blank?
+    self[:fields].to_json if self[:fields].present?
   end
 
   # Returns as a fields hash for use in views that aren't javascript produced.
@@ -98,6 +100,7 @@ class Form < ApplicationRecord
   end
 
   private
+
   # Setting some defaults for the forms to match current behaviors
   # of the existing app. These will be the defaults.
   # @author David J. Davis

@@ -1,3 +1,5 @@
+
+
 class ApplicationController < ActionController::Base
   # base setups
   protect_from_forgery with: :exception
@@ -18,9 +20,9 @@ class ApplicationController < ActionController::Base
 
   def layout_by_resource
     if devise_controller?
-      "basic"
+      'basic'
     else
-      "application"
+      'application'
     end
   end
 end

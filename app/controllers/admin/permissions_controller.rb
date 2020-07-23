@@ -1,5 +1,7 @@
+
+
 class Admin::PermissionsController < ApplicationController
-  before_action :set_permission, only: [:show, :edit, :update, :destroy]
+  before_action :set_permission, only: %i[show edit update destroy]
 
   # GET /permissions
   def index
@@ -7,8 +9,7 @@ class Admin::PermissionsController < ApplicationController
   end
 
   # GET /permissions/1
-  def show
-  end
+  def show; end
 
   # GET /permissions/new
   def new
@@ -16,8 +17,7 @@ class Admin::PermissionsController < ApplicationController
   end
 
   # GET /permissions/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /permissions
   def create
@@ -46,13 +46,14 @@ class Admin::PermissionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_permission
-      @permission = Permission.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def permission_params
-      params.fetch(:permission, {}).permit(:user_id, :form_id, :permission)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_permission
+    @permission = Permission.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def permission_params
+    params.fetch(:permission, {}).permit(:user_id, :form_id, :permission)
+  end
 end

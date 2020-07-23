@@ -1,3 +1,5 @@
+
+
 # == Schema Information
 #
 # Table name: users
@@ -38,7 +40,7 @@ class User < ApplicationRecord
   # -----------------------------------------------------
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :recoverable, :rememberable, :validatable, :trackable, :omniauthable, :omniauth_providers => [:cas]
+  devise :database_authenticatable, :recoverable, :rememberable, :validatable, :trackable, :omniauthable, omniauth_providers: [:cas]
 
   # Validations
   # -----------------------------------------------------
@@ -53,9 +55,9 @@ class User < ApplicationRecord
 
   # Enums
   # -----------------------------------------------------
-  enum status: %i[user editor admin]
+  enum status: { user: 0, editor: 1, admin: 2 }
 
-  def name 
-    self.first_name + ' ' + self.last_name 
-  end 
+  def name
+    first_name + ' ' + last_name
+  end
 end

@@ -1,9 +1,10 @@
+
+
 # Basic namespace for Validations.
 # This module comes from preset validations existing in the current MFCS system.
 # Rails wise this may need some refactoring and moving after the field
 # submission logic is created
 module Validator
-
   # Validates that the number is a valid phone number.
   #
   # @example
@@ -15,7 +16,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.phone_number(phone)
-    !!(phone =~ /\A1?[-\. ]?(\(\d{3}\)?[-\. ]?|\d{3}?[-\. ]?)?\d{3}?[-\. ]?\d{4}\z/)
+    !!(phone =~ /\A1?[-. ]?(\(\d{3}\)?[-. ]?|\d{3}?[-. ]?)?\d{3}?[-. ]?\d{4}\z/)
   end
 
   # Counts the number of words and returns a true or false
@@ -27,7 +28,7 @@ module Validator
   #
   # @param [String] str - The string to evaluate.
   # @param [Integer] limit_number - The limit number max.
-  # 
+  #
   # @author David J. Davis
   # @return [Boolean]
   def self.limit_words(str, limit_number)
@@ -43,7 +44,7 @@ module Validator
   #
   # @param [String] str - The string to evaluate.
   # @param [Integer] limit_number - The limit number max.
-  # 
+  #
   # @author David J. Davis
   # @return [Boolean]
   def self.limit_chars(str, limit_number)
@@ -57,11 +58,11 @@ module Validator
   #   Validator.url('https://www.foo.com', 5) # true
   #
   # @param [String] url - The string to evaluate.
-  # 
+  #
   # @author David J. Davis
   # @return [Boolean]
   def self.url(url)
-    !!(url =~ /\A(http|https|ftp|ssh|telnet):\/\/[a-z0-9@]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?\z/ix)
+    !!(url =~ %r{\A(http|https|ftp|ssh|telnet)://[a-z0-9@]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?\z}ix)
   end
 
   # Validates the string is a proper URL or is an empty string.
@@ -72,7 +73,7 @@ module Validator
   #   Validator.optional_url('') # true
   #
   # @param [String] url - The string to evaluate.
-  # 
+  #
   # @author David J. Davis
   # @return [Boolean]
   def self.optional_url(url)
@@ -83,10 +84,10 @@ module Validator
   #
   # @example
   #   Validator.email('test@test.com') # true
-  #   Validator.email('test') # false 
+  #   Validator.email('test') # false
   #
   # @param [String] address - email address to evaluate.
-  # 
+  #
   # @author David J. Davis
   # @return [Boolean]
   def self.email(address)
@@ -97,16 +98,16 @@ module Validator
   #
   # @example
   #   Validator.email_internal('test@mail.wvu.edu') # true
-  #   Validator.email_internal('test@wvu.edu') # true 
-  #   Validator.email_internal('test@test.com') # false 
+  #   Validator.email_internal('test@wvu.edu') # true
+  #   Validator.email_internal('test@test.com') # false
   #
   # @param [String] address - email address to evaluate.
-  # 
+  #
   # @author David J. Davis
   # @return [Boolean]
   def self.email_internal(address)
     regex = /.*wvu.edu\z/
-    !!(address =~ regex) && self.email(address)
+    !!(address =~ regex) && email(address)
   end
 
   # Uses ruby core class of IPAddress to evaluate valid ip.
@@ -116,7 +117,7 @@ module Validator
   #   Validator.ip('192.128.0.260') # false
   #
   # @param [String] address - The ip string to evaluate.
-  # 
+  #
   # @author David J. Davis
   # @return [Boolean]
   def self.ip(address)
@@ -151,7 +152,7 @@ module Validator
 
   # Pulled part of this from existing MFCS.  The other part validates the number
   # using the integer method in this validation.  The concept here is to allow numbers
-  # that have a space in the middle along with other numbers. 
+  # that have a space in the middle along with other numbers.
   #
   # @example
   #   Validator.integer_spaces(' 2 ') # true
@@ -165,7 +166,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.integer_spaces(num)
-    !!(num =~ /\A?\s*[0-9\ ]+\s*\z/) || self.integer(num)
+    !!(num =~ /\A?\s*[0-9\ ]+\s*\z/) || integer(num)
   end
 
   # Validates a variety of alpha numerical charactes including spaces.
@@ -243,7 +244,7 @@ module Validator
   end
 
   # Validates as a edtf date.  Edtf will silently fail
-  # as nil if the edtf date is not valid. See 
+  # as nil if the edtf date is not valid. See
   # specs for full examples of valid edtf dates.
   #
   # @example
@@ -257,5 +258,4 @@ module Validator
   def self.date(date_str)
     !Date.edtf(date_str).nil?
   end
-
 end

@@ -1,3 +1,5 @@
+
+
 module ApplicationHelper
   # valdiation options
   def form_validation_options
@@ -23,23 +25,23 @@ module ApplicationHelper
   end
 
   def help_types
-    [:no_help, :plain_text, :html_text, :web_url].map { |k, v| [k.to_s.humanize.titleize, k] }
+    %i[no_help plain_text html_text web_url].map { |k, _v| [k.to_s.humanize.titleize, k] }
   end
 
   def metadata_types
-    ['dublin_core'].map { |k, v| [k.humanize.titleize, k] }
-  end 
+    ['dublin_core'].map { |k, _v| [k.humanize.titleize, k] }
+  end
 
   def idno_numbering_types
-    ['user', 'system'].map { |k, v| [k.humanize.titleize, k] }
+    %w[user system].map { |k, _v| [k.humanize.titleize, k] }
   end
 
   def choice_types
-    ['manual', 'link_to_form'].map {|k, v| [k.humanize.titleize, k] }
+    %w[manual link_to_form].map { |k, _v| [k.humanize.titleize, k] }
   end
 
   def text_formats
-    ['word', 'characters'].map {|k, v| [k.humanize.titleize, k] }
+    %w[word characters].map { |k, _v| [k.humanize.titleize, k] }
   end
 
   # dynamically add fieldsets
@@ -50,6 +52,6 @@ module ApplicationHelper
     fields = form.fields_for(association, new_object, child_index: id) do |builder|
       render(association.to_s.singularize, form: builder)
     end
-    link_to(name, '#', class: 'add-fields', data: { id: id, fields: fields.gsub("\n", "") })
+    link_to(name, '#', class: 'add-fields', data: { id: id, fields: fields.delete("\n") })
   end
 end

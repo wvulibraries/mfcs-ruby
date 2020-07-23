@@ -1,5 +1,7 @@
+
+
 class Admin::WatermarksController < ApplicationController
-  before_action :set_watermark, only: [:show, :edit, :update, :destroy]
+  before_action :set_watermark, only: %i[show edit update destroy]
 
   # GET /watermarks
   def index
@@ -8,8 +10,7 @@ class Admin::WatermarksController < ApplicationController
   end
 
   # GET /watermarks/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /watermarks
   def create
@@ -39,13 +40,14 @@ class Admin::WatermarksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_watermark
-      @watermark = Watermark.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def watermark_params
-      params.fetch(:watermark, {}).permit(:id, :name, :image)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_watermark
+    @watermark = Watermark.find(params[:id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def watermark_params
+    params.fetch(:watermark, {}).permit(:id, :name, :image)
+  end
 end
