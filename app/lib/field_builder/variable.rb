@@ -1,3 +1,5 @@
+# Namespace for classes and modules that handle serving HTML from Field Data Hashes.
+# @since 0.0.0
 module FieldBuilder
   # Static Date/Time
   # %date%
@@ -11,7 +13,19 @@ module FieldBuilder
   # %timestamp%
   # The current UNIX system timestamp. (Example: 1571317932)
 
+  # Class used for holding methods that parse variables in form builder documents.
+  # @author David J. Davis
+  # @abstract
+  # @since 0.0.0
   class Variable
+    # Substitues variables for the strings.
+    #
+    # @example
+    #   result = FieldBuilder::Variable.sub_vars(test_str, user)
+    #   puts result.inspect # returns modified string
+    #
+    # @author David J. Davis
+    # @return [String]
     def self.sub_vars(str, current_user)
       vars = {
         '%date%' => Time.zone.now.strftime('%m/%d/%Y'),
@@ -26,21 +40,43 @@ module FieldBuilder
 
       str.gsub!(/%([A-Za-z\d]+?)%/, vars) if vars?(str)
       str = parse_custom_date(str) if custom_date?(str)
-      return str
+      str
     end
 
+    # Determines if there are vars that need to be replaced.
+    #
+    # @example
+    #   FieldBuilder::Variable.vars?(test_string) # True || # False
+    #
+    # @author David J. Davis
+    # @return [Boolean]
     def self.vars?(str)
       regex = /%([A-Za-z\d]+?)%/
       vars = str.scan(regex).reject(&:blank?)
       !vars.empty?
     end
 
+    # Determines if there is a custom date that needs to be processed.
+    #
+    # @example
+    #   FieldBuilder::Variable.custom_date?(str) # True || # False
+    #
+    # @author David J. Davis
+    # @return [Boolean]
     def self.custom_date?(str)
       regex = /%date\(.*?\)%/
       custom_dates = str.scan(regex).reject(&:blank?)
       !custom_dates.empty?
     end
 
+    # Substitues variables for custom date fields.
+    #
+    # @example
+    #   result = FieldBuilder::Variable.parse_custom_date(test_str)
+    #   puts result.inspect # returns modified string
+    #
+    # @author David J. Davis
+    # @return [String]
     def self.parse_custom_date(str)
       regex = /%date\(.*?\)%/
       format_regex = /%date\(['|"](.+?)['|"]\)%/
