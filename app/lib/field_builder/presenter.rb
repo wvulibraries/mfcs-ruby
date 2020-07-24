@@ -3,33 +3,33 @@
 module FieldBuilder
   # Presenter
   class Presenter
-    def initialize(field, disabled = false)
-      @field = field 
-      @disabled = disabled
+    def initialize(field, state = 'disabled', current_user)
+      @fields = field
+      @state = state
+      @user = current_user
     end
 
     def type
-      case field['type']
-        when 'idno'
-          IDNOField.new(@field, @disabled)
-        when 'text'
-          TextField.new(@field, @disabled)
-        when 'textarea'
-          TextareaField.new(@field, @disabled)
-        when 'number'
-          NumberField.new(@field, @disabled)
-        when 'select'
-          SelectField.new(@field, @disabled)
-        when 'multiselect'
-          MultiSelectField.new(@field, @disabled) 
-        when 'wysiwyg'
-          WysiwigField.new(@field, @disabled)
-        when 'file'
-          FileUploadField.new(@field, @disabled)
-        else
-          raise ArgumentError, 'Passed field type does not exist'
-        end
-      end  
-    end 
+      case @fields['type']
+      when 'idno'
+        FieldBuilder::IdnoField.new(@fields, @state, @user)
+      when 'text'
+        FieldBuilder::TextField.new(@fields, @state, @user)
+      when 'textarea'
+        FieldBuilder::TextareaField.new(@fields, @state, @user)
+      when 'number'
+        FieldBuilder::NumberField.new(@fields, @state, @user)
+      when 'select'
+        FieldBuilder::SelectField.new(@fields, @state, @user)
+      when 'multiselect'
+        FieldBuilder::MultiSelectField.new(@fields, @state, @user)
+      when 'wysiwyg'
+        FieldBuilder::WysiwygField.new(@fields, @state, @user)
+      when 'file'
+        FieldBuilder::FileUploadField.new(@fields, @state, @user)
+      else
+        raise ArgumentError, 'Passed field type does not exist'
+      end
+    end
   end
 end

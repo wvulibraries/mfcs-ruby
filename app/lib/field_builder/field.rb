@@ -1,5 +1,3 @@
-
-
 # Namespace for classes and modules that handle serving HTML from Field Data Hashes.
 # @since 0.0.0
 module FieldBuilder
@@ -13,9 +11,10 @@ module FieldBuilder
     # @param field [Hash] which is the hash of field info to turn into HTML
     # @param state [String] only ['insert', 'update', 'disabled', 'preview', 'create', 'edit']
     # @author David J. Davis
-    def initialize(field, state = 'insert')
+    def initialize(field, state = 'insert', user)
       @field = field
       @state = state.downcase
+      @user = user
 
       unless field.is_a?(Hash)
         raise ArgumentError, 'Field is not a Hash, Field must be a hash to continue.'
