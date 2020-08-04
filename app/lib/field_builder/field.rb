@@ -11,7 +11,7 @@ module FieldBuilder
     # @param field [Hash] which is the hash of field info to turn into HTML
     # @param state [String] only ['insert', 'update', 'disabled', 'preview', 'create', 'edit']
     # @author David J. Davis
-    def initialize(field, state = 'insert', user)
+    def initialize(field, user, state = 'insert')
       @field = field
       @state = state.downcase
       @user = user
@@ -104,15 +104,15 @@ module FieldBuilder
     # @author David J. Davis
     # @return [String] HTML
     def help_html
-      case @field['help_type'].to_i
-      when 3
+      if @field['help_type'].to_s == 'help_url'
         <<-HTML
         <a href="#{@field['help_url']}" class="help_url"> 
           <span class='far fa-question-circle field-help'></span>
         </a>
         HTML
-      when 1, 2
-        title = "#{@field['name']} Help"
+      elsif @field['help_type'].to_s.casecmp('plain_text').zero? ||
+            @field['help_type'].to_s.casecmp('html_text').zero?
+        title = "#{@field['label']} Help"
         <<-HTML
         <span class="far fa-question-circle field-help" 
               data-toggle="popover" 
@@ -123,6 +123,8 @@ module FieldBuilder
               title="#{title}">
         </span>
         HTML
+      else
+        ''
       end
     end
 
@@ -189,7 +191,7 @@ module FieldBuilder
       classes << 'disabled' if disabled?
       classes << 'readonly' if readonly?
       classes << 'required' if required?
-      classes << @field['css_classes']
+      classes << @field['css_class']
       classes.join(' ')
     end
 

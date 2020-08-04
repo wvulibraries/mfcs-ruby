@@ -1,5 +1,3 @@
-
-
 # Basic namespace for Fields
 # This will include logic that needs to be done on the Field hashes.
 module FieldBuilder

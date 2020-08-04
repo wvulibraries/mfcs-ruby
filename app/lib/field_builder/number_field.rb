@@ -1,20 +1,41 @@
-
-
 # Basic namespace for Fields
 # This will include logic that needs to be done on the Field hashes.
 module FieldBuilder
   # Basic Field Template that all fields will inherit
   class NumberField < Field
-    def parse_variables
-      # parses variables inside of value context
+    # Number Attributes.
+    #
+    # @author David J. Davis
+    # @return [String] HTML Attributes
+    def number_attributes
+      return unless @field['min_number'].present? && @field['max_number'].present?
+
+      <<-HTML
+        min="#{@field['min_number']}" 
+        max="#{@field['max_number']}"
+        step="#{@field['step']}"
+      HTML
     end
 
-    def input_options
-      # overrides defaults to provide a different set of html options
-    end
-
+    # HTML strings that help to build each field, this method should be over-written,
+    # but provides a baseline template.
+    #
+    # @author David J. Davis
+    # @return [String] HTML
     def html
-      # generates html for textfield
+      hidden = hidden? ? 'hidden hide' : 'show'
+      <<-HTML
+      <div class="form-field #{@state} #{hidden}">
+        <!-- HELP --> 
+        #{help_html}
+        
+        <!-- Label -->
+        #{build_label}
+
+        <!-- Input--> 
+        <input type="number" name="#{@field['name']}" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{number_attributes} #{input_options} #{data_attributes} #{html_attributes} /> 
+      </div>
+      HTML
     end
   end
 end

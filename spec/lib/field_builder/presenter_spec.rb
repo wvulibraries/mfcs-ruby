@@ -10,50 +10,58 @@ RSpec.describe FieldBuilder::Presenter, type: :model do
   context 'Return the proper class type' do
     it 'return Idno' do
       field_hash['type'] = 'idno'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
+      puts presenter.type.class 
+      puts FieldBuilder::IdnoField
       expect(presenter.type.class).to be FieldBuilder::IdnoField
     end 
 
     it 'return text' do
       field_hash['type'] = 'text'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
       expect(presenter.type.class).to be FieldBuilder::TextField
     end 
 
     it 'return textarea' do
       field_hash['type'] = 'textarea'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
       expect(presenter.type.class).to be FieldBuilder::TextareaField
     end 
 
     it 'return Number' do
       field_hash['type'] = 'number'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
       expect(presenter.type.class).to be FieldBuilder::NumberField
     end 
 
     it 'return Select' do
       field_hash['type'] = 'select'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
       expect(presenter.type.class).to be FieldBuilder::SelectField
     end 
 
     it 'return Multiselect' do
       field_hash['type'] = 'multiselect'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
       expect(presenter.type.class).to be FieldBuilder::MultiSelectField
     end 
 
     it 'return Wysiwyg' do
       field_hash['type'] = 'wysiwyg'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
       expect(presenter.type.class).to be FieldBuilder::WysiwygField
     end 
 
     it 'return File Upload' do
       field_hash['type'] = 'file'
-      presenter = FieldBuilder::Presenter.new(field_hash, 'disabled', current_user)
+      presenter = FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled')
       expect(presenter.type.class).to be FieldBuilder::FileUploadField
+    end 
+
+    it 'returns non existing type' do
+      field_hash['type'] = 'unknown'
+      expect( FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled').type ).to be_a String
+      expect( FieldBuilder::Presenter.new(field_hash,  current_user,  'disabled').type ).to include "Field type not recognized,"
     end 
   end  
 end

@@ -1,5 +1,3 @@
-
-
 # Basic namespace for Fields
 # This will include logic that needs to be done on the Field hashes.
 module FieldBuilder
@@ -44,14 +42,17 @@ module FieldBuilder
     # @return [String] HTML
 
     def html
-      hidden = hidden? ? 'hidden hide' : 'show'
+      hidden = hidden? || managed_by_system? ? 'hidden hide' : 'show'
       <<-HTML
       <div class="form-field #{@state} #{hidden}">
+        <!-- HELP --> 
+        #{help_html}
+        
         <!-- Label -->
         #{build_label}
 
         <!-- Input--> 
-        <input name="#{@field['name']}" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes} /> 
+        <input type="text" name="#{@field['name']}" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes} /> 
       </div>
       HTML
     end

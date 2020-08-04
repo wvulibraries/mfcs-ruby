@@ -19,8 +19,14 @@
 <div class="row"> 
   <h2> Form Preview </h2>
   <div class="col-12"> 
-    <%= FieldBuilder::IdnoField.new(@form.fields_hash.first, 'preview').html.html_safe %>
-    <%= @form.fields_hash.first %>
+    <% @form.fields_hash.each do |field| %>
+      <% presenter = FieldBuilder::Presenter.new(field, current_user, 'preview') %>
+      <%= presenter.type.html.html_safe %>
+
+      <br/>
+      <%= field.inspect %>
+      <br/><br/><br/><br/>
+    <% end %>
   </div>
 </div>
 

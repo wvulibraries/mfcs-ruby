@@ -48,7 +48,7 @@ RSpec.describe FieldBuilder::Variable, type: :model do
       expect(replaced).to_not include('%username%')
     end
 
-    it 'should change everything but the custom date' do
+    it 'should change everything including the custom date' do
       test_str = "%date% %time% %timestamp% %time12% %time24% %username% %firstname% %lastname% %date('%Y/%m/%d')%"
       replaced = FieldBuilder::Variable.sub_vars(test_str, user)
       expect(replaced).to_not include('%date%')

@@ -5,13 +5,14 @@ module FieldBuilder
   class WysiwygField < Field
     def parse_variables
       # parses variables inside of value context
-    end 
+    end
 
     def input_options
-      # overrides defaults to provide a different set of html options 
-    end 
+      # overrides defaults to provide a different set of html options
+    end
 
     def html
-      # generates html for textfield 
-    end 
+      # generates html for textfield
+    end
   end
+end
