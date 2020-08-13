@@ -87,6 +87,41 @@ RSpec.describe Validator, type: :model do
     end
   end
 
+  context '.text_character_limits' do
+    it 'between character limits' do
+      txt_str = "testing"
+      expect(Validator.text_character_limits(txt_str, 2, 7)).to be true
+    end
+
+    it 'under minimum limits' do
+      txt_str = "te"
+      expect(Validator.text_character_limits(txt_str, 5, 7)).to be false
+    end
+
+    it 'above character limits' do
+      txt_str = "testing something really cool"
+      expect(Validator.text_character_limits(txt_str, 2, 7)).to be false
+    end
+  end
+
+  context '.text_word_limits' do
+    it 'between character limits' do
+      txt_str = "testing some string"
+      expect(Validator.text_word_limits(txt_str, 2, 4)).to be true
+    end
+
+    it 'under minimum limits' do
+      txt_str = "testing some string"
+      expect(Validator.text_word_limits(txt_str, 5, 7)).to be false
+    end
+
+    it 'above max limits' do
+      txt_str = "testing something really cool which is a bad thing"
+      expect(Validator.text_word_limits(txt_str, 2, 7)).to be false
+    end
+  end
+  
+
   context '.ip' do
     it 'public ipv4 address' do
       expect(Validator.ip(Faker::Internet.public_ip_v4_address)).to be true
@@ -209,6 +244,38 @@ RSpec.describe Validator, type: :model do
     end
   end
 
+  context '.divisible_by_step?' do 
+    it 'returns valid or true because the step is 0' do
+      expect(Validator.divisible_by_step?(15,0)).to be true
+    end 
+    
+    it 'step is a multiple of the number' do
+      expect(Validator.divisible_by_step?(9,3)).to be true
+    end
+
+    it 'step is not a multiple of the number' do
+      expect(Validator.divisible_by_step?(9,5)).to be false
+    end
+  end 
+
+  context '.between_min_max?' do
+    it 'validates because no max number or max number not positive' do
+      max = [nil, 0]
+      expect(Validator.between_min_max?(10, 1, max.sample)).to be true
+    end 
+
+    it 'skips validation returning a true because min/max values are not present' do
+      expect(Validator.between_min_max?(100, nil, nil)).to be true
+    end 
+
+    it 'between min and max' do
+      expect(Validator.between_min_max?(10, 1, 20)).to be true
+    end 
+
+    it 'not between min and max' do
+      expect(Validator.between_min_max?(8, 15, 20)).to be false
+    end 
+  end 
 
   context '.integer_spaces' do
     it 'valid string' do

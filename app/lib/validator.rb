@@ -1,5 +1,3 @@
-
-
 # Basic namespace for Validations.
 # This module comes from preset validations existing in the current MFCS system.
 # Rails wise this may need some refactoring and moving after the field
@@ -16,7 +14,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.phone_number(phone)
-    !!(phone =~ /\A1?[-. ]?(\(\d{3}\)?[-. ]?|\d{3}?[-. ]?)?\d{3}?[-. ]?\d{4}\z/)
+    phone.match?(/\A1?[-. ]?(\(\d{3}\)?[-. ]?|\d{3}?[-. ]?)?\d{3}?[-. ]?\d{4}\z/)
   end
 
   # Counts the number of words and returns a true or false
@@ -33,6 +31,40 @@ module Validator
   # @return [Boolean]
   def self.limit_words(str, limit_number)
     str.split(/\s+/).count <= limit_number
+  end
+
+  # Counts the number of characters in a given string then
+  # makes sure it is inbetween the min and max values given.
+  #
+  # @example
+  #   Validator.text_character_limits('testing', 2, 8) # true
+  #   Validator.text_character_limits('testing something false', 2, 8) # false
+  #
+  # @param [String] str - The string to evaluate.
+  # @param [Integer] limit_number - The limit number min.
+  # @param [Integer] limit_number - The limit number max.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.text_character_limits(str, min, max)
+    str.size.between?(min, max)
+  end
+
+  # Counts the number of words in a given string then
+  # makes sure it is inbetween the min and max values given.
+  #
+  # @example
+  #   Validator.text_word_limits('testing some words', 2, 3) # true
+  #   Validator.text_word_limits('testing something false', 2, 3) # false
+  #
+  # @param [String] str - The string to evaluate.
+  # @param [Integer] limit_number - The limit number min.
+  # @param [Integer] limit_number - The limit number max.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.text_word_limits(str, min, max)
+    str.split(/\s+/).count.between?(min, max)
   end
 
   # Counts the characters in a given string and returns true/false
@@ -62,7 +94,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.url(url)
-    !!(url =~ %r{\A(http|https|ftp|ssh|telnet)://[a-z0-9@]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?\z}ix)
+    url.match? %r{\A(http|https|ftp|ssh|telnet)://[a-z0-9@]+([\-.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(/.*)?\z}ix
   end
 
   # Validates the string is a proper URL or is an empty string.
@@ -91,7 +123,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.email(address)
-    !!(address =~ URI::MailTo::EMAIL_REGEXP)
+    address.match? URI::MailTo::EMAIL_REGEXP
   end
 
   # Validates the internal email address.
@@ -107,7 +139,7 @@ module Validator
   # @return [Boolean]
   def self.email_internal(address)
     regex = /.*wvu.edu\z/
-    !!(address =~ regex) && email(address)
+    address.match?(regex) && email(address)
   end
 
   # Uses ruby core class of IPAddress to evaluate valid ip.
@@ -150,6 +182,41 @@ module Validator
     false
   end
 
+  # Evaluates if the number is divisible by its step counter
+  #
+  # @example
+  #   Validator.divisible_by_step?(9,3) # true
+  #   Validator.divisible_by_step?(9,5) # false
+  #
+  # @param [String] address - The ip string to evaluate.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.divisible_by_step?(num, step)
+    return true unless step.present? && step.positive?
+
+    (num % step).zero?
+  end
+
+  # Checks possible values to be sure that the validation is ran or skipped
+  #
+  # @example
+  #   Validator.between_min_max?(10, 1, 0) # true validationskipped no max number
+  #   Validator.between_min_max?(10, 1, 20) # true
+  #   Validator.between_min_max?(10, 15, 20) # false
+  #   Validator.between_min_max?(100, nil, nil) # true
+  #
+  # @param [String] address - The ip string to evaluate.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.between_min_max?(num, min, max)
+    return true if min.nil? || max.nil?
+    return true unless min >= 0 && max.positive?
+
+    num.between?(min, max)
+  end
+
   # Pulled part of this from existing MFCS.  The other part validates the number
   # using the integer method in this validation.  The concept here is to allow numbers
   # that have a space in the middle along with other numbers.
@@ -166,7 +233,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.integer_spaces(num)
-    !!(num =~ /\A?\s*[0-9\ ]+\s*\z/) || integer(num)
+    num.to_s.match?(/\A?\s*[0-9\ ]+\s*\z/) || integer(num)
   end
 
   # Validates a variety of alpha numerical charactes including spaces.
@@ -181,7 +248,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.alpha_numeric(str)
-    !!(str =~ /\A[a-z0-9]+\Z/i)
+    str.match?(/\A[a-z0-9]+\Z/i)
   end
 
   # Validates a variety of alpha numerical charactes including spaces.
@@ -196,7 +263,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.alpha_numeric_spaces(str)
-    !!(str =~ /\A[\sa-z0-9]+\z/i)
+    str.match?(/\A[\sa-z0-9]+\z/i)
   end
 
   # Alphabetical only with spaces.
@@ -211,7 +278,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.alpha(str)
-    !!(str =~ /\A[a-z]+\z/i)
+    str.match?(/\A[a-z]+\z/i)
   end
 
   # Alphabetical only with spaces.
@@ -226,7 +293,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.alpha_spaces(str)
-    !!(str =~ /\A[\sa-z]+\z/i)
+    str.match?(/\A[\sa-z]+\z/i)
   end
 
   # Validates that there are no special characters
@@ -240,7 +307,7 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.no_special_chars(str)
-    !!(str =~ /\A[a-z0-9\s]+\z/i)
+    str.match?(/\A[a-z0-9\s]+\z/i)
   end
 
   # Validates as a edtf date.  Edtf will silently fail

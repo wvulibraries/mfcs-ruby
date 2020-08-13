@@ -1,5 +1,3 @@
-
-
 # == Schema Information
 #
 # Table name: forms
@@ -41,6 +39,10 @@ class Form < ApplicationRecord
   # attr_accessor :fields
   # serialize :fields, JSON
 
+  # Audits
+  # -----------------------------------------------------
+  audited max_audits: 2
+
   # Validations
   # -----------------------------------------------------
   validates :title,
@@ -62,6 +64,8 @@ class Form < ApplicationRecord
   has_many :admins, -> { where(permission: :admin) }, class_name: 'Permission'
   has_many :contacts, -> { where(permission: :contact) }, class_name: 'Permission'
   has_many :creators, -> { where(permission: :creator) }, class_name: 'Permission'
+
+  has_many :items
 
   # Nested Models
   # ----------------------------------------------------

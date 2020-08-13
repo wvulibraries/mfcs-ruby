@@ -28,6 +28,9 @@ gem 'devise', '~> 4.6', '>= 4.6.2'
 gem 'omniauth', '~> 1.9'
 gem 'omniauth-cas', '~> 1.1', '>= 1.1.1'
 
+# Log all changes to models
+gem "audited", "~> 4.9"
+
 # metadata / library of congress specific
 gem 'edtf', '~> 3.0', '>= 3.0.4'
 # gem 'edtf-humanize', '~> 0.0.7'

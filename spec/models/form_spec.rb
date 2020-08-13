@@ -103,6 +103,7 @@ RSpec.describe Form, type: :model do
       it { should have_many(:admins) }
       it { should have_many(:contacts) }
       it { should have_many(:creators) }
+      it { should have_many(:items) }
     end 
 
     context 'viewers test' do
@@ -146,7 +147,6 @@ RSpec.describe Form, type: :model do
         Permission.create(user: user4, form: form, permission: :creator)
         Permission.create(user: user5, form: form, permission: :creator)
         Permission.create(user: user1, form: form, permission: :creator)
-
 
         Permission.create(user: user, form: form, permission: :contact)
         Permission.create(user: user1, form: form, permission: :contact)
@@ -253,4 +253,22 @@ RSpec.describe Form, type: :model do
     end
   end
 
+  context 'audits' do
+    it 'Should respond to audit methods' do
+      form = FactoryBot.build(:form)
+      form.metadata = false
+      form.save 
+      expect(form.respond_to?(:audits)).to be true
+    end
+
+    it 'should have a few audits' do
+      form = FactoryBot.build(:form)
+      form.metadata = false
+      form.save 
+      form.update(metadata: true)
+      form.update(title: 'Another Title') 
+      expect(form.respond_to?(:audits)).to be true
+      expect(form.audits.count).to eq 2
+    end 
+  end 
 end

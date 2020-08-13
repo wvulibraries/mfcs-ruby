@@ -29,8 +29,10 @@
 #                             DELETE   /admin/watermarks/:id(.:format)                                                          admin/watermarks#destroy
 #           admin_permissions GET      /admin/permissions(.:format)                                                             admin/permissions#index
 #                             POST     /admin/permissions(.:format)                                                             admin/permissions#create
+#        new_admin_permission GET      /admin/permissions/new(.:format)                                                         admin/permissions#new
 #       edit_admin_permission GET      /admin/permissions/:id/edit(.:format)                                                    admin/permissions#edit
-#            admin_permission PATCH    /admin/permissions/:id(.:format)                                                         admin/permissions#update
+#            admin_permission GET      /admin/permissions/:id(.:format)                                                         admin/permissions#show
+#                             PATCH    /admin/permissions/:id(.:format)                                                         admin/permissions#update
 #                             PUT      /admin/permissions/:id(.:format)                                                         admin/permissions#update
 #                             DELETE   /admin/permissions/:id(.:format)                                                         admin/permissions#destroy
 #                      api_v1 GET      /api/v1/form/:id(.:format)                                                               api/v1/forms#forms {:format=>:json}
@@ -40,12 +42,14 @@
 # api_v1_forms_metadata_names GET      /api/v1/forms/metadata/names(.:format)                                                   api/v1/forms#metadata_names {:format=>:json}
 #                             GET      /api/v1/form/:id/fields(.:format)                                                        api/v1/forms#field_names {:format=>:json}
 #           api_v1_watermarks GET      /api/v1/watermarks(.:format)                                                             api/v1/watermarks#watermarks {:format=>:json}
+#                             GET      /api/v1/validations/:type(.:format)                                                      api/v1/validation#validate {:format=>:json}
 #                        test GET      /test(.:format)                                                                          pages#test
 #          rails_service_blob GET      /rails/active_storage/blobs/:signed_id/*filename(.:format)                               active_storage/blobs#show
 #   rails_blob_representation GET      /rails/active_storage/representations/:signed_blob_id/:variation_key/*filename(.:format) active_storage/representations#show
 #          rails_disk_service GET      /rails/active_storage/disk/:encoded_key/*filename(.:format)                              active_storage/disk#show
 #   update_rails_disk_service PUT      /rails/active_storage/disk/:encoded_token(.:format)                                      active_storage/disk#update
 #        rails_direct_uploads POST     /rails/active_storage/direct_uploads(.:format)                                           active_storage/direct_uploads#create
+
 
 Rails.application.routes.draw do
   root to: 'pages#home'
@@ -76,6 +80,8 @@ Rails.application.routes.draw do
       get 'form/:id/fields', to: 'forms#field_names'
       # watermarks 
       get 'watermarks', to: 'watermarks#watermarks'
+      # validations
+      get 'validations(/:type/:regex)', to: 'validation#validate', as: 'validations'
     end
   end
 
