@@ -81,7 +81,9 @@ Rails.application.routes.draw do
       # watermarks 
       get 'watermarks', to: 'watermarks#watermarks'
       # validations
-      get 'validations(/:type/:regex)', to: 'validation#validate', as: 'validations'
+      get 'validate/validation/(:input)/(:type)', to: 'validation#validations', as: 'validations'
+      get 'validate/textlength/(:min)/(:max)/(:type)', to: 'validation#text_length', as: 'text_length'
+      get 'validate/numerical/(:num)/(:num_min)/(:num_max)/(:step)', to: 'validation#numerical'
     end
   end
 

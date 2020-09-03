@@ -41,6 +41,9 @@ gem 'loaf'
 # configruation
 gem 'figaro'
 
+# convert user strings to regex
+gem 'to_regexp', '~> 0.2.1'
+
 # Test Suite
 # =====================================================================================
 # group :test do

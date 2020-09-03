@@ -6,6 +6,54 @@ module Validator
   # Validates that the number is a valid phone number.
   #
   # @example
+  #   Validator.handle_type_validation('304.234.2324', 'phone_number') # true
+  #
+  # @param [String] phone takes a string and validates
+  # that it is a phone number.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.handle_type_validation(input, type)
+    validate = {
+      phone_number: Validator.phone_number(input),
+      ip_addr: Validator.ip(input),
+      ip_range: Validator.ip(input),
+      url: Validator.url(input),
+      optional_url: Validator.optional_url(input),
+      email_addr: Validator.email(input),
+      internal_email_addr: Validator.email_internal(input),
+      integer: Validator.integer(input),
+      integer_spaces: Validator.integer_spaces(input),
+      alpha: Validator.alpha_spaces(input),
+      alpha_no_spaces: Validator.alpha(input),
+      alpha_numeric: Validator.alpha_numeric_spaces(input),
+      alpha_numeric_no_space: Validator.alpha_numeric(input),
+      no_spaces: Validator.no_spaces(input),
+      no_special_chars: Validator.no_special_chars(input)
+    }.with_indifferent_access
+
+    validate[type]
+  end
+
+  # Validates that the regular expression matches the statement provided
+  #
+  # @example
+  #   Validator.regex('somestring', '\s') # true
+  #   Validator.regex('something cool', '\s') # false
+  #
+  # @param [String] phone takes a string and validates
+  # that it is a phone number.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.regex(input, regex)
+    expression = regex.to_regexp
+    input.match?(expression)
+  end
+
+  # Validates that a given input matches a given regex
+  #
+  # @example
   #   Validator.phone_number('304.234.2324') # true
   #
   # @param [String] phone takes a string and validates
@@ -31,6 +79,29 @@ module Validator
   # @return [Boolean]
   def self.limit_words(str, limit_number)
     str.split(/\s+/).count <= limit_number
+  end
+
+  # This is to reduce the logic used in the controller for if a user does
+  # not comply to all the needed amount of variable data.
+  #
+  #
+  # @example
+  #   Validator.text_character_limits('testing', 2, 8) # true
+  #   Validator.text_character_limits('testing something false', 2, 8) # false
+  #
+  # @param [String] str - The string to evaluate.
+  # @param [Integer] min - If min is not provided then it is set to 0
+  # @param [Integer] max - If max is not provided then it is set to 30000
+  # @param [String] type - should be characters or words, but could expand to more.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.text_length(str, min: 0, max: 30_000, type: 'characters')
+    if %w[words word].include? type
+      text_word_limits(str, min, max)
+    else
+      text_character_limits(str, min, max)
+    end
   end
 
   # Counts the number of characters in a given string then
@@ -211,10 +282,10 @@ module Validator
   # @author David J. Davis
   # @return [Boolean]
   def self.between_min_max?(num, min, max)
-    return true if min.nil? || max.nil?
+    return true if min.blank? || max.blank? || min == max
     return true unless min >= 0 && max.positive?
 
-    num.between?(min, max)
+    num.to_i.between?(min, max)
   end
 
   # Pulled part of this from existing MFCS.  The other part validates the number
@@ -239,7 +310,7 @@ module Validator
   # Validates a variety of alpha numerical charactes including spaces.
   #
   # @example
-  #   Validator.alpha_numeric_spaces('something cool 284') # false
+  #   Validator.alpha_numeric('something cool 284') # false
   #   Validator.alpha_numeric('SomethingCool284') # true
   #   Validator.alpha_numeric('SomethingBad2385.') # false
   #
@@ -254,9 +325,9 @@ module Validator
   # Validates a variety of alpha numerical charactes including spaces.
   #
   # @example
-  #   Validator.alpha_numeric('something cool 284') # true
-  #   Validator.alpha_numeric('SomethingCool284') # true
-  #   Validator.alpha_numeric('Something Bad 2385.') # false
+  #   Validator.alpha_numeric_spaces('something cool 284') # true
+  #   Validator.alpha_numeric_spaces('SomethingCool284') # true
+  #   Validator.alpha_numeric_spaces('Something Bad 2385.') # false
   #
   # @param [String] str - the param to evaluate.
   #
@@ -324,5 +395,19 @@ module Validator
   # @return [Boolean]
   def self.date(date_str)
     !Date.edtf(date_str).nil?
+  end
+
+  # Validates that there are no spaces in a given string.
+  #
+  # @example
+  #   Validator.no_spaces('#hashtag') # true
+  #   Validator.no_spaces('#hash_tag something really cool') # false
+  #
+  # @param [String] str - the string parameter to evaluate.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
+  def self.no_spaces(str)
+    !str.match?(/\s/)
   end
 end

@@ -33,4 +33,51 @@ export default class GeneralValidations extends Controller {
     }
   }
 
+  // ajaxValidation(e)
+  // -------------------------------------------------------------
+  // click event
+  // Does an Ajax Call to check validation on the input
+  // @author: David J. Davis
+  ajaxValidation(e){ 
+    // let id = 2; 
+    let url = `/api/v1/validate/validation/`;
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "api_key": "something",
+        "Content-Type": "application/json"
+      }
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+      console.dir(data); 
+    })
+    .catch(function(error) {
+      console.error('Error with the API, please contact developers.'); 
+    });
+  }
+
+  // textLength(e)
+  // -------------------------------------------------------------
+  // click event
+  // Does an Ajax Call to check validation on the input
+  // @author: David J. Davis
+  textLength(e){ 
+    let url = '/api/v1/validate/textlength'
+    fetch(url, {
+      method: "GET",
+      headers: {
+        "api_key": "something",
+        "Content-Type": "application/json", 
+      }
+    })
+    .then(resp => resp.json())
+    .then(function(data) {
+      console.dir(data); 
+    })
+    .catch(function(error) {
+      console.error('Error with the API, please contact developers.'); 
+    });
+  }
+
 }

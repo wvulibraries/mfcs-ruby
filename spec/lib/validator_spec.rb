@@ -1,6 +1,76 @@
 require 'rails_helper'
 
 RSpec.describe Validator, type: :model do
+
+  context '.regex' do
+    it 'should return true for the matching expression' do
+      regex = '/\s/'
+      str = 'something cool'
+      expect(Validator.regex(str, regex)).to be true
+    end 
+
+    it 'should return true for the matching expression' do
+      regex = '/\s/'
+      str = 'somethingcool'
+      expect(Validator.regex(str, regex)).to be true
+    end 
+  end 
+
+  context '.handle_type_validation' do
+    context 'valid examples' do
+      valid_examples = [
+        { type: 'phone_number', input: '304.234.2324' }, 
+        { type: 'ip_addr', input: '127.0.0.1' }, 
+        { type: 'ip_range', input: '127.0.0.1/8' }, 
+        { type: 'url', input: Faker::Internet.url }, 
+        { type: 'optional_url', input: '' }, 
+        { type: 'email_addr', input: Faker::Internet.free_email }, 
+        { type: 'internal_email_addr', input: 'jjjameson@wvu.edu' }, 
+        { type: 'integer', input: '1' }, 
+        { type: 'integer_spaces', input: '1  2   3' }, 
+        { type: 'alpha', input: 'asdfa sdf sadfasd' },
+        { type: 'alpha_no_spaces', input: 'asdfasdsadfasd' },
+        { type: 'alpha_numeric', input: 'asdfasdfs adfasd 12344' },
+        { type: 'alpha_numeric_no_space', input: 'asdfas234fsadfasd' },
+        { type: 'no_spaces', input: 'asdfasdfsadfasd' },
+        { type: 'no_special_chars', input: 'asdfasdfsadfasd' }
+      ]
+
+      valid_examples.each do |n|
+        it "valid test for #{n[:type]} using #{n[:input]}" do
+          expect(Validator.handle_type_validation(n[:input], n[:type])).to be true
+        end
+      end
+    end 
+
+    context 'not_valid examples' do
+      not_valid_examples = [
+        { type: 'phone_number', input: '3adsfasfd04.234.2324' }, 
+        { type: 'ip_addr', input: '127.0.0.asdf1' }, 
+        { type: 'ip_range', input: '127.0.0.1/8asdf' }, 
+        { type: 'url', input: 'Franks Hideaway' }, 
+        { type: 'optional_url', input: '13' }, 
+        { type: 'email_addr', input:  'Failbot@internts.asd;flkjasdflaksdjf;asdlkfja'}, 
+        { type: 'internal_email_addr', input: Faker::Internet.free_email }, 
+        { type: 'integer', input: '1a' }, 
+        { type: 'integer_spaces', input: '1a  --' }, 
+        { type: 'alpha', input: 'asdfa12$' },
+        { type: 'alpha_no_spaces', input: 'asdfasdsd fasd' },
+        { type: 'alpha_numeric', input: 'asdfasdfs adfasd 12344$%' },
+        { type: 'alpha_numeric_no_space', input: 'asdf as 234' },
+        { type: 'no_spaces', input: ' asdfasdfsadfasd ' },
+        { type: 'no_special_chars', input: '"somethingCool!@#$%*()"' }
+      ]
+
+      not_valid_examples.each do |n|
+        it "valid test for #{n[:type]} using #{n[:input]}" do
+          expect(Validator.handle_type_validation(n[:input], n[:type])).to be false
+        end
+      end
+    end 
+
+  end
+  
   context '.phone_number' do
     it 'valid phone numbers return true' do
       valid_phone = '304.283.1845'
@@ -86,6 +156,61 @@ RSpec.describe Validator, type: :model do
       expect(Validator.limit_chars(Faker::Lorem.characters(number: 12), 7)).to be false
     end
   end
+
+  context '.text_length' do
+
+    context 'words' do
+      it 'returns true min and max and not added and the number of words is between 0 and 30000' do
+        txt_str = Faker::Lorem.sentence(word_count: 5)
+        expect(Validator.text_length(txt_str, type: 'word')).to be true
+      end 
+
+      it 'returns true, because text string is empty there is no min' do
+        txt_str = ''
+        expect(Validator.text_length(txt_str, type: 'word')).to be true
+      end 
+
+      it 'returns false, string is larger than max words' do
+        txt_str = Faker::Lorem.sentence(word_count: 15)
+        expect(Validator.text_length(txt_str, max: 10, type: 'word')).to be false
+      end 
+
+      it 'returns false, string does not meet min requirements' do
+        txt_str = Faker::Lorem.sentence(word_count: 5)
+        expect(Validator.text_length(txt_str, min: 10, type: 'word')).to be false
+      end 
+    end
+    
+    context 'characters' do
+      it 'defaults to characters' do
+        txt_str = Faker::Lorem.characters(number: 5)
+        expect(Validator.text_length(txt_str, min: 1, max:10)).to be true
+
+        txt_str = Faker::Lorem.characters(number: 12)
+        expect(Validator.text_length(txt_str, min: 1, max:10)).to be false
+      end 
+
+      it 'returns true min and max and not added and the number of words is between 0 and 30000' do
+        txt_str = Faker::Lorem.characters(number: 5)
+        expect(Validator.text_length(txt_str, type: 'characters')).to be true
+      end 
+
+      it 'returns true, because text string is empty there is no min' do
+        txt_str = ''
+        expect(Validator.text_length(txt_str, type: 'characters')).to be true
+      end 
+
+      it 'returns false, string is larger than max words' do
+        txt_str = Faker::Lorem.characters(number: 15)
+        expect(Validator.text_length(txt_str, max: 10, type: 'characters')).to be false
+      end 
+
+      it 'returns false, string does not meet min requirements' do
+        txt_str = Faker::Lorem.characters(number: 5)
+        expect(Validator.text_length(txt_str, min: 10, type: 'characters')).to be false
+      end 
+    end 
+  end 
 
   context '.text_character_limits' do
     it 'between character limits' do
@@ -453,5 +578,17 @@ RSpec.describe Validator, type: :model do
       end
     end
 
+    
+    context '.no_spaces' do
+      it 'should return false the string has spaces' do
+        str = ' sme string with spaces '
+        expect(Validator.no_spaces(str)).to be false 
+      end
+      
+      it 'should return true the string has no spaces' do
+        str = 'as;dlfkjas;dflkjasd;lfkjasd;f'
+        expect(Validator.no_spaces(str)).to be true
+      end
+    end
   end
 end
