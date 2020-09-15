@@ -23,7 +23,7 @@ module FieldBuilder
       end
       html_string
     end
-    
+
     # Applies data attributes for things that need to be validated in the form with JavaScript.
     #
     # @author David J. Davis
@@ -55,7 +55,7 @@ module FieldBuilder
         #{build_label}
 
         <!-- Input--> 
-        <textarea name="#{@field['name']}" class="#{@field['css_class']}" id="#{@field['css_id']}" #{input_options} #{length_validation} #{data_attributes} disabled="#{disabled?}">
+        <textarea name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} #{length_validation} #{data_attributes}  #{html_attributes}>
           #{default_value}
         </textarea>
       </div>

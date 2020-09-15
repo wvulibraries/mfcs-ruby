@@ -206,6 +206,29 @@ form{
   }
 
   //////////////////////////////////////////////////////////////////////////////////////
+  // FEEDBACK AND VALIDATIONS
+  //////////////////////////////////////////////////////////////////////////////////////
+  input .is-valid, .is-valid, .valid-feedback { 
+    border: 2px solid $success !important; 
+    &:hover, &:focus { 
+      border: 2px solid $success; 
+    }
+  }
+
+  input .is-invalid, .is-invalid, .invalid-feedback { 
+    border: 2px solid $error !important; 
+    color: $error !important;
+    &:hover, &:focus { 
+      border: 2px solid $error; 
+    }
+  }
+
+  div.valid-feedback, div.invalid-feedback { 
+    border:unset; 
+  }
+
+
+  //////////////////////////////////////////////////////////////////////////////////////
   // SELECTS
   //////////////////////////////////////////////////////////////////////////////////////
   .select-style { 
@@ -585,3 +608,5 @@ $radio-box-shadow-hover: 0 0 0 2px $radio-hover-color;
     box-shadow: none;
   }
 }
+
+

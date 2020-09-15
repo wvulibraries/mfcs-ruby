@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Items Digital Objects</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @items_digital_objects.each do |items_digital_object| %>
+      <tr>
+        <td><%= link_to 'Show', items_digital_object %></td>
+        <td><%= link_to 'Edit', edit_items_digital_object_path(items_digital_object) %></td>
+        <td><%= link_to 'Destroy', items_digital_object, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Items Digital Object', new_items_digital_object_path %>

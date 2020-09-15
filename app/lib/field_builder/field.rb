@@ -173,7 +173,7 @@ module FieldBuilder
     def build_label
       required_class = required? ? 'required' : ''
       <<-HTML
-        <label for="#{@field['name']}" class="#{required_class}"> #{@field['label']} </label>
+        <label for="#{@field['name']}_#{@field['field_id']}" class="#{required_class}"> #{@field['label']} </label>
       HTML
     end
 
@@ -228,7 +228,7 @@ module FieldBuilder
         #{build_label}
 
         <!-- Input--> 
-        <input name="#{@field['name']}" class="#{@field['css_class']}" id="#{@field['css_id']}" #{input_options} #{data_attributes} disabled="#{disabled?}"> 
+        <input name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} #{data_attributes} #{html_attributes}"> 
       </div>
       HTML
     end

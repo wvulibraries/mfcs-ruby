@@ -33,7 +33,7 @@ module FieldBuilder
         #{build_label}
 
         <!-- Input--> 
-        <input type="number" name="#{@field['name']}" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{number_attributes} #{input_options} #{data_attributes} #{html_attributes} /> 
+        <input type="number" name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{number_attributes} #{input_options} #{data_attributes} #{html_attributes} /> 
       </div>
       HTML
     end

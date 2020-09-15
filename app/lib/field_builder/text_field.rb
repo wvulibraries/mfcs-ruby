@@ -36,6 +36,7 @@ module FieldBuilder
         data-max="#{@field['max']}"
         data-format="#{@field['format']}"
         data-validation="text_length"
+        data-action="keyup->form-validations#textLength"
       HTML
     end
 
@@ -55,7 +56,9 @@ module FieldBuilder
         #{build_label}
 
         <!-- Input--> 
-        <input type="text" name="#{@field['name']}" class="#{@field['css_class']}" id="#{@field['css_id']}" #{input_options} value="#{default_value}" #{length_validation} #{data_attributes} disabled="#{disabled?}"> 
+        <input type="text" name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} value="#{default_value}" #{length_validation} #{data_attributes} #{html_attributes}> 
+
+        <div class="feedback"></div> 
       </div>
       HTML
     end

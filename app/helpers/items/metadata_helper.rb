@@ -1,0 +1,2 @@
+module Items::MetadataHelper
+end
