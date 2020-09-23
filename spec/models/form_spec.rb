@@ -38,7 +38,7 @@ RSpec.describe Form, type: :model do
     it_behaves_like 'readonly'
     it_behaves_like 'a valid factory' # factorybot
   end
-  
+
   # database fields
   context 'database fields' do
     context 'strings' do
@@ -271,4 +271,83 @@ RSpec.describe Form, type: :model do
       expect(form.audits.count).to eq 2
     end 
   end 
+
+  context '.fields' do
+    it 'should return nil if there is nothing there' do
+      data = FactoryBot.build(:form)
+      expect(data.fields).to be_nil
+    end 
+
+    it 'should return a json string if there is data that exists' do
+      data = FactoryBot.build(:form)
+      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
+      expect(data.fields).to be_a String
+    end 
+  end
+  
+  context '.fields_hash' do
+    it 'should return nil if there is nothing there' do
+      data = FactoryBot.build(:form)
+      expect(data.fields_hash).to be_a Array
+    end 
+
+    it 'should return a json string if there is data that exists' do
+      data = FactoryBot.build(:form)
+      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
+      expect(data.fields_hash).to be_a Array
+    end 
+  end 
+
+  context '.organized_hash' do
+    it 'it will be a hash still even if no data exists' do
+      data = FactoryBot.build(:form)
+      expect(data.organized_hash).to be_a Hash
+    end 
+
+    it 'should have a key of 0 because no name exists' do 
+      data = FactoryBot.build(:form)
+      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
+      expect(data.organized_hash).to be_a Hash
+      expect(data.organized_hash).to have_key(0)
+    end 
+
+    it 'should have a key with a name because the name exists' do
+      data = FactoryBot.build(:form)
+      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf', name:'identifier' }] 
+      expect(data.organized_hash).to be_a Hash
+      expect(data.organized_hash).to have_key('identifier')
+    end 
+  end 
+
+  context '.check_duplicates' do
+    it 'should return an empty set for no data' do
+      data = FactoryBot.build(:form)
+      expect(data.check_duplicates).to be_a Set
+      expect(data.check_duplicates.count).to eq 0
+    end
+
+    it 'should return a set of field names' do
+      data = FactoryBot.build(:form)
+      data.fields = JSON.parse(file_fixture('pec.json').read)
+      expect(data.check_duplicates.count).to eq 1
+      expect(data.check_duplicates).to be_a Set
+    end
+  end 
+
+  context '.check_validations' do
+    it 'should return an empty set for no data' do
+      data = FactoryBot.build(:form)
+      expect(data.check_validations).to be_a Set
+      expect(data.check_validations.count).to eq 0
+    end
+
+    it 'should return a set of field names' do
+      data = FactoryBot.build(:form)
+      data.fields = JSON.parse(file_fixture('pec.json').read)
+      expect(data.check_validations.count).to eq 1
+      expect(data.check_validations).to be_a Set
+      expect(data.check_validations.include?('itemCount')).to be true
+    end
+  end
+  
 end

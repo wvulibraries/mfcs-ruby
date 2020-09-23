@@ -103,6 +103,54 @@ class Form < ApplicationRecord
     self[:fields]
   end
 
+  # Creates a set of strings that are associated with the fieldnames
+  # We need the field names in this way so we can easily see what needs
+  # validation for making sure there are no duplicates.
+  # @author David J. Davis
+  # @return Set of strings
+  def check_duplicates
+    @check_duplicates ||= begin
+      name_set = Set.new
+      self[:fields].each do |field|
+        name_set.add(field['name']) if field['no_duplicates'] == 'true'
+      end
+      name_set
+    end
+  end
+
+  # This creates a set of strings that are associated with validations.
+  # This will make testing if a validaiton needs to take place very fast.
+  # @author David J. Davis
+  # @return Set of strings
+  def check_validations
+    @check_validations ||= begin
+      validation_set = Set.new
+      self[:fields].each do |field|
+        if field['validation'].present? || field['validation_regex'].present?
+          validation_set << field['name']
+        end
+      end
+      validation_set
+    end
+  end
+
+  # This creates a searchable, and quickly extractable version of the hashes.
+  # @author David J. Davis
+  # @return Set of strings
+  def organized_hash
+    @organized_hash ||= begin
+      tmp_hash = {}
+      self[:fields].each_with_index do |field, i|
+        if field.key?('name')
+          tmp_hash[field['name']] = field
+        else
+          tmp_hash[i] = field
+        end
+      end
+      tmp_hash.with_indifferent_access
+    end
+  end
+
   private
 
   # Setting some defaults for the forms to match current behaviors
