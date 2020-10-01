@@ -78,6 +78,18 @@ module FieldBuilder
       @field['required'].to_s.casecmp('true').zero?
     end
 
+    # Checks to see if duplicates are allowed for validation
+    #
+    # @example
+    #   fb = FieldBuilder::Field.new(field_hash, 'insert')
+    #   fb.duplicates? #
+    #
+    # @author David J. Davis
+    # @return [Boolean]
+    def no_duplicates?
+      @field['no_duplicates'].to_s.casecmp('true').zero?
+    end
+
     # Checks that the element is not hidden
     #
     # @example
@@ -162,6 +174,19 @@ module FieldBuilder
       html
     end
 
+    # Applies data attributes for things that need to be validated in the form with JavaScript.
+    #
+    # @author David J. Davis
+    # @return [String] HTML Attributes
+    def duplicate_validation
+      return unless no_duplicates?
+
+      <<-HTML
+        data-validation="duplicates"
+        data-action="keyup->form-validations#duplicates"
+      HTML
+    end
+
     # Build label information and classes.
     #
     # @example
@@ -228,7 +253,7 @@ module FieldBuilder
         #{build_label}
 
         <!-- Input--> 
-        <input name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} #{data_attributes} #{html_attributes}"> 
+        <input name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} #{data_attributes}  #{duplicate_validation} #{html_attributes}"> 
       </div>
       HTML
     end

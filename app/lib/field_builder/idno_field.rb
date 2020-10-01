@@ -52,7 +52,7 @@ module FieldBuilder
         #{build_label}
 
         <!-- Input--> 
-        <input type="text" name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes} /> 
+        <input type="text" name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} #{duplicate_validation} #{html_attributes} /> 
       </div>
       HTML
     end

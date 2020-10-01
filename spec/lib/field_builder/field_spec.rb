@@ -13,6 +13,7 @@ RSpec.describe FieldBuilder::Field, type: :model do
   context 'inherit parent behaviors without having to redo tests for all items' do
     it_behaves_like 'a field builder' 
   end
+  
 
   context '.html' do 
     it 'returns an html string' do

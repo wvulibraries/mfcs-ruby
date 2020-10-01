@@ -173,6 +173,43 @@ RSpec.shared_examples "a field builder" do
     end 
   end 
 
+  context '.no_duplicates?' do
+    it 'should return true because field info says it is readonly' do
+      field_hash['no_duplicates'] = true 
+      fb = described_class.new(field_hash, user, 'insert')
+      expect(fb.no_duplicates?).to be_in([true,false])
+      expect(fb.no_duplicates?).to be true
+    end 
+
+    it 'string values should return as well as bool values (true)' do
+      field_hash['no_duplicates'] = 'true'
+      fb = described_class.new(field_hash, user, 'insert')
+      expect(fb.no_duplicates?).to be_in([true,false])
+      expect(fb.no_duplicates?).to be true
+    end 
+
+    it 'string values should return as well as bool values (false)' do
+      field_hash['no_duplicates'] = 'false'
+      fb = described_class.new(field_hash, user, 'insert')
+      expect(fb.no_duplicates?).to be_in([true,false])
+      expect(fb.no_duplicates?).to be false
+    end 
+
+    it 'should return false because field info says it is not readonly' do
+      field_hash['no_duplicates'] = false
+      fb = described_class.new(field_hash, user, 'insert')
+      expect(fb.no_duplicates?).to be_in([true,false])
+      expect(fb.no_duplicates?).to be false
+    end 
+
+    it 'should return true because item was left nil' do
+      field_hash['no_duplicates'] = nil
+      fb = described_class.new(field_hash, user, 'insert')
+      expect(fb.no_duplicates?).to be_in([true,false])
+      expect(fb.no_duplicates?).to be false
+    end 
+  end
+
   context '.required?' do
     it 'should return true because field info says it is required' do
       field_hash['required'] = true 
@@ -293,7 +330,7 @@ RSpec.shared_examples "a field builder" do
     it 'returns an html string from the label' do
       field_hash['required'] = true 
       expected_string = <<-HTML
-        <label for="#{field_hash['name']}" class="required"> #{field_hash['label']} </label>
+        <label for="#{field_hash['name']}_#{field_hash['field_id']}" class="required"> #{field_hash['label']} </label>
       HTML
       fb = described_class.new(field_hash, user, 'insert')
       expect(fb.build_label).to be_a String
@@ -303,7 +340,7 @@ RSpec.shared_examples "a field builder" do
     it 'returns an html string from the label with no class required' do
       field_hash['required'] = false
       expected_string = <<-HTML
-        <label for="#{field_hash['name']}" class=""> #{field_hash['label']} </label>
+        <label for="#{field_hash['name']}_#{field_hash['field_id']}" class=""> #{field_hash['label']} </label>
       HTML
       fb = described_class.new(field_hash, user, 'insert')
       expect(fb.build_label).to be_a String

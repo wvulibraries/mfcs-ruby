@@ -35,6 +35,8 @@ module Validator
     validate[type]
   end
 
+  def duplications(form_id:, field_name:, reqiured:, no_duplicates:, txt_str:); end
+
   # Validates that the regular expression matches the statement provided
   #
   # @example
@@ -79,63 +81,6 @@ module Validator
   # @return [Boolean]
   def self.limit_words(str, limit_number)
     str.split(/\s+/).count <= limit_number
-  end
-
-  # This is to reduce the logic used in the controller for if a user does
-  # not comply to all the needed amount of variable data.
-  #
-  #
-  # @example
-  #   Validator.text_character_limits('testing', 2, 8) # true
-  #   Validator.text_character_limits('testing something false', 2, 8) # false
-  #
-  # @param [String] str - The string to evaluate.
-  # @param [Integer] min - If min is not provided then it is set to 0
-  # @param [Integer] max - If max is not provided then it is set to 30000
-  # @param [String] type - should be characters or words, but could expand to more.
-  #
-  # @author David J. Davis
-  # @return [Boolean]
-  def self.text_length(str, min: 0, max: 30_000, type: 'characters')
-    if %w[words word].include? type
-      text_word_limits(str, min, max)
-    else
-      text_character_limits(str, min, max)
-    end
-  end
-
-  # Counts the number of characters in a given string then
-  # makes sure it is inbetween the min and max values given.
-  #
-  # @example
-  #   Validator.text_character_limits('testing', 2, 8) # true
-  #   Validator.text_character_limits('testing something false', 2, 8) # false
-  #
-  # @param [String] str - The string to evaluate.
-  # @param [Integer] limit_number - The limit number min.
-  # @param [Integer] limit_number - The limit number max.
-  #
-  # @author David J. Davis
-  # @return [Boolean]
-  def self.text_character_limits(str, min, max)
-    str.size.between?(min, max)
-  end
-
-  # Counts the number of words in a given string then
-  # makes sure it is inbetween the min and max values given.
-  #
-  # @example
-  #   Validator.text_word_limits('testing some words', 2, 3) # true
-  #   Validator.text_word_limits('testing something false', 2, 3) # false
-  #
-  # @param [String] str - The string to evaluate.
-  # @param [Integer] limit_number - The limit number min.
-  # @param [Integer] limit_number - The limit number max.
-  #
-  # @author David J. Davis
-  # @return [Boolean]
-  def self.text_word_limits(str, min, max)
-    str.split(/\s+/).count.between?(min, max)
   end
 
   # Counts the characters in a given string and returns true/false
@@ -251,41 +196,6 @@ module Validator
     true
   rescue ArgumentError, TypeError
     false
-  end
-
-  # Evaluates if the number is divisible by its step counter
-  #
-  # @example
-  #   Validator.divisible_by_step?(9,3) # true
-  #   Validator.divisible_by_step?(9,5) # false
-  #
-  # @param [String] address - The ip string to evaluate.
-  #
-  # @author David J. Davis
-  # @return [Boolean]
-  def self.divisible_by_step?(num, step)
-    return true unless step.present? && step.positive?
-
-    (num % step).zero?
-  end
-
-  # Checks possible values to be sure that the validation is ran or skipped
-  #
-  # @example
-  #   Validator.between_min_max?(10, 1, 0) # true validationskipped no max number
-  #   Validator.between_min_max?(10, 1, 20) # true
-  #   Validator.between_min_max?(10, 15, 20) # false
-  #   Validator.between_min_max?(100, nil, nil) # true
-  #
-  # @param [String] address - The ip string to evaluate.
-  #
-  # @author David J. Davis
-  # @return [Boolean]
-  def self.between_min_max?(num, min, max)
-    return true if min.blank? || max.blank? || min == max
-    return true unless min >= 0 && max.positive?
-
-    num.to_i.between?(min, max)
   end
 
   # Pulled part of this from existing MFCS.  The other part validates the number

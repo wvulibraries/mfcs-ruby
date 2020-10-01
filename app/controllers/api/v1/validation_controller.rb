@@ -74,6 +74,24 @@ class Api::V1::ValidationController < ApplicationController
     render json: { status: validated, message: I18n.t('api.v1.validation.text_length.valid', validated: validated) }
   end
 
+  # Returns JSON
+  # {status: boolean,msg: string }
+  # @author David J. Davis
+  # @return object[Array <JSON>] Array of form json objects
+  def duplicates
+    if params[:txt_string].blank? && params[:form_id]
+      return render json: { status: 'false', message: I18n.t('api.v1.validation.duplicates.no_params') }
+    end
+
+    titles = Item.where(form_id: params[:form_id])
+                 .pluck("data -> 'title'")
+                 .sort.chunk { |e| e }
+                 .select { |_e, chunk| chunk.size > 1 }
+                 .map(&:first)
+
+    render json: { status: validated, message: I18n.t('api.v1.validation.text_length.valid', validated: validated) }
+  end
+
   private
 
   # Defines maximum number by setting it to a large value

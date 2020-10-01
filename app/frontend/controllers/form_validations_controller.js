@@ -13,6 +13,7 @@ export default class FormValidations extends Controller {
   // @author: David J. Davis
   initialize(){
     this.textLength = debounce(this.textLength, 1000).bind(this);
+    this.duplicates = debounce(this.duplicates, 1000).bind(this);
   }
 
   // // objectForm(e)
@@ -24,9 +25,20 @@ export default class FormValidations extends Controller {
   
   // }
 
+
+  // duplicates(e)
+  // -------------------------------------------------------------
+  // keyup event
+  // Does an Ajax Call to check validation on the input
+  // @author: David J. Davis
+  duplicates(e){ 
+    console.log(e.target);
+    console.log('duplications fired!'); 
+  }
+
   // textLength(e)
   // -------------------------------------------------------------
-  // click event
+  // key up event
   // Does an Ajax Call to check validation on the input
   // @author: David J. Davis
   textLength(e){ 
@@ -35,15 +47,12 @@ export default class FormValidations extends Controller {
     const params = new URLSearchParams({
       txt_string: validation_target.value,
       min: validation_target.dataset.min,
-      max: 5,
-      // max: validation_target.dataset.max,
+      max: validation_target.dataset.max,
       type: validation_target.dataset.format,
     });
 
     let url = '/api/v1/validate/textlength/?' + params.toString();
-
-    console.log(url);
-
+    
     fetch(url, {
       method: "GET",
       headers: {

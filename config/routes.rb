@@ -96,15 +96,16 @@ Rails.application.routes.draw do
   namespace :items do
     # metadata routes 
     # ========================================================
-    get    '/metadata'                  => 'metadata#index',          as: 'metadata_list'
-    get    '/metadata/:form_id'         => 'metadata#list_for_form',  as: 'metadata_item'
-    get    '/metadata/new/'             => 'metadata#no_form',        as: 'metadata_no_form'
-    get    '/metadata/new/:form_id'     => 'metadata#new',            as: 'new_metadata_item'
-    post   '/metadata'                  => 'metadata#create',         as: 'create_metadata_item'
-    get    '/metadata/:id/edit'         => 'metadata#edit',           as: 'edit_metadata_item'
-    patch  '/metadata/:id'              => 'metadata#update',         as: 'patch_metadata_item'
-    put    '/metadata/:id'              => 'metadata#update',         as: 'put_metadata_item'
-    delete '/metadata/:id'              => 'metadata#destroy',        as: 'destroy_metdata_item'
+    get    '/metadata'                    => 'metadata#index',          as: 'metadata_list'
+    get    '/metadata/:form_id'           => 'metadata#list_for_form',  as: 'metadata_item'
+    get    '/metadata/dups/(:form_id)'       => 'metadata#duplicates',     as: 'metadata_duplicates'
+    get    '/metadata/new/'               => 'metadata#no_form',        as: 'metadata_no_form'
+    get    '/metadata/new/:form_id'       => 'metadata#new',            as: 'new_metadata_item'
+    post   '/metadata'                    => 'metadata#create',         as: 'create_metadata_item'
+    get    '/metadata/:id/edit'           => 'metadata#edit',           as: 'edit_metadata_item'
+    patch  '/metadata/:id'                => 'metadata#update',         as: 'patch_metadata_item'
+    put    '/metadata/:id'                => 'metadata#update',         as: 'put_metadata_item'
+    delete '/metadata/:id'                => 'metadata#destroy',        as: 'destroy_metdata_item'
 
     # digital object route
     # ========================================================
