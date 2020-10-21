@@ -1,34 +1,32 @@
-class Validator::TextLength < Validator::Base
-  # callbacks
-  after_initialize :form, :form_field, :default_max, :default_min, :default_format
+# Validator Class that checks Integer values.
+class Validator::Integer
+  # Basic constructor for all Validator Methods
+  # @author David J. Davis
+  def initialize(input, field_info, form_id)
+    @field_info = field_info
+    @input = input
+    @form_id = form_id
+  end
 
+  # Peform function is in all validator classes and returns
+  # make the actual validation check to return a boolean.
+  #
+  # @author David J. Davis
+  # @return [Boolean]
   def perform
-    return true if (min.blank? && max.blank?) || min == max
+    integer(@input)
   end
 
-  # Evaluates if the number is divisible by its step counter
+  # Regex to validate the interger and spaces.
   #
-  # @param [String] address - The ip string to evaluate.
+  # @param [String] num - the param to evaluate.
   #
   # @author David J. Davis
   # @return [Boolean]
-  def divisible_by_step?(num, step)
-    return true unless step.present? && step.positive?
-
-    (num % step).zero?
+  def integer(num)
+    Integer(num)
+    true
+  rescue ArgumentError, TypeError
+    false
   end
-
-  # Checks possible values to be sure that the validation is ran or skipped
-  #
-  # @param [String] address - The ip string to evaluate.
-  #
-  # @author David J. Davis
-  # @return [Boolean]
-  def between_min_max?(num, min, max)
-    num.to_i.between?(min, max)
-  end
-
-  def default_min; end
-
-  def default_max; end
 end
