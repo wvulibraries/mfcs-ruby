@@ -15,7 +15,7 @@ class Item < ApplicationRecord
   # Context
   # -----------------------------------------------------
   include Readonly
-  
+
   # Associations
   # -----------------------------------------------------
   belongs_to :form

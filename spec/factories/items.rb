@@ -20,7 +20,7 @@ FactoryBot.define do
     public_release { Faker::Boolean.boolean }
 
     factory :metadata do
-      data { '{"title": "Some title Field"}' }
+      data { {"title" => "#{Faker::Movies::LordOfTheRings.character}"} }
       metadata { true }
       idno { nil }   
       association :form, factory: :metadata_form
