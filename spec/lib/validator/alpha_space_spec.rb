@@ -1,0 +1,34 @@
+require 'rails_helper'
+
+RSpec.describe Validator::AlphaSpace, type: :model do
+  # shared examples
+  context 'base behaviors' do
+    it_behaves_like 'a validator object' 
+  end
+  
+  context '.perform' do  
+      it 'like all alpha with spaces' do
+        str = 'something cool spaces' 
+        base = Validator::AlphaSpace.new(str, {}, 1)
+        expect(base.perform).to be true
+      end
+  
+      it 'likes all alpha with no spaces' do
+        str = 'somethingCoolMan'
+        base = Validator::AlphaSpace.new(str, {}, 1)
+        expect(base.perform).to be true
+      end
+  
+      it 'hates punctuation marks' do
+        str = 'somethingcool.'
+         base = Validator::AlphaSpace.new(str, {}, 1)
+        expect(base.perform).to be false
+      end
+  
+      it 'hates numbers' do
+        str = 'idonotlikenumbers284'
+         base = Validator::AlphaSpace.new(str, {}, 1)
+        expect(base.perform).to be false
+      end
+  end  
+end 
