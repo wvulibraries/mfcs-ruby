@@ -7,7 +7,7 @@ RSpec.describe Validator::Integer, type: :model do
   end
 
   context 'methods' do
-    it 'should respond to email of parent class' do
+    it 'should respond integer method' do
       expect(@base).respond_to? :integer
     end   
   end
