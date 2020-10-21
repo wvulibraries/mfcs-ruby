@@ -1,6 +1,6 @@
 # Validates alpha numerical characters with spaces
 # @author David J. Davis
-class Validator::AlphaNumericSpaces
+class Validator::AlphaNumericSpace
   # Basic constructor for all Validator Methods
   # @author David J. Davis
   def initialize(input, field_info, form_id)
