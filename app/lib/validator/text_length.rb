@@ -1,6 +1,19 @@
-class Validator::TextLength < Validator::Base
-  # callbacks
-  after_initialize :form, :form_field, :default_max, :default_min, :default_format
+class Validator::TextLength
+  # Setup Callbacks and Active Model Features
+  include ActiveModel::Model
+  define_model_callbacks :initialize, only: :after
+
+  # after init do this
+  after_initialize :default_min, :default_max, :format
+
+  # Basic constructor for all Validator Methods
+  # @author David J. Davis
+  def initialize(input, field_info, form_id)
+    @field_info = field_info
+    @input = input
+    @form_id = form_id
+    run_callbacks :initialize
+  end
 
   # Provides full validation based on the options in the field hashes
   #
@@ -12,6 +25,8 @@ class Validator::TextLength < Validator::Base
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @min == @max
+
     if %w[words word].include? @format
       word_limits(@input, @min, @max)
     else
@@ -45,23 +60,24 @@ class Validator::TextLength < Validator::Base
     str.split(/\s+/).count.between?(min, max)
   end
 
-  # Everything below this uses the null operator in ruby.
-
   # Default max or form_field column
   # @author David J. Davis
   def default_min
-    @min = @form_field[:min].presence || 0
+    num = @field_info['min'].presence || 0 unless @field_info.nil?
+    @min = num.to_i
   end
 
   # Default max or form_field column.
   # @author David J. Davis
   def default_max
-    @max = @form_field[:max].presence || 30_000
+    num = @field_info['max'].presence || 30_000 unless @field_info.nil?
+    @max = num.to_i
   end
 
   # Default format or form_field column.
   # @author David J. Davis
-  def default_format
-    @format = @form_field[:format].presence || 'characters'
+  def format
+    type = @field_info['format'].presence unless @field_info.nil?
+    @format = type || 'characters'
   end
 end
