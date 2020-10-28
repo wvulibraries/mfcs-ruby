@@ -45,7 +45,7 @@ RSpec.describe Validator::Date, type: :model do
 
     valid_edtf.each do |e|
       it "validates edtf date - #{e}" do
-        dv = Validator::Date.new(e, {}, 1)
+        dv = described_class.new(e, {}, 1)
         expect(dv.perform).to be true
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe Validator::Date, type: :model do
 
     invalid_edtf.each do |e|
       it "does not validate edtf - #{e}" do
-        dv = Validator::Date.new(e, {}, 1)
+        dv = described_class.new(e, {}, 1)
         expect(dv.perform).to be false
       end
     end
