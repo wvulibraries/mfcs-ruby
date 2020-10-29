@@ -51,22 +51,22 @@ RSpec.describe Validator::Actor, type: :model do
   context 'methods' do
     it '.perform' do
       base = described_class.new(form.id, 'test', 'somestring')
-      expect(base).reponds_to? :perform
+      expect(base).respond_to? :perform
     end
 
     it '.form' do
       base = described_class.new(form.id, 'test', 'somestring')
-      expect(base).reponds_to? :form
+      expect(base).respond_to? :form
     end
 
     it '.form_field' do
       base = described_class.new(form.id, 'test', 'somestring')
-      expect(base).reponds_to? :form_field
+      expect(base).respond_to? :form_field
     end
 
     it '.valid_form_object' do
       base = described_class.new(form.id, 'test', 'somestring')
-      expect(base).reponds_to? :valid_form_object?
+      expect(base).respond_to? :valid_form_object?
     end
   end
   

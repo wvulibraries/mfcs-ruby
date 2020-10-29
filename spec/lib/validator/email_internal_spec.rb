@@ -24,19 +24,36 @@ RSpec.describe Validator::EmailInternal, type: :model do
     it 'valid email, but not internal' do
       base = described_class.new(Faker::Internet.free_email, {}, 1)
       expect(base.perform).to be false
-      expect(base.email_internal).to be false
     end
 
     it 'valid wvu email old' do
       base = described_class.new('jjjameson@wvu.edu', {}, 1)
       expect(base.perform).to be true
-      expect(base.email_internal).to be true
     end
 
     it 'valid wvu email new' do
       base = described_class.new('jjjameson@mail.wvu.edu', {}, 1)
       expect(base.perform).to be true
-      expect(base.email_internal).to be true
+    end
+  end
+
+  context '.email_internal' do
+    it 'valid email, but not internal' do
+      email = Faker::Internet.free_email
+      base = described_class.new(email, {}, 1)
+      expect(base.email_internal(email)).to be false
+    end
+
+    it 'valid wvu email old' do
+      email = 'jjjameson@wvu.edu'
+      base = described_class.new(email, {}, 1)
+      expect(base.email_internal(email)).to be true
+    end
+
+    it 'valid wvu email new' do
+      email = 'jjjameson@mail.wvu.edu'
+      base = described_class.new(email, {}, 1)
+      expect(base.email_internal(email)).to be true
     end
   end
 end 
