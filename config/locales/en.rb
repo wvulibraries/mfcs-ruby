@@ -42,60 +42,69 @@
       watermark_location: [['Top Left', 'top|left'], ['Top Center', 'top|center'], ['Top Right', 'top|right'], ['Bottom Left', 'bottom|left'], ['Middle Left', 'middle|left'], ['Middle Center', 'middle|center'], ['Middle Right', 'middle|right'], ['Bottom Center', 'bottom|center'], ['Bottom Right', 'bottom|right'] ],
       no_spaces_error: 'Field may not have spaces in it, please replace spaces with `_` or `-`.',
     },
-    api: { 
-      v1: { 
-        validation: { 
-          text_length: { 
-            no_string: 'There was no text provided so no validation can take place.',
-            valid: lambda do |key, options|
-              if options[:validated]
-                'The text provided fits between the min and max of the selected type.'
-              else 
-                'The text provided fails because it is not between the min and max values of the selected type.'
-              end 
-            end 
-          },
-          numerical: { 
-            no_number: 'There was no number provided for validation.',
-            no_step: 'There was no step value provided.',
-            no_validation: 'There is no validation to perform, returning true.',
-            step: lambda do |key, options|
-              if options[:validated]
-                'The number is a multiple of the step value.'
-              else 
-                'The step value is not divisible by the number provided.'
-              end 
-            end, 
-            min_max: lambda do |key, options|
-              if options[:validated]
-                'The number fits between the min and max values.'
-              else 
-                'The number does not fit between the min and max values provided.'
-              end 
-            end
-          },
-          regex: { 
-            no_expression: 'You do not have an expresion to compare with, please edit the form with a valid regex',
-            valid: lambda do |key, options|
-              if options[:validated]
-                "The input matches the expected result using the regular expression provided."
-              else 
-                "The input does not match the expected result using the regular expression provided."
-              end
-            end 
-          },
-          type: { 
-            valid: lambda do |key, options|
-              if options[:validated]
-                "Validation type #{options[:type]} validates against the #{options[:input]}."
-              else 
-                "Validation type #{options[:type]} does not validate against the #{options[:input]}."
-              end
-            end 
-          },
-        }
-      }
+    validator: { 
+      perform:  lambda do |key, options|
+        if options[:validated]
+          "Success: Validation type #{options[:type]} validates against provided input of '#{options[:input]}'."
+        else 
+          "Error: Validation type #{options[:type]} does not validate against provided input of '#{options[:input]}'."
+        end
+      end 
     }
+    # api: { 
+    #   v1: { 
+    #     validation: { 
+    #       text_length: { 
+    #         no_string: 'There was no text provided so no validation can take place.',
+    #         valid: lambda do |key, options|
+    #           if options[:validated]
+    #             'The text provided fits between the min and max of the selected type.'
+    #           else 
+    #             'The text provided fails because it is not between the min and max values of the selected type.'
+    #           end 
+    #         end 
+    #       },
+    #       numerical: { 
+    #         no_number: 'There was no number provided for validation.',
+    #         no_step: 'There was no step value provided.',
+    #         no_validation: 'There is no validation to perform, returning true.',
+    #         step: lambda do |key, options|
+    #           if options[:validated]
+    #             'The number is a multiple of the step value.'
+    #           else 
+    #             'The step value is not divisible by the number provided.'
+    #           end 
+    #         end, 
+    #         min_max: lambda do |key, options|
+    #           if options[:validated]
+    #             'The number fits between the min and max values.'
+    #           else 
+    #             'The number does not fit between the min and max values provided.'
+    #           end 
+    #         end
+    #       },
+    #       regex: { 
+    #         no_expression: 'You do not have an expresion to compare with, please edit the form with a valid regex',
+    #         valid: lambda do |key, options|
+    #           if options[:validated]
+    #             "The input matches the expected result using the regular expression provided."
+    #           else 
+    #             "The input does not match the expected result using the regular expression provided."
+    #           end
+    #         end 
+    #       },
+    #       type: { 
+    #         valid: lambda do |key, options|
+    #           if options[:validated]
+    #             "Validation type #{options[:type]} validates against the #{options[:input]}."
+    #           else 
+    #             "Validation type #{options[:type]} does not validate against the #{options[:input]}."
+    #           end
+    #         end 
+    #       },
+    #     }
+    #   }
+    # }
   }
 }
           

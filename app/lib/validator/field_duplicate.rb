@@ -2,7 +2,7 @@
 # Namespace should be the evaluation of the task at hand.
 # RETURNS TRUE if there are no duplicates present.
 # RETURNS FALSE if there are duplicates present.
-class Validator::FieldDuplicates
+class Validator::FieldDuplicate
   include ActiveModel::Model
   define_model_callbacks :initialize, only: :after
 
@@ -24,7 +24,7 @@ class Validator::FieldDuplicates
   # @author David J. Davis
   # @return [Boolean]
   def perform
-    return true unless required? || no_duplicates?
+    return true unless required? && no_duplicates?
 
     @field_data.exclude? @input
   end
