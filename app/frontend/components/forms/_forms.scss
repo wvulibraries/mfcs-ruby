@@ -30,6 +30,21 @@ select {
   text-transform: none; /* remove inheritance Edge, Firefox, IE */
 }
 
+select[multiple] {
+  background:none;
+  width:auto;
+  height:auto;
+  padding:0;
+  margin:0;
+  border-width: 2px;
+  border-style: inset;
+  -moz-appearance: menulist;
+  -webkit-appearance: menulist;
+  appearance: menulist;
+  overflow: auto;
+  overflow: scroll;
+}
+
 input::-ms-clear {
   display: none;
   height: 0;

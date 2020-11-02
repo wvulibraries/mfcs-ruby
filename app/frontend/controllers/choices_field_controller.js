@@ -26,7 +26,7 @@ export default class extends Controller {
     .then(function(data) {
       data.forEach(function(option){ 
         field_select.add(
-        new Option(option.name, option.label, false));
+        new Option(option.label, option.name, false));
       });
     })
     .catch(function(error) {

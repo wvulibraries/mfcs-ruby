@@ -17,17 +17,17 @@ RSpec.describe FieldBuilder::IdnoField, type: :model do
   context '.managed_by_system?' do
       it 'expects true as idno is managed by system' do 
         field_hash['managed_by'] = 'System'
-        fb_idno = FieldBuilder::IdnoField.new(field_hash, user)
+        fb_idno = described_class.new(field_hash, user)
         expect(fb_idno.managed_by_system?).to eq true
       end 
       it 'expects false as idno is managed by user' do
         field_hash['managed_by'] = 'User'
-        fb_idno = FieldBuilder::IdnoField.new(field_hash, user)
+        fb_idno = described_class.new(field_hash, user)
         expect(fb_idno.managed_by_system?).to eq false
       end
       it 'covers our butts and if is nil defaults to user' do
         field_hash['managed_by'] = nil
-        fb_idno = FieldBuilder::IdnoField.new(field_hash, user)
+        fb_idno = described_class.new(field_hash, user)
         expect(fb_idno.managed_by_system?).to eq false
       end  
   end 
@@ -35,43 +35,43 @@ RSpec.describe FieldBuilder::IdnoField, type: :model do
   context '.managed_by_user?' do
     it 'expects true as idno is managed by system' do 
       field_hash['managed_by'] = 'System'
-      fb_idno = FieldBuilder::IdnoField.new(field_hash, user)
+      fb_idno = described_class.new(field_hash, user)
       expect(fb_idno.managed_by_user?).to eq false
     end 
     it 'expects false as idno is managed by user' do
       field_hash['managed_by'] = 'User'
-      fb_idno = FieldBuilder::IdnoField.new(field_hash, user)
+      fb_idno = described_class.new(field_hash, user)
       expect(fb_idno.managed_by_user?).to eq true
     end
     it 'covers our butts and if is nil defaults to user' do
       field_hash['managed_by'] = nil
-      fb_idno = FieldBuilder::IdnoField.new(field_hash, user)
+      fb_idno = described_class.new(field_hash, user)
       expect(fb_idno.managed_by_user?).to eq true
     end  
   end 
 
   context '.html' do 
     it 'returns an html string' do
-      fb = FieldBuilder::IdnoField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
     end 
 
     it 'expects the parent to be hidden' do
       field_hash['hidden'] = true
-      fb = FieldBuilder::IdnoField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
       expect(fb.html).to include 'hidden hide'
     end 
 
     it 'expects parent to be show' do
       field_hash['hidden'] = false
-      fb = FieldBuilder::IdnoField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
       expect(fb.html).to include 'show'
     end 
 
     it 'expects the html to contain the label' do
-      fb = FieldBuilder::IdnoField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
       expect(fb.html).to include fb.build_label
     end 

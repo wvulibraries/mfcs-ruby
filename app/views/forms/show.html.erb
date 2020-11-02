@@ -22,7 +22,7 @@
     <% @form.fields_hash.each do |field| %>
       <% presenter = FieldBuilder::Presenter.new(field, current_user, 'preview') %>
       <%= presenter.type.html.html_safe %>
-
+      
       <br/>
       <%= field.inspect %>
       <br/><br/><br/><br/>

@@ -301,24 +301,6 @@ RSpec.shared_examples "a field builder" do
     end 
   end
   
-  context '.data_attributes' do
-    it 'expects validation and validation regex by default as data attributes' do
-      field_hash['validation'] = 'regex'
-      field_hash['validation_regex'] = %r{(^\d*\.?\d*[1-9]+\d*$)|(^[1-9]+\d*\.\d*$)}
-      fb = described_class.new(field_hash, user, 'insert')
-      expect(fb.data_attributes).to be_a String
-      expect(fb.data_attributes).to include('data-validation', 'data-validation_regex') 
-    end 
-
-    it 'does not have any validations and data attributes because none of them have value' do
-      field_hash['validation'] = ''
-      field_hash['validation_regex'] = ''
-      fb = described_class.new(field_hash, user, 'insert')
-      expect(fb.data_attributes).to be_a String
-      expect(fb.data_attributes).not_to include('data-validation', 'data-validation_regex') 
-    end 
-  end 
-
   # context '.html' do 
   #   it 'returns an html string' do
   #     fb = described_class.new(field_hash, user, 'insert')
@@ -333,8 +315,8 @@ RSpec.shared_examples "a field builder" do
         <label for="#{field_hash['name']}_#{field_hash['field_id']}" class="required"> #{field_hash['label']} </label>
       HTML
       fb = described_class.new(field_hash, user, 'insert')
-      expect(fb.build_label).to be_a String
-      expect(fb.build_label).to eq expected_string
+      expect(fb.build_label.strip).to be_a String
+      expect(fb.build_label.strip).to eq expected_string.strip
     end 
 
     it 'returns an html string from the label with no class required' do
@@ -343,8 +325,8 @@ RSpec.shared_examples "a field builder" do
         <label for="#{field_hash['name']}_#{field_hash['field_id']}" class=""> #{field_hash['label']} </label>
       HTML
       fb = described_class.new(field_hash, user, 'insert')
-      expect(fb.build_label).to be_a String
-      expect(fb.build_label).to eq expected_string
+      expect(fb.build_label.strip).to be_a String
+      expect(fb.build_label.strip).to eq expected_string.strip
     end 
   end 
 

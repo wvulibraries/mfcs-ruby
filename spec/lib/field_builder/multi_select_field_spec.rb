@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FieldBuilder::SelectField, type: :model do
+RSpec.describe FieldBuilder::MultiSelectField, type: :model do
   include RSpecHtmlMatchers
 
   let(:field_hash) do 
@@ -50,9 +50,9 @@ RSpec.describe FieldBuilder::SelectField, type: :model do
       end 
     end 
 
-    it 'should not contain multiple' do 
+    it 'should contain multiple' do 
       fb = described_class.new(field_hash, user, 'insert')
-      expect(fb.html).to_not include('multiple')
+      expect(fb.html).to include('multiple')
     end 
 
     it 'should contain the default value' do

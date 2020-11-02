@@ -13,30 +13,29 @@ RSpec.describe FieldBuilder::Field, type: :model do
   context 'inherit parent behaviors without having to redo tests for all items' do
     it_behaves_like 'a field builder' 
   end
-  
 
   context '.html' do 
     it 'returns an html string' do
-      fb = FieldBuilder::Field.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
     end 
 
     it 'expects the parent to be hidden' do
       field_hash['hidden'] = true
-      fb = FieldBuilder::Field.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
       expect(fb.html).to include 'hidden hide'
     end 
 
     it 'expects parent to be show' do
       field_hash['hidden'] = false
-      fb = FieldBuilder::Field.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
       expect(fb.html).to include 'show'
     end 
 
     it 'expects the html to contain the label' do
-      fb = FieldBuilder::Field.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
       expect(fb.html).to include fb.build_label
     end 

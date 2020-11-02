@@ -67,3 +67,8 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
   background-color: rgba(0,0,0,.5);
   box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
+
+// Trix Editor 
+.trix-button-group--file-tools { 
+  display:none !important; 
+}

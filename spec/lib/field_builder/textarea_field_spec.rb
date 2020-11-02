@@ -12,67 +12,42 @@ RSpec.describe FieldBuilder::TextareaField, type: :model do
   # shared examples
   context 'inherit parent behaviors without having to redo tests for all items' do
     it_behaves_like 'a field builder' 
-  end
-
-  context '.default_value' do
-    it 'should have a value' do
-      field_hash['value'] = "something darkside"
-      fb = FieldBuilder::TextareaField.new(field_hash, user)
-      expect(fb.default_value).to be_truthy
-    end
-
-    it 'should parse the value to the proper date' do 
-      field_hash['value'] = "%date%"
-      fb = FieldBuilder::TextareaField.new(field_hash, user)
-      expect(fb.default_value).to_not include('%date%')
-    end 
-  end 
-
-  context '.length_validation' do
-    it 'should contain a min/max data attribute' do
-      field_hash['min'] = "1"
-      field_hash['max'] = "1000"
-      field_hash['min'] = "1"
-      fb = FieldBuilder::TextareaField.new(field_hash, user)
-      expect(fb.length_validation).to include('data-min')
-      expect(fb.length_validation).to include('data-max')
-      expect(fb.length_validation).to include('data-format')
-    end
+    it_behaves_like 'a text field'
   end
 
   context '.html' do
     it 'expects html string' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to be_a String
     end 
     
     it 'expects the html to contain the label' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include fb.build_label
     end
     
     it 'should contain an input type text' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include 'textarea'
     end
     
     it 'should contain help html' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include fb.help_html
     end 
 
     it 'should contain the length validaitons' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include fb.length_validation
     end 
 
     it 'should contain data attributes' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include fb.data_attributes
     end 
 
     it 'should contain the name, css_class, and css_id' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include (field_hash['css_class'])
       expect(fb.html).to include (field_hash['css_id'])
       expect(fb.html).to include (field_hash['name'])
@@ -80,7 +55,7 @@ RSpec.describe FieldBuilder::TextareaField, type: :model do
     
 
     it 'should contain the default value' do
-      fb = FieldBuilder::TextareaField.new(field_hash, user, 'insert')
+      fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include (fb.data_attributes)
     end
   end 

@@ -443,7 +443,7 @@ export default class extends Controller {
         input.value = data[key]; 
       }
       // this determines if an event change needs fired
-      let change_event_elms = ['help', 'help_type','managed_by', 'choice_type','convert_video', 'video_thumbnail', 'convert_audio', 'border', 'watermark', 'thumbnail', 'convert', 'border_color']
+      let change_event_elms = ['help', 'help_type','managed_by', 'choice_type', 'choice_form_field', 'choice_form','convert_video', 'video_thumbnail', 'convert_audio', 'border', 'watermark', 'thumbnail', 'convert', 'border_color']
       if (change_event_elms.includes(key)){
         change(input);
       }
@@ -526,6 +526,7 @@ export default class extends Controller {
             form_elements[i].removeAttribute('checked');
           }
           break;
+        case "select":
         case "select-one":
         case "select-multi":
           form_elements[i].selectedIndex = -1;

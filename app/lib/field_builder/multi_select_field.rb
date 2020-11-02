@@ -1,18 +1,21 @@
-# Basic namespace for Fields
-# This will include logic that needs to be done on the Field hashes.
-module FieldBuilder
-  # Basic Field Template that all fields will inherit
-  class MultiSelectField < Field
-    def parse_variables
-      # parses variables inside of value context
-    end
+# MultiSelect Presenter
+# The multiselect presenter will inherit from Select and only change the smallest part needed.
+class FieldBuilder::MultiSelectField < FieldBuilder::SelectField
+  def html
+    hidden = hidden? ? 'hidden hide' : 'show'
+    <<-HTML
+    <div class="form-field #{@state} #{hidden}">
+      <!-- HELP --> 
+      #{help_html}
+      
+      <!-- Label -->
+      #{build_label}
 
-    def input_options
-      # overrides defaults to provide a different set of html options
-    end
-
-    def html
-      # generates html for textfield
-    end
+      <!-- Input--> 
+      <select name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes} multiple> 
+      #{options}
+      </select>
+    </div>
+    HTML
   end
 end

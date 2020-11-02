@@ -61,3 +61,9 @@ $(document).on('click', '.add-fields', function(event) {
 // stimulus 
 // ===================================================================== 
 import "../controllers"
+
+// WYSIWYG
+// ===================================================================== 
+
+import "trix/dist/trix.css";
+import { Trix } from "trix"
