@@ -1,6 +1,31 @@
-<h1>Editing Items metadata</h1>
+<h2>New Item for <%= @form.display_title %></h2>
 
-<%= render 'form', items_metadata: @items_metadata %>
+<div class="row justify-content-start" data-controller="form-validations">
+  <%= form_with model: @item, url: put_digital_objects_path, class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "post", multipart: true do  |f| %>
 
-<%= link_to 'Show', @items_metadata %> |
-<%= link_to 'Back', items_metadata_path %>
+    <% if @item.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+
+        <ul>
+          <% @item.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <%= f.hidden_field(:form_id, value: @form.id ) %> 
+    <%= f.hidden_field(:metadata, value: @form.metadata ) %>
+    <%= f.hidden_field(:public_release, value: @form.export_public ) %>
+
+    <% @form.fields_hash.each do |field| %>
+      <% presenter = FieldBuilder::Presenter.new(field, current_user, 'update') %>
+      <div class="field mb-2">
+        <%= presenter.type.html.html_safe %>
+      </div>
+    <% end %>
+    
+    <%= f.submit @form.submit_button, class:'btn btn-info col-xs-12 col-4' %>
+  <% end %>
+</div>

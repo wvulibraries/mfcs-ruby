@@ -68,7 +68,7 @@ class FieldBuilder::SelectField < FieldBuilder::Field
 
     options.join("\n")
   end
-  
+
   # Generates the Options in the below HTML dependent on type.
   #
   # @author David J. Davis
@@ -92,9 +92,11 @@ class FieldBuilder::SelectField < FieldBuilder::Field
       #{build_label}
 
       <!-- Input--> 
-      <select name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes}> 
-      #{options}
-      </select>
+      <div class="select-style"> 
+        <select name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']}_#{@field['field_id']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes}> 
+        #{options}
+        </select>
+      </div>
     </div>
     HTML
   end

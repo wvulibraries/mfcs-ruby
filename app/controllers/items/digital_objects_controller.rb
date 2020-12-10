@@ -1,39 +1,48 @@
 class Items::DigitalObjectsController < ApplicationController
-  before_action :set_items_digital_object, only: [:show, :edit, :update, :destroy]
+  before_action :set_item, only: %i[show update destroy]
+  before_action :set_form, only: %i[new]
 
   # GET /items/digital_objects
   def index
-    @items_digital_objects = Items::DigitalObject.all
+    @forms = Form.object_forms
   end
 
   # GET /items/digital_objects/1
-  def show
-  end
+  def show; end
 
   # GET /items/digital_objects/new
   def new
-    @items_digital_object = Items::DigitalObject.new
+    @item = Item.new
   end
 
   # GET /items/digital_objects/1/edit
   def edit
+    @item = Item.find(params[:id])
+    @form = Form.find(@item.form_id)
   end
 
   # POST /items/digital_objects
   def create
-    @items_digital_object = Items::DigitalObject.new(items_digital_object_params)
+    @item = Item.new(item_params)
+    files = item_params['data']['files']
 
-    if @items_digital_object.save
-      redirect_to @items_digital_object, notice: 'Digital object was successfully created.'
+    if @item.save
+      redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'
     else
       render :new
     end
   end
 
+  # GET /items/digital_objects/:form_id
+  def list_for_form
+    @form = Form.find(params[:form_id])
+    @items = Item.where(form_id: params[:form_id])
+  end
+
   # PATCH/PUT /items/digital_objects/1
   def update
-    if @items_digital_object.update(items_digital_object_params)
-      redirect_to @items_digital_object, notice: 'Digital object was successfully updated.'
+    if @item.update(item_params)
+      redirect_to '/items/digital_objects', success: 'Digital object was successfully updated.'
     else
       render :edit
     end
@@ -41,18 +50,23 @@ class Items::DigitalObjectsController < ApplicationController
 
   # DELETE /items/digital_objects/1
   def destroy
-    @items_digital_object.destroy
-    redirect_to items_digital_objects_url, notice: 'Digital object was successfully destroyed.'
+    @item.destroy
+    redirect_to '/items/digital_objects', error: 'Digital object was successfully destroyed.'
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_items_digital_object
-      @items_digital_object = Items::DigitalObject.find(params[:id])
-    end
 
-    # Only allow a trusted parameter "white list" through.
-    def items_digital_object_params
-      params.fetch(:items_digital_object, {})
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_item
+    @item = Item.find(params[:id])
+  end
+
+  def set_form
+    @form = Form.find(params[:form_id])
+  end
+
+  # Only allow a trusted parameter "white list" through.
+  def item_params
+    params.require(:item).permit(:form_id, :metadata, :public_release, data: {})
+  end
 end

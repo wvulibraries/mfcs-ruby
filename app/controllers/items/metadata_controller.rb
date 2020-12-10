@@ -16,6 +16,7 @@ class Items::MetadataController < ApplicationController
     @item.metadata = @form.metadata
     @item.form_id = params[:form_id]
     @item.public_release = @form.export_public
+    redirect_to items_metadata_list_path, warning: 'No Items or Form Present for duplication check'
   end
 
   # # GET /items/metadata/new/

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_06_175651) do
+ActiveRecord::Schema.define(version: 2020_11_19_154050) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -90,6 +90,21 @@ ActiveRecord::Schema.define(version: 2020_08_06_175651) do
     t.boolean "metadata"
     t.string "idno"
     t.boolean "public_release"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "media", force: :cascade do |t|
+    t.string "uuid"
+    t.integer "form_id"
+    t.integer "item_id"
+    t.string "filename"
+    t.string "path"
+    t.string "size"
+    t.string "checksum"
+    t.jsonb "file_errors"
+    t.boolean "virus_scanned"
+    t.string "mime_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

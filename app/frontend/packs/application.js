@@ -67,3 +67,15 @@ import "../controllers"
 
 import "trix/dist/trix.css";
 import { Trix } from "trix"
+
+// Multiselect
+// ===================================================================== 
+import 'select2';                       // globally assign select2 fn to $ element
+
+$(document).on("turbolinks:before-cache", function() {
+  $('.multiselect-select2').select2('destroy');
+});
+
+$(document).on('turbolinks:load', function() {
+  $('.multiselect-select2').select2({theme: 'mfcs'});
+});

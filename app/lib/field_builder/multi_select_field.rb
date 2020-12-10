@@ -12,7 +12,7 @@ class FieldBuilder::MultiSelectField < FieldBuilder::SelectField
       #{build_label}
 
       <!-- Input--> 
-      <select name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes} multiple> 
+      <select name="item[data][#{@field['name']}][]" class="#{css_classes} multiselect-select2" id="#{@field['name']}_#{@field['field_id']} #{@field['css_id']}" #{input_options} #{data_attributes} #{html_attributes} multiple> 
       #{options}
       </select>
     </div>

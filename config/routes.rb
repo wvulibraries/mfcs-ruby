@@ -37,13 +37,13 @@
 #                             DELETE   /admin/permissions/:id(.:format)                                                         admin/permissions#destroy
 #                             GET      /list/:form_id(.:format)                                                                 item#list
 #                      search GET      /search(.:format)                                                                        item#search
-#         items_metadata_item GET      /items/metadata/:form_id(.:format)                                                       items/metadata#index
-#     items_new_metadata_item GET      /items/metadata/new/:form_id(.:format)                                                   items/metadata#new
-#  items_create_metadata_item POST     /items/metadata(.:format)                                                                items/metadata#create
-#    items_edit_metadata_item GET      /items/metadata/:id/edit(.:format)                                                       items/metadata#edit
-#   items_patch_metadata_item PATCH    /items/metadata/:id(.:format)                                                            items/metadata#update
-#     items_put_metadata_item PUT      /items/metadata/:id(.:format)                                                            items/metadata#update
-#  items_destroy_metdata_item DELETE   /items/metadata/:id(.:format)                                                            items/metadata#destroy
+#         items_metadata GET      /items/metadata/:form_id(.:format)                                                       items/metadata#index
+#     items_new_metadata GET      /items/metadata/new/:form_id(.:format)                                                   items/metadata#new
+#  items_create_metadata POST     /items/metadata(.:format)                                                                items/metadata#create
+#    items_edit_metadata GET      /items/metadata/:id/edit(.:format)                                                       items/metadata#edit
+#   items_patch_metadata PATCH    /items/metadata/:id(.:format)                                                            items/metadata#update
+#     items_put_metadata PUT      /items/metadata/:id(.:format)                                                            items/metadata#update
+#  items_destroy_metdata DELETE   /items/metadata/:id(.:format)                                                            items/metadata#destroy
 #                       items GET      /items/digital_object/:form_id(.:format)                                                 items/digital_object#index
 #                             GET      /items/digital_object/new/:form_id(.:format)                                             items/digital_object#new
 #        items_digital_object POST     /items/digital_object(.:format)                                                          items/digital_object#create
@@ -97,24 +97,29 @@ Rails.application.routes.draw do
     # metadata routes 
     # ========================================================
     get    '/metadata'                    => 'metadata#index',          as: 'metadata_list'
-    get    '/metadata/:form_id'           => 'metadata#list_for_form',  as: 'metadata_item'
-    get    '/metadata/dups/(:form_id)'       => 'metadata#duplicates',     as: 'metadata_duplicates'
+    get    '/metadata/:form_id'           => 'metadata#list_for_form',  as: 'metadata'
+    get    '/metadata/dups/(:form_id)'    => 'metadata#duplicates',     as: 'metadata_duplicates'
     get    '/metadata/new/'               => 'metadata#no_form',        as: 'metadata_no_form'
-    get    '/metadata/new/:form_id'       => 'metadata#new',            as: 'new_metadata_item'
-    post   '/metadata'                    => 'metadata#create',         as: 'create_metadata_item'
-    get    '/metadata/:id/edit'           => 'metadata#edit',           as: 'edit_metadata_item'
-    patch  '/metadata/:id'                => 'metadata#update',         as: 'patch_metadata_item'
-    put    '/metadata/:id'                => 'metadata#update',         as: 'put_metadata_item'
-    delete '/metadata/:id'                => 'metadata#destroy',        as: 'destroy_metdata_item'
+    get    '/metadata/new/:form_id'       => 'metadata#new',            as: 'new_metadata'
+    post   '/metadata'                    => 'metadata#create',         as: 'create_metadata'
+    get    '/metadata/:id/edit'           => 'metadata#edit',           as: 'edit_metadata'
+    patch  '/metadata/:id'                => 'metadata#update',         as: 'patch_metadata'
+    put    '/metadata/:id'                => 'metadata#update',         as: 'put_metadata'
+    delete '/metadata/:id'                => 'metadata#destroy',        as: 'destroy_metdata'
 
     # digital object route
     # ========================================================
-    get    '/digital_object/:form_id'         => 'digital_object#index'
-    get    '/digital_object/new/:form_id'     => 'digital_object#new'
-    post   '/digital_object'                  => 'digital_object#create'
-    get    '/digital_object/:id/edit'         => 'digital_object#edit'
-    patch  '/digital_object/:id'              => 'digital_object#update'
-    put    '/digital_object/:id'              => 'digital_object#update'
+    get    '/digital_objects'                    => 'digital_objects#index',          as: 'digital_objects_index'
+    get    '/list_objects/:form_id'              => 'digital_objects#list_for_form',  as: 'list_digital_objects'
+    get    '/duplicate_objects/:form_id'         => 'digital_objects#duplicates',     as: 'duplicate_digital_objects'
+    get    '/digital_objects/new/'               => 'digital_objects#no_form',        as: 'digital_objects_no_form'
+    get    '/digital_objects/new/:form_id'       => 'digital_objects#new',            as: 'new_digital_objects'
+    post   '/digital_objects'                    => 'digital_objects#create',         as: 'create_digital_objects'
+    get    '/digital_objects/:id'                => 'digital_objects#show',           as: 'show_digital_object'
+    get    '/digital_objects/:id/edit'           => 'digital_objects#edit',           as: 'edit_digital_objects'
+    patch  '/digital_objects/:id'                => 'digital_objects#update',         as: 'patch_digital_objects'
+    put    '/digital_objects/:id'                => 'digital_objects#update',         as: 'put_digital_objects'
+    delete '/digital_objects/:id'                => 'digital_objects#destroy',        as: 'destroy_digital_object'
   end
   
   # API

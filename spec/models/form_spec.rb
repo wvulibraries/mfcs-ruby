@@ -319,6 +319,29 @@ RSpec.describe Form, type: :model do
     end 
   end 
 
+  context '.associated_metadata_forms' do
+    it 'expects the choice form to exist and contain one number as a set' do
+      data = FactoryBot.build(:form)
+      data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"11", "choice_null"=>true, "choice_type"=>"link_to_form", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"title", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
+      data.save! 
+      
+      puts data.associated_metadata_forms.inspect
+      puts data.associated_metadata_forms.count
+
+      expect(data.associated_metadata_forms).to be_a Set
+      expect(data.associated_metadata_forms).to include '11'
+    end
+   
+    it 'expects to be empty' do
+      data = FactoryBot.build(:form)
+      data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"", "choice_null"=>true, "choice_type"=>"manual", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"Testing,Something Really Cool,Awesome", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
+      data.save! 
+
+      expect(data.associated_metadata_forms).to be_a Set
+      expect(data.associated_metadata_forms.count).to eq 0
+    end
+  end 
+
   context '.check_duplicates' do
     it 'should return an empty set for no data' do
       data = FactoryBot.build(:form)
@@ -346,7 +369,21 @@ RSpec.describe Form, type: :model do
       data.fields = JSON.parse(file_fixture('pec.json').read)
       expect(data.check_validations.count).to eq 1
       expect(data.check_validations).to be_a Set
-      expect(data.check_validations.include?('itemCount')).to be true
+    end
+  end
+
+  context '.file_fields' do
+    it 'should return an empty set for no data' do
+      data = FactoryBot.build(:form)
+      expect(data.file_fields).to be_a Set
+      expect(data.file_fields.count).to eq 0
+    end
+
+    it 'should return a set of field names' do
+      data = FactoryBot.build(:form)
+      data.fields = JSON.parse(file_fixture('pec.json').read)
+      expect(data.file_fields.count).to eq 1
+      expect(data.file_fields).to be_a Set
     end
   end
   

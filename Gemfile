@@ -44,6 +44,9 @@ gem 'figaro'
 # convert user strings to regex
 gem 'to_regexp', '~> 0.2.1'
 
+# files 
+gem 'marcel', '~> 0.3.1' # checks mime types
+
 # Test Suite
 # =====================================================================================
 # group :test do

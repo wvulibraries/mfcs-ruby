@@ -14,10 +14,10 @@
         </ul>
       </div>
     <% end %>
-
-    <%= f.hidden_field(:form_id) %> 
-    <%= f.hidden_field(:metadata) %>
-    <%= f.hidden_field(:public_release) %>
+    
+    <%= f.hidden_field(:form_id, value: @form.id ) %> 
+    <%= f.hidden_field(:metadata, value: @form.metadata ) %>
+    <%= f.hidden_field(:public_release, value: @form.export_public ) %>
 
     <% @form.fields_hash.each do |field| %>
       <% presenter = FieldBuilder::Presenter.new(field, current_user, 'create') %>

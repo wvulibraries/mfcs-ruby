@@ -1,32 +1,28 @@
 <div class="row"> 
-  <pre> 
-    <%= @form.inspect %> 
-  </pre>
-</div>
-
-<div class="row"> 
+  <div class="col-12">
   <h2> Form Titles </h2>
-  <div class="col-12"> <strong> Title: </strong> <%= @form.title %> </div>
-  <div class="col-12"> <strong> Display Title: </strong> <%= @form.display_title %> </div>
-  <div class="col-12"> <%= @form.description.to_s.strip %>  </div>
+    <p> <strong> Title: </strong> <%= @form.title %> </p>
+    <p> <strong> Display Title: </strong> <%= @form.display_title %> </p>
+    <p> <%= @form.description.to_s.strip %>  </p>
+  </div>
 </div>
 
 <div class="row"> 
-  <h2> Form Settings</h2>
-  <div class="col"> </div>
+  <div class="col-12"> 
+    <h2> Form Settings</h2>
+    <p> Have Not Been Integrated Yet </p>
+  </div>
 </div>
 
 <div class="row"> 
   <h2> Form Preview </h2>
   <div class="col-12"> 
+    <form class="disabled">
     <% @form.fields_hash.each do |field| %>
       <% presenter = FieldBuilder::Presenter.new(field, current_user, 'preview') %>
-      <%= presenter.type.html.html_safe %>
-      
-      <br/>
-      <%= field.inspect %>
-      <br/><br/><br/><br/>
+      <%= presenter.type.html.html_safe %> 
     <% end %>
+    </form>
   </div>
 </div>
 

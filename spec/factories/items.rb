@@ -26,11 +26,12 @@ FactoryBot.define do
       association :form, factory: :metadata_form
     end 
 
-    factory :object do
+    factory :item_object do
       data { "{'title': '#{Faker::Movies::LordOfTheRings.character}', 'idno':'#{idno}'}" }
       metadata { false }
       idno { idno }
       public_release { Faker::Boolean.boolean }
+      association :form, factory: :object_form
     end 
   end
 end

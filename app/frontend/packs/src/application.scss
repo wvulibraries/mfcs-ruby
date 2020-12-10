@@ -26,6 +26,7 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 // MFCS Entire Application Components 
 // ---------------------------------------------------------------------------------
+@import 'select2/dist/css/select2.css';  // optional if you have css loader
 @import '../../components/forms/forms'; 
 @import '../../components/forms/list_forms';
 @import '../../components/footer/footer';

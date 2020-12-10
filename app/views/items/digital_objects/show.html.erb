@@ -1,4 +1,10 @@
-<p id="notice"><%= notice %></p>
 
-<%= link_to 'Edit', edit_items_digital_object_path(@items_digital_object) %> |
-<%= link_to 'Back', items_digital_objects_path %>
+<h2> <%= @item['data']['idno'] %> </h2>
+<%= @item.inspect %>
+
+
+
+<h2> Versions </h2>
+<% @item.audits.each do |audit| %>
+  <%= audit.version %>
+<% end %>

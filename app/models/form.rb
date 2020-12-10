@@ -118,6 +118,36 @@ class Form < ApplicationRecord
     end
   end
 
+  # Returns a set of names that are file fields.
+  # @author David J. Davis
+  # @return Set of strings
+  def file_fields
+    @file_fields ||= begin
+      file_set = Set.new
+      self[:fields].each do |field|
+        next unless field['type'] == 'file'
+
+        file_set.add(field['name'])
+      end
+      file_set
+    end
+  end
+
+  # This grabs associated metadata fields for the forms.
+  # @author David J. Davis
+  # @return Set of strings
+  def associated_metadata_forms
+    forms_set = Set.new # use set so we
+    self[:fields].each do |field|
+      next unless %w[dropdown multiselect select].include? field['type']
+
+      if field['choice_type'] == 'link_to_form' && field['choice_form'].present?
+        forms_set.add(field['choice_form'])
+      end
+    end
+    forms_set
+  end
+
   # This creates a set of strings that are associated with validations.
   # This will make testing if a validaiton needs to take place very fast.
   # @author David J. Davis

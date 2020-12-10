@@ -47,6 +47,11 @@ FactoryBot.define do
     display_title { faker_title }
     link_title { faker_title }
 
+    factory :object_form do
+      metadata { false }
+      production { true }
+    end 
+
     factory :metadata_form do 
       metadata { true }
       production { true }
