@@ -31,14 +31,18 @@ class Validator::Actor
   def perform
     feedback = []
     validation_results = []
-    validations = Validator::FieldValidations.new(@form_field).validations
+    validations = Validator::FieldValidations.new(@form_field).validations.reject(&:blank?)
+
     validations.each do |validation|
       klass = "Validator::#{validation.classify}".constantize
       instance = klass.new(@input, @form_field, @field_id)
       result = instance.perform
-      feedback << I18n.t('validator.perform', validated: result, type: validation.titleize, input: @input) unless result
+      unless result
+        feedback << I18n.t('validator.perform', validated: result, type: validation.titleize, input: @input)
+      end
       validation_results << result
     end
+
     { status: validation_results.reduce(:&), errors: feedback }
   end
 

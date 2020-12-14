@@ -23,4 +23,22 @@ class Item < ApplicationRecord
   # Audits
   # -----------------------------------------------------
   audited max_audits: 50
+
+  # Validations
+  # -----------------------------------------------------
+  validate :custom_data_entry
+
+  # References the custom validation actor. Calling the actor on each field
+  # except for file fields gives us a validation on this model.
+  # @author David J. Davis
+  # @return [Object] Sets form to an Active Record Object
+  def custom_data_entry
+    data.each do |field, input|
+      next if form.file_fields.include? field
+
+      valid = Validator::Actor.new(form.id, field, input).perform
+      puts valid.inspect
+      errors.add(field, valid[:errors].to_s) unless valid[:status] == true || valid[:status].nil?
+    end
+  end
 end

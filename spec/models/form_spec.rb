@@ -325,9 +325,6 @@ RSpec.describe Form, type: :model do
       data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"11", "choice_null"=>true, "choice_type"=>"link_to_form", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"title", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
       data.save! 
       
-      puts data.associated_metadata_forms.inspect
-      puts data.associated_metadata_forms.count
-
       expect(data.associated_metadata_forms).to be_a Set
       expect(data.associated_metadata_forms).to include '11'
     end

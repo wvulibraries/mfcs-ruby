@@ -23,7 +23,8 @@ class Media < ApplicationRecord
 
   # Validations
   # ------------------------------------------------------
-  validates :filename, :path, :form_id, :item_id, presence: true
+  # validates :filename, :path, :form_id, :item_id, presence: true
+  validates :filename, :path, :form_id, presence: true
 
   # RAILS CALLBACKS
   # -----------------------------------------------------
@@ -55,6 +56,13 @@ class Media < ApplicationRecord
   # @return [String]
   def mime(path)
     Marcel::MimeType.for Pathname.new(path)
+  end
+
+  # Uses other methods to set the information for the db.
+  # @author David J. Davis
+  # @abstract
+  def file_info(path)
+    self.checksum = generate_checksum(path)
   end
 
   # Paths for variety of Media

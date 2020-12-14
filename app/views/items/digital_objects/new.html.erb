@@ -1,11 +1,13 @@
 <h2>New Item for <%= @form.display_title %></h2>
 
+<%= @item.inspect %>
+
 <div class="row justify-content-start" data-controller="form-validations">
   <%= form_with model: @item, url: "/items/digital_objects", class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "post", multipart: true do  |f| %>
 
     <% if @item.errors.any? %>
       <div id="error_explanation">
-        <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
+        <h2><%= pluralize(@item.errors.count, "error") %> prohibited this item from being saved:</h2>
 
         <ul>
           <% @item.errors.full_messages.each do |message| %>

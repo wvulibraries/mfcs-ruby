@@ -145,7 +145,8 @@ class Form < ApplicationRecord
         forms_set.add(field['choice_form'])
       end
     end
-    forms_set
+
+    Form.find(forms_set.to_a)
   end
 
   # This creates a set of strings that are associated with validations.

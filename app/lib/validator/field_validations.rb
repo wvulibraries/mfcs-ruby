@@ -14,7 +14,7 @@ class Validator::FieldValidations
   def validations
     validations = []
     validations << 'text_length' if text_validation?
-    validations << 'integer_length' if integer_validation?
+    validations << 'integer_between' if integer_validation?
     validations << 'integer_step' if step_validation?
     validations << 'field_duplicates' if duplicates?
     validations << @field_info['validation'] if validation?

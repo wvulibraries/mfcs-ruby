@@ -24,7 +24,50 @@ class Items::DigitalObjectsController < ApplicationController
   # POST /items/digital_objects
   def create
     @item = Item.new(item_params)
-    files = item_params['data']['files']
+    @form = Form.find(item_params[:form_id])
+
+    # media_uuids = []
+
+    # @form.file_fields.each do |field|
+    #   item_params[:data][field].each do |uploaded_file|
+    #     file_attributes = {
+    #       filename: uploaded_file.original_filename,
+    #       form_id: @form.id,
+    #       size: uploaded_file.size,
+    #       mime_type: uploaded_file.content_type
+    #     }
+
+    #     media = Media.new(file_attributes)
+
+    #     # make directories
+    #     FileUtils.mkdir_p(media.archival_path) unless File.directory?(media.archival_path)
+    #     FileUtils.mkdir_p(media.working_path) unless File.directory?(media.working_path)
+
+    #     # archive
+    #     archive_path = media.archival_path.join(uploaded_file.original_filename)
+    #     File.open(archive_path, 'wb') do |file|
+    #       file.write(uploaded_file.read)
+    #     end
+
+    #     # working copy
+    #     working_path = media.working_path.join(uploaded_file.original_filename)
+    #     File.open(working_path, 'wb') do |file|
+    #       file.write(uploaded_file.read)
+    #     end
+
+    #     # set fileinfo
+    #     media.file_info(media.working_path.join(uploaded_file.original_filename))
+    #     media.path = working_path
+
+    #     # save the media
+    #     media.save
+    #     media_uuids = media.uuid
+    #   end
+    # end
+
+    # @item.data['files']['media_uuids'] = media_uuids
+
+    @item.errors.add(:base, 'Testing some shit.')
 
     if @item.save
       redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'

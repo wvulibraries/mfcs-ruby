@@ -49,4 +49,9 @@ RSpec.describe Item, type: :model do
       expect(metadata_item.respond_to?(:audits)).to be true
     end
   end 
+
+  context '.custom_data_entry' do
+    
+  end
+  
 end
