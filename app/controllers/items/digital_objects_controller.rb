@@ -66,9 +66,6 @@ class Items::DigitalObjectsController < ApplicationController
     # end
 
     # @item.data['files']['media_uuids'] = media_uuids
-
-    @item.errors.add(:base, 'Testing some shit.')
-
     if @item.save
       redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'
     else
