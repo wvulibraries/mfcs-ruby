@@ -1,0 +1,57 @@
+.logo { 
+  width:50px; 
+  height:50px; 
+  margin:0; 
+  padding:0; 
+}
+
+.off-canvas-menu {
+  position:fixed;
+  width:300px;
+  background:rgba(#000,.9);
+  height:100%;
+  z-index:9999999;
+  padding:.5rem 1.5rem;
+  color:#fff;
+  letter-spacing:1px;
+  overflow-y:auto;
+  right:0;
+  top:0;
+
+  a {color:$gold}
+  a:visited { color:$gold; text-decoration:underline !important;}
+  a:hover,a:active { color:$gold; }
+
+  .close {
+    position:absolute;
+    top:10px;
+    right:10px;
+    z-index:999999999;
+    opacity: 1;
+    button { color:#fff; background:transparent; appearance: none; border: none; }
+    button:visited,button:hover,button:active { color:#fff; }  
+  }
+
+  h2 {
+    font-size:24px;
+    letter-spacing:2px;
+    text-align:center;
+  }
+
+  ul {
+    list-style:none;
+    padding:0;
+    margin:0;
+       li {
+        display:block;
+        width:100%;
+        font-size:14px;
+        line-height: 0;
+        /*border-bottom:1px solid #333; Mike told me to remove it!*/
+      }
+
+      a { display:block; padding:.6rem;}
+
+      h3 { margin:10px 0 0; padding:0; font-size:16px; padding:5px; font-weight:300;}
+  }
+}

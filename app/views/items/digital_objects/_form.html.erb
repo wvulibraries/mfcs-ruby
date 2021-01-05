@@ -1,17 +1,26 @@
-<%= form_with(model: items_digital_object, local: true) do |form| %>
-  <% if items_digital_object.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(items_digital_object.errors.count, "error") %> prohibited this items_digital_object from being saved:</h2>
+<% if @item.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
 
-      <ul>
-        <% items_digital_object.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <div class="actions">
-    <%= form.submit %>
+    <ul>
+      <% @item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
+
+<%= f.hidden_field(:id, value: @item.id ) %> 
+<%= f.hidden_field(:form_id, value: @form.id,  'data-target' => 'form-validations.formId') %> 
+<%= f.hidden_field(:metadata, value: @form.metadata ) %>
+<%= f.hidden_field(:public_release, value: @form.export_public ) %>
+
+<% @form.fields_hash.each do |field| %>
+  <% field['value'] = @item['data'][field['name']] if @item['data'].present? %>
+  <% presenter = FieldBuilder::Presenter.new(field, current_user, form_type) %>
+  <div class="field mb-2">
+    <%= presenter.type.html.html_safe %>
+  </div>
+<% end %>
+
+<%= f.submit @form.submit_button, class:'btn btn-info col-xs-12 col-4' %>

@@ -1,0 +1,95 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" data-controller="navigation">
+  <div class="container-fluid">
+    <!-- Branding -->
+    <a class="navbar-brand" href="/">
+      <%= image_pack_tag 'media/packs/images/mfcs_logo.svg', class:'logo', alt: 'MFCS Logo' %>
+    </a>
+
+    <!-- Toggler -->
+    <button class="btn btn-secondary" type="button" data-action="click->navigation#open">
+      Menu
+    </button>
+
+  </div>
+
+  <!-- Menu -->
+  <div class="off-canvas-menu invisible" data-target="navigation.menu">
+    <h2> Menu </h2>
+
+    <div class="close"> 
+      <button class="button" type="button" data-action="click->navigation#close"> 
+        <span class="fa fa-times-circle"></span> 
+      </button> 
+    </div>
+    
+    <ul>
+        <div>
+          <li>
+            <a href="/"> 
+              <span class="fa fa-home"></span> Home 
+            </a>
+          </li>
+        </div>
+
+      <div>
+          <li> <h3> Form Management </h3> </li>
+          <li><a href="/forms/new"> New Form </a></li>
+          <li><a href="/forms/"> List Forms </a></li>
+          
+          <li> <h3> Data Entry </h3> </li>
+          <li><a href="/items/digital_objects"> Digital Objects </a></li>
+          <li><a href="/items/metadata"> Metadata Objects </a></li>
+      </div>
+
+
+
+        <h2> OLD MENU </h2>
+        <div>
+            <li> <h3> Data Entry </h3> </li>
+            <li><a href=""> Create &amp; Edit </a></li>
+            <li><a href=""> Search </a></li>
+            <li><a href=""> Exporting </a></li>
+            <li><a href=""> Projects List </a></li>
+            <li><a href=""> Statistics </a></li>
+            <li><a href=""> Batch Upload </a></li>
+            <li><a href=""> Move Objects </a></li>
+        </div>
+
+        <div>
+            <li> <h3> Form Management </h3> </li>
+            <li><a href="/forms/new"> New Form </a></li>
+            <li><a href="/forms/"> List Forms </a></li>
+            <li><a href=""> Copy Form </a></li>
+        </div>
+
+        <div>
+            <li> <h3> Administration </h3> </li>
+            <li><a href=""> Export Dates </a></li>
+            <li><a href=""> Metadata Schemas </a></li>
+            <li><a href=""> Obsolete File Types </a></li>
+            <li><a href=""> Projects </a></li>
+            <li><a href=""> Read Only </a></li>
+            <li><a href=""> Reprocess </a></li>
+            <li><a href=""> Users </a></li>
+            <li><a href=""> Watermarks </a></li>
+        </div>
+
+        <div>
+            <li> <h3> Dashboard </h3> </li>
+            <li><a href=""> Dashboard </a></li>
+            <li><a href=""> Duplicates </a></li>
+            <li><a href=""> Permissions Audit </a></li>
+            <li><a href=""> Fixity History </a></li>
+            <li><a href=""> Obsolete Files </a></li>
+            <li><a href=""> Virus History </a></li>
+
+        </div>
+
+        <div>
+            <li> <h3> Logout </h3> </li>
+            <li><a href=""> Logout </a></li>
+        </div>
+    </ul>
+  </div>
+</nav>
+

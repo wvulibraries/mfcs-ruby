@@ -3,6 +3,7 @@ import Validation from "../components/validation/validation";
 let debounce = require('lodash/debounce');
 
 export default class FormValidations extends Controller {
+  static targets = [ "formId" ]
 
   // initialize
   // -------------------------------------------------------------
@@ -12,47 +13,30 @@ export default class FormValidations extends Controller {
   // between calls.  
   // @author: David J. Davis
   initialize(){
-    this.textLength = debounce(this.textLength, 1000).bind(this);
-    this.duplicates = debounce(this.duplicates, 1000).bind(this);
+    this.validate = debounce(this.validate, 1000).bind(this);
+    console.log('testing');
   }
 
-  // // objectForm(e)
-  // // -------------------------------------------------------------
-  // // click event
-  // // Sets up an object form using the appropriate fields.
-  // // @author: David J. Davis
-  // validName(e){
-  
-  // }
-
-
-  // duplicates(e)
+  // validateField
   // -------------------------------------------------------------
-  // keyup event
-  // Does an Ajax Call to check validation on the input
+  // creates a debounce effect on initialization
+  // this debounce effect comes from lodash and plays an important role 
+  // it will not allow this function to be called until 1 second has elapsed
+  // between calls.  
   // @author: David J. Davis
-  duplicates(e){ 
-    console.log(e.target);
-    console.log('duplications fired!'); 
-  }
+  validate(e){ 
 
-  // textLength(e)
-  // -------------------------------------------------------------
-  // key up event
-  // Does an Ajax Call to check validation on the input
-  // @author: David J. Davis
-  textLength(e){ 
-    let validation_target = e.target; 
-    
+    // Setup the URL with the params
     const params = new URLSearchParams({
-      txt_string: validation_target.value,
-      min: validation_target.dataset.min,
-      max: validation_target.dataset.max,
-      type: validation_target.dataset.format,
+      form_id: this.formIdTarget.value.trim(),
+      fieldname: e.target.getAttribute("data-name").trim(),
+      input: e.target.value.trim()
     });
 
-    let url = '/api/v1/validate/textlength/?' + params.toString();
-    
+    let url = '/api/v1/validate?' + params.toString();
+
+    // Perform the Fetch Request
+    // Sets the Headers for the API_KEYS
     fetch(url, {
       method: "GET",
       headers: {
@@ -61,27 +45,23 @@ export default class FormValidations extends Controller {
       }
     })
     .then(resp => resp.json())
-    .then(function(data) {
+    .then(data => {
+      let validation_target = e.target; 
       let validation_result = data.status;
-      let validation_message = data.message;
+      let validation_message = data.errors.join(' ');
       let feedbackElm = validation_target.parentNode.querySelector('.feedback');
       feedbackElm.innerHTML = validation_message;
       
       if(validation_result == true){ 
         validation_target.classList.remove('is-invalid');
         feedbackElm.classList.remove('invalid-feedback');
-
-        validation_target.classList.add('is-valid');
-        feedbackElm.classList.add('valid-feedback');
-      } else{ 
+      } else { 
         validation_target.classList.add('is-invalid');
         feedbackElm.classList.add('invalid-feedback');
-
-        validation_target.classList.remove('.is-valid');
-        feedbackElm.classList.remove('.valid-feedback');
       }
     })
-    .catch(function(error) {
+    .catch(error => {
+      console.log(error); 
       console.error('Error with the API, please contact developers.'); 
     });
   }

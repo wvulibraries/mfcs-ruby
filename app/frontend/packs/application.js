@@ -38,6 +38,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 $(document).on("turbolinks:load",function(){
   $('[data-toggle="popover"]').popover();
   $('[data-toggle="tooltip"]').tooltip();
+  $('.dropdown-toggle').dropdown();
 });
 
 // Nested Forms JS

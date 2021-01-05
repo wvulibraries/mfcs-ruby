@@ -1,10 +1,65 @@
 
-<h2> <%= @item['data']['idno'] %> </h2>
-<%= @item.inspect %>
+<h2> Digital Object <%= @item['data']['title'] || @item['data']['idno'] %></h2>
+
+<dl class="border p-0 m-0">
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> ID </dt> 
+    <dd class="col"><%= @item.id %> </dd>
+  </div>
+  
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Form Title </dt> 
+    <dd class="col"><%= @form.display_title || @form.title %> </dd>
+  </div>
+
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Form ID </dt> 
+    <dd class="col"><%= @form.id %> </dd>
+  </div>
+
+  <!-- Data Attribute List -->
+  <% @item.data.each do |key, value| %>
+    <% unless key == 'files' %>
+      <div class="row p-1 m-0 border-bottom">
+        <dt class="col"> <%= key.capitalize %> </dt>
+        <dd class="col"> <%= value %> </dd>
+      </div>
+    <% end %>
+  <% end %>
+
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Number of Files </dt> 
+    <dd class="col"><%= @item['data']['files'].count %> </dd>
+  </div>
+  
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Public Release </dt> 
+    <dd class="col"><%= @item.public_release %> </dd>
+  </div>
+
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Created </dt> 
+    <dd class="col"><%= @item.created_at %> </dd>
+  </div>
+
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Created By: </dt> 
+    <dd class="col"> Need Information </dd>
+  </div>
+
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Updated </dt> 
+    <dd class="col"><%= @item.updated_at %> </dd>
+  </div>
 
 
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Modified By: </dt> 
+    <dd class="col"> Need Information </dd>
+  </div>
 
-<h2> Versions </h2>
-<% @item.audits.each do |audit| %>
-  <%= audit.version %>
-<% end %>
+  <div class="row p-1 m-0 border-bottom">
+    <dt class="col"> Number of Versions </dt> 
+    <dd class="col"><%= @item.audits.count %> </dd>
+  </div>
+</dl>

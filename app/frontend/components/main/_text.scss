@@ -1,0 +1,18 @@
+em { 
+  font-family: "HelveticaNeue-CondensedBold";
+  font-style: italic;
+  letter-spacing:1px; 
+  font-weight:300; 
+  color:#5f5f5f;
+}
+
+strong { 
+  font-family: $helvetica-neue-condensed-black;
+  font-weight:600;
+  font-stretch:condensed;
+}
+
+.decorative-text { 
+  font-weight: 100;
+  color: var(--wvu-blue); 
+}

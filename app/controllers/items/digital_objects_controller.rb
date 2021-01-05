@@ -8,7 +8,9 @@ class Items::DigitalObjectsController < ApplicationController
   end
 
   # GET /items/digital_objects/1
-  def show; end
+  def show
+    @form = Form.find(@item.form_id)
+  end
 
   # GET /items/digital_objects/new
   def new
@@ -26,49 +28,30 @@ class Items::DigitalObjectsController < ApplicationController
     @item = Item.new(item_params)
     @form = Form.find(item_params[:form_id])
 
-    # media_uuids = []
+    if @item.valid?
+      @form.file_fields.each do |field|
+        # check for data
+        @item[:data][field] = [] if @item[:data][field].nil?
+        # if no data then make it an array
+        next if item_params[:data][field].blank?
 
-    # @form.file_fields.each do |field|
-    #   item_params[:data][field].each do |uploaded_file|
-    #     file_attributes = {
-    #       filename: uploaded_file.original_filename,
-    #       form_id: @form.id,
-    #       size: uploaded_file.size,
-    #       mime_type: uploaded_file.content_type
-    #     }
+        files = []
+        item_params[:data][field].each do |uploaded_file|
+          file_upload = Processing::FileUpload.new(@form.id, uploaded_file)
+          files << file_upload.save
+        end
+        @item[:data][field].concat files
+      end
+    end
 
-    #     media = Media.new(file_attributes)
-
-    #     # make directories
-    #     FileUtils.mkdir_p(media.archival_path) unless File.directory?(media.archival_path)
-    #     FileUtils.mkdir_p(media.working_path) unless File.directory?(media.working_path)
-
-    #     # archive
-    #     archive_path = media.archival_path.join(uploaded_file.original_filename)
-    #     File.open(archive_path, 'wb') do |file|
-    #       file.write(uploaded_file.read)
-    #     end
-
-    #     # working copy
-    #     working_path = media.working_path.join(uploaded_file.original_filename)
-    #     File.open(working_path, 'wb') do |file|
-    #       file.write(uploaded_file.read)
-    #     end
-
-    #     # set fileinfo
-    #     media.file_info(media.working_path.join(uploaded_file.original_filename))
-    #     media.path = working_path
-
-    #     # save the media
-    #     media.save
-    #     media_uuids = media.uuid
-    #   end
-    # end
-
-    # @item.data['files']['media_uuids'] = media_uuids
     if @item.save
       redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'
     else
+      # clear files because we can't insert the file back into the upload box
+      @form.file_fields.each do |field|
+        @item[:data][field] = []
+      end
+      # render the new item
       render :new
     end
   end
@@ -81,9 +64,30 @@ class Items::DigitalObjectsController < ApplicationController
 
   # PATCH/PUT /items/digital_objects/1
   def update
-    if @item.update(item_params)
+    @form = Form.find(@item.form_id)
+
+    if @item.valid?
+      @form.file_fields.each do |field|
+        @item[:data][field] = [] if @item[:data][field].nil?
+        files = []
+        if item_params[:data][field].present?
+          item_params[:data][field].each do |uploaded_file|
+            file_upload = Processing::FileUpload.new(@form.id, uploaded_file)
+            files << file_upload.save
+          end
+        end
+        @item[:data][field].concat files
+      end
+    end
+
+    if @item.save
       redirect_to '/items/digital_objects', success: 'Digital object was successfully updated.'
     else
+      # clear files because we can't insert the file back into the upload box
+      @form.file_fields.each do |field|
+        @item[:data][field] = []
+      end
+      # render the new item
       render :edit
     end
   end

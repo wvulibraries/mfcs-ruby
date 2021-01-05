@@ -21,22 +21,6 @@ class FieldBuilder::TextField < FieldBuilder::Field
     html_string
   end
 
-  # Applies data attributes for things that need to be validated in the form with JavaScript.
-  #
-  # @author David J. Davis
-  # @return [String] HTML Attributes
-  def length_validation
-    return unless @field['min'].present? && @field['max'].present?
-
-    <<-HTML
-      data-min="#{@field['min']}" 
-      data-max="#{@field['max']}"
-      data-format="#{@field['format']}"
-      data-validation="text_length"
-      data-action="keyup->form-validations#textLength"
-    HTML
-  end
-
   # HTML strings that help to build each field, this method should be over-written,
   # but provides a baseline template.
   #
@@ -53,9 +37,11 @@ class FieldBuilder::TextField < FieldBuilder::Field
       #{build_label}
 
       <!-- Input--> 
-      <input type="text" name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} value="#{default_value}" #{length_validation} #{data_attributes} #{html_attributes}> 
+      <input type="text" name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} value="#{default_value}" #{data_attributes} #{html_attributes} data-action="keyup->form-validations#validate" 
+      data-name="#{@field['name']}"> 
 
-      <div class="feedback"></div> 
+      <!-- Feedback --> 
+      <div class="feedback"> </div>
     </div>
     HTML
   end

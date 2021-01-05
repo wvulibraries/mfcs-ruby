@@ -141,9 +141,7 @@ Rails.application.routes.draw do
 
       # validations
       # ========================================================
-      get 'validate/validation/(:input)/(:type)', to: 'validation#validations', as: 'validations'
-      get 'validate/textlength/(:min)/(:max)/(:type)', to: 'validation#text_length', as: 'text_length'
-      get 'validate/numerical/(:num)/(:num_min)/(:num_max)/(:step)', to: 'validation#numerical'
+      get 'validate', to: 'validation#validations', as: 'validations'
     end
   end
 

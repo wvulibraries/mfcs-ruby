@@ -30,9 +30,14 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 @import '../../components/forms/forms'; 
 @import '../../components/forms/list_forms';
 @import '../../components/footer/footer';
-@import '../../components/main/main';
+
+@import '../../components/main/main'; // text stuff
+@import '../../components/main/text'; // text flourishes
+
 @import '../../components/login/login';
 @import '../../components/alerts/alerts';
+
+@import '../../components/navigation/navigation';
 
 
 // Bootstrap Modal Overwrite 

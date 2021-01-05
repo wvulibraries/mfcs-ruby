@@ -42,8 +42,11 @@ class Validator::Actor
       end
       validation_results << result
     end
-
-    { status: validation_results.reduce(:&), errors: feedback }
+    # outside edge cases of nil or null
+    # which means no validation is taking place because one is not set
+    validation_status = validation_results.reduce(:&).nil? ? true : validation_results.reduce(:&)
+    # return that feedback as a hash
+    { status: validation_status, errors: feedback }
   end
 
   # Rescues from null record error then sends nil back to the validations so

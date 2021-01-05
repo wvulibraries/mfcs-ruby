@@ -37,8 +37,9 @@ class Item < ApplicationRecord
       next if form.file_fields.include? field
 
       valid = Validator::Actor.new(form.id, field, input).perform
-      puts valid.inspect
-      errors.add(field, valid[:errors].to_s) unless valid[:status] == true || valid[:status].nil?
+      unless valid[:status] == true || valid[:status].nil?
+        errors.add(field, valid[:errors].join(' '))
+      end
     end
   end
 end

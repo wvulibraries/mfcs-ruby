@@ -13,5 +13,19 @@ class Api::V1::ValidationController < ApplicationController
   # Returns JSON for all forms unless params exist
   # @author David J. Davis
   # @return object[Array <JSON>] Array of form json objects
-  def validations; end
+  def validations
+    not_nil_values = [:form_id, :fieldname]
+    errors = []
+
+    not_nil_values.each do |nnv|
+      errors << "#{nnv} is not present and we cannot complete the validation." if params[nnv].blank?
+    end
+
+    if errors.present?
+      render json: JSON.pretty_generate({ error: errors.join(' ') })
+    else
+      validate = Validator::Actor.new(params[:form_id], params[:fieldname], params[:input]).perform
+      render json: JSON.pretty_generate(validate)
+    end
+  end
 end

@@ -21,7 +21,7 @@
       <tbody>
         <% @items.each do |item| %>
           <tr class="d-flex">
-            <th class="col-1"> <%= item.id %> </th>
+            <th class="col-1"> <%= link_to item.id, items_show_digital_object_path(item) %> </th>
             <% item.data.each do |key, value| %>
               <% unless key == 'files' %>
                 <td class="col"> <%= value %> </td>

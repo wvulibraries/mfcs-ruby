@@ -110,16 +110,14 @@ class Media < ApplicationRecord
   # Sets up a hash to return as json
   # @author David J. Davis
   # @return [Hash][JSON]
-  def as_json
+  def json
     {
       media_id: id,
       uuid: uuid,
       filename: filename,
-      size: filesize,
       archival_path: archival_path,
       working_path: working_path,
-      conversion_path: conversion_path,
-      export_path: export_path
+      conversion_path: conversion_path
     }.to_json
   end
 
