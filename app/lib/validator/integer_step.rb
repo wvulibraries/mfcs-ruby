@@ -13,6 +13,10 @@ class Validator::IntegerStep
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    # true if not input
+    return true if @input.blank?
+    
+    # test steps
     num_step = @field_info['step'].to_i
     return true unless num_step.positive? || num_step == 1
 

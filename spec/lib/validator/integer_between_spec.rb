@@ -11,6 +11,18 @@ RSpec.describe Validator::IntegerBetween, type: :model do
   end
 
   context '.perform' do
+    it 'should return true empty values because there is nothing to evaluate' do
+      str = ''
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+  
+    it 'should return true nil because there is nothing to evaluate' do
+      str = nil
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+    
     it 'validates because no max number or max number not positive' do
       field_hash['max_number'] = [0, nil].sample 
       base = described_class.new('10', field_hash, 1)

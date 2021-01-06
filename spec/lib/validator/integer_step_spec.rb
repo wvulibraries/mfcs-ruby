@@ -11,6 +11,18 @@ RSpec.describe Validator::IntegerStep, type: :model do
   end
 
   context '.perform' do
+    it 'should return true empty values because there is nothing to evaluate' do
+      str = ''
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+  
+    it 'should return true nil because there is nothing to evaluate' do
+      str = nil
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+    
     it 'Should validate true with 1' do
       field_hash['step'] = 1
       input = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]

@@ -5,6 +5,7 @@ class Validator::IntegerSpace < Validator::Integer
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     integer_spaces(@input) || integer(@input)
   end
 

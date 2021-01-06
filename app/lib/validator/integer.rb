@@ -14,6 +14,7 @@ class Validator::Integer
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     integer(@input)
   end
 

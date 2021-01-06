@@ -17,6 +17,18 @@ RSpec.describe Validator::IntegerSpace, type: :model do
   end
 
   context '.perform -> .integer_spaces' do
+    it 'should return true empty values because there is nothing to evaluate' do
+      str = ''
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+  
+    it 'should return true nil because there is nothing to evaluate' do
+      str = nil
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+    
     ['3000000', 3000, 3.08425, '  3   3  390384 ', '3 3', '3 '].each do |int| 
       it "valid ints -- #{int}" do
         base = described_class.new(int, {}, 1)

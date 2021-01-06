@@ -13,6 +13,18 @@ RSpec.describe Validator::Integer, type: :model do
   end
 
   context '.perform -> .integer' do
+    it 'should return true empty values because there is nothing to evaluate' do
+      str = ''
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+  
+    it 'should return true nil because there is nothing to evaluate' do
+      str = nil
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+    
     ['3000000', 3000, 3.08425].each do |int| 
       it "valid ints -- #{int}" do
         base = described_class.new(int, {}, 1)
