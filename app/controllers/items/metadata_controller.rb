@@ -16,7 +16,6 @@ class Items::MetadataController < ApplicationController
     @item.metadata = @form.metadata
     @item.form_id = params[:form_id]
     @item.public_release = @form.export_public
-    redirect_to items_metadata_list_path, warning: 'No Items or Form Present for duplication check'
   end
 
   # # GET /items/metadata/new/
@@ -60,19 +59,25 @@ class Items::MetadataController < ApplicationController
   # POST /items/metadata
   def create
     @item = Item.new(item_params)
+    @form = Form.find(item_params[:form_id])
 
-    if @item.save
-      redirect_to items_metadata_list_path, success: 'metadata was successfully created.'
+    if @item.valid? && @item.save
+      redirect_to '/items/metadata', success: 'Metadata Object was successfully modified.'
     else
+      # render the new item
       render :new
     end
   end
 
   # PATCH/PUT /items/metadata/1
   def update
-    if @items.update(item_params)
-      redirect_to @items, notice: 'metadata was successfully updated.'
+    @item = Item.new(item_params)
+    @form = Form.find(item_params[:form_id])
+
+    if @item.valid? && @item.save
+      redirect_to '/items/metadata', success: 'Metadata Object was successfully modified.'
     else
+      # render the new item
       render :edit
     end
   end

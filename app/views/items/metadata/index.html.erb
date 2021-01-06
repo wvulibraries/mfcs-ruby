@@ -6,7 +6,7 @@
       <div class="card-header row no-gutters border p-0">
           <div class="col-10 col-lg-10"> 
             <div class="row no-gutters">
-              <a href="/forms/<%=f.id%>" class="form-link col col-sm-1  btn btn-default d-inline-block border-right text-center p-2"> 
+              <a href="/forms/<%=f.id%>" class="form-link col col-sm-1  btn btn-default d-inline-block border-right text-center p-2" title="view"> 
                 <span class="fas fa-eye"></span>
               </a>
               <a href="/items/metadata/new/<%=f.id%>/" class="form-link col-11  btn btn-default d-inline-block p-2 text-left"> <%= f.title || f.display_title %> 
@@ -16,11 +16,15 @@
 
           <div class="col-2 col-lg-2">
             <div class="row no-gutters">
-              <a href="/items/metadata/<%=f.id%>/" class="col btn btn-default border-left rounded-0 p-2"> 
+               <a href="/items/list/metadata/<%=f.id%>/" class="col btn btn-default border-left rounded-0 p-2" title="duplicates"> 
+                <span class="fas fa-copy"></span>
+              </a>
+
+              <a href="/items/list/metadata/<%=f.id%>/" class="col btn btn-default border-left rounded-0 p-2" title="list"> 
                 <span class="fas fa-list-ol"></span>
               </a>
 
-              <a href="/items/metadata/new/<%=f.id%>/" class="form-link col btn btn-default d-inline-block border-left text-center p-2"> 
+              <a href="/items/metadata/new/<%=f.id%>/" class="form-link col btn btn-default d-inline-block border-left text-center p-2" title="new"> 
                 <svg width="1.25em" height="1.25em" viewBox="0 0 16 16" class="bi bi-file-earmark-plus-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M2 2a2 2 0 0 1 2-2h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm7.5 1.5v-2l3 3h-2a1 1 0 0 1-1-1zM8.5 7a.5.5 0 0 0-1 0v1.5H6a.5.5 0 0 0 0 1h1.5V11a.5.5 0 0 0 1 0V9.5H10a.5.5 0 0 0 0-1H8.5V7z"/>
                 </svg>

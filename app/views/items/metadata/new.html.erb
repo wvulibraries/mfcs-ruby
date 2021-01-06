@@ -1,31 +1,9 @@
-<h2>New Item for <%= @form.display_title %></h2>
+<h2>Create Metadata <span class="decorative-text"> <%= @form.display_title %> </span></h2>
 
 <div class="row justify-content-start" data-controller="form-validations">
-  <%= form_with model: @item, url: "/items/metadata", class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "post" do  |f| %>
-
-    <% if @item.errors.any? %>
-      <div id="error_explanation">
-        <h2><%= pluralize(item.errors.count, "error") %> prohibited this item from being saved:</h2>
-
-        <ul>
-          <% @item.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-    
-    <%= f.hidden_field(:form_id, value: @form.id ) %> 
-    <%= f.hidden_field(:metadata, value: @form.metadata ) %>
-    <%= f.hidden_field(:public_release, value: @form.export_public ) %>
-
-    <% @form.fields_hash.each do |field| %>
-      <% presenter = FieldBuilder::Presenter.new(field, current_user, 'create') %>
-      <div class="field mb-2">
-        <%= presenter.type.html.html_safe %>
-      </div>
-    <% end %>
-    
-    <%= f.submit @form.submit_button, class:'btn btn-info col-xs-12 col-4' %>
+  <%= form_with model: @item, url: "/items/metadata", class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "post", data: {remote: false}, multipart: true do  |f| %>
+    <%# FORM         ==================================== %>
+    <%= render 'form', f: f, form_type: 'create' %>
+    <%# END FORM     ==================================== %>
   <% end %>
 </div>
