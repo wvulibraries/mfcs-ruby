@@ -7,6 +7,18 @@ RSpec.describe Validator::AlphaNumericSpace, type: :model do
   end
 
   context '.perform' do
+    it 'should return true empty values because there is nothing to evaluate' do
+      str = ''
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+
+    it 'should return true nil because there is nothing to evaluate' do
+      str = nil
+      base = described_class.new(str, {}, 1)
+      expect(base.perform).to be true
+    end 
+
     it 'does not like scripty shenanigans' do
       str = "Some alpha 823 stuff\n<script>alert('pwned')</script>"
       base = described_class.new(str, {}, 1)

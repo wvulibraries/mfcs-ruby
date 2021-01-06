@@ -14,6 +14,7 @@ class Validator::AlphaNumeric
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     @input.match?(/\A[a-z0-9]+\Z/i)
   end
 end

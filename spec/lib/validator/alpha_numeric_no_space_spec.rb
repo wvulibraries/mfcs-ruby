@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-RSpec.describe Validator::AlphaNumeric, type: :model do
-  # shared examples
+RSpec.describe Validator::AlphaNumericNoSpace, type: :model do
+  
   context 'base behaviors' do
     it_behaves_like 'a validator object' 
   end
