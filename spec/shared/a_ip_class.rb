@@ -20,5 +20,17 @@ RSpec.shared_examples "a ip class" do
       base = described_class.new(ip, {}, 1)
       expect(base.perform).to be false
     end
+
+    it 'returns true for nil' do
+      ip = nil
+      base = described_class.new(ip, {}, 1)
+      expect(base.perform).to be true
+    end
+
+    it 'returns true for empty' do
+      ip = ''
+      base = described_class.new(ip, {}, 1)
+      expect(base.perform).to be true
+    end
   end
 end 

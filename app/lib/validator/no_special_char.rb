@@ -13,6 +13,7 @@ class Validator::NoSpecialChar
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     @input.match?(/^[a-z0-9\s]*$/i)
   end
 end

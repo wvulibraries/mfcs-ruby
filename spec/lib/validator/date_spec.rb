@@ -7,6 +7,18 @@ RSpec.describe Validator::Date, type: :model do
   end
 
   context '.perform' do
+    it 'returns true for nil' do
+      str = nil
+      dv = described_class.new(str, {}, 1)
+      expect(dv.perform).to be true
+    end
+
+    it 'return true for empty' do
+      str = ''
+      dv = described_class.new(str, {}, 1)
+      expect(dv.perform).to be true
+    end 
+    
     valid_edtf = [ 
       '119x',
       '2001-02-03',

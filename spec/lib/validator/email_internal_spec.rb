@@ -21,6 +21,18 @@ RSpec.describe Validator::EmailInternal, type: :model do
   end
   
   context '.perform' do
+    it 'returns true for nil' do
+      email = nil
+      base = described_class.new(email, {}, 1)
+      expect(base.perform).to be true
+    end
+
+    it 'returns true for empty' do
+      email = ''
+      base = described_class.new(email, {}, 1)
+      expect(base.perform).to be true
+    end
+    
     it 'valid email, but not internal' do
       base = described_class.new(Faker::Internet.free_email, {}, 1)
       expect(base.perform).to be false

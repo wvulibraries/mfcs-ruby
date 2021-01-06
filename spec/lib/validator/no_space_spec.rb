@@ -7,6 +7,18 @@ RSpec.describe Validator::NoSpace, type: :model do
   end
 
   context '.perform' do
+    it 'returns true for empty' do
+      n = ''
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+
+    it 'returns true for nil' do
+      n = nil
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+    
     it 'should return false the string has spaces' do
       str = ' sme string with spaces '
       base = described_class.new(str, {}, 1)

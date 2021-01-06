@@ -13,6 +13,18 @@ RSpec.describe Validator::Url, type: :model do
   end
 
   context '.perform' do
+    it 'returns true for empty' do
+      n = ''
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+
+    it 'returns true for nil' do
+      n = nil
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+
     valid_options = [ 
       Faker::Internet.url, 
       'ftp://ftpserver.com/path/to/image.png',
@@ -32,9 +44,7 @@ RSpec.describe Validator::Url, type: :model do
     invalid_options = [
       'www.foo.com', 
       'http:/www.google.com', 
-      'test', 
-      '', 
-      nil
+      'test'
     ]
 
     invalid_options.each do |input|

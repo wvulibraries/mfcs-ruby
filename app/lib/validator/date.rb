@@ -17,6 +17,7 @@ class Validator::Date
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     !Date.edtf(@input).nil?
   end
 end

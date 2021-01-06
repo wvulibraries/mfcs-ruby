@@ -5,6 +5,7 @@ class Validator::OptionalUrl < Validator::Url
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     @input.blank? || url(@input)
   end
 end

@@ -96,30 +96,30 @@ Rails.application.routes.draw do
   namespace :items do
     # metadata routes 
     # ========================================================
-    get    '/metadata'                    => 'metadata#index',          as: 'metadata_list'
-    get    '/metadata/:form_id'           => 'metadata#list_for_form',  as: 'metadata'
-    get    '/metadata/dups/(:form_id)'    => 'metadata#duplicates',     as: 'metadata_duplicates'
-    get    '/metadata/new/'               => 'metadata#no_form',        as: 'metadata_no_form'
-    get    '/metadata/new/:form_id'       => 'metadata#new',            as: 'new_metadata'
-    post   '/metadata'                    => 'metadata#create',         as: 'create_metadata'
-    get    '/metadata/:id/edit'           => 'metadata#edit',           as: 'edit_metadata'
-    patch  '/metadata/:id'                => 'metadata#update',         as: 'patch_metadata'
-    put    '/metadata/:id'                => 'metadata#update',         as: 'put_metadata'
-    delete '/metadata/:id'                => 'metadata#destroy',        as: 'destroy_metdata'
+    get    '/metadata'                       => 'metadata#index',          as: 'metadata_list'
+    get    '/metadata/new/'                  => 'metadata#no_form',        as: 'metadata_no_form'
+    get    '/metadata/new/:form_id'          => 'metadata#new',            as: 'new_metadata'
+    post   '/metadata'                       => 'metadata#create',         as: 'create_metadata'
+    get    '/metadata/:id/edit'              => 'metadata#edit',           as: 'edit_metadata'
+    patch  '/metadata/:id'                   => 'metadata#update',         as: 'patch_metadata'
+    put    '/metadata/:id'                   => 'metadata#update',         as: 'put_metadata'
+    delete '/metadata/:id'                   => 'metadata#destroy',        as: 'destroy_metdata'
+    get    '/list/metadata/:form_id'         => 'metadata#list_for_form',  as: 'metadata_list_form'
+    get    '/duplicates/metadata/(:form_id)' => 'metadata#duplicates',     as: 'metadata_duplicates'
 
     # digital object route
     # ========================================================
-    get    '/digital_objects'                    => 'digital_objects#index',          as: 'digital_objects_index'
-    get    '/list_objects/:form_id'              => 'digital_objects#list_for_form',  as: 'list_digital_objects'
-    get    '/duplicate_objects/:form_id'         => 'digital_objects#duplicates',     as: 'duplicate_digital_objects'
-    get    '/digital_objects/new/'               => 'digital_objects#no_form',        as: 'digital_objects_no_form'
-    get    '/digital_objects/new/:form_id'       => 'digital_objects#new',            as: 'new_digital_objects'
-    post   '/digital_objects'                    => 'digital_objects#create',         as: 'create_digital_objects'
-    get    '/digital_objects/:id'                => 'digital_objects#show',           as: 'show_digital_object'
-    get    '/digital_objects/:id/edit'           => 'digital_objects#edit',           as: 'edit_digital_objects'
-    patch  '/digital_objects/:id'                => 'digital_objects#update',         as: 'patch_digital_objects'
-    put    '/digital_objects/:id'                => 'digital_objects#update',         as: 'put_digital_objects'
-    delete '/digital_objects/:id'                => 'digital_objects#destroy',        as: 'destroy_digital_object'
+    get    '/digital_objects'                     => 'digital_objects#index',          as: 'digital_objects_index'
+    get    '/list/digital_objects/:form_id'       => 'digital_objects#list_for_form',  as: 'list_digital_objects'
+    get    '/duplicates/digital_objects/:form_id' => 'digital_objects#duplicates',     as: 'duplicate_digital_objects'
+    get    '/digital_objects/new/'                => 'digital_objects#no_form',        as: 'digital_objects_no_form'
+    get    '/digital_objects/new/:form_id'        => 'digital_objects#new',            as: 'new_digital_objects'
+    post   '/digital_objects'                     => 'digital_objects#create',         as: 'create_digital_objects'
+    get    '/digital_objects/:id'                 => 'digital_objects#show',           as: 'show_digital_object'
+    get    '/digital_objects/:id/edit'            => 'digital_objects#edit',           as: 'edit_digital_objects'
+    patch  '/digital_objects/:id'                 => 'digital_objects#update',         as: 'patch_digital_objects'
+    put    '/digital_objects/:id'                 => 'digital_objects#update',         as: 'put_digital_objects'
+    delete '/digital_objects/:id'                 => 'digital_objects#destroy',        as: 'destroy_digital_object'
   end
   
   # API

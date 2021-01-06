@@ -10,6 +10,18 @@ RSpec.describe Validator::Regex, type: :model do
   end
 
   context '.perform' do
+    it 'returns true for empty' do
+      n = ''
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+
+    it 'returns true for nil' do
+      n = nil
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+
     it 'should return true for the matching expression' do
       field_hash['validation'] = 'regex'
       field_hash['validation_regex'] = '/\s/'

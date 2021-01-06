@@ -7,6 +7,18 @@ RSpec.describe Validator::NoSpecialChar, type: :model do
   end
 
   context '.perform' do
+    it 'returns true for empty' do
+      n = ''
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+
+    it 'returns true for nil' do
+      n = nil
+      dv = described_class.new(n, {}, 1)
+      expect(dv.perform).to be true
+    end
+
     chars = '!@#$%^&*()_+{}|:">?<[]\\\';,.`~µñ©æáßðøäåé®þüúíóö'
     char_array = chars.split('')
     char_array.each do |char|

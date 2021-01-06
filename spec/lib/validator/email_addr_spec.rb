@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Validator::Email, type: :model do
+RSpec.describe Validator::EmailAddr, type: :model do
   # shared examples
   context 'base behaviors' do
     it_behaves_like 'a validator object' 

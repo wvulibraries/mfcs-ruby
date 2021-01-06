@@ -16,6 +16,7 @@ class Validator::Email
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     email(@input)
   end
 

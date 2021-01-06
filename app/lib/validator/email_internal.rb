@@ -6,6 +6,7 @@ class Validator::EmailInternal < Validator::Email
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank? 
     email_internal(@input) && email(@input)
   end
 

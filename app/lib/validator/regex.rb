@@ -14,6 +14,7 @@ class Validator::Regex
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     regex(@input, @field_info['validation_regex'])
   end
 

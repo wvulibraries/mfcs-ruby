@@ -13,6 +13,7 @@ class Validator::Url
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     url(@input)
   end
 
