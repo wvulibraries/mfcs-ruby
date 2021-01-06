@@ -14,6 +14,7 @@ class Validator::PhoneNumber
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank? 
     @input.match?(/\A1?[-. ]?(\(\d{3}\)?[-. ]?|\d{3}?[-. ]?)?\d{3}?[-. ]?\d{4}\z/)
   end
 end
