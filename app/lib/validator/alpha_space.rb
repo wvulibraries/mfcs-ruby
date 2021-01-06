@@ -14,6 +14,7 @@ class Validator::AlphaSpace
   # @author David J. Davis
   # @return [Boolean]
   def perform
+    return true if @input.blank?
     @input.match?(/\A[\sa-z]+\z/i)
   end
 end

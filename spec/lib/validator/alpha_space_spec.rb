@@ -7,6 +7,18 @@ RSpec.describe Validator::AlphaSpace, type: :model do
   end
   
   context '.perform' do  
+      it 'should return true empty values because there is nothing to evaluate' do
+        str = ''
+        base = described_class.new(str, {}, 1)
+        expect(base.perform).to be true
+      end 
+
+      it 'should return true nil because there is nothing to evaluate' do
+        str = nil
+        base = described_class.new(str, {}, 1)
+        expect(base.perform).to be true
+      end 
+
       it 'like all alpha with spaces' do
         str = 'something cool spaces' 
         base = described_class.new(str, {}, 1)
