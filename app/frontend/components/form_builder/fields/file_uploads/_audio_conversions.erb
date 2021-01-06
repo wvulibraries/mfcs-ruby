@@ -6,14 +6,14 @@
     <div class="field col-6">
       <%= label_tag :audio_bitrate %>
       <div class="select-style col">
-        <%= select_tag :audio_bitrate, options_for_select(I18n.t 'form_builder.audio_bitrates', ''),  include_blank: "Audio Bitrate" %>
+        <%= select_tag :audio_bitrate, options_for_select(I18n.t 'form_builder.audio_bitrates'),  include_blank: "Audio Bitrate" %>
       </div>
     </div>
 
     <div class="field col-6">
       <%= label_tag :audio_format %>
       <div class="select-style col">
-        <%= select_tag :audio_format, options_for_select(I18n.t 'form_builder.audio_formats', ''),  include_blank: "Audio Format" %>
+        <%= select_tag :audio_format, options_for_select(I18n.t 'form_builder.audio_formats'),  include_blank: "Audio Format" %>
       </div>
     </div>
   

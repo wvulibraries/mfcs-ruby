@@ -5,14 +5,14 @@
     <div class="field col-6">
       <%= label_tag :video_bitrate %>
       <div class="select-style col">
-        <%= select_tag :video_bitrate, options_for_select(I18n.t 'form_builder.video_bitrates', ''),  include_blank: "Select Bitrate" %>
+        <%= select_tag :video_bitrate, options_for_select(I18n.t 'form_builder.video_bitrates'),  include_blank: "Select Bitrate" %>
       </div>
     </div>
 
     <div class="field col-6">
       <%= label_tag :video_format %>
       <div class="select-style col">
-        <%= select_tag :video_format, options_for_select(I18n.t 'form_builder.video_formats', ''),  include_blank: "Select Format" %>
+        <%= select_tag :video_format, options_for_select(I18n.t 'form_builder.video_formats'),  include_blank: "Select Format" %>
       </div>
     </div>  
   </div>
