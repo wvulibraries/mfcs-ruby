@@ -13,8 +13,7 @@ export default class FormValidations extends Controller {
   // between calls.  
   // @author: David J. Davis
   initialize(){
-    this.validate = debounce(this.validate, 1000).bind(this);
-    console.log('testing');
+    this.validate = debounce(this.validate, 100).bind(this);
   }
 
   // validateField

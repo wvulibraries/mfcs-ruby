@@ -49,7 +49,7 @@ class FieldBuilder::IdnoField < FieldBuilder::Field
       #{build_label}
 
       <!-- Input--> 
-      <input type="text" name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} data-name="#{@field['name']}" data-action="keyup->form-validations#validate" #{html_attributes} /> 
+      <input type="text" name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} data-name="#{@field['name']}" data-action="keyup->form-validations#validate focus->form-validations#validate blur->form-validations#validate"#{html_attributes} /> 
 
       <!-- Feedback --> 
       <div class="feedback"> </div>

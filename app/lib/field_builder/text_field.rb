@@ -37,7 +37,7 @@ class FieldBuilder::TextField < FieldBuilder::Field
       #{build_label}
 
       <!-- Input--> 
-      <input type="text" name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} value="#{default_value}" #{data_attributes} #{html_attributes} data-action="keyup->form-validations#validate" 
+      <input type="text" name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} value="#{default_value}" #{data_attributes} #{html_attributes} data-action="keyup->form-validations#validate focus->form-validations#validate blur->form-validations#validate"
       data-name="#{@field['name']}"> 
 
       <!-- Feedback --> 
