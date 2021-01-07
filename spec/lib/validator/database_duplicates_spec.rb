@@ -3,7 +3,44 @@ require 'rails_helper'
 RSpec.describe Validator::DatabaseDuplicates, type: :model do
   
   before(:each) do
+    # There are some required items needed by the form
+    # this had to be established in the most basic way possible
     @form = FactoryBot.create(:form)
+    @form.fields = [{
+      max: "",
+      min: "",
+      name: "title",
+      type: "text",
+      label: "Title",
+      value: "",
+      css_id: "",
+      format: "characters",
+      hidden: false,
+      disabled: false,
+      field_id: "34491793999999936",
+      help_url: "",
+      required: true,
+      sortable: true,
+      css_class: "",
+      help_info: "Something Really Informative and Helpful.",
+      help_type: "plain_text",
+      read_only: false,
+      searchable: true,
+      sort_order: "1",
+      validation: "",
+      oai_release: false,
+      placeholder: "",
+      local_styles: "",
+      no_duplicates: false,
+      public_release: true,
+      display_in_list: false,
+      validation_regex: "",
+      disabled_on_insert: false,
+      disabled_on_update: false,
+      metadata_standards: ""
+    }]
+    @form.save!
+
     names = (1..10).map { Faker::Movies::LordOfTheRings.character }.uniq.sort
     names.each do |title|  
       item = FactoryBot.build(:metadata)

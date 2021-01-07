@@ -1,20 +1,16 @@
 class Validator::DatabaseDuplicates
   # include active model for validations to make error tracking easy
   include ActiveModel::Model
-  define_model_callbacks :initialize, only: :after
 
   # set needed fields
   attr_accessor :form_id, :field_name
-
-  # callbacks
-  after_initialize :duplicate_items
 
   # Basic constructor for all Validator Methods
   # @author David J. Davis
   def initialize(form_id, field_name)
     @form_id = form_id
     @field_name = field_name
-    run_callbacks :initialize
+    self.duplicate_items
   end
 
   # The perform method of all the classes in the Validator Namespace should be

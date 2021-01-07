@@ -13,6 +13,7 @@ class Validator::FieldValidations
   # @return [Array]
   def validations
     validations = []
+    validations << 'required' if required?
     validations << 'text_length' if text_validation?
     validations << 'integer_between' if integer_validation?
     validations << 'integer_step' if step_validation?
@@ -54,5 +55,12 @@ class Validator::FieldValidations
   # @return [Boolean]
   def duplicates?
     @field_info['no_duplicates'].to_s == 'true' && @field_info['required'].to_s == 'true'
+  end
+
+  # Checks to see the field is required and needs that validation
+  # @author David J. Davis
+  # @return [Boolean]
+  def required?
+    @field_info['required'].to_s == 'true'
   end
 end
