@@ -80,6 +80,20 @@ class Form < ApplicationRecord
   # -----------------------------------------------------
   after_initialize :set_defaults, unless: :persisted?
 
+  # Determines if the form is an object form
+  # @author David J. Davis
+  # return boolean 
+  def object_form? 
+    self.metadata == false
+  end 
+
+  # Determines if the form is a metadata 
+  # @author David J. Davis
+  # return boolean 
+  def metadata? 
+    self.metadata == true 
+  end 
+
   # Get an array of linked metadata fields from the field hash
   # @author David J. Davis
   # @return object[Array <Integer>] Array of ids to identify the forms.

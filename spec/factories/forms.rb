@@ -30,9 +30,8 @@
 #  index_forms_on_idno  (idno)
 #
 FactoryBot.define do
-  faker_title = Faker::Lorem.sentence
   factory :form do
-    title { faker_title }
+    title { Faker::Lorem.sentence }
     description { Faker::Lorem.paragraph }
     container { false }
     production { false }
@@ -44,8 +43,8 @@ FactoryBot.define do
     submit_button { "Submit" }
     update_button { "Update" }
     count { 1 }
-    display_title { faker_title }
-    link_title { faker_title }
+    display_title { title }
+    link_title { title }
 
     factory :object_form do
       metadata { false }
