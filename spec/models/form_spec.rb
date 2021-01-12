@@ -33,6 +33,10 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe Form, type: :model do
+  let(:field_info) do 
+    field_info = {"name"=>"idno", "type"=>"idno", "label"=>"Identifier", "value"=>"", "css_id"=>"", "hidden"=>false, "disabled"=>false, "field_id"=>"9429974999744445", "help_url"=>"", "required"=>true, "sortable"=>true, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "managed_by"=>"System", "searchable"=>true, "sort_order"=>"1", "validation"=>"", "idno_format"=>"testing_#####_idno", "oai_release"=>true, "placeholder"=>"", "local_styles"=>"", "no_duplicates"=>true, "public_release"=>true, "display_in_list"=>true, "start_increment"=>"", "validation_regex"=>"", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[]}
+  end 
+
   # shared examples
   context 'shared examples' do
     it_behaves_like 'readonly'
@@ -322,11 +326,13 @@ RSpec.describe Form, type: :model do
   context '.associated_metadata_forms' do
     it 'expects the choice form to exist and contain one number as a set' do
       data = FactoryBot.build(:form)
-      data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"11", "choice_null"=>true, "choice_type"=>"link_to_form", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"title", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
+      metadata_form = FactoryBot.create(:metadata_form)
+
+      data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"#{metadata_form.id}", "choice_null"=>true, "choice_type"=>"link_to_form", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"title", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
       data.save! 
       
-      expect(data.associated_metadata_forms).to be_a Set
-      expect(data.associated_metadata_forms).to include '11'
+      expect(data.associated_metadata_forms).to be_a Array
+      expect(data.associated_metadata_forms.pluck(:id)).to include metadata_form.id
     end
    
     it 'expects to be empty' do
@@ -334,7 +340,7 @@ RSpec.describe Form, type: :model do
       data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"", "choice_null"=>true, "choice_type"=>"manual", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"Testing,Something Really Cool,Awesome", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
       data.save! 
 
-      expect(data.associated_metadata_forms).to be_a Set
+      expect(data.associated_metadata_forms).to be_a Array
       expect(data.associated_metadata_forms.count).to eq 0
     end
   end 
@@ -383,5 +389,57 @@ RSpec.describe Form, type: :model do
       expect(data.file_fields).to be_a Set
     end
   end
+
+  context '.metadata?' do
+    before(:each) do 
+      @form = FactoryBot.create(:form)
+    end
+
+    it 'true the metadata boolean is applied' do
+      @form.metadata = true 
+      expect(@form.metadata?).to eq true   
+    end 
+
+    it 'false the metadata boolean is not applied' do
+      @form.metadata = false
+      expect(@form.metadata?).to eq false 
+    end 
+  end 
+
+  context '.object_form?' do
+    before(:each) do 
+      @form = FactoryBot.create(:form)
+    end
+
+    it 'false the metadata boolean is applied, the form is not an object form' do
+      @form.metadata = true 
+      expect(@form.object_form?).to eq false
+    end 
+
+    it 'true the metadata boolean is not applied, the form is an object form' do
+      @form.metadata = false
+      expect(@form.object_form?).to eq true
+    end 
+  end 
+
+  context '.idno_field' do
+    before(:each) do 
+      @form = FactoryBot.create(:form)
+    end
+
+    it 'should return nil if it is a metadata form' do
+      @form.metadata = true 
+      @form.fields = [field_info]
+      @form.save   
+      expect(@form.idno_field).to be_nil
+    end
+    
+    it 'should return the idno hash' do
+      @form.metadata = false
+      @form.fields = [field_info]
+      @form.save   
+      expect(@form.idno_field).to be_a Hash
+    end 
+  end 
   
 end

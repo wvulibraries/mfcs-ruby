@@ -147,6 +147,17 @@ class Form < ApplicationRecord
     end
   end
 
+  # Loops through fields until the idno field is grabbed
+  # Should only be one so the field is returned directly from the loop
+  # @author David J. Davis
+  # @return Set of strings
+  def idno_field 
+    return nil if self.metadata?
+    self[:fields].each do |field|
+      return field if field['type'] == 'idno'
+    end
+  end 
+
   # This grabs associated metadata fields for the forms.
   # @author David J. Davis
   # @return Set of strings
