@@ -1,5 +1,5 @@
 class Items::MetadataController < ApplicationController
-  before_action :set_item, only: %i[show edit update destroy]
+  before_action :set_item, only: [:show, :edit,  :update, :destroy]
   before_action :set_form, only: %i[new]
 
   # GET /items/metadata
@@ -54,7 +54,9 @@ class Items::MetadataController < ApplicationController
   end
 
   # GET /items/metadata/1/edit
-  def edit; end
+  def edit
+    @form = Form.find(@item.form_id)
+  end
 
   # POST /items/metadata
   def create
@@ -92,7 +94,7 @@ class Items::MetadataController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_item
-    @items = Item.find(params[:id])
+    @item = Item.find(params[:id])
   end
 
   def set_form
