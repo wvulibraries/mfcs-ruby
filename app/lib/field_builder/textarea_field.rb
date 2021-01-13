@@ -15,7 +15,7 @@ class FieldBuilder::TextareaField < FieldBuilder::TextField
       #{build_label}
 
       <!-- Input--> 
-      <textarea name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} #{data_attributes} #{html_attributes} data-action="keyup->form-validations#validate focus->form-validations#validate blur->form-validations#validate"data-name="#{@field['name']}" > #{default_value} </textarea>
+      <textarea name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} #{data_attributes} #{html_attributes} data-action="keyup->form-validations#validate"data-name="#{@field['name']}" > #{default_value} </textarea>
 
       <!-- Feedback -->
       <div class="feedback"> </div> 

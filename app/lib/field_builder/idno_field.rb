@@ -39,7 +39,8 @@ class FieldBuilder::IdnoField < FieldBuilder::Field
   # @return [String] HTML
 
   def html
-    hidden = hidden? || managed_by_system? ? 'hidden hide' : 'show'
+    return "" if managed_by_system?  
+    hidden = hidden? ? 'hidden hide' : 'show'
     <<-HTML
     <div class="form-field #{@state} #{hidden}">
       <!-- HELP --> 
@@ -49,7 +50,7 @@ class FieldBuilder::IdnoField < FieldBuilder::Field
       #{build_label}
 
       <!-- Input--> 
-      <input type="text" name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} data-name="#{@field['name']}" data-action="keyup->form-validations#validate focus->form-validations#validate blur->form-validations#validate"#{html_attributes} /> 
+      <input type="text" name="item[data][#{@field['name']}]" class="#{css_classes}" id="#{@field['name']} #{@field['css_id']}" #{input_options} #{data_attributes} data-name="#{@field['name']}" data-action="keyup->form-validations#validate"#{html_attributes} /> 
 
       <!-- Feedback --> 
       <div class="feedback"> </div>

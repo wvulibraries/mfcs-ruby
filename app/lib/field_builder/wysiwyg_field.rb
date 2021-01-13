@@ -18,7 +18,7 @@ class FieldBuilder::WysiwygField < FieldBuilder::TextField
       <input type="hidden" name="item[data][#{@field['name']}]" class="#{@field['css_class']}" id="#{@field['name']}_#{@field['field_id']}" #{input_options} #{data_attributes} #{html_attributes} value="#{default_value}" />
 
       <!-- Trix Editor --> 
-      <trix-editor input="#{@field['name']}_#{@field['field_id']}" data-action="keyup->form-validations#validate focus->form-validations#validate blur->form-validations#validate" data-name="#{@field['name']}">
+      <trix-editor input="#{@field['name']}_#{@field['field_id']}" data-action="keyup->form-validations#validate" data-name="#{@field['name']}">
       </trix-editor>
 
       <!-- Feedback --> 
