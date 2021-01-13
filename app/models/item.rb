@@ -28,11 +28,17 @@ class Item < ApplicationRecord
   # -----------------------------------------------------
   validate :custom_data_entry
 
+  # Callbacks
+  # -----------------------------------------------------
+  before_save :idno_setups, unless: proc { idno_set? }
+
   # References the custom validation actor. Calling the actor on each field
   # except for file fields gives us a validation on this model.
   # @author David J. Davis
   # @return [Object] Sets form to an Active Record Object
   def custom_data_entry
+    return true if data.blank?
+
     data.each do |field, input|
       next if form.file_fields.include? field
 
@@ -41,5 +47,31 @@ class Item < ApplicationRecord
         errors.add(field, valid[:errors].join(' '))
       end
     end
+  end
+
+  # References the custom validation actor. Calling the actor on each field
+  # except for file fields gives us a validation on this model.
+  # @author David J. Davis
+  # @return [truthy] possible return of IDNO
+  def idno_setups
+    # skips the hole process if a metadata form
+    return if form.metadata?
+
+    idno_settings = form.idno_field
+    if idno_settings['managed_by'].to_s.casecmp('system').zero?
+      idno_number = Idno::SystemIdno.new(form.id, idno_settings).formatted_idno
+      self.idno = idno_number
+      data['idno'] = idno_number
+    elsif idno_settings['managed_by'].to_s.casecmp('user').zero?
+      self.idno = data['idno']
+    end
+  end
+
+  # Boolean for Proc Method used on after_save callback
+  # This should keep the idno evaluations from happening more than once.
+  # @author David J. Davis
+  # @return [Boolean] 
+  def idno_set?
+    idno.present? && form.object_form?
   end
 end

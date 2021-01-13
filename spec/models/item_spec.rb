@@ -14,8 +14,9 @@
 require 'rails_helper'
 
 RSpec.describe Item, type: :model do
-  let(:metadata_item) { FactoryBot.create :metadata }
-  let(:item) { FactoryBot.create :object }
+  let(:metadata_item) { FactoryBot.build_stubbed :metadata }
+  let(:item) { FactoryBot.build_stubbed :item_object }
+  let(:system) {  System.new(name: 'readonly', value: true) }
 
   # Database Columns 
   # ================================================================
@@ -36,10 +37,58 @@ RSpec.describe Item, type: :model do
     it { should belong_to(:form) }
   end
 
-  # Shared Tests
+  # Readonly
   # ================================================================
-  context 'shared examples' do
-    it_behaves_like 'readonly'
+  context 'locked database should not save' do
+    before(:each) do 
+      @klass = FactoryBot.build(:complete_digital_object_system)
+    end 
+
+    it 'does not save new' do
+      system.save
+      expect { @klass.save(validate: false) }.to raise_error(ActiveRecord::ReadOnlyRecord)
+    end
+
+    it 'does not update existing' do
+      @klass.save(validate: false) # save class to use later
+      system.save
+      @klass.updated_at = Time.now
+      expect { @klass.save(validate: false) }.to raise_error(ActiveRecord::ReadOnlyRecord)
+    end
+
+    it 'does not delete' do
+      @klass.save(validate: false) # save class to use later
+      system.save
+      expect { @klass.destroy }.to raise_error(ActiveRecord::ReadOnlyRecord)
+    end
+  end
+
+  context 'unlocked database should save' do
+    before(:each) do 
+      @klass = FactoryBot.build(:complete_digital_object_system)
+    end 
+
+    it 'saves new' do
+      system.value = false
+      system.save
+      @klass = described_class.new
+      expect(@klass.save(validate: false)).to be_truthy
+    end
+
+    it 'updates existing' do
+      @klass.save(validate: false) # save class to use later
+      system.value = false
+      system.save
+      @klass.updated_at = Time.now
+      expect(@klass.save(validate: false)).to be_truthy
+    end
+
+    it 'deletes' do
+      @klass.save(validate: false) # save class to use later
+      system.value = false
+      system.save
+      expect(@klass.destroy).to be_truthy
+    end
   end
   
   # Database Examples 
@@ -51,7 +100,57 @@ RSpec.describe Item, type: :model do
   end 
 
   context '.custom_data_entry' do
-    
+    it 'item should validate properly' do
+      item = FactoryBot.build(:complete_digital_object_user)
+      item.form.save # form needs saved for query to work
+      expect(item.valid?).to be true
+    end 
+
+    it 'item should validate properly' do
+      item = FactoryBot.create(:complete_digital_object_user)
+      new_item = FactoryBot.build(:complete_digital_object_user)
+      expect(new_item.valid?).to be false
+    end 
+  end
+
+  context '.idno_setups' do
+    it 'metadata item should return a nil or empty object' do
+      item = FactoryBot.build_stubbed(:complete_metadata_object)
+      item.idno_setups
+
+      expect(item.idno).to be_nil
+    end 
+
+    it 'object managed by system, should set the idno field on the model' do
+      item = FactoryBot.build_stubbed(:complete_digital_object_system) 
+      item.idno_setups
+
+      expect(item.idno).to be_a String 
+      expect(item.idno).to eq('testing_000000003_doh')
+      expect(item.idno).to eq(item.data['idno'])
+    end 
+
+    it 'object managed by user, idno information data to set on idno' do
+      item = FactoryBot.build_stubbed(:complete_digital_object_user) 
+      item.idno_setups
+
+      expect(item.idno).to be_a String 
+      expect(item.idno).to eq('sweet_idno_number_user_gen')
+      expect(item.idno).to eq(item.data['idno'])
+    end 
+  end 
+
+  context '.idno_set?' do
+    it 'should be false because idno_setups has not been run yet' do
+      item = FactoryBot.build_stubbed(:complete_digital_object_user)
+      expect(item.idno_set?).to be false
+    end
+
+    it 'should be true because the setups has been run' do
+      item = FactoryBot.build_stubbed(:complete_digital_object_user)
+      item.idno_setups
+      expect(item.idno_set?).to be true
+    end 
   end
   
 end

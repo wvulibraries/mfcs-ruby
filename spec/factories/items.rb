@@ -29,9 +29,43 @@ FactoryBot.define do
     factory :item_object do
       data { "{'title': '#{Faker::Movies::LordOfTheRings.character}', 'idno':'#{idno}'}" }
       metadata { false }
-      idno { idno }
+      idno { }
       public_release { Faker::Boolean.boolean }
       association :form, factory: :object_form
+    end 
+
+    factory :complete_digital_object_system do 
+      data {  
+        { 
+          email: 'gmail@test.com', 
+          title: 'testing'
+        }
+      }
+      metadata { false }
+      idno { }
+      public_release { Faker::Boolean.boolean }
+      association :form, factory: :complete_object_form_system
+    end
+
+    factory :complete_digital_object_user do 
+      data { 
+        { idno: 'sweet_idno_number_user_gen',
+          email: 'gmail@test.com',
+          title: 'testing'
+        } 
+      }
+      metadata { false }
+      idno { }
+      public_release { Faker::Boolean.boolean }
+      association :form, factory: :complete_object_form_user
+    end
+    
+    factory :complete_metadata_object do
+      data { "{\"title\"=>\"asdf\"}" }
+      metadata { true }
+      idno { }
+      public_release { Faker::Boolean.boolean }
+      association :form, factory: :complete_metadata_form
     end 
   end
 end

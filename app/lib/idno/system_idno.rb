@@ -25,7 +25,7 @@ class Idno::SystemIdno
   # Uses the pattern to swap the variable data for the real data.
   # @return [String] 
   # @author David J. Davis
-  def formatted_idno
+  def formatted_idno 
     first_variable = @pattern.index('#')
     last_variable = @pattern.rindex('#') 
     idno = create_idno(item_count, padding_size) 
@@ -58,4 +58,4 @@ class Idno::SystemIdno
     substring = @pattern[first_variable..last_variable]
     substring.length
   end 
-end 
+end

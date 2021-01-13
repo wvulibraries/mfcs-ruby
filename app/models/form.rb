@@ -34,11 +34,6 @@ class Form < ApplicationRecord
   # -----------------------------------------------------
   include Readonly
 
-  # Hstores
-  # -----------------------------------------------------
-  # attr_accessor :fields
-  # serialize :fields, JSON
-
   # Audits
   # -----------------------------------------------------
   audited max_audits: 2
