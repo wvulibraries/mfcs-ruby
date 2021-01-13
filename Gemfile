@@ -69,9 +69,9 @@ group :development, :test do
   gem 'pry-rails'
 
   # Code critics
-  gem 'rubocop', '>= 0.72', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rails', require: false
+  gem 'rubocop'
+  gem 'rubocop-performance'
+  gem 'rubocop-rails'
 end
 
 group :test do

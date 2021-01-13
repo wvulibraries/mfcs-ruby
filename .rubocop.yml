@@ -20,7 +20,8 @@ AllCops:
     - '.git/**/*'
     - 'bin/*'
     - 'config.ru'
-  TargetRubyVersion: 2.6
+  TargetRubyVersion: 2.7.1
+  SuggestExtensions: false
 
 Naming/PredicateName:
   # Method define macros for dynamically generated method.
