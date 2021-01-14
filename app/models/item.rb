@@ -34,20 +34,17 @@ class Item < ApplicationRecord
 
   # References the custom validation actor. Calling the actor on each field
   # except for file fields gives us a validation on this model.
-  # @author David J. Davis
-  # @return [Object] Sets form to an Active Record Object
+  # @author David J. Davis / Tracy McCormick
+  # @abstract not really a return value, it is checked by the valid? model.
   def custom_data_entry
     return true if data.blank?
-
-    data.each do |field, input|
-      next if form.file_fields.include? field
-
-      valid = Validator::Actor.new(form.id, field, input).perform
-      unless valid[:status] == true || valid[:status].nil?
-        errors.add(field, valid[:errors].join(' '))
-      end
-    end
-  end
+    if persisted? && changed? 
+      return true unless changes[:data]
+      validate_data(changed_data)
+    else
+      validate_data(data)
+    end 
+  end 
 
   # References the custom validation actor. Calling the actor on each field
   # except for file fields gives us a validation on this model.
@@ -74,4 +71,29 @@ class Item < ApplicationRecord
   def idno_set?
     idno.present? && form.object_form?
   end
+
+  private 
+    # This method loops through the data to use the Validator Actor
+    # If there is not valid then add to the errors field.
+    # @author David J. Davis / Tracy McCormick
+    # @abstract Sets errors to the item model
+    def validate_data(validation_data)
+      validation_data.each do |field, input|
+        next if form.file_fields.include? field
+        valid = Validator::Actor.new(form.id, field, input).perform
+        unless valid[:status] == true || valid[:status].nil?
+          errors.add(field, valid[:errors].join(' '))
+        end
+      end 
+    end 
+
+    # This method loops through the data to see if the data has changed
+    # from the persisted methods.
+    # @author David J. Davis
+    # @return [Hash] 
+    def changed_data
+      new_validations = {}
+      changes[:data][0].each {|key, value| new_validations[key] = changes[:data][1][key] if changes[:data][1][key] != value }
+      new_validations
+    end 
 end

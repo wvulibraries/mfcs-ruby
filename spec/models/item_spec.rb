@@ -66,12 +66,14 @@ RSpec.describe Item, type: :model do
   context 'unlocked database should save' do
     before(:each) do 
       @klass = FactoryBot.build(:complete_digital_object_system)
+      @klass.form.save
     end 
 
     it 'saves new' do
       system.value = false
       system.save
-      @klass = described_class.new
+      @klass = FactoryBot.build(:complete_digital_object_system)
+      @klass.form.save
       expect(@klass.save(validate: false)).to be_truthy
     end
 
@@ -100,16 +102,31 @@ RSpec.describe Item, type: :model do
   end 
 
   context '.custom_data_entry' do
-    it 'item should validate properly' do
+    it 'creating a new item that is not persisted works as valid' do
       item = FactoryBot.build(:complete_digital_object_user)
-      item.form.save # form needs saved for query to work
+      item.form.save # saves form first so the item can be saved
       expect(item.valid?).to be true
     end 
 
-    it 'item should validate properly' do
+    it 'updating an item should save properly' do
       item = FactoryBot.create(:complete_digital_object_user)
+      item.data['title'] = Faker::Movies::LordOfTheRings.character
+      expect(item.valid?).to be true
+    end 
+
+    it 'should delete properly' do 
+      item = FactoryBot.create(:complete_digital_object_user) 
+      item.delete
+      expect(Item.where(id: item.id)).to be_empty
+    end 
+
+    it 'should an item has duplicates and is not valid' do
+      item = FactoryBot.create(:complete_digital_object_user)
+      form = item.form
       new_item = FactoryBot.build(:complete_digital_object_user)
+      new_item.form = form 
       expect(new_item.valid?).to be false
+      expect(new_item.errors).to_not be_nil 
     end 
   end
 
