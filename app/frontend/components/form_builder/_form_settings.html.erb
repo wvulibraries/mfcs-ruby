@@ -17,7 +17,7 @@
     <!-- Popover -->
     <span class="far fa-question-circle field-help" data-toggle="popover" data-trigger="click focus hover" data-content="The display title is none unique and is used when the forms are listed.  This is the text you will read when using the interface, unless it is left empty."></span>
     <!-- Field -->
-    <%= form.text_field :display_title, data: {action: "keyup->form-preview#settingChange", preview: "displayTitle" } %>
+    <%= form.text_field :display_title, data: {action: "keyup->form-preview#settingChange change->form-preview#settingChange", preview: "displayTitle", target: "form-preview.displayTitleInput" } %>
   </div>
 
   <div class="field">
@@ -91,8 +91,9 @@
 
 <div class="hidden field">
   <%= form.hidden_field :metadata %>
-  <%= form.hidden_field :fields, {data: { target: 'form-builder.fieldSettingsJSON'}} %> 
+  <%# form.hidden_field :fields, {data: { target: 'form-builder.fieldSettingsJSON'}} %> 
   <%= form.hidden_field :idno %>
+  <input data-target="form-builder.fieldSettingsJSON" type="hidden" value="<%= @form.fields %>" name="form[fields]" id="form_fields">
 </div>
 
   

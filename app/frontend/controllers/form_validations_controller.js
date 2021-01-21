@@ -60,7 +60,7 @@ export default class FormValidations extends Controller {
       }
     })
     .catch(error => {
-      console.log(error); 
+      console.error(error); 
       console.error('Error with the API, please contact developers.'); 
     });
   }

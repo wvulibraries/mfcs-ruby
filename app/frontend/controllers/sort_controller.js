@@ -9,7 +9,6 @@ export default class extends Controller {
    * Connects the controller to the DOM
   */
   connect() { 
-    // console.log(domElms); 
     this.grabbedElm = null; 
     this.elms = null; 
     this.container = this.sortContainerTarget; 

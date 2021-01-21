@@ -1,4 +1,6 @@
 import {Controller} from "stimulus";
+// import change from "../components/events/change";
+import forceKeyUp from "../components/events/forceKeyUp";
 
 export default class extends Controller {
   // targets

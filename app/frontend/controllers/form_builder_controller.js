@@ -3,6 +3,7 @@ import Validation from "../components/validation/validation";
 import click from "../components/events/click";
 import change from "../components/events/change";
 import PurgeKeys from "../components/form_builder/purge_keys";
+import form_preview_controller from "./form_preview_controller";
 
 
 export default class extends Controller {
@@ -11,7 +12,7 @@ export default class extends Controller {
   // =============================================================
   
   // targets
-  static targets = ['formSettings', 'addFields', 'fieldSettings', 'warningMessage', 'fieldSettingsForm', 'textTemplate', 'textareaTemplate', 'idnoTemplate', 'formPreview', 'panes', 'fieldSettingsJSON'];
+  static targets = ['formSettings', 'addFields', 'fieldSettings', 'warningMessage', 'fieldSettingsForm', 'textTemplate', 'textareaTemplate', 'idnoTemplate', 'formPreview', 'panes', 'fieldSettingsJSON', 'addIdnoField', 'addTitleField', 'addSingleTextField', 'addTextareaField', 'addNumberField', 'addSelectField', 'addMultiselectField', 'addFileField', 'addWysiwygField'];
 
   // Connect 
   //  Basically Document Read Function
@@ -22,7 +23,6 @@ export default class extends Controller {
     } else { 
       // this means the form is an edit, or an errored form
       // display the form preview
-      // console.dir(JSON.parse(this.fieldSettingsJSONTarget.value));
 
       let currentFields = JSON.parse(this.fieldSettingsJSONTarget.value); 
 
@@ -148,8 +148,14 @@ export default class extends Controller {
   metadataForm(e){ 
     let metadata_field = document.querySelector('#form_metadata');
     metadata_field.value = true;  
+    // remove fields 
+    this.addFileFieldTarget.parentNode.classList.add('d-none');
+    this.addSelectFieldTarget.parentNode.classList.add('d-none');
+    this.addMultiselectFieldTarget.parentNode.classList.add('d-none');
+    this.addWysiwygFieldTarget.parentNode.classList.add('d-none');
     // create a single line item for title  
     this.createTitleField(); 
+    this.updateTitlePreviews();
   }
 
   // objectForm(e)
@@ -162,7 +168,22 @@ export default class extends Controller {
     metadata_field.value = false;  
     // create and IDNO Field 
     this.createIDNOField(); 
-    this.createTitleField(); 
+    this.createTitleField();
+    this.updateTitlePreviews();
+  }
+
+  // UpdateTitlePreviews()
+  // -------------------------------------------------------------
+  // Goes through the Input Fields in form settings to adjust and set the titles.
+  // @author: David J. Davis
+  updateTitlePreviews(){ 
+    let elmsToChange = ['form_update_button', 'form_submit_button']
+    for(let index = 0; index < elmsToChange.length; index++) {
+      let elm = document.querySelector(`#${elmsToChange[index]}`);
+      let value = elm.value;
+      let target = document.querySelector("[data-target='form-preview." + elm.dataset.preview + "']");
+      target.innerHTML = value; 
+    }
   }
 
   // newField(e)
@@ -241,7 +262,6 @@ export default class extends Controller {
   // @author: David J. Davis
   saveFieldSettings(e) { 
     e.preventDefault();
-    console.log('save settings triggered');
 
     // save data to json
     var data = {};
@@ -430,6 +450,7 @@ export default class extends Controller {
   populateForm(id, json){
     let data = json;
     let form = this.fieldSettingsFormTarget; 
+    // Populate Form 
     Object.keys(data).forEach(function(key) {    
       let input = form.querySelector('[name='+key+']');  
       if(key == 'position' || input == undefined || input == null){ return; };
@@ -447,7 +468,17 @@ export default class extends Controller {
       if (change_event_elms.includes(key)){
         change(input);
       }
-    }); 
+    });
+    // After Population of Form
+    if(data['type'] == 'idno'){ 
+      let name_element = form.querySelector('[name="name"]');
+      name_element.setAttribute("disabled", "");
+      name_element.setAttribute("readonly", "");
+    } else { 
+      let name_element = form.querySelector('[name="name"]');
+      name_element.removeAttribute("disabled", "");
+      name_element.removeAttribute("readonly", "");
+    }
   }
 
   // typeFieldsDisplay(type, state)

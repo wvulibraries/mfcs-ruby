@@ -21,9 +21,11 @@
       <%= render partial: template_path %>
     </div>
 
-    <div class="remove">
-      <span class="far fa-trash-alt" data-id="{{id}}" data-action="click->form-builder#removeField"></span>
-    </div>
+    <% unless target_name == 'form-builder.idnoTemplate' %>
+      <div class="remove">
+        <span class="far fa-trash-alt" data-id="{{id}}" data-action="click->form-builder#removeField"></span>
+      </div>
+    <% end %>
 
     <div class="sort-buttons"> 
       <span class="fas fa-arrow-circle-up sort-up" data-action="click->sort#sortUp"></span>

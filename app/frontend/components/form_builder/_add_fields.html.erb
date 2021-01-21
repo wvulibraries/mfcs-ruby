@@ -1,8 +1,10 @@
 <div class="row">
-  <div class=" col-6">
+  <div class="col-6" style="display:none;">
     <!-- IDNO FIELD -->
     <!-- ====================================== --> 
-    <a href="#" class="add-field-btn col mb-1"  data-action="click->form-builder#newField"
+    <a href="#" class="add-field-btn col mb-1"  
+                data-action="click->form-builder#newField"
+                data-target="form-builder.addIdnoField" 
                 data-type="idno"
                 data-template="idnoTemplate" 
                 data-json='{"name": "idno",
@@ -44,7 +46,9 @@
   <!-- ====================================== --> 
   <div class=" col-6">
     <!-- data attributes are used to hook into JS events -->
-    <a href="#" class="add-field-btn col mb-1"  data-action="click->form-builder#newField"
+    <a href="#" class="add-field-btn col mb-1"  
+                data-action="click->form-builder#newField"
+                data-target="form-builder.addSingleTextField" 
                 data-type="text"
                 data-template="textTemplate" 
                 data-json='{
@@ -85,7 +89,8 @@
   <div class=" col-6">
     <!-- data attributes are used to hook into JS events -->
     <a href="#" class="add-field-btn col mb-1"          
-                data-action="click->form-builder#newField" 
+                data-action="click->form-builder#newField"
+                data-target="form-builder.addTextareaField"
                 data-type="textarea"
                 data-template="textareaTemplate" 
                 data-json='{
@@ -126,7 +131,8 @@
 
   <div class=" col-6">
     <a href="#" class="add-field-btn col mb-1" 
-        data-action="click->form-builder#newField" 
+        data-action="click->form-builder#newField"
+        data-target="form-builder.addNumberField" 
         data-type="number"
         data-template="numberTemplate" 
         data-json='{
@@ -168,7 +174,8 @@
 
   <div class=" col-6">
     <a href="#" class="add-field-btn col mb-1"
-        data-action="click->form-builder#newField" 
+        data-action="click->form-builder#newField"
+        data-target="form-builder.addSelectField" 
         data-type="select"
         data-template="selectTemplate" 
         data-json='{
@@ -210,6 +217,7 @@
   <div class=" col-6">
     <a href="#" class="add-field-btn col mb-1" 
       data-action="click->form-builder#newField" 
+      data-target="form-builder.addMultiselectField"
       data-type="multiselect"
       data-template="multiselectTemplate" 
       data-json='{
@@ -251,6 +259,7 @@
   <div class=" col-6">
     <a href="#" class="add-field-btn col mb-1"
       data-action="click->form-builder#newField" 
+      data-target="form-builder.addFileField"
       data-type="file"
       data-template="fileTemplate" 
       data-json='{      
@@ -322,7 +331,8 @@
 
   <div class=" col-6">
     <a href="#" class="add-field-btn col mb-1" 
-                data-action="click->form-builder#newField" 
+                data-action="click->form-builder#newField"
+                data-target="form-builder.addWysiwygField" 
                 data-type="wysiwyg"
                 data-template="wysiwygTemplate" 
                 data-json='{

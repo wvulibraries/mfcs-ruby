@@ -15,69 +15,51 @@ export default class GeneralValidations extends Controller {
     this.validName = debounce(this.validName, 1000).bind(this)
   }
 
-  // objectForm(e)
+  // validName(e)
   // -------------------------------------------------------------
-  // click event
-  // Sets up an object form using the appropriate fields.
+  // keyup event
+  // Checks the name for spaces, spaces are not allowed.
   // @author: David J. Davis
   validName(e){
     let input = e.target.value; 
+    let current_names = this.getNames();
+
     if(Validation.checkForSpaces(input)){ 
       e.target.parentNode.classList.add('field_with_errors'); 
       e.target.parentNode.querySelector('.error-issue').classList.remove('d-none');
       e.target.parentNode.querySelector('.error-issue').classList.add('d-block');
-    } else { 
+      e.target.parentNode.querySelector('.error-issue').innerHTML = 'Field may not have spaces in it, please replace spaces with `_` or `-`.';
+    } else if(current_names.includes(input)){ 
+      e.target.parentNode.classList.add('field_with_errors'); 
+      e.target.parentNode.querySelector('.error-issue').classList.remove('d-none');
+      e.target.parentNode.querySelector('.error-issue').classList.add('d-block');
+      e.target.parentNode.querySelector('.error-issue').innerHTML = 'Duplicate name, can not name something the same as another field.';
+    } else if(input.length == 0){ 
+      e.target.parentNode.classList.add('field_with_errors'); 
+      e.target.parentNode.querySelector('.error-issue').classList.remove('d-none');
+      e.target.parentNode.querySelector('.error-issue').classList.add('d-block');
+      e.target.parentNode.querySelector('.error-issue').innerHTML = 'All fields must have a valid name.';
+    }else { 
       e.target.parentNode.classList.remove('field_with_errors'); 
       e.target.parentNode.querySelector('.error-issue').classList.remove('d-block');
       e.target.parentNode.querySelector('.error-issue').classList.add('d-none');
     }
   }
 
-  // ajaxValidation(e)
-  // -------------------------------------------------------------
-  // click event
-  // Does an Ajax Call to check validation on the input
-  // @author: David J. Davis
-  ajaxValidation(e){ 
-    // let id = 2; 
-    let url = `/api/v1/validate/validation/`;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "api_key": "something",
-        "Content-Type": "application/json"
+  getNames(){
+    let preview_elms = document.querySelectorAll('.field-preview');
+    let names_array = []
+    preview_elms.forEach(elm => {
+      let json = JSON.parse(elm.dataset.json.replace(/'/g, '"'));
+      if(elm.classList.contains('active')){
+        // do nothing
+      } else { 
+        names_array.push(json['name']); 
       }
-    })
-    .then(resp => resp.json())
-    .then(function(data) {
-      console.dir(data); 
-    })
-    .catch(function(error) {
-      console.error('Error with the API, please contact developers.'); 
-    });
+    }); 
+    return names_array;
   }
 
-  // textLength(e)
-  // -------------------------------------------------------------
-  // click event
-  // Does an Ajax Call to check validation on the input
-  // @author: David J. Davis
-  textLength(e){ 
-    let url = '/api/v1/validate/textlength'
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "api_key": "something",
-        "Content-Type": "application/json", 
-      }
-    })
-    .then(resp => resp.json())
-    .then(function(data) {
-      console.dir(data); 
-    })
-    .catch(function(error) {
-      console.error('Error with the API, please contact developers.'); 
-    });
-  }
+
 
 }

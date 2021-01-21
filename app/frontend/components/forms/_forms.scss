@@ -30,6 +30,13 @@ select {
   text-transform: none; /* remove inheritance Edge, Firefox, IE */
 }
 
+input:disabled, input:read-only, textarea:disabled, textarea:read-only {
+  background: $border-color !important;
+  color: darken($font-color, 10%);
+  border: 2px solid darken($border-color, 5%) !important;
+  cursor:not-allowed;
+}
+
 select[multiple] {
   -moz-appearance: menulist;
   -webkit-appearance: menulist;

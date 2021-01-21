@@ -13,25 +13,26 @@ export default class extends Controller {
     // get the value then create a fetch option
     let form_id = e.target.value; 
     let field_select = this.fieldChoiceTarget; 
-    // let id = 2; 
-    let url = `/api/v1/form/${form_id}/fields`;
-    fetch(url, {
-      method: "GET",
-      headers: {
-        "api_key": "something",
-        "Content-Type": "application/json"
-      }
-    })
-    .then(resp => resp.json())
-    .then(function(data) {
-      data.forEach(function(option){ 
-        field_select.add(
-        new Option(option.label, option.name, false));
+    if(form_id){
+      let url = `/api/v1/form/${form_id}/fields`;
+      fetch(url, {
+        method: "GET",
+        headers: {
+          "api_key": "something",
+          "Content-Type": "application/json"
+        }
+      })
+      .then(resp => resp.json())
+      .then(function(data) {
+        data.forEach(function(option){ 
+          field_select.add(
+          new Option(option.label, option.name, false));
+        });
+      })
+      .catch(function(error) {
+        console.error('Error with the API, please contact developers.'); 
       });
-    })
-    .catch(function(error) {
-      console.error('Error with the API, please contact developers.'); 
-    });
+    }
   }
   
   // toggle_choices(e)

@@ -26,7 +26,7 @@ export default class Watermark extends Controller {
       });
     })
     .catch(function(error) {
-      console.log(error);
+      console.error(error);
       console.error('Error with the API, please contact developers.'); 
     });
   }
