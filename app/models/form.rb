@@ -50,6 +50,8 @@ class Form < ApplicationRecord
             length: { within: 1..250 },
             uniqueness: true
 
+  validate :valid_form_type, :valid_metadata_form, :valid_object_form
+
   # Associations
   # -----------------------------------------------------
   has_many :permissions
@@ -104,12 +106,26 @@ class Form < ApplicationRecord
   def fields
     self[:fields].to_json if self[:fields].present?
   end
+  alias :fields_json :fields
 
   # Returns as a fields hash for use in views that aren't javascript produced.
   # @author David J. Davis
   # @return ruby hash
   def fields_hash
     self[:fields]
+  end
+
+  # This creates a searchable, and quickly extractable version of the hashes.
+  # @author David J. Davis
+  # @return Set of strings
+  def organized_hash
+    @organized_hash ||= begin
+      tmp_hash = {}
+      self[:fields].each do |field|
+        tmp_hash[field['name']] = field
+      end
+      tmp_hash.with_indifferent_access
+    end
   end
 
   # Creates a set of strings that are associated with the fieldnames
@@ -142,6 +158,22 @@ class Form < ApplicationRecord
     end
   end
 
+  # This creates a set of strings that are associated with validations.
+  # This will make testing if a validaiton needs to take place very fast.
+  # @author David J. Davis
+  # @return Set of strings
+  def check_validations
+    @check_validations ||= begin
+      validation_set = Set.new
+      self[:fields].each do |field|
+        if field['validation'].present? || field['validation_regex'].present?
+          validation_set << field['name']
+        end
+      end
+      validation_set
+    end
+  end
+
   # Loops through fields until the idno field is grabbed
   # Should only be one so the field is returned directly from the loop
   # @author David J. Davis
@@ -169,40 +201,48 @@ class Form < ApplicationRecord
     Form.find(forms_set.to_a)
   end
 
-  # This creates a set of strings that are associated with validations.
-  # This will make testing if a validaiton needs to take place very fast.
-  # @author David J. Davis
-  # @return Set of strings
-  def check_validations
-    @check_validations ||= begin
-      validation_set = Set.new
-      self[:fields].each do |field|
-        if field['validation'].present? || field['validation_regex'].present?
-          validation_set << field['name']
-        end
-      end
-      validation_set
-    end
-  end
-
-  # This creates a searchable, and quickly extractable version of the hashes.
-  # @author David J. Davis
-  # @return Set of strings
-  def organized_hash
-    @organized_hash ||= begin
-      tmp_hash = {}
-      self[:fields].each_with_index do |field, i|
-        if field.key?('name')
-          tmp_hash[field['name']] = field
-        else
-          tmp_hash[i] = field
-        end
-      end
-      tmp_hash.with_indifferent_access
-    end
-  end
-
   private
+  # Sets an error message if metadata is nil which it should never be.
+  # @author David J. Davis
+  # @abstract add errors and changes .valid? bool
+  def valid_form_type
+    if metadata.nil?
+      errors.add('field', 'Some how the Metadata and Object Fields have not been set, please resubmit the form.')
+    end   
+  end
+
+  # Checks form type, metadata?, then counts the number fields.
+  # @author David J. Davis
+  # @abstract add errors and changes .valid? bool
+  def valid_metadata_form
+    if metadata? && (self.fields_hash.count < 1) 
+      errors.add('field', 'Metadata forms must contain at least one field, please add a field')
+    end 
+  end 
+
+  # Checks form type, object_form?, then counts the number fields.
+  # @author David J. Davis
+  # @abstract add errors and changes .valid? bool
+  def valid_object_form
+    if object_form? && (self.fields_hash.count <= 2)
+      errors.add('field', 'Object forms must contain at least 2 fields one of them being an idno field.')
+    end 
+  end 
+
+  # References a method to check for duplicate names in the fields. 
+  # @author David J. Davis
+  # @abstract add errors and changes .valid? bool
+  def valid_field_names 
+    errors.add('fields', 'Field names must not be the same. Please check the names of all form fields.') if has_duplicate_names?
+  end 
+  
+  # Plucks the name from all fields.
+  # @author David J. Davis
+  # @return [Boolean]
+  def has_duplicate_names?
+    names = fields_hash.pluck('name')
+    names.uniq.length != names.length
+  end 
 
   # Setting some defaults for the forms to match current behaviors
   # of the existing app. These will be the defaults.

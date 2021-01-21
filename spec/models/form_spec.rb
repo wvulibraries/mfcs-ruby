@@ -33,9 +33,7 @@ require 'rails_helper'
 require 'json'
 
 RSpec.describe Form, type: :model do
-  let(:field_info) do 
-    field_info = {"name"=>"idno", "type"=>"idno", "label"=>"Identifier", "value"=>"", "css_id"=>"", "hidden"=>false, "disabled"=>false, "field_id"=>"9429974999744445", "help_url"=>"", "required"=>true, "sortable"=>true, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "managed_by"=>"System", "searchable"=>true, "sort_order"=>"1", "validation"=>"", "idno_format"=>"testing_#####_idno", "oai_release"=>true, "placeholder"=>"", "local_styles"=>"", "no_duplicates"=>true, "public_release"=>true, "display_in_list"=>true, "start_increment"=>"", "validation_regex"=>"", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[]}
-  end 
+  let(:form_stub) { FactoryBot.build_stubbed :form }
 
   # shared examples
   context 'shared examples' do
@@ -97,6 +95,71 @@ RSpec.describe Form, type: :model do
       it { should validate_length_of(:display_title).is_at_most(250) }
       it { should validate_uniqueness_of(:display_title) }
     end
+
+    context '.valid_form_type' do 
+      it 'should have a metadata fields set at all times "TRUE"' do
+        form_stub.metadata = true
+        expect(form_stub.send(:valid_form_type)).to be_nil
+      end
+
+      it 'should have a metadata fields set at all times "FALSE"' do
+        form_stub = FactoryBot.build_stubbed :complete_object_form_system
+        expect(form_stub.send(:valid_form_type)).to be_nil  
+      end
+       
+      it 'should fail as metadata field value was not set' do 
+        form_stub.metadata = nil
+        expect(form_stub.send(:valid_form_type)).to be_truthy
+      end 
+    end 
+
+    context '.valid_metadata_form' do
+      it 'should be valid with enough fields' do
+        expect(form_stub.send(:valid_metadata_form)).to be_nil
+      end
+
+      it 'should be invalid and return an error' do
+        form_stub.fields = []
+        expect(form_stub.send(:valid_metadata_form)).to be_truthy
+      end
+    end 
+
+    context '.valid_object_form' do
+      it 'should be valid with enough fields' do
+        form_stub = FactoryBot.build_stubbed :complete_object_form_system 
+        expect(form_stub.send(:valid_object_form)).to be_nil
+      end
+
+      it 'should be invalid and return an error' do
+        form_stub = FactoryBot.build_stubbed :complete_object_form_system 
+        form_stub.fields = []
+        expect(form_stub.send(:valid_object_form)).to be_truthy
+      end
+    end 
+
+    context '.valid_field_names' do
+      it 'should be valid because there are no duplicate fields' do
+        form_stub = FactoryBot.build_stubbed :complete_object_form_system 
+        expect(form_stub.send(:valid_field_names)).to be_nil
+      end
+
+      it 'should be invalid because there are duplicate fields' do
+        form_stub = FactoryBot.build_stubbed :duplicate_invalid_object_form
+        expect(form_stub.send(:valid_field_names)).to be_truthy
+      end
+    end 
+
+    context '.has_duplicate_names?' do 
+      it 'should return true for having duplicate names' do
+        form_stub = FactoryBot.build_stubbed :duplicate_invalid_object_form
+        expect(form_stub.send(:has_duplicate_names?)).to be true
+      end
+
+      it 'should return false for not having duplicate names' do
+        form_stub = FactoryBot.build_stubbed :complete_object_form_system 
+        expect(form_stub.send(:has_duplicate_names?)).to be false
+      end
+    end 
   end
 
   # permissions association
@@ -110,7 +173,7 @@ RSpec.describe Form, type: :model do
       it { should have_many(:items) }
     end 
 
-    context 'viewers test' do
+    context 'multiple permission types' do
       it 'valid permission test' do
         form = FactoryBot.create(:form)
         user = FactoryBot.create(:user, :basic) 
@@ -180,31 +243,45 @@ RSpec.describe Form, type: :model do
     end
   end
 
-  # settings some json field data 
-  context 'imported data' do
-    it 'valid json production data that will save in the database' do
-      f = FactoryBot.build(:form)
-      f.fields = JSON.parse(file_fixture('pec.json').read)
-      expect(f.valid?).to be true
-      expect(f.save).to be true
-    end
-  end
+  context '.metadata?' do
+    it 'true the metadata boolean is applied' do
+      form = FactoryBot.build_stubbed(:complete_metadata_form)
+      expect(form.metadata?).to eq true   
+    end 
+
+    it 'false the metadata boolean is not applied' do
+      form = FactoryBot.build_stubbed(:complete_object_form_system)
+      expect(form.metadata?).to eq false 
+    end 
+  end 
+
+  context '.object_form?' do
+    it 'true metadata boolean should be false' do
+      form = FactoryBot.build_stubbed(:complete_metadata_form)
+      expect(form.object_form?).to eq false 
+    end 
+
+    it 'false metadata boolean should be true' do
+      form = FactoryBot.build_stubbed(:complete_object_form_system)
+      expect(form.object_form?).to eq true 
+    end 
+  end 
 
   context '.linked_forms' do
     it 'expects empty array for non-hash items' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       expect(data.linked_forms).to be_a Array
     end
 
     it 'expects empty array for items without links' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
       expect(data.linked_forms).to be_a Array
       expect(data.linked_forms).to eq []
     end
 
     it 'expects an array of integers from productions style data' do
-      f = FactoryBot.build(:form)
+      f = FactoryBot.build_stubbed(:form)
       f.fields = JSON.parse(file_fixture('pec.json').read)
       expect(f.linked_forms).to eq([1, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14])
     end
@@ -212,12 +289,13 @@ RSpec.describe Form, type: :model do
 
   context '.fields' do
     it 'expects the data to be a json string unless blank or nil' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
+      data.fields = nil 
       expect(data.fields).to be nil
     end 
 
     it 'expects that json to be a string' do
-      f = FactoryBot.build(:form)
+      f = FactoryBot.build_stubbed(:form)
       f.fields = JSON.parse(file_fixture('pec.json').read)
       expect(f.fields).to be_a String
     end 
@@ -226,32 +304,24 @@ RSpec.describe Form, type: :model do
   context 'scopes' do
     context '.object_forms' do
       it 'expects it to include the form' do
-        data = FactoryBot.build(:form)
-        data.metadata = false
-        data.save 
+        data = FactoryBot.create(:complete_object_form_user)
         expect(Form.object_forms).to include(data)
       end 
 
-      it 'expects it to include the form' do
-        data = FactoryBot.build(:form)
-        data.metadata = true
-        data.save 
+      it 'expects it to not include the form' do
+        data = FactoryBot.create(:complete_metadata_form)
         expect(Form.object_forms).to_not include(data)
       end
     end
 
     context '.metadata_forms' do
       it 'expects it to include the form' do
-        data = FactoryBot.build(:form)
-        data.metadata = true
-        data.save 
+        data = FactoryBot.create(:complete_metadata_form)
         expect(Form.metadata_forms).to include(data)
       end 
 
-      it 'expects it to include the form' do
-        data = FactoryBot.build(:form)
-        data.metadata = false
-        data.save 
+      it 'expects it to not include the form' do
+        data = FactoryBot.create(:complete_object_form_user)
         expect(Form.metadata_forms).to_not include(data)
       end
     end
@@ -259,18 +329,14 @@ RSpec.describe Form, type: :model do
 
   context 'audits' do
     it 'Should respond to audit methods' do
-      form = FactoryBot.build(:form)
-      form.metadata = false
-      form.save 
+      form = FactoryBot.create(:form)
       expect(form.respond_to?(:audits)).to be true
     end
 
     it 'should have a few audits' do
-      form = FactoryBot.build(:form)
-      form.metadata = false
-      form.save 
-      form.update(metadata: true)
+      form = FactoryBot.create(:form)
       form.update(title: 'Another Title') 
+      form.update(title: 'Change this again')
       expect(form.respond_to?(:audits)).to be true
       expect(form.audits.count).to eq 2
     end 
@@ -278,25 +344,40 @@ RSpec.describe Form, type: :model do
 
   context '.fields' do
     it 'should return nil if there is nothing there' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
+      data.fields = []
       expect(data.fields).to be_nil
+      expect(data.valid?).to be false
     end 
 
     it 'should return a json string if there is data that exists' do
-      data = FactoryBot.build(:form)
-      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
+      data = FactoryBot.build_stubbed(:form) 
       expect(data.fields).to be_a String
+    end 
+  end
+
+  context '.fields_json' do
+    it 'should return nil if there is nothing there' do
+      data = FactoryBot.build_stubbed(:form)
+      data.fields = []
+      expect(data.fields_json).to be_nil
+      expect(data.valid?).to be false
+    end 
+
+    it 'should return a json string if there is data that exists' do
+      data = FactoryBot.build_stubbed(:form) 
+      expect(data.fields_json).to be_a String
     end 
   end
   
   context '.fields_hash' do
     it 'should return nil if there is nothing there' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       expect(data.fields_hash).to be_a Array
     end 
 
     it 'should return a json string if there is data that exists' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
       expect(data.fields_hash).to be_a Array
     end 
@@ -304,142 +385,122 @@ RSpec.describe Form, type: :model do
 
   context '.organized_hash' do
     it 'it will be a hash still even if no data exists' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       expect(data.organized_hash).to be_a Hash
-    end 
-
-    it 'should have a key of 0 because no name exists' do 
-      data = FactoryBot.build(:form)
-      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf' }] 
-      expect(data.organized_hash).to be_a Hash
-      expect(data.organized_hash).to have_key(0)
     end 
 
     it 'should have a key with a name because the name exists' do
-      data = FactoryBot.build(:form)
-      data.fields = [{ item: 'testing', idno: '192848;dflkjadsf', name:'identifier' }] 
+      data = FactoryBot.build_stubbed(:form)
       expect(data.organized_hash).to be_a Hash
-      expect(data.organized_hash).to have_key('identifier')
-    end 
-  end 
-
-  context '.associated_metadata_forms' do
-    it 'expects the choice form to exist and contain one number as a set' do
-      data = FactoryBot.build(:form)
-      metadata_form = FactoryBot.create(:metadata_form)
-
-      data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"#{metadata_form.id}", "choice_null"=>true, "choice_type"=>"link_to_form", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"title", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
-      data.save! 
-      
-      expect(data.associated_metadata_forms).to be_a Array
-      expect(data.associated_metadata_forms.pluck(:id)).to include metadata_form.id
-    end
-   
-    it 'expects to be empty' do
-      data = FactoryBot.build(:form)
-      data.fields = [{"name"=>"dropdown", "type"=>"select", "label"=>"A dropdown menu", "value"=>"", "css_id"=>"", "hidden"=>false, "choices"=>"Awesome", "disabled"=>false, "field_id"=>"10518135000020266", "help_url"=>"", "required"=>false, "sortable"=>false, "css_class"=>"", "help_info"=>"", "help_type"=>"", "read_only"=>false, "searchable"=>false, "sort_order"=>"4", "validation"=>"", "choice_form"=>"", "choice_null"=>true, "choice_type"=>"manual", "oai_release"=>false, "placeholder"=>"", "choice_array"=>"Testing,Something Really Cool,Awesome", "local_styles"=>"", "no_duplicates"=>false, "default_choice"=>"", "public_release"=>true, "display_in_list"=>false, "validation_regex"=>"", "choice_form_field"=>"", "disabled_on_insert"=>false, "disabled_on_update"=>false, "metadata_standards"=>[{"schema"=>"Dublin Core", "identifier"=>"idea", "qualifier"=>"magnets"}, {"schema"=>"Dublin Core", "identifier"=>"usage", "qualifier"=>"rightsStatement"}]}]
-      data.save! 
-
-      expect(data.associated_metadata_forms).to be_a Array
-      expect(data.associated_metadata_forms.count).to eq 0
+      expect(data.organized_hash).to have_key('title')
     end
   end 
 
   context '.check_duplicates' do
     it 'should return an empty set for no data' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       expect(data.check_duplicates).to be_a Set
       expect(data.check_duplicates.count).to eq 0
     end
 
     it 'should return a set of field names' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       data.fields = JSON.parse(file_fixture('pec.json').read)
       expect(data.check_duplicates.count).to eq 1
       expect(data.check_duplicates).to be_a Set
     end
   end 
 
-  context '.check_validations' do
-    it 'should return an empty set for no data' do
-      data = FactoryBot.build(:form)
-      expect(data.check_validations).to be_a Set
-      expect(data.check_validations.count).to eq 0
-    end
-
-    it 'should return a set of field names' do
-      data = FactoryBot.build(:form)
-      data.fields = JSON.parse(file_fixture('pec.json').read)
-      expect(data.check_validations.count).to eq 1
-      expect(data.check_validations).to be_a Set
-    end
-  end
-
   context '.file_fields' do
     it 'should return an empty set for no data' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       expect(data.file_fields).to be_a Set
       expect(data.file_fields.count).to eq 0
     end
 
     it 'should return a set of field names' do
-      data = FactoryBot.build(:form)
+      data = FactoryBot.build_stubbed(:form)
       data.fields = JSON.parse(file_fixture('pec.json').read)
       expect(data.file_fields.count).to eq 1
       expect(data.file_fields).to be_a Set
     end
   end
 
-  context '.metadata?' do
-    before(:each) do 
-      @form = FactoryBot.create(:form)
+  context '.check_validations' do
+    it 'should return an empty set for no data' do
+      data = FactoryBot.build_stubbed(:form)
+      expect(data.check_validations).to be_a Set
+      expect(data.check_validations.count).to eq 0
     end
 
-    it 'true the metadata boolean is applied' do
-      @form.metadata = true 
-      expect(@form.metadata?).to eq true   
-    end 
-
-    it 'false the metadata boolean is not applied' do
-      @form.metadata = false
-      expect(@form.metadata?).to eq false 
-    end 
-  end 
-
-  context '.object_form?' do
-    before(:each) do 
-      @form = FactoryBot.create(:form)
+    it 'should return a set of field names' do
+      data = FactoryBot.build_stubbed(:form)
+      data.fields = JSON.parse(file_fixture('pec.json').read)
+      expect(data.check_validations.count).to eq 1
+      expect(data.check_validations).to be_a Set
     end
-
-    it 'false the metadata boolean is applied, the form is not an object form' do
-      @form.metadata = true 
-      expect(@form.object_form?).to eq false
-    end 
-
-    it 'true the metadata boolean is not applied, the form is an object form' do
-      @form.metadata = false
-      expect(@form.object_form?).to eq true
-    end 
-  end 
+  end
 
   context '.idno_field' do
-    before(:each) do 
-      @form = FactoryBot.create(:form)
-    end
-
-    it 'should return nil if it is a metadata form' do
-      @form.metadata = true 
-      @form.fields = [field_info]
-      @form.save   
-      expect(@form.idno_field).to be_nil
+     it 'should return nil if it is a metadata form' do
+      form = FactoryBot.build_stubbed(:complete_metadata_form)
+      expect(form.idno_field).to be_nil
     end
     
     it 'should return the idno hash' do
-      @form.metadata = false
-      @form.fields = [field_info]
-      @form.save   
-      expect(@form.idno_field).to be_a Hash
+      form = FactoryBot.build_stubbed(:complete_object_form_user)
+      expect(form.idno_field).to be_a Hash
     end 
+  end 
+
+  context '.associated_metadata_forms' do 
+    it 'should return empty array' do 
+      form = FactoryBot.build_stubbed(:complete_object_form_user)
+      expect(form.associated_metadata_forms).to be_empty 
+    end 
+
+    it 'should return array of forms' do
+      form = FactoryBot.create(:complete_object_form_system)
+      md_form = FactoryBot.create(:complete_metadata_form)
+      form[:fields].push({
+        "name" => "multiselect",
+        "type" => "multiselect",
+        "label" => "Some Multiselect",
+        "value" => "",
+        "css_id" => "",
+        "hidden" => false,
+        "choices" => "",
+        "disabled" => false,
+        "field_id" => "1351284699998796",
+        "help_url" => "",
+        "required" => false,
+        "sortable" => false,
+        "css_class" => "",
+        "help_info" => "",
+        "help_type" => "",
+        "read_only" => false,
+        "searchable" => false,
+        "sort_order" => "5",
+        "validation" => "",
+        "choice_form" => "#{md_form.id}",
+        "choice_null" => true,
+        "choice_type" => "link_to_form",
+        "oai_release" => false,
+        "placeholder" => "",
+        "choice_array" => "",
+        "local_styles" => "",
+        "no_duplicates" => false,
+        "default_choice" => "",
+        "public_release" => true,
+        "display_in_list" => false,
+        "validation_regex" => "",
+        "choice_form_field" => "title",
+        "disabled_on_insert" => false,
+        "disabled_on_update" => false,
+        "metadata_standards" => ""
+      })
+      expect(form.associated_metadata_forms.count).to eq 1
+    end
   end 
   
 end
