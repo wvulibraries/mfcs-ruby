@@ -65,4 +65,44 @@ export default class FormValidations extends Controller {
     });
   }
 
+  // allowedFileTypes(e)
+  // -------------------------------------------------------------
+  // Any time the file field is changed check the file types to
+  // ensure that a file is not being uploaded that is not allowed.
+  // between calls.  
+  // @author: David J. Davis
+  allowedFileTypes(e){ 
+    let allowedFiles = e.target.dataset.allowedFileTypes.split(','); 
+    let files = e.target.files;
+    let feedbackElm = e.target.parentNode.querySelector('.feedback');
+
+    let errors = []
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      let name = file.name; 
+      let fileExt = name.split('.').pop();
+      let type = file.type.split('/').pop(); 
+
+      if(allowedFiles.includes(fileExt) || allowedFiles.includes(type)){ 
+        console.log('valid file');
+      } else { 
+        errors.push(name); 
+      }
+    }
+
+    if(errors.length){ 
+      e.target.classList.add('is-invalid');
+      feedbackElm.classList.add('invalid-feedback');
+      let feedbackStr = 'The following files are not valid types: ';
+          feedbackStr += errors.join(','); 
+          feedbackStr += '. Please add the correct file types or modify the forms allowed file types.'; 
+      feedbackElm.innerHTML = feedbackStr; 
+      document.querySelector('input[type="submit"]').setAttribute('disabled', 'disabled')
+    } else { 
+      e.target.classList.remove('is-invalid');
+      feedbackElm.classList.remove('invalid-feedback');
+      feedbackElm.innerHTML = '';
+      document.querySelector('input[type="submit"]').removeAttribute('disabled', 'disabled')
+    }
+  }
 }
