@@ -25,6 +25,10 @@ class Media < ApplicationRecord
   # ------------------------------------------------------
   # validates :filename, :path, :form_id, :item_id, presence: true
   validates :filename, :path, :form_id, presence: true
+  
+  # Associations 
+  # -----------------------------------------------------
+  belongs_to :form
 
   # RAILS CALLBACKS
   # -----------------------------------------------------
