@@ -28,8 +28,11 @@
   <% end %>
 
   <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Number of Files </dt> 
-    <dd class="col"><%= @item['data']['files'].count %> </dd>
+     
+    <% @form.file_fields.each do |f| %>
+      <dt class="col"> Number of Files for <%= f %> </dt>  
+      <dd class="col"> <%= @item['data'][f].count %> </dd>
+    <% end %>
   </div>
   
   <div class="row p-1 m-0 border-bottom">
