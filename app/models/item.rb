@@ -34,20 +34,6 @@ class Item < ApplicationRecord
 
   # References the custom validation actor. Calling the actor on each field
   # except for file fields gives us a validation on this model.
-  # @author David J. Davis / Tracy McCormick
-  # @abstract not really a return value, it is checked by the valid? model.
-  def custom_data_entry
-    return true if data.blank?
-    if persisted? && changed? 
-      return true unless changes[:data]
-      validate_data(changed_data)
-    else
-      validate_data(data)
-    end 
-  end 
-
-  # References the custom validation actor. Calling the actor on each field
-  # except for file fields gives us a validation on this model.
   # @author David J. Davis
   # @return [truthy] possible return of IDNO
   def idno_setups
@@ -69,8 +55,23 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [Boolean] 
   def idno_set?
+    return true if persisted? 
     idno.present? && form.object_form?
   end
+
+  # References the custom validation actor. Calling the actor on each field
+  # except for file fields gives us a validation on this model.
+  # @author David J. Davis / Tracy McCormick
+  # @abstract not really a return value, it is checked by the valid? model.
+  def custom_data_entry
+    return true if data.blank?
+    if persisted?
+      return true unless changes[:data]
+      validate_data(changed_data)
+    else
+      validate_data(data)
+    end 
+  end 
 
   private 
     # This method loops through the data to use the Validator Actor
