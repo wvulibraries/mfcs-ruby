@@ -65,7 +65,8 @@ class Items::DigitalObjectsController < ApplicationController
   # PATCH/PUT /items/digital_objects/1
   def update
     @form = Form.find(@item.form_id)
-
+    @item.attributes = item_params
+    
     if @item.valid?
       @form.file_fields.each do |field|
         @item[:data][field] = [] if @item[:data][field].nil?
@@ -80,13 +81,14 @@ class Items::DigitalObjectsController < ApplicationController
       end
     end
 
-    if @item.save
+    if @item.valid? && @item.save
       redirect_to '/items/digital_objects', success: 'Digital object was successfully updated.'
     else
       # clear files because we can't insert the file back into the upload box
       @form.file_fields.each do |field|
-        @item[:data][field] = []
+        item_params[:data][field]
       end
+      
       # render the new item
       render :edit
     end
