@@ -1,7 +1,8 @@
 version: '3'
+
 services:
-  db:
-    container_name: db
+  postgres:
+    container_name: mfcs_db
     restart: always
     image: postgres:10
     ports:
@@ -11,33 +12,16 @@ services:
     volumes:
       - ./postgresdata/db:/var/lib/postgresql/data
 
-  elasticsearch:
-    image: elasticsearch:6.6.0
-    container_name: elasticsearch
+  redis:
+    image: 'redis:5-alpine'
+    container_name: mfcs_redis
+    command: redis-server
     restart: always
-    volumes: 
-      - ./search_data:/usr/share/elasticsearch/data
-    ports: 
-      - 9200:9200
-      - 9300:9300
-  
-  webpacker:
-    build: .
-    container_name: webpacker
-    environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
-    command: ./bin/webpack-dev-server
     volumes:
-      - .:/home/mfcs
-    ports:
-      - '3035:3035'
-  
+      - ./redis:/var/lib/redis/data
+
   mfcs: 
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    build: .
     tty: true
     stdin_open: true
     container_name: mfcs
@@ -47,7 +31,7 @@ services:
       - DATABASE_PASSWORD=docker
       - ELASTICSEARCH_URL=http://elasticsearch:9200
       - TERM=xterm 
-      # - SELENIUM_REMOTE_HOST=selenium
+      - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/12
       # - RAILS_ENV=production # replace with your current environment development or production
     volumes:
       - ./:/home/mfcs
@@ -55,5 +39,43 @@ services:
       - "3000:3000" 
       - "3001:3001"
     links:
-      - elasticsearch
-      - db
+      - 'postgres'
+      - 'redis'
+      - 'elasticsearch'
+
+  sidekiq:
+    container_name: mfcs_sidekiq
+    links:
+      - 'postgres'
+      - 'redis'
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    volumes:
+      - ./:/home/mfcs
+
+  webpacker:
+    build: .
+    container_name: mfcs_webpack
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
+    command: ./bin/webpack-dev-server
+    volumes:
+      - .:/home/mfcs
+    ports:
+      - '3035:3035'
+    
+  elasticsearch:
+    image: elasticsearch:6.6.0
+    container_name: mfcs_elasticsearch
+    restart: always
+    volumes: 
+      - ./search_data:/usr/share/elasticsearch/data
+    ports: 
+      - 9200:9200
+      - 9300:9300
+
+volumes:
+  redis:
+  postgres:

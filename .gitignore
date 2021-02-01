@@ -55,3 +55,4 @@ yarn-debug.log*
 # Ignore File Uploads.
 /data/*
 /tests/*
+docker-reset.sh
