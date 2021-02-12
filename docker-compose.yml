@@ -50,6 +50,12 @@ services:
       - 'redis'
     build: .
     command: bundle exec sidekiq -C config/sidekiq.yml
+    environment:
+      - SECRET_KEY_BASE=test
+      - DATABASE_PASSWORD=docker
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
+      - TERM=xterm 
+      - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/12
     volumes:
       - ./:/home/mfcs
 

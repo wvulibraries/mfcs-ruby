@@ -54,7 +54,7 @@ class Form < ApplicationRecord
 
   # Associations
   # -----------------------------------------------------
-  has_many :permissions
+  has_many :permissions, dependent: :destroy
 
   # Viewers, Creators, Admins, and Contacts Methods for Permissions System
   has_many :viewers, -> { where(permission: :viewer) }, class_name: 'Permission'

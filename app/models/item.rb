@@ -7,6 +7,7 @@
 #  idno           :string
 #  metadata       :boolean
 #  public_release :boolean
+#  uuid           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  form_id        :integer
@@ -19,6 +20,7 @@ class Item < ApplicationRecord
   # Associations
   # -----------------------------------------------------
   belongs_to :form
+  has_many :media
 
   # Audits
   # -----------------------------------------------------
@@ -30,6 +32,7 @@ class Item < ApplicationRecord
 
   # Callbacks
   # -----------------------------------------------------
+  after_initialize :set_defaults, unless: :persisted?
   before_save :idno_setups, unless: proc { idno_set? }
 
   # References the custom validation actor. Calling the actor on each field
@@ -38,7 +41,7 @@ class Item < ApplicationRecord
   # @return [truthy] possible return of IDNO
   def idno_setups
     # skips the hole process if a metadata form
-    return if form.metadata?
+    return if form.nil? || form.metadata?
 
     idno_settings = form.idno_field
     if idno_settings['managed_by'].to_s.casecmp('system').zero?
@@ -72,6 +75,59 @@ class Item < ApplicationRecord
       validate_data(data)
     end 
   end 
+
+  # Paths for variety of Media
+  # -----------------------------------------------------
+  # Archival Path
+  # Files should be stored here and then never used again.
+  # @author David J. Davis
+  # @return [String]
+  def archival_path
+    Rails.root.join('data', form_id.to_s, uuid_path, 'archives')
+  end
+  alias archive_path archival_path
+
+  # Working Path
+  # A duplicate of the file in the archival path that should be
+  # used for conversions and in system use.
+  # @author David J. Davis
+  # @return [String]
+  def working_path
+    Rails.root.join('data', form_id.to_s, uuid_path, 'working')
+  end
+
+  # Conversion Path
+  # The path where conversions will be stored
+  # @author David J. Davis
+  # @return [String]
+  def conversion_path
+    Rails.root.join('data', form_id.to_s, uuid_path, 'conversions')
+  end
+
+  # Export
+  # The path where exports will be stored.
+  # @author David J. Davis
+  # @return [String]
+  def export_path
+    Rails.root.join('data', form_id.to_s, uuid_path, 'exports')
+  end
+
+  # Splits the UUID into a path string
+  # @author David J. Davis
+  # @return [String]
+  def uuid_path
+    uuid.tr('-', '/')
+  end
+
+  # Callback Methods
+  # -----------------------------------------------------
+
+  # The helper methods to set default values
+  # @author David J. Davis
+  # @abstract
+  def set_defaults
+    self.uuid ||= SecureRandom.uuid
+  end
 
   private 
     # This method loops through the data to use the Validator Actor

@@ -49,6 +49,7 @@ gem 'to_regexp', '~> 0.2.1'
 
 # files 
 gem 'marcel', '~> 0.3.1' # checks mime types
+gem 'mini_magick', '~> 4.11' # wrapper for imagemagick
 
 # Test Suite
 # =====================================================================================

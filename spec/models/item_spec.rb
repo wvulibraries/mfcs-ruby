@@ -7,6 +7,7 @@
 #  idno           :string
 #  metadata       :boolean
 #  public_release :boolean
+#  uuid           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  form_id        :integer
@@ -29,6 +30,7 @@ RSpec.describe Item, type: :model do
     it { should have_db_column(:created_at).of_type(:datetime) }
     it { should have_db_column(:updated_at).of_type(:datetime) }
     it { should have_db_column(:form_id).of_type(:integer) }
+    it { should have_db_column(:uuid).of_type(:string) }
   end
   
   # Associations
@@ -159,14 +161,124 @@ RSpec.describe Item, type: :model do
 
   context '.idno_set?' do
     it 'should be false because idno_setups has not been run yet' do
-      item = FactoryBot.build_stubbed(:complete_digital_object_user)
+      item = FactoryBot.build(:complete_digital_object_user)
       expect(item.idno_set?).to be false
     end
 
     it 'should be true because the setups has been run' do
-      item = FactoryBot.build_stubbed(:complete_digital_object_user)
+      item = FactoryBot.build(:complete_digital_object_user)
       item.idno_setups
       expect(item.idno_set?).to be true
+    end 
+  end
+
+  # UUID
+  # ================================================================
+  context 'Default UUID' do
+    it 'expects the uuid to be generated' do
+      expect(item.uuid).to be_a String
+    end 
+
+    it 'exepects the uuid to be 36 characters' do
+      expect(item.uuid.length).to eq 36
+    end 
+
+    it 'expects uuid to stay the same after a save' do
+      item = FactoryBot.build(:complete_digital_object_system)
+      puts item.inspect
+      uuid = item.uuid
+      item.data['title'] = 'testing.txt'
+      item.save validate: false
+      expect(item.uuid).to eq uuid  
+    end 
+  end
+
+  # File Paths
+  # ===============================================================
+  context '.archival_path' do
+    it 'should return a pathname' do
+      expect(item.archival_path).to be_a Pathname  
+    end 
+
+    it 'should contain form_id' do
+      expect(item.archival_path.to_s).to include item.form_id.to_s
+    end 
+
+    it 'should contain uuid_path' do
+      expect(item.archival_path.to_s).to include item.uuid_path
+    end 
+
+    it 'should contain data/archives' do
+      expect(item.archival_path.to_s).to include 'data'
+      expect(item.archival_path.to_s).to include 'archives'
+    end 
+  end
+
+  context '.working_path' do
+    it 'should return a pathname' do
+      expect(item.working_path).to be_a Pathname  
+    end 
+
+    it 'should contain form_id' do
+      expect(item.working_path.to_s).to include item.form_id.to_s
+    end 
+
+    it 'should contain uuid_path' do
+      expect(item.working_path.to_s).to include item.uuid_path
+    end 
+
+    it 'should contain data/working' do
+      expect(item.working_path.to_s).to include 'data'
+      expect(item.working_path.to_s).to include 'working'
+    end 
+  end
+
+  context '.conversion_path' do
+    it 'should return a pathname' do
+      expect(item.conversion_path).to be_a Pathname  
+    end 
+
+    it 'should contain form_id' do
+      expect(item.conversion_path.to_s).to include item.form_id.to_s
+    end 
+
+    it 'should contain uuid_path' do
+      expect(item.conversion_path.to_s).to include item.uuid_path
+    end 
+
+    it 'should contain data/conversions' do
+      expect(item.conversion_path.to_s).to include 'data'
+      expect(item.conversion_path.to_s).to include 'conversions'
+    end 
+  end
+  
+  context '.uuid_path' do
+    it 'should return the uuid as a path' do
+      path = item.uuid.gsub!('-', '/')
+      expect(item.uuid_path).to eq path
+    end
+    
+    it 'should be a string' do
+      expect(item.uuid_path).to be_a String
+    end 
+  end
+
+  context '.export_path' do
+    it 'should return a pathname' do
+      expect(item.export_path).to be_a Pathname  
+    end 
+
+    it 'should contain form_id' do
+      expect(item.export_path.to_s).to include item.form_id.to_s
+    end 
+
+    it 'should contain uuid_path' do
+      expect(item.export_path.to_s).to include item.uuid_path
+    end 
+
+    it 'should contain data/exports' do
+      expect(item.export_path.to_s).to include 'data'
+      expect(item.export_path.to_s).to include 'exports'
     end 
   end
   

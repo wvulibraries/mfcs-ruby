@@ -53,7 +53,6 @@ import PurgeKeys from "form_builder/purge_keys.js";
     "thumbnail_width":"",
     "thumbnail_resolution":"",
     "thumbnail_format":"",
-    "border_height":"",
     "border_width":"",
     "watermark_image":"",
     "watermark_location":"",
@@ -160,7 +159,7 @@ describe("Number", ()=> {
  * ============================================================================
 */
 describe("File", ()=> { 
-  let fileKeys = [ "field_id", "type", "name", "label", "value", "placeholder", "css_id", "css_class", "sort_order", "local_styles", "metadata_standards", "help_type", "help_url", "help_info", "required", "no_duplicates", "read_only", "disabled", "disabled_on_insert", "disabled_on_update", "public_release", "oai_release", "sortable", "searchable", "display_in_list", "hidden", "validation", "validation_regex", "allowed_file_types", "multiple_files", "combine", "ocr", "convert", "thumbnail", "watermark", "border", "convert_audio", "convert_video", "video_thumbnail", "image_height", "image_width", "image_resolution", "image_format", "thumbnail_height", "thumbnail_width", "thumbnail_resolution", "thumbnail_format", "border_height", "border_width", "watermark_image", "watermark_location", "audio_bitrate", "audio_format", "video_bitrate", "video_format", "video_height", "video_width", "video_thumbnail_height", "video_thumbnail_width", "video_thumbnail_frames", "video_thumbnail_format"]; 
+  let fileKeys = [ "field_id", "type", "name", "label", "value", "placeholder", "css_id", "css_class", "sort_order", "local_styles", "metadata_standards", "help_type", "help_url", "help_info", "required", "no_duplicates", "read_only", "disabled", "disabled_on_insert", "disabled_on_update", "public_release", "oai_release", "sortable", "searchable", "display_in_list", "hidden", "validation", "validation_regex", "allowed_file_types", "multiple_files", "combine", "ocr", "convert", "thumbnail", "watermark", "border", "convert_audio", "convert_video", "video_thumbnail", "image_height", "image_width", "image_resolution", "image_format", "thumbnail_height", "thumbnail_width", "thumbnail_resolution", "thumbnail_format", "border_width", "watermark_image", "watermark_location", "audio_bitrate", "audio_format", "video_bitrate", "video_format", "video_height", "video_width", "video_thumbnail_height", "video_thumbnail_width", "video_thumbnail_frames", "video_thumbnail_format"]; 
   let purgeFile = new PurgeKeys('file', json_test); 
   let purgeFileDel = purgeFile.delegate_keys('file'); 
 

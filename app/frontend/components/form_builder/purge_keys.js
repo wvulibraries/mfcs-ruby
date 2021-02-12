@@ -13,7 +13,7 @@ export default class PurgeKeys {
     this.text_keys = ["min", "max", "format"];
     this.number_keys = ["step", "min_number", "max_number"];
     this.choice_keys = ["choice_type", "default_choice", "choice_array", "choices", "choice_form", "choice_form_field", "choice_null"];
-    this.file_keys = ["allowed_file_types", "multiple_files", "combine", "ocr", "convert", "thumbnail", "watermark", "border", "convert_audio", "convert_video", "video_thumbnail", "image_height", "image_width", "image_resolution", "image_format", "thumbnail_height", "thumbnail_width", "thumbnail_resolution", "thumbnail_format", "border_height", "border_width", "watermark_image", "watermark_location", "audio_bitrate", "audio_format", "video_bitrate", "video_format", "video_height", "video_width", "video_thumbnail_height", "video_thumbnail_width", "video_thumbnail_frames", "video_thumbnail_format"];
+    this.file_keys = ["allowed_file_types", "multiple_files", "combine", "ocr", "convert", "thumbnail", "watermark", "border", "convert_audio", "convert_video", "video_thumbnail", "image_height", "image_width", "image_resolution", "image_format", "thumbnail_height", "thumbnail_width", "thumbnail_resolution", "thumbnail_format", "border_width", "border_color", "watermark_image", "watermark_location", "audio_bitrate", "audio_format", "video_bitrate", "video_format", "video_height", "video_width", "video_thumbnail_height", "video_thumbnail_width", "video_thumbnail_frames", "video_thumbnail_format"];
   }
 
   /**

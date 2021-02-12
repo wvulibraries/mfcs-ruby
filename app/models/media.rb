@@ -2,14 +2,15 @@
 #
 # Table name: media
 #
-#  id            :bigint           not null,primary key
+#  id            :bigint           not null, primary key
 #  checksum      :string
+#  fieldname     :string
 #  file_errors   :jsonb
 #  filename      :string
+#  media_type    :integer
 #  mime_type     :string
 #  path          :string
 #  size          :string
-#  uuid          :string
 #  virus_scanned :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -17,6 +18,8 @@
 #  item_id       :integer
 #
 class Media < ApplicationRecord
+  self.table_name = "media"
+
   # INCLUDES
   # -----------------------------------------------------
   include ActionView::Helpers::NumberHelper
@@ -28,11 +31,16 @@ class Media < ApplicationRecord
   
   # Associations 
   # -----------------------------------------------------
+  belongs_to :item
   belongs_to :form
 
-  # RAILS CALLBACKS
+  # Enums
+  # ----------------------------------------------------
+  enum media_type: { archive: 0, working: 1, conversion: 2, export: 3 }
+  
+  # Callbacks
   # -----------------------------------------------------
-  after_initialize :set_defaults, unless: :persisted?
+  before_save :file_info, unless: :persisted?
 
   # Methods for File Handling
   # -----------------------------------------------------
@@ -51,7 +59,6 @@ class Media < ApplicationRecord
   # @return [String]
   def generate_checksum(filepath)
     return false unless File.exist?(filepath)
-
     Digest::MD5.hexdigest(File.read(filepath))
   end
 
@@ -65,73 +72,29 @@ class Media < ApplicationRecord
   # Uses other methods to set the information for the db.
   # @author David J. Davis
   # @abstract
-  def file_info(path)
-    self.checksum = generate_checksum(path)
+  def file_info
+    self.checksum = generate_checksum(self.path)
+    self.mime_type = mime(self.path)
+    self.size = filesize(self.path)  
   end
 
-  # Paths for variety of Media
-  # -----------------------------------------------------
-  # Archival Path
-  # Files should be stored here and then never used again.
+  # Builds a Common Use Data Hash
   # @author David J. Davis
-  # @return [String]
-  def archival_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'archives')
-  end
-
-  # Working Path
-  # A duplicate of the file in the archival path that should be
-  # used for conversions and in system use.
-  # @author David J. Davis
-  # @return [String]
-  def working_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'working')
-  end
-
-  # Conversion Path
-  # The path where conversions will be stored
-  # @author David J. Davis
-  # @return [String]
-  def conversion_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'conversions')
-  end
-
-  # Export
-  # The path where exports will be stored.
-  # @author David J. Davis
-  # @return [String]
-  def export_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'exports')
-  end
-
-  # Splits the UUID into a pah string
-  # @author David J. Davis
-  # @return [String]
-  def uuid_path
-    uuid.tr('-', '/')
-  end
+  # @return [Hash] 
+  def info
+    { 
+      checksum: generate_checksum(self.path), 
+      mime: mime(self.path), 
+      filename: filename, 
+      filesize: filesize(self.path), 
+      base_type: mime(self.path).split('/').first
+    }
+  end 
 
   # Sets up a hash to return as json
   # @author David J. Davis
   # @return [Hash][JSON]
   def json
-    {
-      media_id: id,
-      uuid: uuid,
-      filename: filename,
-      archival_path: archival_path,
-      working_path: working_path,
-      conversion_path: conversion_path
-    }.to_json
-  end
-
-  # Callback Methods
-  # -----------------------------------------------------
-
-  # The helper methods to set default values
-  # @author David J. Davis
-  # @abstract
-  def set_defaults
-    self.uuid ||= SecureRandom.uuid
+    (self.info).to_json
   end
 end

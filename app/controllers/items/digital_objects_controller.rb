@@ -27,6 +27,7 @@ class Items::DigitalObjectsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @form = Form.find(item_params[:form_id])
+    archive_media = nil
 
     if @item.valid?
       @form.file_fields.each do |field|
@@ -37,14 +38,28 @@ class Items::DigitalObjectsController < ApplicationController
 
         files = []
         item_params[:data][field].each do |uploaded_file|
-          file_upload = Processing::FileUpload.new(@form.id, uploaded_file)
-          files << file_upload.save
+          # create the path if it doesn't exist 
+          FileUtils.mkdir_p(@item.archive_path) unless File.directory?(@item.archive_path)
+
+          # creates the saved file
+          archive_file_path = @item.archive_path.join(uploaded_file.original_filename) 
+          File.open(archive_file_path, 'wb') { |file| file.write(uploaded_file.read) }
+
+          # creates media object in database
+          archive_media = @item.media.build(
+                            form_id: @form.id, 
+                            media_type: :archive, 
+                            filename: uploaded_file.original_filename, 
+                            path: archive_file_path,
+                            fieldname: field
+                          )
         end
         @item[:data][field].concat files
       end
     end
 
     if @item.save
+      WorkingFileJob.perform_later(archive_media.id)
       redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'
     else
       # clear files because we can't insert the file back into the upload box

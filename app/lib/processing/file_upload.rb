@@ -5,30 +5,25 @@ class Processing::FileUpload
   # associated with file submission.  Also saves and moves the files.
   # @param form_id[integer], uploaded_file(ActionDispatch Tempfile)
   # @author David J. Davis
-  def initialize(form_id, uploaded_file)
-    @form_id = form_id
+  def initialize(item, uploaded_file)
+    @item = item
     @uploaded_file = uploaded_file
-    # call media, so media can be used as a getter/setter
-    media
-  end
-
-  # creates a media object to use in the file upload
-  def media
-    @media ||= Media.new({
-                           filename: @uploaded_file.original_filename,
-                           form_id: @form_id,
-                           size: @uploaded_file.size,
-                           mime_type: @uploaded_file.content_type
-                         })
+    @directories = create_directories
   end
 
   # Checks to make sure the path is created and savable.
   # @author David J. Davis
   # @abstract
-  def create_path(path)
-    FileUtils.mkdir_p(path) unless File.directory?(path)
-    true
-  end
+  def create_directories 
+    directory_hash = {}
+    ['archives', 'working', 'exports', 'conversions'].each do |directory_type| 
+      uuid_path = @uuid.tr('-', '/') #converts uuid to a path (unique to each item)
+      path = Rails.root.join('data', form_id.to_s, uuid_path, directory_type)
+      directory_hash[directory_type] = path 
+      FileUtils.mkdir_p(path) unless File.directory?(path)
+    end
+    directory_hash.with_indifferent_access 
+  end 
 
   # Officially saves the files to the filesystem given the path.
   # @author David J. Davis
@@ -42,10 +37,7 @@ class Processing::FileUpload
   # @author David J. Davis
   # @abstract
   def set_versions
-    [@media.archival_path, @media.working_path].each do |path|
-      create_path(path)
-      save_file(path)
-    end
+    [@directories[:archives], @directories[:working]].each { |path| save_file(path) }
   end
 
   # Sets and Saves the 2 versions of the file on the system.
@@ -54,9 +46,7 @@ class Processing::FileUpload
   # @return [String][JSON]
   def save
     set_versions
-    media.file_info(media.working_path.join(@uploaded_file.original_filename))
     media.path = media.working_path
     media.save
-    media.json
   end
 end

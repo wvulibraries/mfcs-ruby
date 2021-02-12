@@ -2,13 +2,31 @@ FROM ruby:2.7.1
 MAINTAINER David J. Davis <ddavisgraphics>
 
 # Install capybara-webkit deps
-RUN apt-get update \
+RUN apt update \
     && apt-get install -y xvfb git qt5-default libqt5webkit5-dev \
                           gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 
 # Use JEMALLOC instead
+# JEMalloc is a faster garbage collection for Ruby.
+# -------------------------------------------------------------------------------------------------
 RUN apt-get install -y libjemalloc2 libjemalloc-dev
 ENV LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libjemalloc.so
+# -------------------------------------------------------------------------------------------------
+
+# FFMPEG CODECS Uncomment if you need to install them. 
+# ------------------------------------------------------------------------------------
+# RUN apt-get coreutils freetype-dev lame-dev libogg-dev libass libass-dev libvpx-dev libvorbis-dev libwebp-dev libtheora-dev 
+# -------------------------------------------------------------------------------------------------
+
+# Tesseract
+# -------------------------------------------------------------------------------------------------
+RUN apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
+# ------------------------------------------------------------------------------------------------- 
+
+# ImageMagic Conversions and FFMPEG Conversions
+# -------------------------------------------------------------------------------------------------
+RUN apt-get install -y imagemagick ghostscript ffmpeg 
+# -------------------------------------------------------------------------------------------------
 
 # Node.js
 RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - \
