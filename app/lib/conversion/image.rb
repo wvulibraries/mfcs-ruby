@@ -1,96 +1,84 @@
+# Covnersion Class for Images
+# The parent Conversion::Actor will decide to use the Image, Audio, Video, OCR, and PDF versions.
 class Conversion::Image
-  IMAGE_PARAMS = %w[border border_width border_color image_format image_height image_resolution image_width watermark watermark_image watermark_location].freeze
+  # LIST OF POTENTIAL CONVERSION OPTIONS
+  # THESE ARE LISTED DURING CONVERSION OPERATIONS
+  OPERATIONS = [
+    Conversion::Operation::Border,
+    Conversion::Operation::Resize,
+    Conversion::Operation::Resolution,
+    Conversion::Operation::Format
+  ].freeze
 
-  def initialize(media_id)
-    @archived_media = Media.find(media_id)
+  # THESE NEED TO HAPPEN AFTER THE CONVERSION
+  # ORDER MATTERS, WATERMARK NEEDS TO BE ON THUMB TOO SO
+  # THE THUMBNAIL HAPPENS AFTER WATERMARK.
+  POST_CONVERSION = [
+    Conversion::Operation::WatermarkOverlay,
+    Conversion::Operation::Thumbnail
+  ].freeze
+
+  # Initialize sets the instance vars for conversion params and media objects.
+  # Runs the Aspect Ratio to keep objects in the correct sizing.
+  # Selects Operations that need to run pre conversion.
+  # @params[media_id] Media object for the working file.
+  # @params[conversion_params] From the form object model should be a hash.
+  # @author David J. Davis
+  # @abstract
+  def initialize(media_id, conversion_params)
+    @media = Media.find(media_id)
+    @conversion_params = conversion_params
+
+    # set aspect ratio
+    aspect_ratio = Conversion::Operation::AspectRatio.perform(@media.path, @conversion_params)
+    @conversion_params['image_width'] = aspect_ratio[0]
+    @conversion_params['image_height'] = aspect_ratio[1]
+
+    # choose which operations need run
+    @operations = OPERATIONS.select { |operation| operation.matches?(@conversion_params) }
   end
 
-  def conversion_params
-    item ||= @archived_media.item
-    item.form.organized_hash[@archived_media.fieldname].select {|key, value| IMAGE_PARAMS.include?(key) }
-  end 
-
-  def border? 
-    conversion_params['border'].present? && conversion_params['border_width'].present? && conversion_params['border_color'].present?
-  end 
-
-  def watermark? 
-    conversion_params['watermark'].present? && conversion_params['watermark_image'].present? && conversion_params['watermark_location'].present?
-  end 
-
-  def resize? 
-    conversion_params['image_width'].present? && conversion_params['image_height'].present?
-  end 
-
-  def image_sizing 
-    "#{conversion_params['image_width']}x#{conversion_params['image_height']}"
-  end 
-
-  def image_name 
-    if conversion_params['image_format'].present?
-      name = @archived_media.filename.split('.')
-      "#{name}.#{conversion_params['image_format']}"
-    else
-      @archived_media.filename
-    end 
-  end 
-
-  def perform
-    MiniMagick::Tool::Convert.new do |convert|
-      convert << test_img_file
-      convert.bordercolor conversion_params['border_width'] if border?
-      convert.border conversion_params['border_width'] if border?
-      convert.resize image_sizing if resize?
-      convert.density conversion_params['image_resolution'] if conversion_params['image_resolution'].present?
-      convert.format conversion_params['image_format'] if conversion_params['image_format'].present?
-      convert << new_img_path.join(image_name)
+  # Save file sets the directory and pathname for the conversion
+  # also makes sure that the file is changed to the proper format.
+  # @author David J. Davis
+  # @return [Object]MiniMagick::Image
+  def save_file
+    @format = (@conversion_params['image_format'] || 'jpg').downcase
+    @filename = File.basename(@media.filename, '.*')
+    unless File.directory?(@media.item.conversion_path)
+      FileUtils.mkdir_p(@media.item.conversion_path)
     end
-  end 
+    @media.item.conversion_path.join("#{@filename}.#{@format}")
+  end
+
+  # Perform the actual conversion, this is an action that does the work set.
+  # @author David J. Davis
+  # @return [Object]MiniMagick::Image / Truthy
+  def perform
+    puts 'PERFORMING CONVERSION'
+    MiniMagick::Tool::Convert.new do |convert|
+      convert << @media.path
+      @operations.each { |operation| operation.new(@conversion_params).call(convert) }
+      convert << save_file
+    end
+    # save the conersion media object
+    media = save_media
+    # run post conversion operations Watermarking and Thumbnail Creation
+    post_conversion = POST_CONVERSION.select { |post_op| post_op.matches?(@conversion_params) }
+    post_conversion.each { |post_op| post_op.new(save_file, @conversion_params, media).perform }
+  end
+
+  # Saves the media that has been recently converted.
+  # @author David J. Davis
+  # @return [Object] Media Object
+  def save_media
+    Media.create(
+      form_id: @media.form_id,
+      item_id: @media.item_id,
+      filename: File.basename(save_file),
+      path: save_file,
+      media_type: :conversion,
+      fieldname: @media.fieldname
+    )
+  end
 end
-
-# class Conversion::Ocr
-#   def perform 
-#     # takes the image and performs the ocr 
-#   end 
-# end 
-
-# class Conversion::ImageBase 
-#   def border 
-#     # creates border 
-#   end 
-
-#   def watermark 
-#     # creates watermark if needed
-#   end 
-# end 
-
-# class Conversion::Image < Conversion::ImageBase 
-#   def perform 
-#     # creates the conversion
-#   end 
-# end 
-
-# class Conversion::Thumbnail < Conversion::ImageBase 
-#   def type
-#     # video || image || audio 
-#     # if audio just use a supplied image 
-#   end
-  
-#   def perform
-#     # create thumbnail size include watermark and border? 
-#   end 
-# end 
-
-# class Conversion::Video
-#   def perform
-#     # creates the video conversion 
-#   end 
-# end 
-
-# class Conversion::CombinePDF
-#   def perform 
-#     # if image conversion needs done, this should be done first
-#     # if multiple files, a pdf will be made of all images compressed into a PDF.
-#   end 
-# end 
-

@@ -28,7 +28,6 @@
 #
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
 { en: 
   { 
     hello: "Hello world",
@@ -39,7 +38,17 @@
       audio_formats: [['MP3 (Recommended)', 'mp3'], ['OGG', 'ogg'], ['WAV', 'wav']],
       video_bitrates: [['32kbs (Speeches)', 32], ['64kbs (Fast Streaming)', 64], ['128kbs (Recommended)', 128], ['192kbs (High Quality)', 192], ['256kbs (Best Quality)', 256]],
       video_formats: [['AVI', 'avi'], ['MOV', 'mov'], ['MP4 (Recommended)', 'mp4'], ['3GP', '3gp'], ['WEBM', 'webm'], ['OGV', 'ogv']],
-      watermark_location: [['Top Left', 'top|left'], ['Top Center', 'top|center'], ['Top Right', 'top|right'], ['Bottom Left', 'bottom|left'], ['Middle Left', 'middle|left'], ['Middle Center', 'middle|center'], ['Middle Right', 'middle|right'], ['Bottom Center', 'bottom|center'], ['Bottom Right', 'bottom|right'] ],
+      watermark_location: [
+                            ['Top Left', 'NorthWest'], 
+                            ['Top Center', 'North'], 
+                            ['Top Right', 'NorthEast'], 
+                            ['Middle Left', 'West'], 
+                            ['Middle Center', 'Center'], 
+                            ['Middle Right', 'East'], 
+                            ['Bottom Left', 'SouthWest'], 
+                            ['Bottom Center', 'South'], 
+                            ['Bottom Right', 'SouthEast'] 
+                          ],
       no_spaces_error: 'Field may not have spaces in it, please replace spaces with `_` or `-`.',
     },
     validator: { 

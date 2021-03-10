@@ -56,9 +56,10 @@ class Item < ApplicationRecord
   # Boolean for Proc Method used on after_save callback
   # This should keep the idno evaluations from happening more than once.
   # @author David J. Davis
-  # @return [Boolean] 
+  # @return [Boolean]
   def idno_set?
-    return true if persisted? 
+    return true if persisted?
+
     idno.present? && form.object_form?
   end
 
@@ -68,13 +69,15 @@ class Item < ApplicationRecord
   # @abstract not really a return value, it is checked by the valid? model.
   def custom_data_entry
     return true if data.blank?
+
     if persisted?
       return true unless changes[:data]
+
       validate_data(changed_data)
     else
       validate_data(data)
-    end 
-  end 
+    end
+  end
 
   # Paths for variety of Media
   # -----------------------------------------------------
@@ -104,6 +107,15 @@ class Item < ApplicationRecord
     Rails.root.join('data', form_id.to_s, uuid_path, 'conversions')
   end
 
+  # Thumb Path
+  # The path where conversions will be stored
+  # @author David J. Davis
+  # @return [String]
+  def thumbnail_path
+    Rails.root.join('data', form_id.to_s, uuid_path, 'conversions', 'thumb')
+  end
+  alias thumb_path thumbnail_path
+
   # Export
   # The path where exports will be stored.
   # @author David J. Davis
@@ -129,28 +141,32 @@ class Item < ApplicationRecord
     self.uuid ||= SecureRandom.uuid
   end
 
-  private 
-    # This method loops through the data to use the Validator Actor
-    # If there is not valid then add to the errors field.
-    # @author David J. Davis / Tracy McCormick
-    # @abstract Sets errors to the item model
-    def validate_data(validation_data)
-      validation_data.each do |field, input|
-        next if form.file_fields.include? field
-        valid = Validator::Actor.new(form.id, field, input).perform
-        unless valid[:status] == true || valid[:status].nil?
-          errors.add(field, valid[:errors].join(' '))
-        end
-      end 
-    end 
+  private
 
-    # This method loops through the data to see if the data has changed
-    # from the persisted methods.
-    # @author David J. Davis
-    # @return [Hash] 
-    def changed_data
-      new_validations = {}
-      changes[:data][0].each {|key, value| new_validations[key] = changes[:data][1][key] if changes[:data][1][key] != value }
-      new_validations
-    end 
+  # This method loops through the data to use the Validator Actor
+  # If there is not valid then add to the errors field.
+  # @author David J. Davis / Tracy McCormick
+  # @abstract Sets errors to the item model
+  def validate_data(validation_data)
+    validation_data.each do |field, input|
+      next if form.file_fields.include? field
+
+      valid = Validator::Actor.new(form.id, field, input).perform
+      unless valid[:status] == true || valid[:status].nil?
+        errors.add(field, valid[:errors].join(' '))
+      end
+    end
+  end
+
+  # This method loops through the data to see if the data has changed
+  # from the persisted methods.
+  # @author David J. Davis
+  # @return [Hash]
+  def changed_data
+    new_validations = {}
+    changes[:data][0].each do |key, value|
+      new_validations[key] = changes[:data][1][key] if changes[:data][1][key] != value
+    end
+    new_validations
+  end
 end

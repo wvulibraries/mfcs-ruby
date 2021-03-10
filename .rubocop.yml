@@ -15,7 +15,7 @@ AllCops:
     - 'importing/**/*'
     - 'config/**/*'
     - 'node_modules/**/*'
-    - 'spec/**/*.rb'
+    - 'spec/**/*'
     - 'tmp/**/*'
     - '.git/**/*'
     - 'bin/*'
@@ -116,3 +116,6 @@ Metrics/ClassLength:
 Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*.rb'
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact

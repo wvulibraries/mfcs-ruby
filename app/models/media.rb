@@ -36,7 +36,7 @@ class Media < ApplicationRecord
 
   # Enums
   # ----------------------------------------------------
-  enum media_type: { archive: 0, working: 1, conversion: 2, export: 3 }
+  enum media_type: { archive: 0, working: 1, conversion: 2, export: 3, thumbnail: 4 }
   
   # Callbacks
   # -----------------------------------------------------

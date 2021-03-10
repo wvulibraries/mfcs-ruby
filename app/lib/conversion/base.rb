@@ -3,5 +3,5 @@ class Conversion::Base
   # base init method
   def initialize(item_id)
     @item = Item.find(item_id)
-  end 
-end 
+  end
+end

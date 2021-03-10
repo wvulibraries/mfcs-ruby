@@ -1,80 +1,64 @@
 require 'rails_helper'
 
 RSpec.describe Conversion::Image, type: :model do
-  let(:item) { FactoryBot.build_stubbed(:file_conversion_form) }
+  let(:form) { FactoryBot.build_stubbed(:file_conversion_form) }
   let(:stubbed_media) { FactoryBot.build_stubbed(:media) }
   let(:media) { FactoryBot.create(:media) }
 
   context '.init' do 
     it 'initalizes' do
-      base = described_class.new(media.id)
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(media.id, params_hash)
       expect(base).to be_a described_class
     end
 
     it "assigned @field_id" do
-      base = described_class.new(media.id)
-      expect(base.instance_variable_defined?(:@archived_media)).to be true
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(media.id, params_hash)
+      expect(base.instance_variable_defined?(:@media)).to be true
+    end
+
+    it "sets up the @operations array" do 
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(media.id, params_hash)
+      expect(base.instance_variable_defined?(:@operations)).to be true
+    end 
+  end 
+
+  context '.save_file' do
+    it 'should create a saveable file path with format and filename' do
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(media.id, params_hash)
+      expect(base.save_file).to be_a Pathname
+    end 
+
+    it 'should end as a png' do
+      params_hash = form.organized_hash[:files]
+      params_hash['image_format'] = 'png'
+      base = described_class.new(media.id, params_hash)
+      expect(base.save_file.basename.to_s).to  eq 'test_image_1.png'
+    end 
+
+    it 'should create a jpg if no format is given' do
+      params_hash = form.organized_hash[:files]
+      params_hash['image_format'] = nil
+      base = described_class.new(media.id, params_hash)
+      expect(base.save_file.basename.to_s).to  eq 'test_image_1.jpg'
     end
   end 
 
   context 'constants' do
-    it 'should have a constant that is an array with a count of 18' do
-      expect(Conversion::Image::IMAGE_PARAMS).to be_an Array
-      expect(Conversion::Image::IMAGE_PARAMS.count).to eq 18
+    it 'should have a constant of operations' do
+      expect(Conversion::Image::OPERATIONS).to be_an Array
     end 
   end
 
-  context '.conversion_params' do
-    it 'should be a hash' do
-      base = described_class.new(media.id) 
-      expect(base.conversion_params).to be_a Hash
-    end 
-
-    it 'should contain the fields set in the params constant' do
-      base = described_class.new(media.id) 
-      expect(base.conversion_params.values.count).to eq 18
-    end 
-  end
-
-  context '.border?' do
-    it 'should be true' do
-      base = described_class.new(media.id) 
-      expect(base.border?).to be true
-    end 
-
-    it 'should be false border not added' do
-      form = media.item.form 
-      form[:fields].each do |field|
-        field['border'] = false
-      end  
-      form.save
-
-      base = described_class.new(media.id) 
-      expect(base.border?).to be false
-    end 
-
-    it 'should be false border color nil' do 
-      form = media.item.form 
-      form[:fields].each do |field|
-        field['border_color'] = nil
-      end  
-      form.save
-
-      base = described_class.new(media.id) 
-      expect(base.border?).to be false
-    end 
-
-    it 'should be false border width nil' do 
-      form = media.item.form 
-      form[:fields].each do |field|
-        field['border_width'] = nil
-      end  
-      form.save
-
-      base = described_class.new(media.id) 
-      expect(base.border?).to be false
+  context '.perform' do 
+    it 'should create the image' do
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(media.id, params_hash)
+      result = base.perform
+      expect(result).to be_truthy 
     end 
   end 
-
-
 end 
