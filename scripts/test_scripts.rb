@@ -1,7 +1,10 @@
-abort 'Nothing to do here' if ARGV.present?
+f_file = Rails.root.join('spec', 'fixtures', 'files', 'test.mov')
+t_file = Rails.root.join('tests', 'data', 'files', 'storm.mp4')
 
-media = Media.find(15)
-params = media.form.organized_hash[media.fieldname]
+ff = FFMPEG::Video.new(f_file, t_file)
+command = ff.command do
+  size '720', '1024'
+  bitrate '18k'
+end
 
-puts "Performing Conversion and Saving File \r\n"
-Conversion::Image.new(media.id, params).perform
+puts command.inspect

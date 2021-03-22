@@ -32,6 +32,12 @@
   { 
     hello: "Hello world",
     login_failure: 'The login has failed because the user does not exist, or you do not have permission to use this application.  If you believe that this is an error, please contact the system administrator.',
+    errors: { 
+      ffmpeg: {
+        video_size: 'Height and Width must be real and positive numbers.', 
+        ratio: 'Ratio value must be set to increase or decrease.'
+      }
+    },  
     form_builder: { 
       image_file_types: [['jpg', 'JPG'], ['png', 'PNG'], ['gif', 'GIF'], ['bmp', 'BMP'], ['webp', 'WEBP']],
       audio_bitrates: [['700kbs (Low Quality)', 700], ['1200kbs (Fast Streaming)', 1200], ['2400kbs (YouTube Quality)', 2400], ['5000kbs (HD Quality)', 5000], ['12000kbs (HDTV Quality)', 12000]],
