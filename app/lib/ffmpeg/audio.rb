@@ -13,7 +13,7 @@ class FFMPEG::Audio < FFMPEG::Base
   #
   # @return [String] The string needed to exec FFMPEG.
   def command(&block)
-    @command << "#{ffmpeg_path} -y -i #{@file}"
+    @command << "#{ffmpeg_path} -hide_banner -loglevel error -y -i #{@file}"
     normalize
     instance_eval(&block) if block
     @command << @to_file.to_s
@@ -51,6 +51,6 @@ class FFMPEG::Audio < FFMPEG::Base
   def perform
     return false if @command.blank?
 
-    system @command
+    system @command.join(' ')
   end
 end

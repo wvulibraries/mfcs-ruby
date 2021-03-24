@@ -13,10 +13,18 @@ class FFMPEG::Video < FFMPEG::Base
   #
   # @return [String] The string needed to exec FFMPEG.
   def command(&block)
-    @command << "#{ffmpeg_path} -y -i #{@file}"
+    @command << "#{ffmpeg_path} -hide_banner -loglevel error -y -i #{@file}"
     instance_eval(&block) if block
     @command << @to_file.to_s
     @command.join(' ')
+  end
+
+  # Gets metadata form the file.
+  # @author David J.Davis
+  #
+  # @return [Hash]
+  def metadata
+    @metadata ||= FFMPEG::Video::Metadata.new(@file).fetch
   end
 
   # Uses a force commend to force the original aspect ratio on the height and width.
@@ -28,9 +36,13 @@ class FFMPEG::Video < FFMPEG::Base
   # resizes to fit using either an increase or decrease in size.
   #
   # @return [String] The string needed to exec FFMPEG.
-  def size(width, height)
-    size = AspectRatio.new(o_height, o_width, width, height)
-    width, height = size
+  def size(width, height, force_aspect = true)
+    if force_aspect
+      metadata = self.metadata
+      size = AspectRatio.new(metadata[:width], metadata[:height], width, height).calculate
+      width, height = size
+    end
+
     @command << "-s #{width}x#{height}"
   end
 
@@ -51,6 +63,6 @@ class FFMPEG::Video < FFMPEG::Base
   def perform
     return false if @command.blank?
 
-    system @command
+    system @command.join(' ')
   end
 end

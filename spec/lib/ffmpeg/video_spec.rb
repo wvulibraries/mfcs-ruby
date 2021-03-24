@@ -5,23 +5,12 @@ RSpec.describe FFMPEG::Video, type: :model do
   let(:to_file) { Rails.root.join('tests', 'data', 'files', 'storm.mp4') }
 
   context 'size' do
-    it 'expects the width and height to be positive numbers' do 
+    it 'expects size to be the original size' do 
       base = described_class.new(file, to_file)
-      command = base.command do
-         size 300, 500 
-      end 
-      expect(base).to be_truthy
+      size = base.size 1280,1280
+      expect(size).to be_a Array
+      expect(size.join(' ')).to include '-s 1280x720'
     end 
-
-    it 'expects an error to raise because ratio incorrect' do
-      base = described_class.new(file, to_file)
-      expect { base.command { size 300, 500, 'test'} }.to raise_error(ArgumentError)
-    end
-
-    it 'expects an error to raise because ratio incorrect' do
-      base = described_class.new(file, to_file)
-      expect { base.command { size nil, nil } }.to raise_error(ArgumentError)
-    end
   end
 
   context '.bitrate' do
@@ -51,7 +40,16 @@ RSpec.describe FFMPEG::Video, type: :model do
 
       expect(command).to be_a String
       expect(command).to include "-vb 18000" 
-      expect(command).to include "scale=w=720:h=1024:force_original_aspect_ratio=decrease"
+      expect(command).to include "-s 720x405"
+    end 
+  end
+
+  context '.metadata' do
+    it 'should have height and width keys' do 
+      base = described_class.new(file, to_file)
+      res = base.metadata
+      expect(res).to have_key(:width)
+      expect(res).to have_key(:height)
     end 
   end
   
@@ -65,8 +63,9 @@ RSpec.describe FFMPEG::Video, type: :model do
       base = described_class.new(file, to_file)
       command = base.command do 
         bitrate '18000'
-        size '720', '1024'
+        size '1280', '720'
       end 
+      puts command.inspect
       expect(base.perform).to be true
     end 
   end 

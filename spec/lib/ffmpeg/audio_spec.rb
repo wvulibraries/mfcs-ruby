@@ -44,12 +44,12 @@ RSpec.describe FFMPEG::Audio, type: :model do
     # not sure if we should be testing exact commands or includes here... 
     it 'should return a that matches the following exact command' do 
       base = described_class.new(file, to_file)
-      expect(base.command).to eq '/usr/bin/ffmpeg -y -i /home/mfcs/spec/fixtures/files/storm.wav -filter:a loudnorm /home/mfcs/tests/data/files/storm.mp3'
+      expect(base.command).to eq '/usr/bin/ffmpeg -hide_banner -loglevel error -y -i /home/mfcs/spec/fixtures/files/storm.wav -filter:a loudnorm /home/mfcs/tests/data/files/storm.mp3'
     end 
 
     it 'should return a string that contains the specifics for the bitrate' do 
       base = described_class.new(file, to_file)
-      expect(base.command{ bitrate '22k' }).to eq '/usr/bin/ffmpeg -y -i /home/mfcs/spec/fixtures/files/storm.wav -filter:a loudnorm -ab 22k /home/mfcs/tests/data/files/storm.mp3'
+      expect(base.command{ bitrate '22k' }).to eq '/usr/bin/ffmpeg -hide_banner -loglevel error -y -i /home/mfcs/spec/fixtures/files/storm.wav -filter:a loudnorm -ab 22k /home/mfcs/tests/data/files/storm.mp3'
     end 
 
     it 'should throw a method missing exception' do
