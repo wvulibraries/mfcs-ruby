@@ -10,7 +10,14 @@ class FFMPEG::Base
     @to_file = to_file
     @options = options
     @command = []
+    validate!
   end
+
+  # Validates the options param is a hash, or throws an ArgumentError.
+  # @author David J. Davis
+  def validate! 
+    [valid_options, valid_file, valid_output].all? 
+  end 
 
   # Validates the options param is a hash, or throws an ArgumentError.
   # @author David J. Davis
@@ -40,7 +47,7 @@ class FFMPEG::Base
   def valid_output
     return true if path_or_string?(@to_file)
 
-    raise ArgumentError, 'Output Path is a not the correct types and needs to be a path or string.'
+    raise ArgumentError, 'Output Path is a not the correct type and needs to be a path or string.'
   end
 
   # Path or String is the type that all file and pathnames should be.

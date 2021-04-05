@@ -18,6 +18,13 @@ class Conversion::Image
     Conversion::Operation::Thumbnail
   ].freeze
 
+  # Matcher Class
+  # @author David J. Davis
+  # @return [Object]MiniMagick::Image
+  def self.matches?(mime)
+    mime.split('/')[0].casecmp('image').zero?
+  end 
+
   # Initialize sets the instance vars for conversion params and media objects.
   # Runs the Aspect Ratio to keep objects in the correct sizing.
   # Selects Operations that need to run pre conversion.
@@ -30,9 +37,10 @@ class Conversion::Image
     @conversion_params = conversion_params
 
     # set aspect ratio
-    aspect_ratio = Conversion::Operation::AspectRatio.perform(@media.path, @conversion_params)
-    @conversion_params['image_width'] = aspect_ratio[0]
-    @conversion_params['image_height'] = aspect_ratio[1]
+    orig_width, orig_height = MiniMagick::Image.open(@media.path).dimensions
+    width = @conversion_params.fetch('image_width').to_i 
+    height = @conversion_params.fetch('image_height').to_i
+    @conversion_params['image_width'], @conversion_params['image_height'] = AspectRatio.new(orig_width, orig_height, width, height).calculate
 
     # choose which operations need run
     @operations = OPERATIONS.select { |operation| operation.matches?(@conversion_params) }
@@ -55,7 +63,6 @@ class Conversion::Image
   # @author David J. Davis
   # @return [Object]MiniMagick::Image / Truthy
   def perform
-    puts 'PERFORMING CONVERSION'
     MiniMagick::Tool::Convert.new do |convert|
       convert << @media.path
       @operations.each { |operation| operation.new(@conversion_params).call(convert) }

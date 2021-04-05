@@ -9,9 +9,8 @@ ruby '2.7.1'
 # ================================================================
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
-gem 'rails', '~> 6.0', '>= 6.0.2'
-gem 'turbolinks', '~> 5.2.0'
-gem 'webpacker', '~> 4.0', '>= 4.0.7'
+gem 'rails', '~> 6.1', '>= 6.1.3'
+gem 'webpacker', '~> 5.2', '>= 5.2.1'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -19,7 +18,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Application Specific
 # =================================================================
 
-# background jobs 
+# background jobs
 gem 'sidekiq', '~> 6.1', '>= 6.1.3'
 
 # elasticsearch
@@ -48,7 +47,6 @@ gem 'figaro'
 gem 'to_regexp', '~> 0.2.1'
 
 # files 
-gem 'marcel', '~> 0.3.1' # checks mime types
 gem 'mini_magick', '~> 4.11' # wrapper for imagemagick
 
 # Test Suite

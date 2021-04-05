@@ -35,5 +35,10 @@ FactoryBot.define do
     mime_type { nil }
     media_type { 0 }
     fieldname { 'files' }
+
+    factory :audio do
+      filename { 'storm.wav' }
+      path { Rails.root.join('spec','fixtures', 'files', 'storm.wav') }
+    end 
   end
 end

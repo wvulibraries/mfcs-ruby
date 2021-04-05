@@ -51,7 +51,6 @@ class Conversion::Operation::WatermarkOverlay
   # @author David J. Davis
   # @return truthy
   def perform
-    puts 'PERFORMING WATERMARKING'
     converted_file = MiniMagick::Image.open @file_path
     watermark = watermark_image.resize(size_the_watermark(converted_file.dimensions))
     result = converted_file.composite(watermark) do |image_composite|

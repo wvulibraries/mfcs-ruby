@@ -51,7 +51,6 @@ class Conversion::Operation::Thumbnail
   # @author David J. Davis
   # @abstract
   def perform
-    puts "PERFORMING THUMBNAIL CREATION"
     MiniMagick::Tool::Convert.new do |convert|
       convert << @file
       convert.resize size

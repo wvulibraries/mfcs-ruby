@@ -65,7 +65,6 @@ RSpec.describe FFMPEG::Video, type: :model do
         bitrate '18000'
         size '1280', '720'
       end 
-      puts command.inspect
       expect(base.perform).to be true
     end 
   end 

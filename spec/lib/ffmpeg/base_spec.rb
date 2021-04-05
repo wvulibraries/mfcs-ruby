@@ -24,44 +24,38 @@ RSpec.describe FFMPEG::Base, type: :model do
       base = described_class.new(file, to_file)
       expect(base.instance_variable_defined?(:@command)).to be true
     end
-  end 
+  end
+  
+  context '.validate!' do
+    it 'expects from file is not correct' do
+      expect { described_class.new(1, to_file) }.to raise_error(ArgumentError, 'Input file should be a type of file, or pathname.')
+    end 
+    
+    it 'expects to file is not correct' do
+      expect { described_class.new(file, 1) }.to raise_error(ArgumentError, 'Output Path is a not the correct type and needs to be a path or string.')
+    end 
 
+    it 'expects options not correct' do
+      expect { described_class.new(file, to_file, 124) }.to raise_error(ArgumentError, "Options 'Integer', should be a Hash.")
+    end 
+
+    it 'should fail with non existing file' do 
+      file = Rails.root.join('spec','fixtures', 'files', 'waldorTheGreat.mov')
+      expect { described_class.new(file, to_file) }.to raise_error(ArgumentError, "Input file needs to be a file that exists.")
+    end 
+  end
+  
   context '.valid_options' do
     it 'should set the file with a hash if nothing is supplied' do
       base = described_class.new(file, to_file)
       expect(base.valid_options).to be true
     end 
-
-    failing_types = [
-      'Something', 
-      ['some', 'cool', 'thing'], 
-      12, 
-      nil, 
-      ''
-    ]
-    failing_types.each do |option| 
-      it "should fail with any other data type such as: #{option.class}" do 
-        base = described_class.new(file, to_file, option)
-        expect { base.valid_options }.to raise_error(ArgumentError, "Options '#{option.class}', should be a Hash.")
-      end
-    end  
   end 
 
   context '.valid_file' do
     it 'should pass because the file path is a valid path' do 
       base = described_class.new(file, to_file)
       expect(base.valid_file).to be true
-    end 
-
-    it 'should fail not a valid path' do 
-      base = described_class.new(nil, to_file)
-      expect { base.valid_file }.to raise_error(ArgumentError, "Input file should be a type of file, or pathname.")
-    end 
-
-    it 'should fail with non existing file' do 
-      file = Rails.root.join('spec','fixtures', 'files', 'waldorTheGreat.mov')
-      base = described_class.new(file, to_file)
-      expect { base.valid_file }.to raise_error(ArgumentError, "Input file needs to be a file that exists.")
     end 
   end
 
@@ -73,11 +67,6 @@ RSpec.describe FFMPEG::Base, type: :model do
         expect(base.valid_output).to be true
       end 
     end 
-
-    it 'should not have valid output' do
-      base = described_class.new(file, nil)
-      expect { base.valid_output }.to raise_error(ArgumentError, 'Output Path is a not the correct types and needs to be a path or string.')
-    end
   end
 
   context '.filename' do
@@ -88,7 +77,6 @@ RSpec.describe FFMPEG::Base, type: :model do
     end 
   end
   
-
   context '.path_or_string' do
     correct_types = ["/test/something/cool", Rails.root.join('spec', 'fixtures')]
     correct_types.each do |type| 
