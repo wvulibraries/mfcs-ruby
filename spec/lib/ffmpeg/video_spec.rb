@@ -42,6 +42,16 @@ RSpec.describe FFMPEG::Video, type: :model do
       expect(command).to include "-vb 18000" 
       expect(command).to include "-s 720x405"
     end 
+
+    it 'expect to have a custom option' do 
+      base = described_class.new(file, to_file, {crf: 18})
+      command = base.command do 
+        bitrate '18000'
+        size '720', '1024'
+      end 
+      expect(command).to be_a String
+      expect(command).to include "-crf 18" 
+    end 
   end
 
   context '.metadata' do

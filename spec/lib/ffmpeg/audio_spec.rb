@@ -56,6 +56,11 @@ RSpec.describe FFMPEG::Audio, type: :model do
       base = described_class.new(file, to_file)
       expect{ base.command{ increase_volume '22k' } }.to raise_error(NoMethodError)
     end
+
+    it 'should inject a custom option' do 
+      base = described_class.new(file, to_file, { vf: "select='between(t,1,5)'" })
+      expect(base.command).to include "-vf select='between(t,1,5)'"
+    end 
   end   
 
 

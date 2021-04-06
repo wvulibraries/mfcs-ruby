@@ -15,6 +15,7 @@ class FFMPEG::Video < FFMPEG::Base
   def command(&block)
     @command << "#{ffmpeg_path} -hide_banner -loglevel error -y -i #{@file}"
     instance_eval(&block) if block
+    @options.each {| key, value |  @command << "-#{key.to_s} #{value}" }
     @command << @to_file.to_s
     @command.join(' ')
   end
