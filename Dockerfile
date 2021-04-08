@@ -1,5 +1,4 @@
-FROM ruby:2.7.1
-MAINTAINER David J. Davis <ddavisgraphics>
+FROM ruby:2.7.2
 
 # Install capybara-webkit deps
 RUN apt update \

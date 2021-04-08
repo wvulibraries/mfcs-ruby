@@ -40,5 +40,10 @@ FactoryBot.define do
       filename { 'storm.wav' }
       path { Rails.root.join('spec','fixtures', 'files', 'storm.wav') }
     end 
+
+    factory :video do
+      filename { 'test.mov' }
+      path { Rails.root.join('spec','fixtures', 'files', 'test.mov') }
+    end 
   end
 end

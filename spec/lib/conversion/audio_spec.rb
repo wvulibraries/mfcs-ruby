@@ -21,6 +21,20 @@ RSpec.describe Conversion::Audio do
     end 
   end
 
+  context '.initialize' do
+    it 'has @media' do
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(media.id, params_hash)
+      expect(base.instance_variable_defined?(:@media)).to be true
+    end 
+
+    it 'has @conversion_params' do 
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(media.id, params_hash)
+      expect(base.instance_variable_defined?(:@converison_params)).to be true
+    end 
+  end
+
   context '.save_file' do
     it 'should create a saveable file path with format and filename' do
       params_hash = form.organized_hash[:files]
@@ -52,5 +66,4 @@ RSpec.describe Conversion::Audio do
       expect(base.perform).to be_truthy
     end
   end
-  
 end 
