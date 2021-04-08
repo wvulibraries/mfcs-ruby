@@ -18,7 +18,7 @@
 #  item_id       :integer
 #
 class Media < ApplicationRecord
-  self.table_name = "media"
+  self.table_name = 'media'
 
   # INCLUDES
   # -----------------------------------------------------
@@ -28,8 +28,8 @@ class Media < ApplicationRecord
   # ------------------------------------------------------
   # validates :filename, :path, :form_id, :item_id, presence: true
   validates :filename, :path, :form_id, presence: true
-  
-  # Associations 
+
+  # Associations
   # -----------------------------------------------------
   belongs_to :item
   belongs_to :form
@@ -37,7 +37,7 @@ class Media < ApplicationRecord
   # Enums
   # ----------------------------------------------------
   enum media_type: { archive: 0, working: 1, conversion: 2, export: 3, thumbnail: 4 }
-  
+
   # Callbacks
   # -----------------------------------------------------
   before_save :file_info, unless: :persisted?
@@ -59,6 +59,7 @@ class Media < ApplicationRecord
   # @return [String]
   def generate_checksum(filepath)
     return false unless File.exist?(filepath)
+
     Digest::MD5.hexdigest(File.read(filepath))
   end
 
@@ -73,28 +74,28 @@ class Media < ApplicationRecord
   # @author David J. Davis
   # @abstract
   def file_info
-    self.checksum = generate_checksum(self.path)
-    self.mime_type = mime(self.path)
-    self.size = filesize(self.path)  
+    self.checksum = generate_checksum(path)
+    self.mime_type = mime(path)
+    self.size = filesize(path)
   end
 
   # Builds a Common Use Data Hash
   # @author David J. Davis
-  # @return [Hash] 
+  # @return [Hash]
   def info
-    { 
-      checksum: generate_checksum(self.path), 
-      mime: mime(self.path), 
-      filename: filename, 
-      filesize: filesize(self.path), 
-      base_type: mime(self.path).split('/').first
+    {
+      checksum: generate_checksum(path),
+      mime: mime(path),
+      filename: filename,
+      filesize: filesize(path),
+      base_type: mime(path).split('/').first
     }
-  end 
+  end
 
   # Sets up a hash to return as json
   # @author David J. Davis
   # @return [Hash][JSON]
   def json
-    (self.info).to_json
+    info.to_json
   end
 end
