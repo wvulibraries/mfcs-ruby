@@ -9,6 +9,7 @@
 #  filename      :string
 #  media_type    :integer
 #  mime_type     :string
+#  ocr_text      :text
 #  path          :string
 #  size          :string
 #  virus_scanned :boolean
@@ -36,6 +37,7 @@ class Media < ApplicationRecord
 
   # Enums
   # ----------------------------------------------------
+  # enum media_type: { image: 0, audio: 1, video: 2, pdf: 3 }
   enum media_type: { archive: 0, working: 1, conversion: 2, export: 3, thumbnail: 4 }
 
   # Callbacks

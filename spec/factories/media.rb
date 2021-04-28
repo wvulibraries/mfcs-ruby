@@ -9,6 +9,7 @@
 #  filename      :string
 #  media_type    :integer
 #  mime_type     :string
+#  ocr_text      :text
 #  path          :string
 #  size          :string
 #  virus_scanned :boolean

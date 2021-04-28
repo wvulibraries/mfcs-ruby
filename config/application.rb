@@ -31,6 +31,7 @@ module Mfcs
 
     # modules in the library
     config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/services)
 
     # Don't generate system test files.
     config.generators.system_tests = nil

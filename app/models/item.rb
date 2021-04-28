@@ -35,6 +35,9 @@ class Item < ApplicationRecord
   after_initialize :set_defaults, unless: :persisted?
   before_save :idno_setups, unless: proc { idno_set? }
 
+  # temporary
+  after_save :processing
+
   # References the custom validation actor. Calling the actor on each field
   # except for file fields gives us a validation on this model.
   # @author David J. Davis
@@ -133,6 +136,10 @@ class Item < ApplicationRecord
 
   # Callback Methods
   # -----------------------------------------------------
+
+  def processing
+    ProcessingJob.perform_later(id)
+  end
 
   # The helper methods to set default values
   # @author David J. Davis
