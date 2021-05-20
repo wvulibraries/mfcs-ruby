@@ -36,7 +36,7 @@ So far this is fairly straight forward as a Rails App, more to come I'm sure.
   - Jest
 
 ## Turbolinks 
-Stimulus is designed to work with Turbolinks to que sites up faster and allow on the fly rendering of serverside and JavaScript related information.  It also allows parts of the site that are not changing to remain the same.  There should be some basic documentation added on how these parts will work togather in the near future.  
+Stimulus is designed to work with Turbolinks to que sites up faster and allow on the fly rendering of serverside and JavaScript related information.  It also allows parts of the site that are not changing to remain the same.  There should be some basic documentation added on how these parts will work together in the near future.
 
 There are some packages that used to be in the main rails stuff, but is now added through yarn.  
 
