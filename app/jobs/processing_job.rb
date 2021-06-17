@@ -5,23 +5,20 @@ class ProcessingJob < ApplicationJob
   # Figure out what conversions need to be done
   # Run the conversions possibly in a specific order.
 
-
-  Conversion::Image,
-  Conversion::Audio,
+  Conversion::Image
+  Conversion::Audio
   Conversion::Video
   Conversion::Pdf 
 
-
   # SHOULD BE 
-  Conversion::Image
-  Conversion::ImageThumbnail
-  Conversion::Watermark
-  Conversion::Audio
-  Conversion::Video
-  Conversion::VideoThumbnail
-  Conversion::CombinePDF
-  Conversion::OCR ---> WHERE DOES THE OCR STUFF GET SAVED? MEDIA? 
-
+  # Conversion::Image
+  # Conversion::ImageThumbnail
+  # Conversion::Watermark
+  # Conversion::Audio
+  # Conversion::Video
+  # Conversion::VideoThumbnail
+  # Conversion::CombinePDF
+  # Conversion::OCR # ---> WHERE DOES THE OCR STUFF GET SAVED? MEDIA? 
 
   # Use Case 
   # =======================================================================
