@@ -120,7 +120,7 @@ RSpec.describe Validator::FieldDuplicate, type: :model do
       end 
     end
     
-    it 'expeects the set to include the input' do
+    it 'expects the set to include the input' do
       input = Faker::Movies::HitchhikersGuideToTheGalaxy.character
       item = FactoryBot.build(:metadata)
       item.data = {"title" => input}

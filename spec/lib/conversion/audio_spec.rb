@@ -31,7 +31,7 @@ RSpec.describe Conversion::Audio do
     it 'has @conversion_params' do 
       params_hash = form.organized_hash[:files]
       base = described_class.new(media.id, params_hash)
-      expect(base.instance_variable_defined?(:@converison_params)).to be true
+      expect(base.instance_variable_defined?(:@conversion_params)).to be true
     end 
   end
 

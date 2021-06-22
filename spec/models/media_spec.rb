@@ -142,8 +142,8 @@ RSpec.describe Media, type: :model do
     end 
   end
   
-  # # As Json
-  # # ===============================================================
+  # As Json
+  # ===============================================================
   context '.json' do
     it 'should return a json string' do
       expect(media.json).to be_a String
