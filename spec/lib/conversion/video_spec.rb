@@ -14,11 +14,11 @@ RSpec.describe Conversion::Video do
       end 
     end 
 
-    data['video'].sample(10).each do |mime| 
+    data['audio'].sample(10).each do |mime| 
       it "#{mime} fails the matcher wrong file type" do
         expect(described_class.matches?(mime)).to be false
       end 
-    end 
+    end     
   end
 
   context '.initialize' do
@@ -31,7 +31,7 @@ RSpec.describe Conversion::Video do
     it 'has @conversion_params' do 
       params_hash = form.organized_hash[:files]
       base = described_class.new(media.id, params_hash)
-      expect(base.instance_variable_defined?(:@converison_params)).to be true
+      expect(base.instance_variable_defined?(:@conversion_params)).to be true
     end 
   end
 
@@ -42,30 +42,29 @@ RSpec.describe Conversion::Video do
       expect(base.save_file).to be_a Pathname
     end 
 
-    it 'should end as a ogg' do
+    it 'should end as a avi' do
       params_hash = form.organized_hash[:files]
       params_hash['video_format'] = 'avi'
       base = described_class.new(media, params_hash)
-      expect(base.save_file.basename.to_s).to  eq 'storm.avi'
+      expect(base.save_file.basename.to_s).to  eq 'test.avi'
     end 
 
     it 'should create a mp4 if no format is given' do
       params_hash = form.organized_hash[:files]
       params_hash['video_format'] = nil
       base = described_class.new(media, params_hash)
-      expect(base.save_file.basename.to_s).to  eq 'storm.mp4'
+      expect(base.save_file.basename.to_s).to  eq 'test.mp4'
     end
   end 
 
   context '.perform' do
     it 'should create a mp4 if no format is given' do
       params_hash = form.organized_hash[:files]
-      params_hash['video_format'] = 'mp4'
+      params_hash['video_format'] = nil
       params_hash['video_bitrate'] = '1M'
       base = described_class.new(media, params_hash)
       expect(base.perform).to be_truthy
     end
   end
 
-  
 end

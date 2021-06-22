@@ -1,6 +1,9 @@
 # Video Factory
 class Conversion::Video < Conversion::Base  
-
+  # This provides a interface to the actor class in determining if it needs to fire.
+  # @params[mime] String ex: 'image/jpg' 
+  # @author David J. Davis 
+  # @return boolean.  
   def self.matches?(mime) 
     mime.split('/')[0].casecmp('video').zero?
   end 
@@ -21,23 +24,23 @@ class Conversion::Video < Conversion::Base
   def save_file
     @format = (@conversion_params['video_format'] || 'mp4').downcase
     @filename = File.basename(@media.filename, '.*')
-
     unless File.directory?(@media.item.conversion_path)
       FileUtils.mkdir_p(@media.item.conversion_path)
     end
-
     @media.item.conversion_path.join("#{@filename}.#{@format}")
   end
 
   # Saves the media that has been recently converted.
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @return [Object] Media Object
   def perform
     ffmpeg = FFMPEG::Video.new(@media.path, save_file) 
     rate = (@conversion_params['video_bitrate'] || '8M')
+    width = @conversion_params.fetch('video_width').to_i 
+    height = @conversion_params.fetch('video_height').to_i
     ffmpeg.command do 
       bitrate rate
-      size @conversion_params['video_width'], @conversion_params['height']
+      size width, height
     end 
     ffmpeg.perform 
     save_media

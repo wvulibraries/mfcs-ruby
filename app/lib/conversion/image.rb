@@ -1,4 +1,4 @@
-# Covnersion Class for Images
+# Conversion Class for Images
 # The parent Conversion::Actor will decide to use the Image, Audio, Video, OCR, and PDF versions.
 class Conversion::Image
   # LIST OF POTENTIAL CONVERSION OPTIONS
@@ -68,7 +68,7 @@ class Conversion::Image
       @operations.each { |operation| operation.new(@conversion_params).call(convert) }
       convert << save_file
     end
-    # save the conersion media object
+    # save the conversion media object
     media = save_media
     # run post conversion operations Watermarking and Thumbnail Creation
     post_conversion = POST_CONVERSION.select { |post_op| post_op.matches?(@conversion_params) }
