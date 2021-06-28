@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe FFMPEG::Audio, type: :model do
   let(:file) { Rails.root.join('spec','fixtures', 'files', 'storm.wav')  }
   let(:to_file) { Rails.root.join('tests', 'data', 'files', 'storm.mp3') }
-
+  let(:test_file_dir) { Rails.root.join('tests', 'data', 'files') }
 
   context '.normalize' do
     it 'returns a string' do
@@ -65,6 +65,10 @@ RSpec.describe FFMPEG::Audio, type: :model do
 
 
   context '.perform' do 
+    before(:each) do
+      FileUtils.mkdir_p(test_file_dir) unless File.exists?(test_file_dir)
+    end 
+
     it 'expects the perform to be false because command has not been called.' do 
       base = described_class.new(file, to_file)
       expect(base.perform).to be false
