@@ -4,7 +4,6 @@ RSpec.describe FFMPEG::Video::Thumbnail, type: :model do
   let(:file) { Rails.root.join('spec','fixtures', 'files', 'test.mov')  }
   let(:to_file) { Rails.root.join('tests', 'data', 'files', 'test.jpg') }
 
-
   context '.frames' do
     it 'should set the param number to 1 as default' do 
       base = described_class.new(file, to_file)
