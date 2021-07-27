@@ -50,7 +50,7 @@ class Items::MetadataController < ApplicationController
     end
 
     @form = Form.find(params[:form_id])
-    @items = Item.where(form_id: params[:form_id])
+    @items = Item.where(form_id: params[:form_id], metadata: true)
   end
 
   # GET /items/metadata/1/edit

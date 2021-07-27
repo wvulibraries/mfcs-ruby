@@ -1,5 +1,5 @@
 # Factory Builder
-# @author David J. Davis / Tracy McCormick
+# @author(s) David J. Davis / Tracy McCormick
 class Conversion::Actor
   TYPES = [
     Conversion::Image,
@@ -33,6 +33,6 @@ class Conversion::Actor
   # back an error string from the kernal operation.
   # @author David J. Davis
   def perform
-    @conversion.new(@media, @conversion_params).perform
+    @conversion.new(@media.id, @conversion_params).perform
   end
 end

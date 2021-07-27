@@ -66,10 +66,19 @@ class Media < ApplicationRecord
   end
 
   # Uses Basecamps Marcel Gem to check the mimetype
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @return [String]
   def mime(path)
-    Marcel::MimeType.for Pathname.new(path)
+    detected_type = Marcel::MimeType.for Pathname.new(path)
+
+    # if the detected_type is 'video/x-ms-asf' return 
+    # the type for the extension only instead of the detected
+    # type.
+    if detected_type == 'video/x-ms-asf'
+      Marcel::MimeType.for extension: path.last(4).to_s
+    else
+      detected_type
+    end
   end
 
   # Uses other methods to set the information for the db.

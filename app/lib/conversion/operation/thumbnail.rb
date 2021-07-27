@@ -9,15 +9,15 @@ class Conversion::Operation::Thumbnail
   end
 
   # Get values of the params or set defaults
-  # @author David J. Davis
+  # @author David J. Davis / Tracy A. McCormick
   # @return [Boolean]
   def initialize(file, params, media_obj)
     @media = media_obj
     @file = file
-    @height = params.fetch('thumbnail_height') || 300
-    @width = params.fetch('thumbnail_width') || 300
-    @resolution = params.fetch('thumbnail_resolution') || 72
-    @format = (params.fetch('thumbnail_format') || 'jpg').downcase
+    @height = params.fetch('thumbnail_height', 300) || 300
+    @width = params.fetch('thumbnail_width', 300) || 300
+    @resolution = params.fetch('thumbnail_resolution', 72) || 72
+    @format = (params.fetch('thumbnail_format', 'jpg') || 'jpg').downcase
   end
 
   # Sets the folder structure up for the file to have thumbnails.
@@ -35,6 +35,13 @@ class Conversion::Operation::Thumbnail
   # @return String "WidthxHeight"
   def size
     "#{@width}x#{@height}"
+  end
+
+  # Creates the string for the resolution of the image.
+  # @author Tracy A. McCormick
+  # @return String Resolution
+  def resolution
+    @resolution.to_s
   end
 
   # Sets up the save file similarly to how the

@@ -1,0 +1,9 @@
+production:
+  environment: production
+  data_store: data
+development:
+  environment: development
+  data_store: data
+test:
+  environment: test
+  data_store: tests/data

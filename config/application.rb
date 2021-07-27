@@ -47,5 +47,8 @@ module Mfcs
       g.fixture_replacement :factory_bot
       g.factory_bot dir: 'spec/factories'
     end
+
+    # Config MFCS Data Store
+    config.mfcs = config_for(:mfcs)
   end
 end
