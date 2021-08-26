@@ -27,11 +27,10 @@
     <% end %>
   <% end %>
 
-  <div class="row p-1 m-0 border-bottom">
-     
+  <div class="row p-1 m-0 border-bottom"> 
     <% @form.file_fields.each do |f| %>
       <dt class="col"> Number of Files for <%= f %> </dt>  
-      <dd class="col"> <%= @item['data'][f].count %> </dd>
+      <dd class="col"> <%= @item.file_field_count(f) %> </dd>
     <% end %>
   </div>
   
@@ -47,7 +46,7 @@
 
   <div class="row p-1 m-0 border-bottom">
     <dt class="col"> Created By: </dt> 
-    <dd class="col"> Need Information </dd>
+    <dd class="col"><%= @item.created_by %></dd>
   </div>
 
   <div class="row p-1 m-0 border-bottom">
@@ -58,7 +57,7 @@
 
   <div class="row p-1 m-0 border-bottom">
     <dt class="col"> Modified By: </dt> 
-    <dd class="col"> Need Information </dd>
+    <dd class="col"><%= @item.modified_by %></dd>
   </div>
 
   <div class="row p-1 m-0 border-bottom">

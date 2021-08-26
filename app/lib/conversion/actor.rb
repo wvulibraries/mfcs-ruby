@@ -5,6 +5,7 @@ class Conversion::Actor
     Conversion::Image,
     Conversion::Audio,
     Conversion::Video,
+    #Conversion::VideoThumbnail,
     Conversion::Pdf
   ].freeze
 

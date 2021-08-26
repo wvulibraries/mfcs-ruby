@@ -11,7 +11,7 @@
 <% end %>
 
 <%= f.hidden_field(:id, value: @item.id ) %> 
-<%= f.hidden_field(:form_id, value: @form.id,  'data-target' => 'form-validations.formId') %> 
+<%= f.hidden_field(:form_id, value: @form.id, 'data-target' => 'form-validations.formId') %> 
 <%= f.hidden_field(:metadata, value: @form.metadata ) %>
 <%= f.hidden_field(:public_release, value: @form.export_public ) %>
 

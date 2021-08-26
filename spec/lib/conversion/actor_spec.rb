@@ -54,5 +54,4 @@ RSpec.describe Conversion::Actor do
     end 
   end
   
-  
 end

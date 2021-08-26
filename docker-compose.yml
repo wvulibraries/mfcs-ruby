@@ -65,7 +65,6 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
-      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
     command: ./bin/webpack-dev-server
     volumes:
       - .:/home/mfcs
@@ -81,7 +80,3 @@ services:
     ports: 
       - 9200:9200
       - 9300:9300
-
-volumes:
-  redis:
-  postgres:

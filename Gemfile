@@ -50,6 +50,9 @@ gem 'to_regexp', '~> 0.2.1'
 gem 'mini_magick', '~> 4.11' # wrapper for imagemagick
 gem 'rtesseract'
 
+# used for batching jobs
+gem 'sidekiq-batch'
+
 # Test Suite
 # =====================================================================================
 # group :test do

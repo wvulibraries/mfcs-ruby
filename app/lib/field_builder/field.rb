@@ -241,4 +241,22 @@ class FieldBuilder::Field
     </div>
     HTML
   end
+
+
+  # def length_validation
+  #   { 
+  #     "data-min" => @field['min'].to_s,
+  #     "data-max" => @field['max'].to_s,
+  #     "data-format" => @field['format'].to_s
+  #   }
+  # end
+
+  # Performs the necessary validations
+  # @author Tracy A. McCormick
+  # @return [Hash]
+  # def length_validation
+
+  #   # return values in a hash
+  #   { data-min => @field['min'].to_s, data-max => @field['max'].to_s, data-format => @field['format'].to_s }
+  # end
 end

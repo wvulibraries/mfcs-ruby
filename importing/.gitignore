@@ -1,0 +1,6 @@
+# Ignore all logfiles and tempfiles.
+/forms/*
+/objects/*
+/projects/*
+/users/*
+/watermarks/*

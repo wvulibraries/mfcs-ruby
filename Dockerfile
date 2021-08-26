@@ -24,7 +24,7 @@ RUN apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
 
 # ImageMagic Conversions and FFMPEG Conversions
 # -------------------------------------------------------------------------------------------------
-RUN apt-get install -y imagemagick ghostscript ffmpeg 
+RUN apt-get install -y graphicsmagick ghostscript ffmpeg libgs-dev 
 # -------------------------------------------------------------------------------------------------
 
 # Node.js
@@ -49,7 +49,3 @@ WORKDIR /home/mfcs
 COPY ./ /home/mfcs
 RUN bundle install --jobs=4 --retry=3 
 RUN yarn install && yarn upgrade
-
-ADD ./startup.sh /usr/bin/
-RUN chmod -v +x /usr/bin/startup.sh
-ENTRYPOINT ["/usr/bin/startup.sh"]

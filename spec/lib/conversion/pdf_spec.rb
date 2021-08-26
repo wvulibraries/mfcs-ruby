@@ -18,8 +18,8 @@ RSpec.describe Conversion::Pdf do
     end 
   end
 
-  context '.init' do
+#   context '.init' do
     
-  end
+#   end
   
 end

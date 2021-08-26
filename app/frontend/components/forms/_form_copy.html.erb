@@ -1,0 +1,20 @@
+<%= form_tag('/forms/clone') do %>
+    <div class="control-group">
+        <label class="control-label" for="formSelect">Source Form</label>
+        <div class="controls">
+            <select name="id" id="id">
+                <% forms_array = @forms.all.map { |form| [form.title || form.display_title, form.id] } %>
+                <%= options_for_select(forms_array) %>
+            </select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label" for="title">New Form Title</label>
+        <div class="controls">
+            <input type="text" name="title" id="title" required="" focus="">
+        </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary" name="submitCopy" value="Copy Form">
+<% end %>

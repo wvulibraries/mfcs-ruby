@@ -1,0 +1,28 @@
+<div class="col-12">
+  <%= form_with(model: [:admin, project], local: true) do |form| %>
+    <% if project.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(project.errors.count, "error") %> prohibited this project from being saved:</h2>
+        <ul>
+          <% project.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+      
+    <div class="field"> 
+      <%= form.label :name, class: 'required' %>
+      <%= form.text_field :name %>
+    </div>
+
+    <div class="field"> 
+      <%= form.label 'Project ID (Short Name)', class: 'required' %>
+      <%= form.text_field :project_id %>
+    </div>
+
+    <div class="actions">    
+      <%= form.submit class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

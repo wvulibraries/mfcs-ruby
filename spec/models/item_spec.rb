@@ -3,9 +3,11 @@
 # Table name: items
 #
 #  id             :bigint           not null, primary key
+#  created_by     :integer
 #  data           :jsonb
 #  idno           :string
 #  metadata       :boolean
+#  modified_by    :integer
 #  public_release :boolean
 #  uuid           :string
 #  created_at     :datetime         not null
@@ -185,7 +187,7 @@ RSpec.describe Item, type: :model do
 
     it 'expects uuid to stay the same after a save' do
       item = FactoryBot.build(:complete_digital_object_system)
-      puts item.inspect
+      #puts item.inspect
       uuid = item.uuid
       item.data['title'] = 'testing.txt'
       item.save validate: false

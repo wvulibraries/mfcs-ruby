@@ -1,0 +1,18 @@
+<div class="row"> 
+
+  <div class="col"> 
+    <h2> Project Info </h2>
+
+    <div class="strong"> 
+      <strong> Name : </strong>  <%= @project.name %> 
+    </div> 
+
+    <div class="strong"> 
+      <strong> Project ID : </strong>
+      <%= @project.project_id %>  
+    </div>
+  </div>
+  
+</div>
+
+<%= link_to 'Back', admin_projects_path %>

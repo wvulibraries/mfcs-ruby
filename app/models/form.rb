@@ -71,7 +71,9 @@ class Form < ApplicationRecord
   # SCOPES
   # -----------------------------------------------------
   scope :object_forms, -> { where(metadata: 'false').order(:title) }
+  scope :object_production_forms, -> { where(metadata: 'false', production: 'true').order(:title) }
   scope :metadata_forms, -> { where(metadata: 'true').order(:title) }
+  scope :metadata_production_forms, -> { where(metadata: 'true', production: 'true').order(:title) }
 
   # RAILS CALLBACKS
   # -----------------------------------------------------
@@ -155,6 +157,20 @@ class Form < ApplicationRecord
         file_set.add(field['name'])
       end
       file_set
+    end
+  end
+
+  # Returns a set of names that are fields to be displayed in the table.
+  # @author Tracy A. McCormick
+  # @return Set of strings
+  def table_fields
+    @table_fields ||= begin
+      table_set = Set.new
+      self[:fields].each do |field|
+        next unless field['display_table']
+        table_set.add(field['name'])
+      end
+      table_set
     end
   end
 

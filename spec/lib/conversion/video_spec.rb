@@ -38,21 +38,21 @@ RSpec.describe Conversion::Video do
   context '.save_file' do
     it 'should create a saveable file path with format and filename' do
       params_hash = form.organized_hash[:files]
-      base = described_class.new(media, params_hash)
+      base = described_class.new(media.id, params_hash)
       expect(base.save_file).to be_a Pathname
     end 
 
     it 'should end as a avi' do
       params_hash = form.organized_hash[:files]
       params_hash['video_format'] = 'avi'
-      base = described_class.new(media, params_hash)
+      base = described_class.new(media.id, params_hash)
       expect(base.save_file.basename.to_s).to  eq 'test.avi'
     end 
 
     it 'should create a mp4 if no format is given' do
       params_hash = form.organized_hash[:files]
       params_hash['video_format'] = nil
-      base = described_class.new(media, params_hash)
+      base = described_class.new(media.id, params_hash)
       expect(base.save_file.basename.to_s).to  eq 'test.mp4'
     end
   end 
@@ -62,7 +62,7 @@ RSpec.describe Conversion::Video do
       params_hash = form.organized_hash[:files]
       params_hash['video_format'] = nil
       params_hash['video_bitrate'] = '1M'
-      base = described_class.new(media, params_hash)
+      base = described_class.new(media.id, params_hash)
       expect(base.perform).to be_truthy
     end
   end

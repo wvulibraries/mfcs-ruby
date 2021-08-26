@@ -1,6 +1,6 @@
 class Conversion::Ocr 
-  def initialize(media)
-    @media = media 
+  def initialize(media_id)
+    @media = Media.find(media_id) 
   end  
 
   def ocr(filepath, language = 'eng')
@@ -9,8 +9,8 @@ class Conversion::Ocr
   end 
 
   def perform
-    media.ocr = ocr
-    media.save
+    @media['ocr_text'] = ocr(@media.path)
+    @media.save
   end 
 
   def save_text 

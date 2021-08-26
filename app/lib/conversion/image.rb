@@ -38,7 +38,8 @@ class Conversion::Image
 
     # set aspect ratio
     orig_width, orig_height = MiniMagick::Image.open(@media.path).dimensions
-    width = @conversion_params.fetch('image_width').to_i 
+
+    width = @conversion_params.fetch('image_width').to_i
     height = @conversion_params.fetch('image_height').to_i
     @conversion_params['image_width'], @conversion_params['image_height'] = AspectRatio.new(orig_width, orig_height, width, height).calculate
 

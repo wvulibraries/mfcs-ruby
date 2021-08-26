@@ -23,12 +23,11 @@ class Conversion::Audio < Conversion::Base
   # @return [Object]MiniMagick::Image
   def save_file
     @format = (@conversion_params['audio_format'] || 'mp3').downcase
-    @filename = File.basename(@media.filename, '.*')
 
+    @filename = File.basename(@media.filename, '.*')
     unless File.directory?(@media.item.conversion_path)
       FileUtils.mkdir_p(@media.item.conversion_path)
     end
-
     @media.item.conversion_path.join("#{@filename}.#{@format}")
   end
 

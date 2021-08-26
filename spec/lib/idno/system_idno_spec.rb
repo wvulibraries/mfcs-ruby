@@ -29,7 +29,7 @@ RSpec.describe Idno::SystemIdno, type: :model do
 
   context '.formatted_idno' do
     before(:each) do
-      @form = FactoryBot.create(:object_form)
+      @form = FactoryBot.create(:complete_object_form_system)
       5.times do
         item = FactoryBot.build(:metadata)
         item.data = {"title" => "#{Faker::Movies::LordOfTheRings.character}"}
@@ -46,7 +46,7 @@ RSpec.describe Idno::SystemIdno, type: :model do
     end 
 
     it 'empty record formatting' do
-      form = FactoryBot.create(:object_form)
+      form = FactoryBot.create(:complete_object_form_system)
       form.save
       field_info['idno_format'] = 'testing_#####' 
       field_info['start_increment'] = ''
@@ -55,7 +55,7 @@ RSpec.describe Idno::SystemIdno, type: :model do
     end 
 
     it 'empty record formatting with starting' do
-      form = FactoryBot.create(:object_form)
+      form = FactoryBot.create(:complete_object_form_system)
       form.save
       field_info['idno_format'] = 'testing_#####' 
       field_info['start_increment'] = '77'
@@ -66,7 +66,7 @@ RSpec.describe Idno::SystemIdno, type: :model do
 
   context '.item_count' do
     before(:each) do
-      @form = FactoryBot.create(:object_form)
+      @form = FactoryBot.create(:complete_object_form_system)
     end
 
     it 'returns a count of items in the database' do

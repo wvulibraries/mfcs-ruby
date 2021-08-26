@@ -1,24 +1,68 @@
 # Creates media objects and establishes logic for file submission.
-# @author David J. Davis
+# @author(s) David J. Davis / Tracy A. McCormick
 class Processing::FileUpload
   # Takes a temp file and form id and establishes the media objects
   # associated with file submission.  Also saves and moves the files.
   # @param form_id[integer], uploaded_file(ActionDispatch Tempfile)
-  # @author David J. Davis
-  def initialize(item, uploaded_file)
-    @item = item
+  # @author(s) David J. Davis / Tracy A. McCormick
+
+  def initialize(item_id, uploaded_file, fieldname)
+    @item = Item.find(item_id)
     @uploaded_file = uploaded_file
+    @fieldname = fieldname   
     @directories = create_directories
+    @archive_media = create_archive_media
+    @working_media = create_working_media
+  end
+
+  def archival_path
+    @directories[:archives]
+  end
+
+  def working_path
+    @directories[:working]
+  end
+
+  def archive_media
+    @archive_media
+  end  
+
+  def working_media
+    @working_media
+  end    
+
+  def create_archive_media
+    # creates media object in database
+    Media.new(
+      form_id: @item.form_id,
+      item_id: @item.id, 
+      media_type: :archive, 
+      filename: @uploaded_file.original_filename, 
+      path: @directories[:archives].join(@uploaded_file.original_filename),
+      fieldname: @fieldname
+    )
+  end
+
+  def create_working_media
+    # creates media object in database
+    Media.new(
+      form_id: @item.form_id,
+      item_id: @item.id, 
+      media_type: :working, 
+      filename: @uploaded_file.original_filename, 
+      path: @directories[:working].join(@uploaded_file.original_filename),
+      fieldname: @fieldname
+    )
   end
 
   # Checks to make sure the path is created and savable.
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @abstract
   def create_directories 
     directory_hash = {}
+    uuid_path = @item.uuid.tr('-', '/') #converts uuid to a path (unique to each item)
     ['archives', 'working', 'exports', 'conversions'].each do |directory_type| 
-      uuid_path = @uuid.tr('-', '/') #converts uuid to a path (unique to each item)
-      path = Rails.root.join('data', form_id.to_s, uuid_path, directory_type)
+      path = Rails.root.join(Rails.configuration.mfcs['data_store'], @item.form_id.to_s, uuid_path, directory_type)
       directory_hash[directory_type] = path 
       FileUtils.mkdir_p(path) unless File.directory?(path)
     end
@@ -42,11 +86,11 @@ class Processing::FileUpload
 
   # Sets and Saves the 2 versions of the file on the system.
   # The save also generates a save of the media object.
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @return [String][JSON]
   def save
-    set_versions
-    media.path = media.working_path
-    media.save
+    set_versions 
+    @archive_media.save
+    @working_media.save
   end
 end

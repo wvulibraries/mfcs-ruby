@@ -10,6 +10,15 @@ class ProcessingJob < ApplicationJob
   Conversion::Video
   Conversion::Pdf 
 
+  def perform(item_id)
+    # gets the media and item
+    # media = Media.find(media_id)
+    # item = Item.find(media.item_id)
+  
+    # ConvertingFileJob.perform_later(media_id)
+  end
+
+
   # SHOULD BE 
   # Conversion::Image
   # Conversion::ImageThumbnail
@@ -18,6 +27,11 @@ class ProcessingJob < ApplicationJob
   # Conversion::Video
   # Conversion::VideoThumbnail
   # Conversion::CombinePDF
+
+  # ? Conversion::PdfImage
+  # ? Conversion::PdfThumbnail
+  
+  # Note - Testing OCR TIF doesn't seem work work as well as jpg files.
   # Conversion::OCR # ---> WHERE DOES THE OCR STUFF GET SAVED? MEDIA? 
 
   # Use Case 

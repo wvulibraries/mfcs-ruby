@@ -3,23 +3,23 @@
 class Admin::PermissionsController < ApplicationController
   before_action :set_permission, only: %i[show edit update destroy]
 
-  # GET /permissions
+  # GET /admin/permissions
   def index
     @permissions = Permission.all
   end
 
-  # GET /permissions/1
+  # GET /admin/permissions/1
   def show; end
 
-  # GET /permissions/new
+  # GET /admin/permissions/new
   def new
     @permission = Permission.new
   end
 
-  # GET /permissions/1/edit
+  # GET /admin/permissions/1/edit
   def edit; end
 
-  # POST /permissions
+  # POST /admin/permissions
   def create
     @permission = Permission.new(permission_params)
 
@@ -30,7 +30,7 @@ class Admin::PermissionsController < ApplicationController
     end
   end
 
-  # PATCH/PUT /permissions/1
+  # PATCH/PUT /admin/permissions/1
   def update
     if @permission.update(permission_params)
       redirect_to [:admin, @permission], notice: 'Permission was successfully updated.'
@@ -39,7 +39,7 @@ class Admin::PermissionsController < ApplicationController
     end
   end
 
-  # DELETE /permissions/1
+  # DELETE /admin/permissions/1
   def destroy
     @permission.destroy
     redirect_to admin_permissions_url, notice: 'Permission was successfully destroyed.'

@@ -27,6 +27,13 @@ class FormsController < ApplicationController
     @forms = Form.metadata_forms
   end
 
+  # GET /forms/copy
+  def copy
+    breadcrumb 'List Forms', '/forms', title: 'List Forms', match: :exact
+    breadcrumb 'Copy Form', '/forms/copy', title: 'Copy Form', match: :exact
+    @forms = Form.object_forms
+  end  
+
   # POST /forms
   def create
     @form = Form.new(form_params)
@@ -50,6 +57,18 @@ class FormsController < ApplicationController
         format.html { render :edit }
       end
     end
+  end
+
+  def clone
+    @form = Form.new(Form.find(params[:id]).attributes.merge(id: nil, title: params[:title], display_title: params[:title]))
+    @forms = Form.metadata_forms
+    respond_to do |format|
+      if @form.save
+        format.html { redirect_to form_path(@form), success: I18n.t('form.success') }
+      else
+        format.html { render :edit }
+      end
+    end  
   end
 
   # DELETE /forms/1

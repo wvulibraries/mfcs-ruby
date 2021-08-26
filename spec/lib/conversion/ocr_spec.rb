@@ -5,9 +5,9 @@ RSpec.describe Conversion::Ocr, type: :model do
   let(:stubbed_media) { FactoryBot.build_stubbed(:media) }
   let(:media) { FactoryBot.create(:media) }
 
-  it 'should contain a media object' do 
+#   it 'should contain a media object' do 
   
-  end  
+#   end  
 
 
 end 

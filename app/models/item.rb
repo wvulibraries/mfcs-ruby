@@ -3,9 +3,11 @@
 # Table name: items
 #
 #  id             :bigint           not null, primary key
+#  created_by     :integer
 #  data           :jsonb
 #  idno           :string
 #  metadata       :boolean
+#  modified_by    :integer
 #  public_release :boolean
 #  uuid           :string
 #  created_at     :datetime         not null
@@ -36,7 +38,7 @@ class Item < ApplicationRecord
   before_save :idno_setups, unless: proc { idno_set? }
 
   # temporary
-  after_save :processing
+  # after_save :processing
 
   # References the custom validation actor. Calling the actor on each field
   # except for file fields gives us a validation on this model.
@@ -89,7 +91,7 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [String]
   def archival_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'archives')
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'archives')
   end
   alias archive_path archival_path
 
@@ -99,7 +101,7 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [String]
   def working_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'working')
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'working')
   end
 
   # Conversion Path
@@ -107,7 +109,7 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [String]
   def conversion_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'conversions')
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'conversions')
   end
 
   # Thumb Path
@@ -115,7 +117,7 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [String]
   def thumbnail_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'conversions', 'thumb')
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'conversions', 'thumb')
   end
   alias thumb_path thumbnail_path
 
@@ -124,7 +126,7 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [String]
   def export_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'exports')
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'exports')
   end
 
   # Splits the UUID into a path string
@@ -148,11 +150,34 @@ class Item < ApplicationRecord
     self.uuid ||= SecureRandom.uuid
   end
 
+  # returns the id of the first thumbnail media image
+  # @author Tracy A. McCormick
+  # @return integer
+  def thumb_id
+    begin
+      media = Media.where(item_id: id, media_type: 'thumbnail').first
+      media.id
+    rescue
+      -1
+    end
+  end
+
+  # returns the count of files in the passed field
+  # @author Tracy A. McCormick
+  # @return integer  
+  def file_field_count(field)
+    begin
+      self['data'][field].count
+    rescue
+      0
+    end
+  end 
+
   private
 
   # This method loops through the data to use the Validator Actor
   # If there is not valid then add to the errors field.
-  # @author David J. Davis / Tracy McCormick
+  # @author David J. Davis / Tracy A. McCormick
   # @abstract Sets errors to the item model
   def validate_data(validation_data)
     validation_data.each do |field, input|
@@ -176,4 +201,10 @@ class Item < ApplicationRecord
     end
     new_validations
   end
+
+  protected
+
+  def timestamp_attributes_for_create
+    [:updated_at]
+  end  
 end

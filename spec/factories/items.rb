@@ -3,9 +3,11 @@
 # Table name: items
 #
 #  id             :bigint           not null, primary key
+#  created_by     :integer
 #  data           :jsonb
 #  idno           :string
 #  metadata       :boolean
+#  modified_by    :integer
 #  public_release :boolean
 #  uuid           :string
 #  created_at     :datetime         not null
