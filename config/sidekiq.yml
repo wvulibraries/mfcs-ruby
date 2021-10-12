@@ -1,4 +1,5 @@
 ---
+:timeout: 8
 :concurrency: 5
 staging:
   :concurrency: 10

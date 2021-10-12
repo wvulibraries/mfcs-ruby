@@ -47,7 +47,7 @@ class ProcessFileJob < ApplicationJob
       item.record_timestamps=false
       item.save
 
-      WorkingFileJob.perform_later(archive_media.id)
+      # WorkingFileJob.perform_later(archive_media.id)
 
       # update hash_values for working copy
       #hash_values[:media_type] = :working

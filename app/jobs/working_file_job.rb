@@ -19,7 +19,7 @@ class WorkingFileJob < ApplicationJob
     # item[:data][media.fieldname] << working_file
     # item.save
 
-    ConvertingFileJob.perform_later(working_file.id)
+    # ConvertingFileJob.perform_later(working_file.id)
     # ProcessingJob.perform_later(working_file.id)
   end
 
