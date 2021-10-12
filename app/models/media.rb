@@ -2,14 +2,16 @@
 #
 # Table name: media
 #
-#  id            :bigint           not null,primary key
+#  id            :bigint           not null, primary key
 #  checksum      :string
+#  fieldname     :string
 #  file_errors   :jsonb
 #  filename      :string
+#  media_type    :integer
 #  mime_type     :string
+#  ocr_text      :text
 #  path          :string
 #  size          :string
-#  uuid          :string
 #  virus_scanned :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -17,6 +19,8 @@
 #  item_id       :integer
 #
 class Media < ApplicationRecord
+  self.table_name = 'media'
+
   # INCLUDES
   # -----------------------------------------------------
   include ActionView::Helpers::NumberHelper
@@ -25,14 +29,20 @@ class Media < ApplicationRecord
   # ------------------------------------------------------
   # validates :filename, :path, :form_id, :item_id, presence: true
   validates :filename, :path, :form_id, presence: true
-  
-  # Associations 
+
+  # Associations
   # -----------------------------------------------------
+  belongs_to :item
   belongs_to :form
 
-  # RAILS CALLBACKS
+  # Enums
+  # ----------------------------------------------------
+  # enum media_type: { image: 0, audio: 1, video: 2, pdf: 3 }
+  enum media_type: { archive: 0, working: 1, conversion: 2, export: 3, thumbnail: 4 }
+
+  # Callbacks
   # -----------------------------------------------------
-  after_initialize :set_defaults, unless: :persisted?
+  before_save :file_info, unless: :persisted?
 
   # Methods for File Handling
   # -----------------------------------------------------
@@ -56,82 +66,47 @@ class Media < ApplicationRecord
   end
 
   # Uses Basecamps Marcel Gem to check the mimetype
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @return [String]
   def mime(path)
-    Marcel::MimeType.for Pathname.new(path)
+    detected_type = Marcel::MimeType.for Pathname.new(path)
+
+    # if the detected_type is 'video/x-ms-asf' return 
+    # the type for the extension only instead of the detected
+    # type.
+    if detected_type == 'video/x-ms-asf'
+      Marcel::MimeType.for extension: path.last(4).to_s
+    else
+      detected_type
+    end
   end
 
   # Uses other methods to set the information for the db.
   # @author David J. Davis
   # @abstract
-  def file_info(path)
+  def file_info
     self.checksum = generate_checksum(path)
+    self.mime_type = mime(path)
+    self.size = filesize(path)
   end
 
-  # Paths for variety of Media
-  # -----------------------------------------------------
-  # Archival Path
-  # Files should be stored here and then never used again.
+  # Builds a Common Use Data Hash
   # @author David J. Davis
-  # @return [String]
-  def archival_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'archives')
-  end
-
-  # Working Path
-  # A duplicate of the file in the archival path that should be
-  # used for conversions and in system use.
-  # @author David J. Davis
-  # @return [String]
-  def working_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'working')
-  end
-
-  # Conversion Path
-  # The path where conversions will be stored
-  # @author David J. Davis
-  # @return [String]
-  def conversion_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'conversions')
-  end
-
-  # Export
-  # The path where exports will be stored.
-  # @author David J. Davis
-  # @return [String]
-  def export_path
-    Rails.root.join('data', form_id.to_s, uuid_path, 'exports')
-  end
-
-  # Splits the UUID into a pah string
-  # @author David J. Davis
-  # @return [String]
-  def uuid_path
-    uuid.tr('-', '/')
+  # @return [Hash]
+  def info
+    {
+      checksum: generate_checksum(path),
+      mime: mime(path),
+      filename: filename,
+      filesize: filesize(path),
+      base_type: mime(path).split('/').first
+    }
   end
 
   # Sets up a hash to return as json
   # @author David J. Davis
   # @return [Hash][JSON]
   def json
-    {
-      media_id: id,
-      uuid: uuid,
-      filename: filename,
-      archival_path: archival_path,
-      working_path: working_path,
-      conversion_path: conversion_path
-    }.to_json
-  end
-
-  # Callback Methods
-  # -----------------------------------------------------
-
-  # The helper methods to set default values
-  # @author David J. Davis
-  # @abstract
-  def set_defaults
-    self.uuid ||= SecureRandom.uuid
+    info.to_json
   end
 end

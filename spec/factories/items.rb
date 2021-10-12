@@ -3,10 +3,13 @@
 # Table name: items
 #
 #  id             :bigint           not null, primary key
+#  created_by     :integer
 #  data           :jsonb
 #  idno           :string
 #  metadata       :boolean
+#  modified_by    :integer
 #  public_release :boolean
+#  uuid           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  form_id        :integer
@@ -46,6 +49,19 @@ FactoryBot.define do
       public_release { Faker::Boolean.boolean }
       association :form, factory: :complete_object_form_system
     end
+
+    factory :item_with_file do 
+      data {  
+        { 
+          idno: 'sweet_idno_number_user_gen',
+          title: 'testing'
+        }
+      }
+      metadata { false }
+      idno {'sweet_idno_number_user_gen' }
+      public_release { Faker::Boolean.boolean }
+      association :form, factory: :file_conversion_form
+    end 
 
     factory :complete_digital_object_user do 
       data { 

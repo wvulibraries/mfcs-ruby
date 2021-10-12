@@ -1,0 +1,14 @@
+/log/*
+/importing/forms/data/*
+/importing//objects/data/*
+/importing//objects/0/*
+/importing//objects/b/*
+/importing//objects/c/*
+/importing//objects/e/*
+/importing//objects/*.zip
+/importing//objects/folklife_*
+/importing//projects/data/*
+/importing//users/data/*
+/importing//users/*.json
+/importing//watermarks/data/*
+/data/*

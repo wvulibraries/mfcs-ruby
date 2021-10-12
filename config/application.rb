@@ -12,6 +12,7 @@ require "action_view/railtie"
 require "action_cable/engine"
 require "sprockets/railtie"
 require "pp"
+require 'English'
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -30,6 +31,7 @@ module Mfcs
 
     # modules in the library
     config.autoload_paths += %W(#{config.root}/lib)
+    config.autoload_paths += %W(#{config.root}/services)
 
     # Don't generate system test files.
     config.generators.system_tests = nil
@@ -45,5 +47,8 @@ module Mfcs
       g.fixture_replacement :factory_bot
       g.factory_bot dir: 'spec/factories'
     end
+
+    # Config MFCS Data Store
+    config.mfcs = config_for(:mfcs)
   end
 end

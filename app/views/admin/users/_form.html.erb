@@ -1,0 +1,66 @@
+<div class="col-12">
+  <%= form_with(model: [:admin, user], local: true) do |form| %> 
+    <% if user.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(user.errors.count, "error") %> prohibited this project from being saved:</h2>
+        <ul>
+          <% user.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+      
+    <div class="field"> 
+      <%= form.label :username, class: 'required' %>
+      <%= form.text_field :username %>
+    </div>
+
+    <div class="field"> 
+      <%= form.label :first_name, class: 'required' %>
+      <%= form.text_field :first_name %>
+    </div>
+
+    <div class="field"> 
+      <%= form.label :last_name, class: 'required' %>
+      <%= form.text_field :last_name %>
+    </div>
+
+    <div class="field"> 
+      <%= form.label :email, class: 'required' %>
+      <%= form.text_field :email %>
+    </div>
+
+    <div class="field">
+      <%= form.label :student, 'Is the User a Student?', class: 'required' %>
+      <div class="select-style">
+        <%= form.select :student, options_for_select([['Yes', true], ['No', false]], selected: form.object.student) %>
+      </div>
+    </div>    
+
+    <div class="field">
+      <%= form.label :active, 'Is the User Active?', class: 'required' %>
+      <div class="select-style">
+        <%= form.select :active, options_for_select([['Yes', true], ['No', false]], selected: form.object.active) %>
+      </div>
+    </div>
+
+    <div class="field">
+        <%= form.label :status, class: 'required' %>
+        <div class="select-style">
+          <%= form.select :status, options_for_select(User.statuses.keys.to_a, selected: form.object.status) %>
+        </div>
+    </div>
+
+    <div class="field">
+      <%= form.label :form_creator, 'Form Creator', class: 'required' %>
+      <div class="select-style">
+        <%= form.select :form_creator, options_for_select([['Yes', true], ['No', false]], selected: form.object.form_creator) %>
+      </div>
+    </div>
+
+    <div class="actions">    
+      <%= form.submit class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>

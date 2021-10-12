@@ -1,9 +1,9 @@
 // rails webpack environment
-const { environment } = require('@rails/webpacker');
-const webpack = require("webpack")
+import { environment } from '@rails/webpacker';
+import { ProvidePlugin } from "webpack";
 
 // Bootstrap JS
-environment.plugins.append("Provide", new webpack.ProvidePlugin({
+environment.plugins.append("Provide", new ProvidePlugin({
   $: 'jquery',
   jQuery: 'jquery',
   Popper: ['popper.js', 'default'],
@@ -26,4 +26,4 @@ environment.plugins.append("Provide", new webpack.ProvidePlugin({
 // environment.loaders.prepend('sass', sassLoader );
 
 // keep default rails stuffs. 
-module.exports = environment
+export default environment

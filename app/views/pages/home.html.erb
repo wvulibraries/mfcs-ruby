@@ -1,3 +1,70 @@
 <%= render "/components/homepage/homepage" do %>
   <h1> Hi <%= current_user.first_name %>, Welcome to MFCS </h1>
+
+	<section class="aboutMFCS">
+		<div class="widthContainer">
+			<div class="pic">
+        <%= image_pack_tag 'media/packs/images/mfcs_data.svg', class:'', width:'210', height:'228', alt: 'mfcs holding a data icon' %>
+			</div>
+			<div class="text">
+				<p>
+					MFCS is an
+					<a href="https://en.wikipedia.org/wiki/Preservation_%28library_and_archival_science%29">archival and preservation</a>
+					<a href="https://en.wikipedia.org/wiki/Digital_asset_management">Digital Asset Management System</a>
+					developed by <a href="https://lib.wvu.edu/">WVU Libraries</a> since 2011. For more information
+					about MFCS visit the <a href="https://github.com/wvulibraries/mfcs-ruby">MFCS Ruby Github Project Page</a>.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="createIndex">
+		<div class="widthContainer">
+			<span class="span4">
+				<h2> <span class="fa fa-tasks"></span> Manage Inventory </h2>
+				<div class="text" style="height: 188px;">
+					<p>
+						MFCS allows you to manage forms, and forms that you have
+						created.  Forms can be edited by using the list forms link in
+						the Form Management section.  Editing objects works in a
+						similar fashion using the Data Entry section.
+					</p> <br>
+					<div class="actionButton">
+						<a href="/items/digital_objects" class="btn btn-primary"> Create &amp; Edit Digital Objects </a>
+						<a href="/items/metadata" class="btn btn-primary"> Create &amp; Edit Metadata Objects </a>            
+						<a href="/items/search/" class="btn btn-primary"> Search </a>
+					</div>
+				</div>
+			</span>
+			<span class="span4">
+				<h2> <span class="fa fa-list-alt"></span> Manage Forms </h2>
+				<div class="text" style="height: 188px;">
+					<p>
+						Creating forms allow you to collect certain information along
+						with your digital objects and is the basis for creating
+						objects. Creating Objects in MFCS is the way your archive
+						data for use in a digital repository later.
+					</p><br>
+					<div class="actionButton">
+						<a href="/forms/new" class="btn btn-primary"> Create A Form </a>
+						<a href="/forms/" class="btn btn-primary"> List Forms </a>
+					</div>
+				</div>
+			</span>
+			<span class="span4">
+				<h2> <span class="fa fa-book"></span> Documentation </h2>
+				<div class="text" style="height: 188px;">
+					<p>
+						Need help?  The documentation will help to provide some of
+						the basic jargon and techniques to accomplishing tasks in
+						MFCS.
+					</p><br>
+					<div class="actionButton">
+						<a href="https://github.com/wvulibraries/mfcs-ruby/wiki/MFCS-Wiki" class="btn btn-primary"> MFCS Wiki </a>
+					</div>
+				</div>
+			</span>
+		</div>
+	</section>
+
 <% end %>

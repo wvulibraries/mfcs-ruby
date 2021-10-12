@@ -58,6 +58,10 @@ class User < ApplicationRecord
   enum status: { user: 0, editor: 1, admin: 2 }
 
   def name
-    first_name + ' ' + last_name
+    begin
+      first_name + ' ' + last_name 
+    rescue
+      'Unknown User'
+    end
   end
 end
