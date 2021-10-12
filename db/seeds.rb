@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 user = User.new(
+  :id => 100,
   :username => 'admin',
   :email => 'changeme@mail.wvu.edu',
   :password => 'password',

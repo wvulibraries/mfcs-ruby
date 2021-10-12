@@ -2,15 +2,15 @@
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
 #
-# This file is the source Rails uses to define your schema when running `rails
-# db:schema:load`. When creating a new database, `rails db:schema:load` tends to
+# This file is the source Rails uses to define your schema when running `bin/rails
+# db:schema:load`. When creating a new database, `bin/rails db:schema:load` tends to
 # be faster and is potentially less error prone than running all of your
 # migrations from scratch. Old migrations may fail to apply correctly if those
 # migrations use external dependencies or application code.
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_19_154050) do
+ActiveRecord::Schema.define(version: 2021_07_13_205805) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -34,7 +34,14 @@ ActiveRecord::Schema.define(version: 2020_11_19_154050) do
     t.bigint "byte_size", null: false
     t.string "checksum", null: false
     t.datetime "created_at", null: false
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
   create_table "audits", force: :cascade do |t|
@@ -92,10 +99,12 @@ ActiveRecord::Schema.define(version: 2020_11_19_154050) do
     t.boolean "public_release"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "uuid"
+    t.integer "modified_by"
+    t.integer "created_by"
   end
 
   create_table "media", force: :cascade do |t|
-    t.string "uuid"
     t.integer "form_id"
     t.integer "item_id"
     t.string "filename"
@@ -107,6 +116,9 @@ ActiveRecord::Schema.define(version: 2020_11_19_154050) do
     t.string "mime_type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "media_type"
+    t.string "fieldname"
+    t.text "ocr_text"
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -165,6 +177,7 @@ ActiveRecord::Schema.define(version: 2020_11_19_154050) do
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "permissions", "forms"
   add_foreign_key "permissions", "users"
 end

@@ -1,0 +1,13 @@
+# Ignore all logfiles and tempfiles.
+/forms/data/*
+/objects/data/*
+/objects/0/*
+/objects/b/*
+/objects/c/*
+/objects/e/*
+/objects/*.zip
+/objects/folklife_*
+/projects/data/*
+/users/data/*
+/users/*.json
+/watermarks/data/*

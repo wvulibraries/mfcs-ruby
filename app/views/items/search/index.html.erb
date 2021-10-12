@@ -1,0 +1,72 @@
+<section class="main">
+ <div class="widthContainer">
+ 
+	<header class="page-header">
+		<h1 class="page-title"> <i class="fa fa-search"></i> Search </h1>
+	</header>
+
+	<ul class="breadcrumbs">
+			<li><a href="/">Home</a></li><li><a href="/data/search/">Search Objects</a></li>
+			<li class="pull-right noDivider"><a href="/data/search/?reset=reset">Reset Search</a></li>
+			<li class="pull-right noDivider"><a href="https://github.com/wvulibraries/mfcs/wiki/Searching" target="_blank"> <i class="fa fa-book"></i> Documentation</a></li>
+	</ul>
+
+  <form action="/data/search/index.php" method="post" class="searchForm">
+	<div class="searchBlock form-group well">
+		<h3>Select a form to search</h3>
+		<select name="formList" id="searchFormSelect">     
+			<option value="NULL">-- Select a Form --</option> 
+			<% @forms.each do |f| %>
+				<% unique_id = "form_#{f.id}" %>
+				<option value=unique_id><%= f.title || f.display_title %></option>
+			<% end %>
+			<option value="mfcs_anyform">Any Form</option>
+		</select>
+	</div>
+
+	<div class="keywordBlock form-group well">
+		<h3>Search Options </h3>
+		<label for="query" class="sr-only sr-only-focusable"> Keyword </label>
+		<input type="text" class="keyword" name="query" placeholder="for keyword">
+
+		<span>in</span>
+		<!-- Form Fields will be populated via ajax -->
+		<select name="fieldList" id="formFieldsOptGroup">
+			<option value="idno">IDNO</option><option value="mfcs_keyword">Any Field</option>
+		</select>
+	</div>
+
+	<div class="dates form-group well">
+		<div class="start">
+			<label for="startDate">Start Date</label>
+			<input type="input" name="startDate" class="dateField hasDatepicker" placeholder="mm/dd/yyyy" id="dp1624629824998">
+		</div>
+		<div class="end">
+			<label for="endDate">End Date</label>
+			<input type="input" name="endDate" class="dateField hasDatepicker" placeholder="mm/dd/yyyy" id="dp1624629824999">
+		</div>
+	</div>
+
+  <div class="search">
+    <button class="searchBtn btn btn-primary col-12" data-action="click->form-search#saveSubmit">
+      <span class="fas fa-search"></span> Search
+    </button>
+  </div>
+
+	<div class="thumbs form-group well">
+		<label for="thumbnail">Display Thumbnails</label>
+		<select name="thumbnail">
+			<option value="false">No</option>
+			<option value="true">yes</option>
+		</select>
+	</div>
+
+</form>
+
+<script>
+	$('.dateField').datepicker({});
+</script>
+
+    <br><br>
+
+</div></section>

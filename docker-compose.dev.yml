@@ -1,0 +1,139 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: mfcs_db
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=docker
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - mfcs_net 
+    restart: unless-stopped
+    healthcheck:
+        test: pg_isready -U postgres -h postgres
+        interval: 30s
+        timeout: 3s
+        retries: 3                
+
+  redis:
+    image: 'redis:5-alpine'
+    container_name: mfcs_redis
+    command: redis-server
+    volumes:
+      - redis:/var/lib/redis/data
+    networks:
+      - mfcs_net
+    restart: unless-stopped
+    healthcheck:
+      test: redis-cli -h redis ping
+      interval: 30s
+      timeout: 3s
+      retries: 3               
+
+  mfcs: 
+    build: .
+    tty: true
+    stdin_open: true
+    container_name: mfcs
+    command: bash -c "rm -f tmp/pids/server.pid ; rm -rf tmp/cache ; bundle exec rails s -p 3000 -b 0.0.0.0"
+    environment:
+      - SECRET_KEY_BASE=test
+      - DATABASE_PASSWORD=docker
+      #- ELASTICSEARCH_URL=http://elasticsearch:9200
+      - TERM=xterm 
+      - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/1
+      - RAILS_ENV=development # replace with your current environment development or production
+    volumes:
+      - .:/home/mfcs:cached
+      - rails_cache_data:/app/tmp/cache
+      - bundle_data:/usr/local/bundle
+      - node_modules_data:/app/node_modules
+      - packs_data:/app/public/packs
+      - ./importing:/home/mfcs/importing
+
+      #- mfcs-data:/home/mfcs/data     
+    ports:
+      - "3000:3000" 
+      - "3001:3001"
+    links:
+      - 'postgres'
+      - 'redis'
+      #- 'elasticsearch'
+      - 'webpacker'
+    networks:
+      - mfcs_net                         
+
+  sidekiq:
+    container_name: mfcs_sidekiq
+    links:
+      - 'postgres'
+      - 'redis'
+    build: .
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    environment:
+      - SECRET_KEY_BASE=test
+      - DATABASE_PASSWORD=docker
+      #- ELASTICSEARCH_URL=http://elasticsearch:9200
+      - TERM=xterm 
+      - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/12
+    restart: always      
+    volumes:
+      - ./:/home/mfcs:cached
+      - rails_cache_data:/app/tmp/cache
+      - bundle_data:/usr/local/bundle      
+    networks:
+      - mfcs_net
+    depends_on:
+      - postgres
+      - redis         
+
+  webpacker:
+    build: .
+    container_name: mfcs_webpack
+    environment:
+      - NODE_ENV=development
+      - RAILS_ENV=development
+    command: bundle exec ./bin/webpack-dev-server --inline true
+    volumes:
+      - .:/home/mfcs:cached
+      - bundle_data:/usr/local/bundle
+      - node_modules_data:/app/node_modules
+      - packs_data:/app/public/packs      
+    ports:
+      - '3035:3035'
+    networks:
+      - mfcs_net      
+  
+  # elasticsearch:
+  #   image: elasticsearch:6.6.0
+  #   container_name: mfcs_elasticsearch
+  #   restart: always
+  #   volumes:     
+  #     - elasticsearch:/usr/share/elasticsearch/data
+  #   ports: 
+  #     - 9200:9200
+  #     - 9300:9300
+  #   networks:
+  #     - mfcs_net
+
+volumes:
+  rails_cache_data:
+  bundle_data:
+  node_modules_data:
+  packs_data:
+
+  redis:
+  postgres:
+  #elasticsearch:
+  #mfcs-data:
+  #mfcs-tmp:
+
+networks:
+  mfcs_net:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: br-mfcs

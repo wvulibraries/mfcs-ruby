@@ -16,4 +16,9 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
   config.default_formatter = 'doc'
   config.order = :random
+
+  # remove testing files
+  config.after(:suite) do
+    FileUtils.rm_rf(Dir["#{Rails.root}/tests/data"])
+  end  
 end

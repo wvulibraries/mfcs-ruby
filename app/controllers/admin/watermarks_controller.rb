@@ -3,16 +3,16 @@
 class Admin::WatermarksController < ApplicationController
   before_action :set_watermark, only: %i[show edit update destroy]
 
-  # GET /watermarks
+  # GET /admin/watermarks
   def index
     @watermarks = Watermark.all
     @watermark = Watermark.new
   end
 
-  # GET /watermarks/1/edit
+  # GET /admin/watermarks/1/edit
   def edit; end
 
-  # POST /watermarks
+  # POST /admin/watermarks
   def create
     @watermark = Watermark.new(watermark_params)
     @watermarks = Watermark.all
@@ -24,7 +24,7 @@ class Admin::WatermarksController < ApplicationController
     end
   end
 
-  # PATCH/PUT /watermarks/1
+  # PATCH/PUT /admin/watermarks/1
   def update
     if @watermark.update(watermark_params)
       redirect_to admin_watermarks_url, success: 'Watermark was successfully updated.'
@@ -33,7 +33,7 @@ class Admin::WatermarksController < ApplicationController
     end
   end
 
-  # DELETE /watermarks/1
+  # DELETE /admin/watermarks/1
   def destroy
     @watermark.destroy
     redirect_to admin_watermarks_url, success: 'Watermark was successfully destroyed.'

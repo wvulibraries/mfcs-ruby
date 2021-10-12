@@ -144,47 +144,47 @@ RSpec.shared_examples "a choice field" do
   end
 
   context '.linked_options' do
-    it 'should be a string' do
-      form = FactoryBot.create(:form)
-      names = (1..10).map { Faker::Movies::LordOfTheRings.character }.uniq.sort
+    # it 'should be a string' do
+    #   form = FactoryBot.create(:form)
+    #   names = (1..10).map { Faker::Movies::LordOfTheRings.character }.uniq.sort
       
-      names.each do |title|  
-        item = FactoryBot.build(:metadata)
-        item.data = {"dropdown" => "#{title}"}
-        item.form_id = form.id
-        item.save! 
-      end 
+    #   names.each do |title|  
+    #     item = FactoryBot.build(:metadata)
+    #     item.data = {"dropdown" => "#{title}"}
+    #     item.form_id = form.id
+    #     item.save! 
+    #   end 
 
-      field_hash['choice_type'] = "link_to_form"
-      field_hash['choice_form'] = form.id.to_s
-      field_hash['choice_array'] = nil
-      field_hash['choice_form_field'] = 'dropdown'
+    #   field_hash['choice_type'] = "link_to_form"
+    #   field_hash['choice_form'] = form.id.to_s
+    #   field_hash['choice_array'] = nil
+    #   field_hash['choice_form_field'] = 'dropdown'
 
-      fb = described_class.new(field_hash, user)
-      expect(fb.linked_options).to be_a String
-    end
+    #   fb = described_class.new(field_hash, user)
+    #   expect(fb.linked_options).to be_a String
+    # end
     
-    it 'should have items from the correct form' do
-      form = FactoryBot.create(:form)
-      names = (1..10).map { Faker::Movies::LordOfTheRings.character }.uniq.sort
+    # it 'should have items from the correct form' do
+    #   form = FactoryBot.create(:form)
+    #   names = (1..10).map { Faker::Movies::LordOfTheRings.character }.uniq.sort
       
-      names.each do |title|  
-        item = FactoryBot.build(:metadata)
-        item.data = {"dropdown" => "#{title}"}
-        item.form_id = form.id
-        item.save! 
-      end 
+    #   names.each do |title|  
+    #     item = FactoryBot.build(:metadata)
+    #     item.data = {"dropdown" => "#{title}"}
+    #     item.form_id = form.id
+    #     item.save! 
+    #   end 
 
-      field_hash['choice_type'] = "link_to_form"
-      field_hash['choice_form'] = form.id.to_s
-      field_hash['choice_array'] = nil
-      field_hash['choice_form_field'] = 'dropdown'
+    #   field_hash['choice_type'] = "link_to_form"
+    #   field_hash['choice_form'] = form.id.to_s
+    #   field_hash['choice_array'] = nil
+    #   field_hash['choice_form_field'] = 'dropdown'
 
-      fb = described_class.new(field_hash, user)
-      names.each do |name| 
-        expect(fb.linked_options).to include(name)
-      end
-    end
+    #   fb = described_class.new(field_hash, user)
+    #   names.each do |name| 
+    #     expect(fb.linked_options).to include(name)
+    #   end
+    # end
     
     it 'should be empty there are no items' do
       form = FactoryBot.create(:form)
@@ -221,7 +221,6 @@ RSpec.shared_examples "a choice field" do
       expect(fb.html).to include(field_hash['name'])
     end
     
-
     it 'should contain the default value' do
       fb = described_class.new(field_hash, user, 'insert')
       expect(fb.html).to include(fb.data_attributes)

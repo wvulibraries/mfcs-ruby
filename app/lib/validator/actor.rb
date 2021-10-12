@@ -67,11 +67,11 @@ class Validator::Actor
   end
 
   # Performs a custom validation to return feedback so the users know what went wrong.
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @return [Boolean]
   def valid_form_object?
     if @form.nil?
-      errors[:form_id] << 'Must be a valid form ID.'
+      errors.add(:form_id, 'Must be a valid form ID.')
       false
     else
       true

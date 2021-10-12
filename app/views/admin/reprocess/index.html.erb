@@ -1,0 +1,29 @@
+<h1>Reprocess Form</h1>
+
+<%= form_tag('/admin/reprocess') do %>
+  <div class="control-group">
+      <label class="control-label" for="formSelect">Select a form to Reprocess</label>
+      <div class="controls">
+          <select name="id" id="id">
+              <% forms_array = @forms.all.map { |form| [form.title || form.display_title, form.id] } %>
+              <%= options_for_select(forms_array) %>
+          </select>
+      </div>
+  </div>
+
+  <div class="control-group">
+      <label class="dates-label" for="dates">Filter By Dates</label> 
+      <div class="dates form-group well">
+        <div class="start">
+          <label for="startDate">Start Date</label>
+          <input type="input" name="startDate" class="dateField hasDatepicker" placeholder="mm/dd/yyyy">
+        </div>
+        <div class="end">
+          <label for="endDate">End Date</label>
+          <input type="input" name="endDate" class="dateField hasDatepicker" placeholder="mm/dd/yyyy">
+        </div>
+      </div>      
+  </div>
+
+  <input type="submit" class="btn btn-primary" name="submitReprocess" value="Reprocess Form">
+<% end %>

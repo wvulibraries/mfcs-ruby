@@ -21,15 +21,14 @@ RSpec.shared_examples "a text field" do
     end 
   end 
 
-  context '.length_validation' do
-    it 'should contain a min/max data attribute' do
-      field_hash['min'] = "1"
-      field_hash['max'] = "1000"
-      field_hash['min'] = "1"
-      fb = described_class.new(field_hash, user)
-      expect(fb.length_validation).to include('data-min')
-      expect(fb.length_validation).to include('data-max')
-      expect(fb.length_validation).to include('data-format')
-    end
-  end
+  # context '.length_validation' do
+  #   it 'should contain a min/max data attribute' do
+  #     field_hash['min'] = "1"
+  #     field_hash['max'] = "1000"
+  #     fb = described_class.new(field_hash, user)
+  #     expect(fb.length_validation).to include('data-min')
+  #     expect(fb.length_validation).to include('data-max')
+  #     expect(fb.length_validation).to include('data-format')
+  #   end
+  # end
 end 
