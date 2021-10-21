@@ -5,7 +5,7 @@
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@rails/activestorage": "^6.0.3-4",
     "@rails/ujs": "^6.0.3",
-    "@rails/webpacker": "^4.0.7",
+    "@rails/webpacker": "^5.4.3",
     "autoprefixer": "^9.6.1",
     "babel-plugin-module-resolver": "^3.2.0",
     "bootstrap": "^4.3.1",
