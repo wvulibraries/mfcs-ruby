@@ -97,7 +97,7 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
-    command: bash -c "rm -f tmp/cache/webpacker/.last-compilation-digest-development && bin/webpack-dev-server"
+    command: bundle exec ./bin/webpack-dev-server --inline true
     volumes:
       - .:/home/mfcs:cached
       - bundle_data:/usr/local/bundle
