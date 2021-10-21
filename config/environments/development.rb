@@ -10,6 +10,8 @@ Rails.application.configure do
   config.active_job.queue_adapter = :sidekiq
   config.action_mailer.deliver_later_queue_name = nil # defaults to "mailers"
 
+  # Do not fallback to assets pipeline if a precompiled asset is missed.
+  config.assets.compile = false
 
   # Do not eager load code on boot.
   config.eager_load = false
@@ -64,7 +66,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # allow testing on the dev server for host
+  # allow testing on the dev server. need to add hostname
   config.hosts << "mfcsruby.lib.wvu.edu"
 
   MiniMagick.configure do |config|
