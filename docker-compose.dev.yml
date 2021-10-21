@@ -20,7 +20,7 @@ services:
         retries: 3                
 
   redis:
-    image: 'redis:5-alpine'
+    image: redis:5-alpine
     container_name: mfcs_redis
     command: redis-server
     volumes:
@@ -97,7 +97,7 @@ services:
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
-    command: bundle exec ./bin/webpack-dev-server --inline true
+    command: bash -c "rm -f tmp/cache/webpacker/.last-compilation-digest-development && bin/webpack-dev-server"
     volumes:
       - .:/home/mfcs:cached
       - bundle_data:/usr/local/bundle

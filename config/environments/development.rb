@@ -64,7 +64,7 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # allow testing on the dev server
+  # allow testing on the dev server for host
   config.hosts << "mfcsruby.lib.wvu.edu"
 
   MiniMagick.configure do |config|
