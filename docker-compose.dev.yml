@@ -51,7 +51,7 @@ services:
       - .:/home/mfcs:cached
       - rails_cache_data:/app/tmp/cache
       - bundle_data:/usr/local/bundle
-      - node_modules_data:/app/node_modules
+      - node_modules_data:/home/mfcs/node_modules
       - packs_data:/app/public/packs
       - ./importing:/home/mfcs/importing
 
@@ -101,7 +101,7 @@ services:
     volumes:
       - .:/home/mfcs:cached
       - bundle_data:/usr/local/bundle
-      - node_modules_data:/app/node_modules
+      - node_modules_data:/home/mfcs/node_modules
       - packs_data:/app/public/packs      
     ports:
       - '3035:3035'
