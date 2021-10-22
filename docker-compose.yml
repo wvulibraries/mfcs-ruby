@@ -41,7 +41,7 @@ services:
     links:
       - 'postgres'
       - 'redis'
-      - 'elasticsearch'
+      # - 'elasticsearch'
 
   sidekiq:
     container_name: mfcs_sidekiq
