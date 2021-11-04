@@ -86,6 +86,7 @@ group :test do
   gem 'database_cleaner'
   gem 'rspec-html-matchers'
   gem 'rspec-rails'
+  gem "rspec_junit_formatter"
   gem 'shoulda'
   gem 'shoulda-matchers'
   gem 'simplecov'

@@ -151,26 +151,19 @@ class Item < ApplicationRecord
   end
 
   # returns the id of the first thumbnail media image
+  # or -1 if no thumbnail is found.
   # @author Tracy A. McCormick
   # @return integer
   def thumb_id
-    begin
       media = Media.where(item_id: id, media_type: 'thumbnail').first
-      media.id
-    rescue
-      -1
-    end
+      media.nil? ? -1 : media.id
   end
 
   # returns the count of files in the passed field
   # @author Tracy A. McCormick
   # @return integer  
   def file_field_count(field)
-    begin
-      self['data'][field].count
-    rescue
-      0
-    end
+    self['data'][field].nil? ? 0 : self['data'][field].count
   end 
 
   private
