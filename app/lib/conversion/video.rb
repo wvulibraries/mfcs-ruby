@@ -7,7 +7,7 @@ class Conversion::Video < Conversion::Base
   POST_CONVERSION = [
     # Conversion::Operation::VideoImage, ?
     # Conversion::Operation::WatermarkOverlay,
-    Conversion::Operation::Thumbnail
+    Conversion::Operation::VideoThumbnail
   ].freeze
 
   # This provides a interface to the actor class in determining if it needs to fire.

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Conversion::VideoThumbnail do 
+RSpec.describe Conversion::Operation::VideoThumbnail do 
   let(:form) { FactoryBot.build_stubbed(:file_conversion_form) }
   let(:stubbed_media) { FactoryBot.build_stubbed(:media) }
   let(:media) { FactoryBot.create(:video) }
