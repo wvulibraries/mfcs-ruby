@@ -65,7 +65,9 @@ services:
       - 'elasticsearch'
       - 'webpacker'
     networks:
-      - mfcs_net                         
+      - mfcs_net
+    tmpfs:
+      - /tmp                               
 
   sidekiq:
     container_name: mfcs_sidekiq
