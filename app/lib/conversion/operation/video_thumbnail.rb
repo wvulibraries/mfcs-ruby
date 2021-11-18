@@ -1,5 +1,5 @@
 # Operation Class
-# Used in Conversion::Image
+# Used in Conversion::Video
 class Conversion::Operation::VideoThumbnail
   # Matches the thumbnail option is true
   # @author David J. Davis
@@ -55,16 +55,14 @@ class Conversion::Operation::VideoThumbnail
 
   # Sets up the save file similarly to how the
   # main image conversion class is setting it.
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @abstract
   def perform
     ffmpeg = FFMPEG::Video::Thumbnail.new(@media.path, save_file)
-    height = params.fetch('thumbnail_height', 300) || 300
-    width = params.fetch('thumbnail_width', 300) || 300
     ffmpeg.command do 
       frames 1 
       frame_grab
-      size width, height
+      size @width, @height
     end 
     ffmpeg.perform 
     save_media
@@ -90,5 +88,5 @@ class Conversion::Operation::VideoThumbnail
       media_type: :thumbnail,
       fieldname: @media.fieldname
     )
-  end
+  end 
 end

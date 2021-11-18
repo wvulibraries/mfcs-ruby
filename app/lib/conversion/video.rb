@@ -1,13 +1,11 @@
-# Video Factory
 class Conversion::Video < Conversion::Base  
 
   # THESE NEED TO HAPPEN AFTER THE CONVERSION
   # ORDER MATTERS, WATERMARK NEEDS TO BE ON THUMB TOO SO
   # THE THUMBNAIL HAPPENS AFTER WATERMARK.
   POST_CONVERSION = [
-    # Conversion::Operation::VideoImage, ?
-    # Conversion::Operation::WatermarkOverlay,
     Conversion::Operation::VideoThumbnail
+    #Conversion::Operation::WatermarkOverlay
   ].freeze
 
   # This provides a interface to the actor class in determining if it needs to fire.
