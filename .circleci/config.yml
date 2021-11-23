@@ -42,6 +42,13 @@ jobs:
           command: mv config/application.ci.yml config/application.yml      
 
       ###########################################
+      # Install Packages
+      ###########################################     
+      - run:
+          name: Install Packages
+          command: apt-get install -y graphicsmagick ghostscript ffmpeg     
+
+      ###########################################
       # Yarn w/ caching
       ###########################################     
       - restore_cache:
