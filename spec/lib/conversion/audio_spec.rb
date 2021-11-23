@@ -59,12 +59,12 @@ RSpec.describe Conversion::Audio do
   end 
 
   context '.perform' do
-    # it 'should create a mp3' do
-    #   params_hash = form.organized_hash[:files]
-    #   params_hash['audio_format'] = 'mp3'
-    #   params_hash['audio_bitrate'] = '12k'
-    #   base = described_class.new(media.id, params_hash)
-    #   expect(base.perform).to be_truthy
-    # end
+    it 'should create a mp3' do
+      params_hash = form.organized_hash[:files]
+      params_hash['audio_format'] = 'mp3'
+      params_hash['audio_bitrate'] = '12k'
+      base = described_class.new(media.id, params_hash)
+      expect(base.perform).to be_truthy
+    end
   end
 end 
