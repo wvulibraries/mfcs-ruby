@@ -3,7 +3,7 @@ jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run three instances of this job in parallel
     docker: # run the steps with Docker
-      - image: ruby:2.7.2 # ...with this image as the primary container; this is where all `steps` will run
+      - image: circleci/ruby:2.7.2 # ...with this image as the primary container; this is where all `steps` will run
         environment: # environment variables for primary container
           BUNDLE_JOBS: 3
           BUNDLE_RETRY: 3
@@ -30,6 +30,12 @@ jobs: # a collection of steps
       - checkout # special step to check out source code to working directory
       # Which version of bundler?
       - run:
+          name: update
+          command: apt update && 
+      - run:
+          name: install dependicies
+          command: apt-get install -y xvfb git qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+      - run:
           name: Which bundler?
           command: bundle -v
       # Restore bundle cache
@@ -38,9 +44,6 @@ jobs: # a collection of steps
           keys:
             - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
             - mfcs-bundle-v2-
-      - run:
-          name:
-          command: apt update && apt-get install -y xvfb git qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
       - run: # Install Ruby dependencies
           name: Bundle Install
           command: bundle check --path vendor/bundle || bundle install --deployment
