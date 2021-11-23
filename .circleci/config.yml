@@ -91,9 +91,9 @@ jobs:
       ###########################################
       # Database
       ###########################################
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5423 -timeout 1m
+      # - run:
+      #     name: Waiting for Postgres to be ready
+      #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: Load DB schema
           command: bin/rails db:schema:load --trace
