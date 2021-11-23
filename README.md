@@ -1,4 +1,9 @@
 # MFCS
+[![CircleCI](https://circleci.com/gh/wvulibraries/mfcs-ruby.svg?style=svg)](https://circleci.com/gh/wvulibraries/mfcs-ruby)
+[![Maintainability](https://api.codeclimate.com/v1/badges/dc9fb3109c8a8ff1301c/maintainability)](https://codeclimate.com/github/wvulibraries/mfcs-ruby/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/dc9fb3109c8a8ff1301c/test_coverage)](https://codeclimate.com/github/wvulibraries/mfcs-ruby/test_coverage)
+
+
 ## Metadata Form Creation System 
 - The current goal is to match functionality of the current MFCS system, but also to remember that this system will serve as a minor preservation system.  The full goal of this system is to get item level metadata for digital collections.  This data will then be able to be served out to OAI-PMH exports, DPLA exports, a variety of different Metadata Formats, and other needs as established by WVU Libraries.
 
@@ -80,13 +85,13 @@ We are using Jest to handle the frontend testing.  If you look in the `package.j
   }
   ``` 
 
-  The roots setup of the JSON file sets the spec/javascript folder to be the place that JEST searches for tests.  This helps to keep all our tests in one location.  The modules are places that modules should be loaded from.  In oursetup all of our webpack materials are in `packs`, `components`, and `controllers`.  The scripts section sets up the testing scripts for Jest to run what it needs to run.  This file may change and grow as we add and modify more peices to be tested.  Remember to update this README each time we make a mondification.
+  The roots setup of the JSON file sets the spec/javascript folder to be the place that JEST searches for tests.  This helps to keep all our tests in one location.  The modules are places that modules should be loaded from.  In our setup all of our webpack materials are in `packs`, `components`, and `controllers`.  The scripts section sets up the testing scripts for Jest to run what it needs to run.  This file may change and grow as we add and modify more peices to be tested.  Remember to update this README each time we make a mondification.
 
-  `yarn run jest` will run the javascript tets setup in the `spec/javascript` folder.  Remember the naming conention must have `*.spec.js` or `*.test.js`.  This is based on preference, but using RSPEC for the backend testing makes me feel more comfortable with `spec` over `test`. 
+  `yarn run jest` will run the javascript tests setup in the `spec/javascript` folder.  Remember the naming conention must have `*.spec.js` or `*.test.js`.  This is based on preference, but using RSPEC for the backend testing makes me feel more comfortable with `spec` over `test`. 
 
   ## RSPEC
   We are using Rspec and Shoulda matchers in the backend for testing our models.  There will be a possibility of doing integration tests too, but we want to see how far our JavaScript tests will reach before adding the complexity of more tests to the suite.  
 
-  `bundle exec rspec` will run the full test
-  `bundle exec rspec {directory_path}` will run a specific subset of tests
-  `bundle exec rspec {directory_path}/{test_name}` will run a single test.
+  `RAILS_ENV=test bundle exec rspec` will run the full test
+  `RAILS_ENV=test bundle exec rspec {directory_path}` will run a specific subset of tests
+  `RAILS_ENV=test bundle exec rspec {directory_path}/{test_name}` will run a single test.
