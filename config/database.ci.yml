@@ -1,0 +1,8 @@
+test:
+  adapter: postgresql
+  database: circle_test
+  username: root
+  password: circleci
+  host: 127.0.0.1
+  encoding: utf8mb4
+  collation: utf8mb4_bin

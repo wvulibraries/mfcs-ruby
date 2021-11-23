@@ -14,8 +14,8 @@ jobs:
           - COVERAGE=true          
       - image: circleci/postgres:11 # database image
         environment: # environment variables for database, it is kind of obvious but it is important that they match with your test config in database.yml
-          POSTGRES_USER: postgres
-          POSTGRES_DB: mfcs_test
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
           POSTGRES_PASSWORD: circleci
       - image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
         environment:
