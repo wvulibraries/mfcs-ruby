@@ -75,16 +75,16 @@ RSpec.describe FFMPEG::Video::Thumbnail, type: :model do
       expect(base.perform).to be false 
     end
 
-    # it 'returns true command should run' do
-    #   base = described_class.new(file, to_file)
-    #   command = base.command do 
-    #     frames 1 
-    #     frame_grab
-    #     size 400,400
-    #     disable_audio! 
-    #   end 
-    #   expect(base.perform).to be true
-    # end 
+    it 'returns true command should run' do
+      base = described_class.new(file, to_file)
+      command = base.command do 
+        frames 1 
+        frame_grab
+        size 400,400
+        disable_audio! 
+      end 
+      expect(base.perform).to be true
+    end 
   end
 end 
 

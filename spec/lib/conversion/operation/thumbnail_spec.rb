@@ -171,17 +171,17 @@ RSpec.describe Conversion::Operation::Thumbnail, type: :model do
     end 
   end
   
-  # context '.save_media' do
-  #   before(:each) do
-  #     FileUtils.mkdir_p(test_file_dir) unless File.exists?(test_file_dir)
-  #   end 
+  context '.save_media' do
+    before(:each) do
+      FileUtils.mkdir_p(test_file_dir) unless File.exists?(test_file_dir)
+    end 
 
-    # it 'should save the media' do 
-    #   params_hash = form.organized_hash[:files]
-    #   base = described_class.new(@test_file, params_hash, media)
-    #   expect(Media.count).to eq 1
-    #   expect(base.save_media).to be_truthy
-    #   expect(Media.count).to eq 2
-    # end 
-  #end 
+    it 'should save the media' do 
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(@test_file, params_hash, media)
+      expect(Media.count).to eq 1
+      expect(base.save_media).to be_truthy
+      expect(Media.count).to eq 2
+    end 
+  end 
 end 

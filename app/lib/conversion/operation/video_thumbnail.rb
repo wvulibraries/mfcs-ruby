@@ -59,21 +59,14 @@ class Conversion::Operation::VideoThumbnail
   # @abstract
   def perform
     ffmpeg = FFMPEG::Video::Thumbnail.new(@media.path, save_file)
-    ffmpeg.command do 
+    command = ffmpeg.command do 
       frames 1 
       frame_grab
-      size @width, @height
+      size @width.to_i, @height.to_i
+      disable_audio! 
     end 
     ffmpeg.perform 
     save_media
-        
-    # MiniMagick::Tool::Convert.new do |convert|
-    #   convert << @file
-    #   convert.resize size
-    #   convert.density @resolution
-    #   convert << save_file
-    # end
-    # save_media
   end
 
   # Sets up the save file for thumbnail media

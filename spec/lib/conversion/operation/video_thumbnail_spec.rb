@@ -2,13 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Conversion::Operation::VideoThumbnail, type: :model do
   let(:form) { FactoryBot.build_stubbed(:file_conversion_form) }
-  let(:media) { FactoryBot.create(:media) }
+  let(:media) { FactoryBot.create(:video) }
   let(:test_file_dir) { Rails.root.join('tests', 'data', 'files', 'thumbnail') }
 
   # Do this once to setup file location for testing
   before(:all) do
     test_file_dir = Rails.root.join('tests', 'data', 'files') 
-    file = Rails.root.join('spec','fixtures', 'files', 'test_image_1.jpg') 
+    file = Rails.root.join('spec','fixtures', 'files', 'test.mov') 
     filename = File.basename(file) 
     new_location = "#{test_file_dir}/#{filename}"
 
@@ -98,7 +98,6 @@ RSpec.describe Conversion::Operation::VideoThumbnail, type: :model do
     end
   end
 
-
   context '.size' do
     it 'should be a string' do 
       params_hash = form.organized_hash[:files]
@@ -153,33 +152,19 @@ RSpec.describe Conversion::Operation::VideoThumbnail, type: :model do
     end 
   end 
   
-  #context '.perform' do 
-    # it 'should be a truthy result' do 
-    #   params_hash = form.organized_hash[:files]
-    #   base = described_class.new(@test_file, params_hash, media)
-    #   expect(base.perform).to be_truthy
-    # end 
+  context '.perform' do 
+    it 'should be a truthy result' do 
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(@test_file, params_hash, media)
+      expect(base.perform).to be_truthy
+    end 
 
-    # it 'should save the media' do 
-    #   params_hash = form.organized_hash[:files]
-    #   base = described_class.new(@test_file, params_hash, media)
-    #   expect(Media.count).to eq 1
-    #   expect(base.perform).to be_truthy
-    #   expect(Media.count).to eq 2
-    # end 
-  #end
-  
-  # context '.save_media' do
-  #   before(:each) do
-  #     FileUtils.mkdir_p(test_file_dir) unless File.exists?(test_file_dir)
-  #   end 
-
-  #   it 'should save the media' do 
-  #     params_hash = form.organized_hash[:files]
-  #     base = described_class.new(@test_file, params_hash, media)
-  #     expect(Media.count).to eq 1
-  #     expect(base.save_media).to be_truthy
-  #     expect(Media.count).to eq 2
-  #   end 
-  # end 
+    it 'should save the media' do 
+      params_hash = form.organized_hash[:files]
+      base = described_class.new(@test_file, params_hash, media)
+      expect(Media.count).to eq 1
+      expect(base.perform).to be_truthy
+      expect(Media.count).to eq 2
+    end 
+  end
 end 

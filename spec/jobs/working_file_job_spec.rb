@@ -13,12 +13,12 @@ RSpec.describe WorkingFileJob, type: :job do
       .on_queue("default")
   end
 
-  # describe "#perform_later" do
-  #   it "creates working copy" do
-  #     ActiveJob::Base.queue_adapter = :test
-  #     expect {
-  #       WorkingFileJob.perform_later(1)
-  #     }.to have_enqueued_job
-  #   end
-  # end
+  describe "#perform_later" do
+    it "creates working copy" do
+      ActiveJob::Base.queue_adapter = :test
+      expect {
+        WorkingFileJob.perform_later(1)
+      }.to have_enqueued_job
+    end
+  end
 end
