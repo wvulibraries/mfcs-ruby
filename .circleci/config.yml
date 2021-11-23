@@ -31,7 +31,7 @@ jobs: # a collection of steps
       # Which version of bundler?
       - run:
           name: update
-          command: apt update && 
+          command: apt update
       - run:
           name: install dependicies
           command: apt-get install -y xvfb git qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
