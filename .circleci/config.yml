@@ -211,7 +211,9 @@ jobs:
       # wait for postgres to be available
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
       # Database setup
-      - run: bin/rails db:setup
+      - run:
+          name: Load DB schema
+          command: bin/rails db:schema:load --trace
 
       # Run RSpec tests with knapsack_pro Queue Mode and use junit formatter
       # junit formatter must be configured as described in FAQ for knapsack_pro Queue Mode
