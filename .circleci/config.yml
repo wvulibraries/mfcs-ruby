@@ -60,11 +60,7 @@ jobs:
       ###########################################     
       - run:
           name: Install Tesseract
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
-
-      # Tesseract
-# -------------------------------------------------------------------------------------------------
-RUN apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg libleptonica-dev libtesseract-dev tesseract-ocr
 
       ###########################################
       # Yarn w/ caching
