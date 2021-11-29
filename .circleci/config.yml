@@ -153,24 +153,30 @@ jobs:
     # set here how many parallel jobs you want to run.
     # more parallel jobs the faster is your CI build
     parallelism: 1
+
+    #############################################
+    # Container Setup
+    #############################################
     docker:
-      # specify the version you desire here
       - image: circleci/ruby:2.7.2-node-browsers
-        environment:     
-          RAILS_ENV: test
-          RACK_ENV: test
-
-          # API token should be set in CircleCI environment variables settings instead of here
-          # KNAPSACK_PRO_TEST_SUITE_TOKEN_RSPEC: rspec-token
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/postgres:11-alpine
         environment:
+          CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+          RAILS_ENV: test
+          COVERAGE: true          
+      - image: circleci/postgres:11 # database image
+        environment: # environment variables for database, it is kind of obvious but it is important that they match with your test config in database.yml
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
           POSTGRES_PASSWORD: circleci
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+        environment:
+          - cluster.name: elasticsearch
+          - xpack.security.enabled: false
+          - transport.host: localhost
+          - network.host: 127.0.0.1
+          - http.port: 9200
+          - discovery.type: single-node   
+      - image: circleci/redis # redis image   
 
     working_directory: ~/mfcs
 
