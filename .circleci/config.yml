@@ -24,7 +24,8 @@ jobs:
           - transport.host: localhost
           - network.host: 127.0.0.1
           - http.port: 9200
-          - discovery.type: single-node                    
+          - discovery.type: single-node   
+      - image: redis@sha256:54057dd7e125ca41afe526a877e8bd35ec2cdd33b9217e022ed37bdcf7d0967                 
     
     #############################################
     # Build Steps
@@ -60,7 +61,7 @@ jobs:
       ###########################################     
       - run:
           name: Install Tesseract
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg libleptonica-dev libtesseract-dev tesseract-ocr
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
 
       ###########################################
       # Yarn w/ caching
