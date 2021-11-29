@@ -7,6 +7,9 @@ ENV["RAILS_ENV"] ||= 'test'
 # RUN RAILS
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
+require 'simplecov'
+
+SimpleCov.start
 
 # require support files 
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
