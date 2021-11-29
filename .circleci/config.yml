@@ -190,10 +190,8 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          # NOTE: remove space between { { here and in all below examples
-          - v2-dependencies-bundler-{ { checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v2-dependencies-bundler-
+            - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - mfcs-bundle-v2-
 
       - run:
           name: install ruby dependencies
