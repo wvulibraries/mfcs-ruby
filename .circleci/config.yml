@@ -1,147 +1,281 @@
-version: 2.0
+# version: 2.0
+# jobs:
+#   build:
+#     parallelism: 1  # however many CPUs you need/pay for
+    
+#     #############################################
+#     # Container Setup
+#     #############################################
+#     docker:
+#       - image: circleci/ruby:2.7.2-node-browsers
+#         environment:
+#           CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+#           RAILS_ENV: test
+#           COVERAGE: true          
+#       - image: circleci/postgres:11 # database image
+#         environment: # environment variables for database, it is kind of obvious but it is important that they match with your test config in database.yml
+#           POSTGRES_USER: root
+#           POSTGRES_DB: circle_test
+#           POSTGRES_PASSWORD: circleci
+#       - image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+#         environment:
+#           - cluster.name: elasticsearch
+#           - xpack.security.enabled: false
+#           - transport.host: localhost
+#           - network.host: 127.0.0.1
+#           - http.port: 9200
+#           - discovery.type: single-node   
+#       - image: circleci/redis # redis image   
+    
+#     #############################################
+#     # Build Steps
+#     #############################################
+#     steps:
+#       - checkout
+#       - run:
+#           name: Configure secrets.yml
+#           command: mv config/secrets.ci.yml config/secrets.yml
+#       - run:
+#           name: Configure database.yml
+#           command: mv config/database.ci.yml config/database.yml
+#       - run:
+#           name: Configure application.yml
+#           command: mv config/application.ci.yml config/application.yml      
+
+#       ###########################################
+#       # apt update
+#       ###########################################     
+#       - run:
+#           name: apt update
+#           command: sudo apt update
+
+#       ###########################################
+#       # Install Packages
+#       ###########################################     
+#       - run:
+#           name: Install Packages
+#           command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+          
+#       ###########################################
+#       # Install Tesseract
+#       ###########################################     
+#       - run:
+#           name: Install Tesseract
+#           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
+
+#       ###########################################
+#       # Yarn w/ caching
+#       ###########################################     
+#       - restore_cache:
+#           name: Restore Yarn Package Cache
+#           keys:
+#             - yarn-packages-{{ checksum "yarn.lock" }}
+#       - run:
+#           name: Install Dependencies
+#           command: yarn install --frozen-lockfile
+#       - save_cache:
+#           name: Save Yarn Package Cache
+#           key: yarn-packages-{{ checksum "yarn.lock" }}
+#           paths:
+#             - ~/.cache/yarn
+
+#       ###########################################
+#       # Bundler w/ caching
+#       ###########################################
+#       # Which version of bundler?
+#       - run:
+#           name: Which bundler?
+#           command: bundle -v
+#       # Restore bundle cache
+#       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+#       - restore_cache:
+#           keys:
+#             - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+#             - mfcs-bundle-v2-
+#       - run: # Install Ruby dependencies
+#           name: Bundle Install
+#           command: bundle check --path vendor/bundle || bundle install
+#       # Store bundle cache for Ruby dependencies
+#       - save_cache:
+#           key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+#           paths:
+#             - vendor/bundle
+
+#       ###########################################
+#       # Code Climate
+#       ###########################################
+#       - run:
+#           name: Install Code Climate Test Reporter
+#           command: |
+#             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#             chmod +x ./cc-test-reporter           
+
+#       ###########################################
+#       # Database
+#       ###########################################
+#       # - run:
+#       #     name: Waiting for Postgres to be ready
+#       #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
+#       - run:
+#           name: Load DB schema
+#           command: bin/rails db:schema:load --trace
+
+#       ###########################################
+#       # Run rspec in parallel
+#       ###########################################
+#       - run:
+#           name: Run rspec in parallel
+#           command: |
+#             mkdir -p test_results
+#             ./cc-test-reporter before-build
+#             bundle exec rspec --profile 10 \
+#                               --format RspecJunitFormatter \
+#                               --out test_results/rspec.xml \
+#                               --format progress \
+#                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+#       - run:
+#           name: Code Climate Test Coverage
+#           command: |
+#             ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"    
+
+#       # Save test results for timing analysis
+#       - store_test_results:
+#           path: test_results
+#       - deploy:
+#           command: |
+#             ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
+
+# .circleci/config.yml
+version: 2
 jobs:
   build:
-    parallelism: 1  # however many CPUs you need/pay for
-    
-    #############################################
-    # Container Setup
-    #############################################
+    # set here how many parallel jobs you want to run.
+    # more parallel jobs the faster is your CI build
+    parallelism: 1
     docker:
+      # specify the version you desire here
       - image: circleci/ruby:2.7.2-node-browsers
         environment:
-          CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+          PGHOST: 127.0.0.1
+          PGUSER: rails-app-with-knapsack_pro     
           RAILS_ENV: test
-          COVERAGE: true          
-      - image: circleci/postgres:11 # database image
-        environment: # environment variables for database, it is kind of obvious but it is important that they match with your test config in database.yml
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
-          POSTGRES_PASSWORD: circleci
-      - image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+          RACK_ENV: test
+
+          # API token should be set in CircleCI environment variables settings instead of here
+          # KNAPSACK_PRO_TEST_SUITE_TOKEN_RSPEC: rspec-token
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      - image: circleci/postgres:9.4.12-alpine
         environment:
-          - cluster.name: elasticsearch
-          - xpack.security.enabled: false
-          - transport.host: localhost
-          - network.host: 127.0.0.1
-          - http.port: 9200
-          - discovery.type: single-node   
-      - image: redis@sha256:54057dd7e125ca41afe526a877e8bd35ec2cdd33b9217e022ed37bdcf7d09673                 
-    
-    #############################################
-    # Build Steps
-    #############################################
+          POSTGRES_DB: rails-app-with-knapsack_pro_test
+          POSTGRES_PASSWORD: ""
+          POSTGRES_USER: rails-app-with-knapsack_pro
+
+    working_directory: ~/repo
+
     steps:
       - checkout
-      - run:
-          name: Configure secrets.yml
-          command: mv config/secrets.ci.yml config/secrets.yml
-      - run:
-          name: Configure database.yml
-          command: mv config/database.ci.yml config/database.yml
-      - run:
-          name: Configure application.yml
-          command: mv config/application.ci.yml config/application.yml      
 
-      ###########################################
-      # apt update
-      ###########################################     
-      - run:
-          name: apt update
-          command: sudo apt update
+      # create directory for xml reports created by junit formatter
+      - run: mkdir -p tmp/test-reports/rspec/queue_mode/
 
-      ###########################################
-      # Install Packages
-      ###########################################     
-      - run:
-          name: Install Packages
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
-          
-      ###########################################
-      # Install Tesseract
-      ###########################################     
-      - run:
-          name: Install Tesseract
-          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
-
-      ###########################################
-      # Yarn w/ caching
-      ###########################################     
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - yarn-packages-{{ checksum "yarn.lock" }}
-      - run:
-          name: Install Dependencies
-          command: yarn install --frozen-lockfile
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: yarn-packages-{{ checksum "yarn.lock" }}
-          paths:
-            - ~/.cache/yarn
-
-      ###########################################
-      # Bundler w/ caching
-      ###########################################
-      # Which version of bundler?
-      - run:
-          name: Which bundler?
-          command: bundle -v
-      # Restore bundle cache
-      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-      - restore_cache:
-          keys:
-            - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
-            - mfcs-bundle-v2-
-      - run: # Install Ruby dependencies
-          name: Bundle Install
-          command: bundle check --path vendor/bundle || bundle install
-      # Store bundle cache for Ruby dependencies
-      - save_cache:
-          key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-
-      ###########################################
-      # Code Climate
-      ###########################################
       - run:
           name: Install Code Climate Test Reporter
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter           
+            chmod +x ./cc-test-reporter
+      - run: ./cc-test-reporter before-build
 
-      ###########################################
-      # Database
-      ###########################################
-      # - run:
-      #     name: Waiting for Postgres to be ready
-      #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - run:
-          name: Load DB schema
-          command: bin/rails db:schema:load --trace
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          # NOTE: remove space between { { here and in all below examples
+          - v2-dependencies-bundler-{ { checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v2-dependencies-bundler-
 
-      ###########################################
-      # Run rspec in parallel
-      ###########################################
       - run:
-          name: Run rspec in parallel
+          name: install ruby dependencies
           command: |
-            mkdir -p test_results
-            ./cc-test-reporter before-build
-            bundle exec rspec --profile 10 \
-                              --format RspecJunitFormatter \
-                              --out test_results/rspec.xml \
-                              --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          # NOTE: remove space between { { here
+          key: v2-dependencies-bundler-{ { checksum "Gemfile.lock" }}
+
+      # wait for postgres to be available
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      # Database setup
+      - run: bin/rails db:setup
+
+      # Run RSpec tests with knapsack_pro Queue Mode and use junit formatter
+      # junit formatter must be configured as described in FAQ for knapsack_pro Queue Mode
+      # this is also described in this article later
+      # https://github.com/KnapsackPro/knapsack_pro-ruby#how-to-use-junit-formatter-with-knapsack_pro-queue-mode
+      - run: bundle exec rake "knapsack_pro:queue:rspec[--format documentation --format RspecJunitFormatter --out tmp/test-reports/rspec/queue_mode/rspec.xml]"
 
       - run:
           name: Code Climate Test Coverage
           command: |
-            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"    
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      # Save test results for timing analysis
+      # store coverage directory with CodeClimate reports prepared based on simplecov reports
+      # it's special step used to persist a temporary file to be used by another job in the workflow
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json
+
+      # store test reports created with junit formatter in order to allow CircleCI
+      # show info about executed tests in UI on top of CI build steps
       - store_test_results:
-          path: test_results
-      - deploy:
+          path: tmp/test-reports
+
+      # store test reports created with junit formatter in order to allow CircleCI
+      # let you browse recorded xml files in Artifacts tab
+      - store_artifacts:
+          path: tmp/test-reports
+
+  upload-coverage:
+    docker:
+      - image: circleci/ruby:2.7.2-node
+    environment:
+      # you can add your CodeClimate test report ID here or in CircleCI
+      # settings for environment variables
+      CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+    working_directory: ~/repo
+
+    steps:
+      # This will restore files from persist_to_workspace step
+      # Thanks to it we will have access to CodeClimate test coverage files from
+      # each parallel job. We need them in order to merge it into one file in next step.
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Install Code Climate Test Reporter
           command: |
-            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+      - run:
+          # merge CodeClimate files from each parallel job into sum coverage
+          # and then upload it to CodeClimate dashboard
+          command: |
+            ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
+
+workflows:
+  version: 2
+
+  commit:
+    jobs:
+      # run our CI build with tests
+      - build
+      # once CI build is completed then we merge CodeClimate reports
+      # from each parallel job and upload summary coverage to CodeClimate
+      - upload-coverage:
+          requires:
+             - build
