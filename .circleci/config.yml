@@ -166,7 +166,7 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      image: circleci/postgres:11 # database image
+      - image: circleci/postgres:11-alpine
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
@@ -262,7 +262,7 @@ jobs:
       # Thanks to it we will have access to CodeClimate test coverage files from
       # each parallel job. We need them in order to merge it into one file in next step.
       - attach_workspace:
-          at: ~/mfcs
+          at: ~/repo
       - run:
           name: Install Code Climate Test Reporter
           command: |
