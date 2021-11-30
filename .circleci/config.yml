@@ -290,8 +290,7 @@ jobs:
           # merge CodeClimate files from each parallel job into sum coverage
           # and then upload it to CodeClimate dashboard
           command: |
-            ./cc-test-reporter sum-coverage codeclimate.*.json --parts 5 --output codeclimate.total.json
-            ./cc-test-reporter upload-coverage --input codeclimate.total.json
+            ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input
 
 workflows:
   version: 2
