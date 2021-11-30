@@ -245,12 +245,11 @@ jobs:
 
           command: |
             COVERAGE=true bundle exec rake spec
-            ./tmp/cc-test-reporter format-coverage --output codeclimate.$CIRCLE_JOB.json
 
       - run:
           name: Code Climate Test Coverage
           command: |
-            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
+            ./cc-test-reporter format-coverage --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
 
       # store coverage directory with CodeClimate reports prepared based on simplecov reports
       # it's special step used to persist a temporary file to be used by another job in the workflow
