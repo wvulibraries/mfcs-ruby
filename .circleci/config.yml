@@ -247,7 +247,7 @@ jobs:
       - run:
           name: Code Climate Test Coverage
           command: |
-            ./cc-test-reporter format-coverage -t simplecov -o -p "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+            ./cc-test-reporter format-coverage "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" -t simplecov -o -p 
 
       # store coverage directory with CodeClimate reports prepared based on simplecov reports
       # it's special step used to persist a temporary file to be used by another job in the workflow
