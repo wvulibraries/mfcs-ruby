@@ -238,16 +238,16 @@ jobs:
       - run:
           name: Run rspec in parallel
           command: |
-            bundle exec rspec --format RspecJunitFormatter \
-                              --out tmp/test-reports/rspec/queue_mode/rspec.xml \
-                              --format documentation \
+            bundle exec rspec --format documentation \
+                              --format RspecJunitFormatter \
+                              --out tmp/test-reports/rspec/queue_mode/rspec.xml \                             
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
 
       - run:
           name: Code Climate Test Coverage
           command: |
-            ./cc-test-reporter format-coverage "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" -t simplecov -o -p 
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
 
       # store coverage directory with CodeClimate reports prepared based on simplecov reports
       # it's special step used to persist a temporary file to be used by another job in the workflow
@@ -280,7 +280,7 @@ jobs:
       # Thanks to it we will have access to CodeClimate test coverage files from
       # each parallel job. We need them in order to merge it into one file in next step.
       - attach_workspace:
-          at: ~/repo
+          at: ~/mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
