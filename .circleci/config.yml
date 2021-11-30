@@ -191,6 +191,10 @@ jobs:
       - run: mkdir -p tmp/test-reports/rspec/queue_mode/
 
       - run:
+          name: apt update
+          command: sudo apt update      
+
+      - run:
           name: Install Code Climate Test Reporter
           command: |
             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
