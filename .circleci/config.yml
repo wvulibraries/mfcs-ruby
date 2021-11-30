@@ -237,12 +237,15 @@ jobs:
 
       - run:
           name: Run rspec in parallel
-          command: |
-            bundle exec rspec --format RspecJunitFormatter \
-                              --out tmp/test-reports/rspec/queue_mode/rspec.xml \
-                              --format documentation \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+          # command: |
+          #   bundle exec rspec --format RspecJunitFormatter \
+          #                     --out tmp/test-reports/rspec/queue_mode/rspec.xml \
+          #                     --format documentation \
+          #                     $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
+          command: |
+            COVERAGE=true bundle exec rake spec
+            ./tmp/cc-test-reporter format-coverage --output codeclimate.$CIRCLE_JOB.json
 
       - run:
           name: Code Climate Test Coverage
@@ -290,7 +293,8 @@ jobs:
           # merge CodeClimate files from each parallel job into sum coverage
           # and then upload it to CodeClimate dashboard
           command: |
-            ./cc-test-reporter sum-coverage --output - codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input
+            ./cc-test-reporter sum-coverage --output codeclimate.total.json
+            ./cc-test-reporter upload-coverage --debug --input codeclimate.total.json
 
 workflows:
   version: 2
