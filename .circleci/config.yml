@@ -172,7 +172,7 @@ jobs:
           POSTGRES_DB: circle_test
           POSTGRES_PASSWORD: circleci
 
-    working_directory: ~/repo
+    working_directory: ~/mfcs
 
     steps:
       - checkout
@@ -238,9 +238,9 @@ jobs:
       - run:
           name: Run rspec in parallel
           command: |
-            bundle exec rspec --format documentation \
-                              --format RspecJunitFormatter \
-                              --out tmp/test-reports/rspec/queue_mode/rspec.xml \                             
+            bundle exec rspec --format RspecJunitFormatter \
+                              --out tmp/test-reports/rspec/queue_mode/rspec.xml \
+                              --format documentation \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
 
@@ -273,14 +273,14 @@ jobs:
       # you can add your CodeClimate test report ID here or in CircleCI
       # settings for environment variables
       CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
-    working_directory: ~/repo
+    working_directory: ~/mfcs
 
     steps:
       # This will restore files from persist_to_workspace step
       # Thanks to it we will have access to CodeClimate test coverage files from
       # each parallel job. We need them in order to merge it into one file in next step.
       - attach_workspace:
-          at: ~/repo
+          at: ~/mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
