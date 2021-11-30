@@ -166,7 +166,7 @@ jobs:
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/postgres:11-alpine
+      image: circleci/postgres:11 # database image
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
@@ -209,10 +209,9 @@ jobs:
             bundle install --jobs=4 --retry=3 --path vendor/bundle
 
       - save_cache:
+          key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
-            - ./vendor/bundle
-          # NOTE: remove space between { { here
-          key: v2-dependencies-bundler-{ { checksum "Gemfile.lock" }}
+            - vendor/bundle
 
       # wait for postgres to be available
       - run: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -263,7 +262,7 @@ jobs:
       # Thanks to it we will have access to CodeClimate test coverage files from
       # each parallel job. We need them in order to merge it into one file in next step.
       - attach_workspace:
-          at: ~/repo
+          at: ~/mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
