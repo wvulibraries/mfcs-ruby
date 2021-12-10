@@ -146,7 +146,7 @@
 #           command: |
 #             ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
 
-.circleci/config.yml
+# .circleci/config.yml
 version: 2
 jobs:
   build:
