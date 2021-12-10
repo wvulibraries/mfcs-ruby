@@ -224,6 +224,18 @@ jobs:
       - *default_docker_ruby_executor
     steps:
       - checkout
+
+      # set config files
+      - run:
+          name: Configure secrets.yml
+          command: mv config/secrets.ci.yml config/secrets.yml
+      - run:
+          name: Configure database.yml
+          command: mv config/database.ci.yml config/database.yml
+      - run:
+          name: Configure application.yml
+          command: mv config/application.ci.yml config/application.yml    
+
       # bundle cache
       - restore_cache:
           keys:
