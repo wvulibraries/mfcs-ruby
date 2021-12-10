@@ -140,14 +140,37 @@ jobs:
                               --out test_results/rspec.xml \
                               --format progress \
                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+ 
       - run:
-          name: Code Climate Test Coverage
-          command: |
-            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"    
+          name: Code Climate Test Reporter
+          command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      # Save test results for timing analysis
-      - store_test_results:
-          path: test_results
-      - deploy:
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json            
+
+  upload-coverage:
+    parameters:
+      parallelism:
+        type: integer
+        default: 4
+    docker:
+      # Primary container image where all steps run.
+      - image: circleci/ruby:2.7.2-node-browsers
+
+    working_directory: /home/mfcs
+
+    steps:
+      - attach_workspace:
+          at: /home/mfcs
+
+      - run:
+          name: Install Code Climate Test Reporter
           command: |
-            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - deploy:
+          # CC_TEST_REPORTER_ID set within the circleci web interface
+          command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
