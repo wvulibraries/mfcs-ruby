@@ -90,6 +90,7 @@ group :test do
   gem 'shoulda'
   gem 'shoulda-matchers'
   gem 'simplecov', '~> 0.10', '< 0.18'
+  gem 'simplecov-json'
   gem 'simplecov-console'
 end
 
