@@ -222,8 +222,10 @@ jobs:
           paths:
             - vendor/bundle
 
-      # wait for postgres to be available
-      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Wait for PostgreSQL to start
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      
       # Database setup
       - run:
           name: Load DB schema
