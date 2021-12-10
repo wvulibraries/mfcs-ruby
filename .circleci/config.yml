@@ -205,12 +205,35 @@ jobs:
       - run:
           name: Install Packages
           command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg libleptonica-dev libtesseract-dev tesseract-ocr      
+   
+      - restore_cache:
+          name: Restore Yarn Package Cache
+          keys:
+            - yarn-packages-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Install Dependencies
+          command: yarn install --frozen-lockfile
+
+      - save_cache:
+          name: Save Yarn Package Cache
+          key: yarn-packages-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
 
       # Download and cache dependencies
       - restore_cache:
           keys:
             - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
             - mfcs-bundle-v2-
+
+      - run:
+          name: Force Bundler Version
+          command: |
+            sudo gem update --system
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
 
       - run:
           name: install ruby dependencies
@@ -221,11 +244,6 @@ jobs:
           key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-
-      - run:
-          name: Install yarn dependencies
-          command: |
-            yarn install --frozen-lockfile
 
       - run:
           name: Wait for DB
