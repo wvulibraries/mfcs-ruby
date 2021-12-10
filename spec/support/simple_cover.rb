@@ -1,8 +1,11 @@
 # spec/support/simple_cover.rb
 require 'simplecov'
-require 'simplecov-console'
+#require 'simplecov-console'
 
-SimpleCov.formatter = SimpleCov.formatter = SimpleCov::Formatter::Console
+SimpleCov.formatter = SimpleCov::Formatter::Console
+
+#SimpleCov.formatter = SimpleCov::Formatter::SimpleFormatter
+
 SimpleCov.start do
   add_filter %r{^/spec/}
   add_filter %r{^/bin/}

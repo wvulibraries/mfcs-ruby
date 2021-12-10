@@ -89,7 +89,8 @@ group :test do
   gem "rspec_junit_formatter"
   gem 'shoulda'
   gem 'shoulda-matchers'
-  gem 'simplecov', '~> 0.10', '< 0.18'
+  #gem 'simplecov', '~> 0.10', '< 0.18'
+  gem 'simplecov', require: false
   gem 'simplecov-json'
   gem 'simplecov-console'
 end
