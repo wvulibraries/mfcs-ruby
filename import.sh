@@ -2,7 +2,6 @@ echo "Preparing Database"
 bin/rails db:create
 bin/rails db:schema:load
 bin/rails db:seed
-
 echo "Importing Users"
 bin/rails r importing/users/import_users.rb 
 echo "Importing Projects"
