@@ -210,7 +210,7 @@ references:
   #     REDIS_PORT: 6379
   #     REDIS_PASSWORD: circleci
   elasticsearch: &elasticsearch
-    image: circleci/elasticsearch:7.10.1
+    image: circleci/elasticsearch:7.10.2-alpine
     environment:
       cluster.name: elasticsearch
       xpack.security.enabled: false
