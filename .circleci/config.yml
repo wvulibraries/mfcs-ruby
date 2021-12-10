@@ -147,129 +147,225 @@
 #             ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
 
 # .circleci/config.yml
-version: 2
-jobs:
-  build:
-    # set here how many parallel jobs you want to run.
-    # more parallel jobs the faster is your CI build
-    parallelism: 1
-    docker:
-      # specify the version you desire here
-      - image: circleci/ruby:2.7.2-node-browsers
-        environment:     
+# version: 2
+# jobs:
+#   build:
+#     # set here how many parallel jobs you want to run.
+#     # more parallel jobs the faster is your CI build
+#     parallelism: 1
+#     docker:
+#       # specify the version you desire here
+#       - image: circleci/ruby:2.7.2-node-browsers
+#         environment:     
+#           RAILS_ENV: test
+#           RACK_ENV: test
+
+#           # API token should be set in CircleCI environment variables settings instead of here
+#           # KNAPSACK_PRO_TEST_SUITE_TOKEN_RSPEC: rspec-token
+
+#       # Specify service dependencies here if necessary
+#       # CircleCI maintains a library of pre-built images
+#       # documented at https://circleci.com/docs/2.0/circleci-images/
+#       - image: circleci/postgres:11-alpine
+#         environment:
+#           POSTGRES_USER: root
+#           POSTGRES_DB: circle_test
+#           POSTGRES_PASSWORD: circleci
+
+#     working_directory: ~/mfcs
+
+#     steps:
+#       - checkout
+
+#       - run:
+#           name: Configure secrets.yml
+#           command: mv config/secrets.ci.yml config/secrets.yml
+#       - run:
+#           name: Configure database.yml
+#           command: mv config/database.ci.yml config/database.yml
+#       - run:
+#           name: Configure application.yml
+#           command: mv config/application.ci.yml config/application.yml      
+
+#       # create directory for xml reports created by junit formatter
+#       - run: mkdir -p tmp/test-reports/rspec/queue_mode/
+
+#       - run:
+#           name: apt update
+#           command: sudo apt update      
+
+#       - run:
+#           name: Install Code Climate Test Reporter
+#           command: |
+#             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#             chmod +x ./cc-test-reporter
+
+#       - run: ./cc-test-reporter before-build
+ 
+#       - run:
+#           name: Install Packages
+#           command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg libleptonica-dev libtesseract-dev tesseract-ocr      
+
+#       # Download and cache dependencies
+#       - restore_cache:
+#           keys:
+#             - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+#             - mfcs-bundle-v2-
+
+#       - run:
+#           name: install ruby dependencies
+#           command: |
+#             bundle install --jobs=4 --retry=3 --path vendor/bundle
+
+#       - save_cache:
+#           key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+#           paths:
+#             - vendor/bundle
+
+#       - run:
+#           name: Wait for PostgreSQL to start
+#           command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      
+#       # Database setup
+#       - run:
+#           name: Load DB schema
+#           command: bin/rails db:schema:load --trace
+
+#       # Run RSpec tests with knapsack_pro Queue Mode and use junit formatter
+#       # junit formatter must be configured as described in FAQ for knapsack_pro Queue Mode
+#       # this is also described in this article later
+#       # https://github.com/KnapsackPro/knapsack_pro-ruby#how-to-use-junit-formatter-with-knapsack_pro-queue-mode
+#       # - run: bundle exec rake "mfcs:queue:rspec[--format documentation --format RspecJunitFormatter --out tmp/test-reports/rspec/queue_mode/rspec.xml]"
+
+#       - run:
+#           name: Run rspec in parallel
+#           # command: |
+#           #   bundle exec rspec --format RspecJunitFormatter \
+#           #                     --out tmp/test-reports/rspec/queue_mode/rspec.xml \
+#           #                     --format documentation \
+#           #                     $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+#           command: |
+#             COVERAGE=true bundle exec rake spec
+
+#       - run:
+#           name: Code Climate Test Coverage
+#           command: |
+#             ./cc-test-reporter format-coverage --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
+
+#       # store coverage directory with CodeClimate reports prepared based on simplecov reports
+#       # it's special step used to persist a temporary file to be used by another job in the workflow
+#       - persist_to_workspace:
+#           root: coverage
+#           paths:
+#             - codeclimate.*.json
+
+#       # store test reports created with junit formatter in order to allow CircleCI
+#       # show info about executed tests in UI on top of CI build steps
+#       - store_test_results:
+#           path: tmp/test-reports
+
+#       # store test reports created with junit formatter in order to allow CircleCI
+#       # let you browse recorded xml files in Artifacts tab
+#       - store_artifacts:
+#           path: tmp/test-reports
+
+#   upload-coverage:
+#     docker:
+#       - image: circleci/ruby:2.7.2-node
+#     environment:
+#       # you can add your CodeClimate test report ID here or in CircleCI
+#       # settings for environment variables
+#       CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+#     working_directory: ~/mfcs
+
+#     steps:
+#       # This will restore files from persist_to_workspace step
+#       # Thanks to it we will have access to CodeClimate test coverage files from
+#       # each parallel job. We need them in order to merge it into one file in next step.
+#       - attach_workspace:
+#           at: ~/mfcs
+#       - run:
+#           name: Install Code Climate Test Reporter
+#           command: |
+#             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#             chmod +x ./cc-test-reporter
+#       - run:
+#           # merge CodeClimate files from each parallel job into sum coverage
+#           # and then upload it to CodeClimate dashboard
+#           command: |
+#             ./cc-test-reporter sum-coverage --output codeclimate.total.json
+#             ./cc-test-reporter upload-coverage --debug --input codeclimate.total.json
+
+# workflows:
+#   version: 2
+
+#   commit:
+#     jobs:
+#       # run our CI build with tests
+#       - build
+#       # once CI build is completed then we merge CodeClimate reports
+#       # from each parallel job and upload summary coverage to CodeClimate
+#       - upload-coverage:
+#           requires:
+#              - build
+
+version: 2.1 # use CircleCI 2.1
+jobs: # a collection of steps
+  build: # runs not using Workflows must have a `build` job as entry point
+    parallelism: 1 # run three instances of this job in parallel
+    docker: # run the steps with Docker
+      - image: circleci/ruby:2.7.2 # ...with this image as the primary container; this is where all `steps` will run
+        environment: # environment variables for primary container
+          BUNDLE_JOBS: 3
+          BUNDLE_RETRY: 3
+          BUNDLE_PATH: vendor/bundle
+          PGHOST: 127.0.0.1
+          PGUSER: postgres
           RAILS_ENV: test
-          RACK_ENV: test
-
-          # API token should be set in CircleCI environment variables settings instead of here
-          # KNAPSACK_PRO_TEST_SUITE_TOKEN_RSPEC: rspec-token
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      - image: circleci/postgres:11-alpine
-        environment:
+      - image: circleci/postgres:11 # database image
+        environment: # environment variables for database
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
           POSTGRES_PASSWORD: circleci
-
-    working_directory: ~/mfcs
-
-    steps:
-      - checkout
-
+    steps: # a collection of executable commands
+      - checkout # special step to check out source code to working directory
+      # Which version of bundler?
       - run:
-          name: Configure secrets.yml
-          command: mv config/secrets.ci.yml config/secrets.yml
-      - run:
-          name: Configure database.yml
-          command: mv config/database.ci.yml config/database.yml
-      - run:
-          name: Configure application.yml
-          command: mv config/application.ci.yml config/application.yml      
-
-      # create directory for xml reports created by junit formatter
-      - run: mkdir -p tmp/test-reports/rspec/queue_mode/
-
-      - run:
-          name: apt update
-          command: sudo apt update      
-
-      - run:
-          name: Install Code Climate Test Reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-
-      - run: ./cc-test-reporter before-build
- 
-      - run:
-          name: Install Packages
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg libleptonica-dev libtesseract-dev tesseract-ocr      
-
-      # Download and cache dependencies
+          name: Which bundler?
+          command: bundle -v
+      # Restore bundle cache
+      # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
       - restore_cache:
           keys:
             - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
             - mfcs-bundle-v2-
-
-      - run:
-          name: install ruby dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-
+      - run: # Install Ruby dependencies
+          name: Bundle Install
+          command: bundle check --path vendor/bundle || bundle install --deployment
+      # Store bundle cache for Ruby dependencies
       - save_cache:
           key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
-
       - run:
-          name: Wait for PostgreSQL to start
+          name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      
-      # Database setup
       - run:
-          name: Load DB schema
+          name: Database setup
           command: bin/rails db:schema:load --trace
-
-      # Run RSpec tests with knapsack_pro Queue Mode and use junit formatter
-      # junit formatter must be configured as described in FAQ for knapsack_pro Queue Mode
-      # this is also described in this article later
-      # https://github.com/KnapsackPro/knapsack_pro-ruby#how-to-use-junit-formatter-with-knapsack_pro-queue-mode
-      # - run: bundle exec rake "mfcs:queue:rspec[--format documentation --format RspecJunitFormatter --out tmp/test-reports/rspec/queue_mode/rspec.xml]"
-
       - run:
           name: Run rspec in parallel
-          # command: |
-          #   bundle exec rspec --format RspecJunitFormatter \
-          #                     --out tmp/test-reports/rspec/queue_mode/rspec.xml \
-          #                     --format documentation \
-          #                     $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
           command: |
-            COVERAGE=true bundle exec rake spec
-
-      - run:
-          name: Code Climate Test Coverage
-          command: |
-            ./cc-test-reporter format-coverage --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
-
-      # store coverage directory with CodeClimate reports prepared based on simplecov reports
-      # it's special step used to persist a temporary file to be used by another job in the workflow
-      - persist_to_workspace:
-          root: coverage
-          paths:
-            - codeclimate.*.json
-
-      # store test reports created with junit formatter in order to allow CircleCI
-      # show info about executed tests in UI on top of CI build steps
-      - store_test_results:
-          path: tmp/test-reports
-
-      # store test reports created with junit formatter in order to allow CircleCI
-      # let you browse recorded xml files in Artifacts tab
-      - store_artifacts:
-          path: tmp/test-reports
-
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      # Save test results for timing analysis
+      - store_test_results: # Upload test results for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: test_results
+      # See https://circleci.com/docs/2.0/deployment-integrations/ for example deploy configs
   upload-coverage:
     docker:
       - image: circleci/ruby:2.7.2-node
@@ -296,16 +392,3 @@ jobs:
           command: |
             ./cc-test-reporter sum-coverage --output codeclimate.total.json
             ./cc-test-reporter upload-coverage --debug --input codeclimate.total.json
-
-workflows:
-  version: 2
-
-  commit:
-    jobs:
-      # run our CI build with tests
-      - build
-      # once CI build is completed then we merge CodeClimate reports
-      # from each parallel job and upload summary coverage to CodeClimate
-      - upload-coverage:
-          requires:
-             - build
