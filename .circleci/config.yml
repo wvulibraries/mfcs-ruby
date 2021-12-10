@@ -189,6 +189,7 @@ references:
       PGUSER: root
       PGPASSWORD: circleci
       RAILS_ENV: test
+      CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
   postgres: &postgres
     image: circleci/postgres:11.6-alpine
     environment:
@@ -226,14 +227,14 @@ jobs:
       # bundle cache
       - restore_cache:
           keys:
-            - app-bundle-v2-{{ checksum "Gemfile.lock" }}
-            - app-bundle-v2-
+            - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - mfcs-bundle-v2-
       - run:
           name: Bundle Install
           command: bundle check || bundle install
       # Store bundle cache
       - save_cache:
-          key: rewrites-bundle-v2-{{ checksum "Gemfile.lock" }}
+          key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
       # Only necessary if app uses webpacker or yarn in some other way
@@ -254,6 +255,8 @@ jobs:
     docker:
       - *default_docker_ruby_executor
       - *postgres
+      - *redis
+      - *elasticsearch
     steps:
       - checkout
       - restore_cache:
@@ -279,14 +282,35 @@ jobs:
       # Run rspec in parallel
       - run:
           command: |
-            mkdir /tmp/test-results
+            mkdir -p test-results
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
+            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out test-results/rspec.xml --format progress
       - store_test_results:
-          path: /tmp/test-results
+          path: test-results
       - store_artifacts:
-          path: /tmp/test-results
+          path: test-results
           destination: test-results
+
+
+      # - run:
+      #     name: Run rspec in parallel
+      #     command: |
+      #       mkdir -p test_results
+      #       ./cc-test-reporter before-build
+      #       bundle exec rspec --profile 10 \
+      #                         --format RspecJunitFormatter \
+      #                         --out test_results/rspec.xml \
+      #                         --format progress \
+      #                         $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+ 
+      # - run:
+      #     name: Code Climate Test Reporter
+      #     command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+
+      # - persist_to_workspace:
+      #     root: coverage
+      #     paths:
+      #       - codeclimate.*.json   
 
 workflows:
   version: 2
