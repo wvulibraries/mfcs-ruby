@@ -278,10 +278,24 @@ jobs:
       - *elasticsearch
     steps:
       - checkout
+      # set config files
+      - run:
+          name: Configure secrets.yml
+          command: mv config/secrets.ci.yml config/secrets.yml
+
+      - run:
+          name: Configure database.yml
+          command: mv config/database.ci.yml config/database.yml
+          
+      - run:
+          name: Configure application.yml
+          command: mv config/application.ci.yml config/application.yml    
+
       - restore_cache:
           keys:
-            - app-bundle-v2-{{ checksum "Gemfile.lock" }}
-            - app-bundle-v2-
+            - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - mfcs-bundle-v2-
+
       - run:
           name: Force Bundler Version
           command: |
