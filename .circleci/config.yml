@@ -236,6 +236,16 @@ jobs:
           name: Configure application.yml
           command: mv config/application.ci.yml config/application.yml    
 
+      - run:
+          name: apt update
+          command: sudo apt update
+      - run:
+          name: Install Packages
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg     
+      - run:
+          name: Install Tesseract
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
+
       # bundle cache
       - restore_cache:
           keys:
@@ -286,10 +296,20 @@ jobs:
       - run:
           name: Configure database.yml
           command: mv config/database.ci.yml config/database.yml
-          
+
       - run:
           name: Configure application.yml
           command: mv config/application.ci.yml config/application.yml    
+
+      - run:
+          name: apt update
+          command: sudo apt update
+      - run:
+          name: Install Packages
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg     
+      - run:
+          name: Install Tesseract
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr          
 
       - restore_cache:
           keys:
