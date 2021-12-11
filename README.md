@@ -1,6 +1,6 @@
 # MFCS
 [![CircleCI](https://circleci.com/gh/wvulibraries/mfcs-ruby.svg?style=svg)](https://circleci.com/gh/wvulibraries/mfcs-ruby)
-[![Maintainability](https://api.codeclimate.com/v1/badges/dc9fb3109c8a8ff1301c/maintainability)](https://codeclimate.com/github/wvulibraries/mfcs-ruby/maintainability)
+[![Maintainability](https://api.codeclimate.com/v1/badges/fae0d299e71e41e042dd/maintainability)](https://codeclimate.com/github/wvulibraries/mfcs-ruby/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/dc9fb3109c8a8ff1301c/test_coverage)](https://codeclimate.com/github/wvulibraries/mfcs-ruby/test_coverage)
 
 
