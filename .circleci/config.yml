@@ -229,9 +229,11 @@ jobs:
       - run:
           name: Configure secrets.yml
           command: mv config/secrets.ci.yml config/secrets.yml
+
       - run:
           name: Configure database.yml
           command: mv config/database.ci.yml config/database.yml
+
       - run:
           name: Configure application.yml
           command: mv config/application.ci.yml config/application.yml    
@@ -239,9 +241,11 @@ jobs:
       - run:
           name: apt update
           command: sudo apt update
+
       - run:
           name: Install Packages
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg     
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+
       - run:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
@@ -251,6 +255,7 @@ jobs:
           keys:
             - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
             - mfcs-bundle-v2-
+
       - run:
           name: Force Bundler Version
           command: |
@@ -258,27 +263,33 @@ jobs:
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV
             gem install bundler
+
       - run:
           name: Bundle Install
           command: bundle check || bundle install
+
       # Store bundle cache
       - save_cache:
           key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
           paths:
             - vendor/bundle
+
       # Only necessary if app uses webpacker or yarn in some other way
       - restore_cache:
           keys:
             - app-yarn-{{ checksum "yarn.lock" }}
             - app-yarn-
+
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
+
       # Store yarn / webpacker cache
       - save_cache:
           key: app-yarn-{{ checksum "yarn.lock" }}
           paths:
             - ~/.cache/yarn
+
   test:
     parallelism: 1
     docker:
@@ -286,6 +297,7 @@ jobs:
       - *postgres
       - *redis
       - *elasticsearch
+
     steps:
       - checkout
       # set config files
@@ -304,9 +316,11 @@ jobs:
       - run:
           name: apt update
           command: sudo apt update
+
       - run:
           name: Install Packages
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg     
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg   
+
       - run:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr          
@@ -323,54 +337,66 @@ jobs:
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV
             gem install bundler
+            
       - run:
           name: Bundle Install
           command: bundle check || bundle install
+
       - restore_cache:
           keys:
             - rewrites-yarn-{{ checksum "yarn.lock" }}
             - rewrites-yarn-
+
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
       - run:
           name: Database setup
           command: bundle exec rails db:schema:load --trace
+
       - run:
           name: Build assets
           command: bundle exec rails assets:precompile
+
       # Run rspec in parallel
       - run:
           command: |
             mkdir -p test-results
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
             bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out test-results/rspec.xml --format progress
+
       - store_test_results:
           path: test-results
+
       - store_artifacts:
           path: test-results
-          destination: test-results
+          destination: test-results 
 
+  upload-coverage:
+    parameters:
+      parallelism:
+        type: integer
+        default: 4
+    docker:
+      # Primary container image where all steps run.
+      - image: circleci/ruby:2.7.2-node-browsers
 
-      # - run:
-      #     name: Run rspec in parallel
-      #     command: |
-      #       mkdir -p test_results
-      #       ./cc-test-reporter before-build
-      #       bundle exec rspec --profile 10 \
-      #                         --format RspecJunitFormatter \
-      #                         --out test_results/rspec.xml \
-      #                         --format progress \
-      #                         $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
- 
-      # - run:
-      #     name: Code Climate Test Reporter
-      #     command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+    working_directory: /home/mfcs
 
-      # - persist_to_workspace:
-      #     root: coverage
-      #     paths:
-      #       - codeclimate.*.json   
+    steps:
+      - attach_workspace:
+          at: /home/mfcs
+
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - deploy:
+          # CC_TEST_REPORTER_ID set within the circleci web interface
+          command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
 
 workflows:
   version: 2
@@ -380,3 +406,6 @@ workflows:
       - test:
           requires:
             - build
+      - upload-coverage:
+          requires:
+            - test
