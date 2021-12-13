@@ -87,8 +87,6 @@ jobs:
       # Code Climate setup
       - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
       - run: chmod +x ./cc-test-reporter
-      - run: sudo apt-get -y -qq install awscli
-      - run: aws s3 rm s3://mfcs/coverage/$CIRCLE_PREVIOUS_BUILD_NUM --recursive
 
       # Run Ruby unit tests and app integration tests in parallel
       - type: shell
@@ -108,5 +106,5 @@ jobs:
         path: test/reports
 
       - deploy:
-          # CC_TEST_REPORTER_ID set within the circleci web interface
-          command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
+        # CC_TEST_REPORTER_ID set within the circleci web interface
+        command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
