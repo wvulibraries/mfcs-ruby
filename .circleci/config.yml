@@ -11,7 +11,9 @@ jobs:
           TEST_REPORT_PATH: "test/reports"
       - image: circleci/postgres:11 # database image
         environment:
-          POSTGRES_USER: circleci
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
+          POSTGRES_PASSWORD: circleci
       - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
         environment:
           - cluster.name: elasticsearch
@@ -55,7 +57,7 @@ jobs:
             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
             source $BASH_ENV
             gem install bundler
-            
+
       # Restore yarn cache
       - type: cache-restore
         key: mfcs-yarn-{{ checksum "yarn.lock" }}
