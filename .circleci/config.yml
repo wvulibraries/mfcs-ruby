@@ -105,7 +105,7 @@ jobs:
       - type: store_test_results
         path: test/reports
 
-      - deploy:
+      - type: deploy
         # CC_TEST_REPORTER_ID set within the circleci web interface
         command: |
           ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
