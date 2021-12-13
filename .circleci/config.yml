@@ -373,16 +373,40 @@ jobs:
           path: test-results
           destination: test-results 
 
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json               
+
+  # upload-coverage:
+  #   docker:
+  #     - *default_docker_ruby_executor
+
+  #   # working_directory: /home/mfcs
+
+  #   steps:
+  #     # - attach_workspace:
+  #     #     at: /home/mfcs
+
+  #     - run:
+  #         name: Install Code Climate Test Reporter
+  #         command: |
+  #           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  #           chmod +x ./cc-test-reporter
+
+  #     - deploy:
+  #         # CC_TEST_REPORTER_ID set within the circleci web interface
+  #         command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
+
   upload-coverage:
-    parallelism: 1
     docker:
       - *default_docker_ruby_executor
 
-    # working_directory: /home/mfcs
+    working_directory: /home/mfcs
 
     steps:
-      # - attach_workspace:
-      #     at: /home/mfcs
+      - attach_workspace:
+          at: /home/mfcs
 
       - run:
           name: Install Code Climate Test Reporter
@@ -392,7 +416,7 @@ jobs:
 
       - deploy:
           # CC_TEST_REPORTER_ID set within the circleci web interface
-          command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
+          command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -           
 
 workflows:
   version: 2
