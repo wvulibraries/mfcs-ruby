@@ -374,19 +374,15 @@ jobs:
           destination: test-results 
 
   upload-coverage:
-    parameters:
-      parallelism:
-        type: integer
-        default: 4
+    parallelism: 1
     docker:
-      # Primary container image where all steps run.
-      - image: circleci/ruby:2.7.2-node-browsers
+      - *default_docker_ruby_executor
 
-    working_directory: /home/mfcs
+    # working_directory: /home/mfcs
 
     steps:
-      - attach_workspace:
-          at: /home/mfcs
+      # - attach_workspace:
+      #     at: /home/mfcs
 
       - run:
           name: Install Code Climate Test Reporter
