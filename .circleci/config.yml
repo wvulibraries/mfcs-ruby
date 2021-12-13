@@ -92,8 +92,9 @@ jobs:
       - type: shell
         command: |
           bin/rails test $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
-      # Run Javascript unit tests
-      - run: yarn test
+
+      # # Run Javascript unit tests
+      # - run: yarn test
 
       # Code Climate coverage, split for parallel nodes
       - run: ./cc-test-reporter format-coverage --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
