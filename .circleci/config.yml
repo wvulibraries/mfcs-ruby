@@ -399,6 +399,10 @@ jobs:
   #         command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
 
   upload-coverage:
+    parameters:
+      parallelism:
+        type: integer
+        default: 4
     docker:
       - *default_docker_ruby_executor
 
