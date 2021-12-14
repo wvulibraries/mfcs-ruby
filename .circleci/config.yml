@@ -365,12 +365,22 @@ jobs:
           name: Build assets
           command: bundle exec rails assets:precompile
 
-      # Run rspec in parallel
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter         
+
       # - run:
+      #     name: Run rspec in parallel
       #     command: |
-      #       mkdir -p test-results
-      #       TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-      #       bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out test-results/rspec.xml --format progress
+      #       mkdir -p test_results
+      #       ./cc-test-reporter before-build
+      #       bundle exec rspec --profile 10 \
+      #                         --format RspecJunitFormatter \
+      #                         --out test_results/rspec.xml \
+      #                         --format progress \
+      #                         $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
 
       # - store_test_results:
       #     path: test-results
@@ -378,12 +388,6 @@ jobs:
       # - store_artifacts:
       #     path: test-results
       #     destination: test-results 
-
-      - run:
-          name: Install Code Climate Test Reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter         
 
       - run:
           name: Run rspec in parallel
@@ -394,28 +398,33 @@ jobs:
                               --format RspecJunitFormatter \
                               --out test_results/rspec.xml \
                               --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) 
 
-      - store_test_results:
-          path: test-results
-
-      - store_artifacts:
-          path: test-results
-          destination: test-results 
- 
       - run:
-          name: Code Climate Test Reporter
-          command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+          name: Code Climate Test Coverage
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
 
-      - persist_to_workspace:
-          root: coverage
-          paths:
-            - codeclimate.*.json             
+      # Save test results for timing analysis
+      - store_test_results:
+          path: test_results
+      - deploy:
+          command: |
+            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
+ 
+      # - run:
+      #     name: Code Climate Test Reporter
+      #     command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      - persist_to_workspace:
-          root: coverage
-          paths:
-            - codeclimate.*.json               
+      # - persist_to_workspace:
+      #     root: coverage
+      #     paths:
+      #       - codeclimate.*.json             
+
+      # - persist_to_workspace:
+      #     root: coverage
+      #     paths:
+      #       - codeclimate.*.json               
 
   # upload-coverage:
   #   docker:
