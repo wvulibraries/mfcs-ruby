@@ -129,12 +129,14 @@ jobs:
       - run:
           name: Code Climate Test Coverage
           command: |
-            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"    
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
+            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json --parts 5 --output coverage/codeclimate.total.json
+            ./cc-test-reporter upload-coverage --input coverage/codeclimate.total.json    
 
       # Save test results for timing analysis
-      - store_test_results:
-          path: test_results
-      - deploy:
-          command: |
-            ./cc-test-reporter sum-coverage coverage/codeclimate.*.json --parts 5 --output coverage/codeclimate.total.json
-            ./cc-test-reporter upload-coverage --input coverage/codeclimate.total.json             
+      # - store_test_results:
+      #     path: test_results
+      # - deploy:
+      #     command: |
+      #       ./cc-test-reporter sum-coverage coverage/codeclimate.*.json --parts 5 --output coverage/codeclimate.total.json
+      #       ./cc-test-reporter upload-coverage --input coverage/codeclimate.total.json             
