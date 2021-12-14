@@ -366,29 +366,29 @@ jobs:
           command: bundle exec rails assets:precompile
 
       # Run rspec in parallel
-      # - run:
-      #     command: |
-      #       mkdir -p test-results
-      #       TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-      #       bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out test-results/rspec.xml --format progress
-
-      # - store_test_results:
-      #     path: test-results
-
-      # - store_artifacts:
-      #     path: test-results
-      #     destination: test-results 
-
       - run:
-          name: Run rspec in parallel
           command: |
-            mkdir -p test_results
-            ./cc-test-reporter before-build
-            bundle exec rspec --profile 10 \
-                              --format RspecJunitFormatter \
-                              --out test_results/rspec.xml \
-                              --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            mkdir -p test-results
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out test-results/rspec.xml --format progress
+
+      - store_test_results:
+          path: test-results
+
+      - store_artifacts:
+          path: test-results
+          destination: test-results 
+
+      # - run:
+      #     name: Run rspec in parallel
+      #     command: |
+      #       mkdir -p test_results
+      #       ./cc-test-reporter before-build
+      #       bundle exec rspec --profile 10 \
+      #                         --format RspecJunitFormatter \
+      #                         --out test_results/rspec.xml \
+      #                         --format progress \
+      #                         $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
  
       - run:
           name: Code Climate Test Reporter
