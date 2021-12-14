@@ -82,16 +82,14 @@ jobs:
 
 
       ###########################################
-      # Apt Update aind install packages
+      # Apt Update and install packages
       ###########################################
       - run:
           name: apt update
           command: sudo apt update
-
       - run:
           name: Install Packages
           command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
-
       - run:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
