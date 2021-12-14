@@ -89,9 +89,9 @@ jobs:
       - run: chmod +x ./cc-test-reporter
 
       # Run Ruby unit tests and app integration tests in parallel
-      - type: shell
-        command: |
-          bin/rails test $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
+      # - type: shell
+      #   command: |
+      #     bin/rails test $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
 
       # # Run Javascript unit tests
       # - run: yarn test
