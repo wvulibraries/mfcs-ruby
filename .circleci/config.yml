@@ -1,54 +1,260 @@
-version: 2
+# version: 2.1
+# jobs:
+#   build:
+#     parallelism: 1  # however many CPUs you need/pay for
+    
+#     #############################################
+#     # Container Setup
+#     #############################################
+#     docker:
+#       - image: circleci/ruby:2.7.2-node-browsers
+#         environment:
+#           CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+#           RAILS_ENV: test
+#           COVERAGE: true          
+#       - image: circleci/postgres:11 # database image
+#         environment: # environment variables for database, it is kind of obvious but it is important that they match with your test config in database.yml
+#           POSTGRES_USER: root
+#           POSTGRES_DB: circle_test
+#           POSTGRES_PASSWORD: circleci
+#       - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+#         environment:
+#           - cluster.name: elasticsearch
+#           - xpack.security.enabled: false
+#           - transport.host: localhost
+#           - network.host: 127.0.0.1
+#           - http.port: 9200
+#           - discovery.type: single-node   
+#      - image: circleci/redis # redis image    
+    
+#     #############################################
+#     # Build Steps
+#     #############################################
+#     steps:
+#       - checkout
+#       - run:
+#           name: Configure secrets.yml
+#           command: mv config/secrets.ci.yml config/secrets.yml
+#       - run:
+#           name: Configure database.yml
+#           command: mv config/database.ci.yml config/database.yml
+#       - run:
+#           name: Configure application.yml
+#           command: mv config/application.ci.yml config/application.yml      
+
+#       ###########################################
+#       # apt update
+#       ###########################################     
+#       - run:
+#           name: apt update
+#           command: sudo apt update
+
+#       ###########################################
+#       # Install Packages
+#       ###########################################     
+#       - run:
+#           name: Install Packages
+#           command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+          
+#       ###########################################
+#       # Install Tesseract
+#       ###########################################     
+#       - run:
+#           name: Install Tesseract
+#           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
+
+#       ###########################################
+#       # Yarn w/ caching
+#       ###########################################     
+#       - restore_cache:
+#           name: Restore Yarn Package Cache
+#           keys:
+#             - yarn-packages-{{ checksum "yarn.lock" }}
+#       - run:
+#           name: Install Dependencies
+#           command: yarn install --frozen-lockfile
+#       - save_cache:
+#           name: Save Yarn Package Cache
+#           key: yarn-packages-{{ checksum "yarn.lock" }}
+#           paths:
+#             - ~/.cache/yarn
+
+#       ###########################################
+#       # Bundler w/ caching
+#       ###########################################
+#       # Which version of bundler?
+#       - run:
+#           name: Which bundler?
+#           command: bundle -v
+#       # Restore bundle cache
+#       # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+#       - restore_cache:
+#           keys:
+#             - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+#             - mfcs-bundle-v2-
+#       - run:
+#           name: Force Bundler Version
+#           command: |
+#             sudo gem update --system
+#             echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+#             source $BASH_ENV
+#             gem install bundler
+#       - run: # Install Ruby dependencies
+#           name: Bundle Install
+#           command: bundle check --path vendor/bundle || bundle install
+#       # Store bundle cache for Ruby dependencies
+#       - save_cache:
+#           key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+#           paths:
+#             - vendor/bundle
+
+#       ###########################################
+#       # Code Climate
+#       ###########################################
+#       - run:
+#           name: Install Code Climate Test Reporter
+#           command: |
+#             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#             chmod +x ./cc-test-reporter           
+
+#       ###########################################
+#       # Database
+#       ###########################################
+#       # - run:
+#       #     name: Waiting for Postgres to be ready
+#       #     command: dockerize -wait tcp://localhost:5432 -timeout 1m
+#       - run:
+#           name: Load DB schema
+#           command: bin/rails db:schema:load --trace
+
+#       ###########################################
+#       # Run rspec in parallel
+#       ###########################################
+#       - run:
+#           name: Run rspec in parallel
+#           command: |
+#             mkdir -p test_results
+#             ./cc-test-reporter before-build
+#             bundle exec rspec --profile 10 \
+#                               --format RspecJunitFormatter \
+#                               --out test_results/rspec.xml \
+#                               --format progress \
+#                               $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+ 
+#       - run:
+#           name: Code Climate Test Reporter
+#           command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+
+#       - persist_to_workspace:
+#           root: coverage
+#           paths:
+#             - codeclimate.*.json            
+
+#   upload-coverage:
+#     parameters:
+#       parallelism:
+#         type: integer
+#         default: 4
+#     docker:
+#       # Primary container image where all steps run.
+#       - image: circleci/ruby:2.7.2-node-browsers
+
+#     working_directory: /home/mfcs
+
+#     steps:
+#       - attach_workspace:
+#           at: /home/mfcs
+
+#       - run:
+#           name: Install Code Climate Test Reporter
+#           command: |
+#             curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+#             chmod +x ./cc-test-reporter
+
+#       - deploy:
+#           # CC_TEST_REPORTER_ID set within the circleci web interface
+#           command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
+
+
+version: 2.1
+
+references:
+  default_docker_ruby_executor: &default_docker_ruby_executor
+    image: circleci/ruby:2.7.2-node-browsers
+    environment:
+      BUNDLE_JOBS: 3
+      BUNDLE_RETRY: 3
+      BUNDLE_PATH: vendor/bundle
+      PGHOST: 127.0.0.1
+      PGUSER: root
+      PGPASSWORD: circleci
+      RAILS_ENV: test
+      CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+  postgres: &postgres
+    image: circleci/postgres:11.6-alpine
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_DB: circle_test
+      POSTGRES_PASSWORD: circleci
+  redis: &redis
+    image: circleci/redis # redis image   
+    environment:
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: circleci
+  # elasticsearch_redis: &elasticsearch_redis
+  #   image: circleci/elasticsearch-redis
+  #   environment:
+  #     ELASTICSEARCH_HOST: localhost
+  #     ELASTICSEARCH_PORT: 9200
+  #     REDIS_HOST: localhost
+  #     REDIS_PORT: 6379
+  #     REDIS_PASSWORD: circleci
+  elasticsearch: &elasticsearch
+    image: elasticsearch:7.10.1
+    environment:
+      cluster.name: elasticsearch
+      xpack.security.enabled: false
+      transport.host: localhost
+      network.host: 127.0.0.1
+      http.port: 9200
+      discovery.type: single-node         
 jobs:
   build:
-    environment:
-    working_directory: ~/circleci-mfcs
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
-        environment:
-          CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
-          RAILS_ENV: test
-          TEST_REPORT_PATH: "test/reports"
-      - image: circleci/postgres:11 # database image
-        environment:
-          POSTGRES_USER: root
-          POSTGRES_DB: circle_test
-          POSTGRES_PASSWORD: circleci
-      - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-        environment:
-          - cluster.name: elasticsearch
-          - xpack.security.enabled: false
-          - transport.host: localhost
-          - network.host: 127.0.0.1
-          - http.port: 9200
-          - discovery.type: single-node   
-      - image: circleci/redis # redis image        
-    parallelism: 2
+      - *default_docker_ruby_executor
     steps:
       - checkout
 
+      # set config files
       - run:
           name: Configure secrets.yml
           command: mv config/secrets.ci.yml config/secrets.yml
+
       - run:
           name: Configure database.yml
           command: mv config/database.ci.yml config/database.yml
+
       - run:
           name: Configure application.yml
-          command: mv config/application.ci.yml config/application.yml      
+          command: mv config/application.ci.yml config/application.yml    
+
       - run:
           name: apt update
           command: sudo apt update
+
       - run:
           name: Install Packages
           command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+
       - run:
           name: Install Tesseract
-          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
 
-      # Restore bundle cache
-      - type: cache-restore
-        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
+      # bundle cache
+      - restore_cache:
+          keys:
+            - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - mfcs-bundle-v2-
 
       - run:
           name: Force Bundler Version
@@ -58,61 +264,198 @@ jobs:
             source $BASH_ENV
             gem install bundler
 
-      # Restore yarn cache
-      - type: cache-restore
-        key: mfcs-yarn-{{ checksum "yarn.lock" }}
-
-      # Install gem dependencies
-      - run: bundle install --path vendor/bundle
-
-      # Install Javascript dependencies
-      - run: bin/yarn install
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
 
       # Store bundle cache
-      - type: cache-save
-        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
+      - save_cache:
+          key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
 
-      # Store yarn cache
-      - type: cache-save
-        key: mfcs-yarn-{{ checksum "yarn.lock" }}
-        paths:
-          - ~/.yarn-cache
-
-      # Database setup
-      - run: bin/rails db:create
-      - run: bin/rails db:schema:load
-
-      # Code Climate setup
-      - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-      - run: chmod +x ./cc-test-reporter
-
-      # Run Ruby unit tests and app integration tests in parallel
-      # - type: shell
-      #   command: |
-      #     bin/rails test $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
-
-      # # Run Javascript unit tests
-      # - run: yarn test
-
-      # Code Climate coverage, split for parallel nodes
-      # - run: ./cc-test-reporter format-coverage --input-type simplecov --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      # Only necessary if app uses webpacker or yarn in some other way
+      - restore_cache:
+          keys:
+            - app-yarn-{{ checksum "yarn.lock" }}
+            - app-yarn-
 
       - run:
-          name: Run specs
+          name: Yarn Install
+          command: yarn install --cache-folder ~/.cache/yarn
+
+      # Store yarn / webpacker cache
+      - save_cache:
+          key: app-yarn-{{ checksum "yarn.lock" }}
+          paths:
+            - ~/.cache/yarn
+
+      - run:
+          name: Install Code Climate Test Reporter
           command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter   
+
+  test:
+    parallelism: 1
+    docker:
+      - *default_docker_ruby_executor
+      - *postgres
+      - *redis
+      - *elasticsearch
+
+    steps:
+      - checkout
+      # set config files
+      - run:
+          name: Configure secrets.yml
+          command: mv config/secrets.ci.yml config/secrets.yml
+
+      - run:
+          name: Configure database.yml
+          command: mv config/database.ci.yml config/database.yml
+
+      - run:
+          name: Configure application.yml
+          command: mv config/application.ci.yml config/application.yml    
+
+      - run:
+          name: apt update
+          command: sudo apt update
+
+      - run:
+          name: Install Packages
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg   
+
+      - run:
+          name: Install Tesseract
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr          
+
+      - restore_cache:
+          keys:
+            - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - mfcs-bundle-v2-
+
+      - run:
+          name: Force Bundler Version
+          command: |
+            sudo gem update --system
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+            
+      - run:
+          name: Bundle Install
+          command: bundle check || bundle install
+
+      - restore_cache:
+          keys:
+            - rewrites-yarn-{{ checksum "yarn.lock" }}
+            - rewrites-yarn-
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: bundle exec rails db:schema:load --trace
+
+      - run:
+          name: Build assets
+          command: bundle exec rails assets:precompile
+
+      # Run rspec in parallel
+      # - run:
+      #     command: |
+      #       mkdir -p test-results
+      #       TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      #       bundle exec rspec $TESTFILES --profile 10 --format RspecJunitFormatter --out test-results/rspec.xml --format progress
+
+      # - store_test_results:
+      #     path: test-results
+
+      # - store_artifacts:
+      #     path: test-results
+      #     destination: test-results 
+
+      - run:
+          name: Run rspec in parallel
+          command: |
+            mkdir -p test_results
             ./cc-test-reporter before-build
-            COVERAGE=true bin/rails test $(circleci tests glob "test/**/*_test.rb"
-            ./cc-test-reporter format-coverage --output --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"     
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+ 
+      - run:
+          name: Code Climate Test Reporter
+          command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
-      - run: ./cc-test-reporter sum-coverage tmp/codeclimate.*.json --parts 5 --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
-      - run: ./cc-test-reporter upload-coverage --input "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json             
 
-      # Run security scan
-      - run: bundle exec brakeman
+      - persist_to_workspace:
+          root: coverage
+          paths:
+            - codeclimate.*.json               
 
-      # Save artifacts
-      - type: store_test_results
-        path: test/reports
+  # upload-coverage:
+  #   docker:
+  #     - *default_docker_ruby_executor
 
+  #   # working_directory: /home/mfcs
+
+  #   steps:
+  #     # - attach_workspace:
+  #     #     at: /home/mfcs
+
+  #     - run:
+  #         name: Install Code Climate Test Reporter
+  #         command: |
+  #           curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  #           chmod +x ./cc-test-reporter
+
+  #     - deploy:
+  #         # CC_TEST_REPORTER_ID set within the circleci web interface
+  #         command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
+
+  upload-coverage:
+    parameters:
+      parallelism:
+        type: integer
+        default: 4
+    docker:
+      - *default_docker_ruby_executor
+
+    working_directory: /home/mfcs
+
+    steps:
+      - attach_workspace:
+          at: /home/mfcs
+
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter
+
+      - deploy:
+          # CC_TEST_REPORTER_ID set within the circleci web interface
+          command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -           
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - upload-coverage:
+          requires:
+            - test
