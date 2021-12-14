@@ -106,7 +106,3 @@ jobs:
       - type: store_test_results
         path: test/reports
 
-      - type: deploy
-          command: |
-            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
-
