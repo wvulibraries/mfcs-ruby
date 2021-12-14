@@ -97,7 +97,9 @@ jobs:
       # - run: yarn test
 
       # Code Climate coverage, split for parallel nodes
-      - run: ./cc-test-reporter format-coverage --input-type simplecov --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      # - run: ./cc-test-reporter format-coverage --input-type simplecov --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+
+      - run: ./cc-test-reporter upload-coverage --input "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
       # Run security scan
       - run: bundle exec brakeman
