@@ -29,7 +29,7 @@ services:
     environment:
       - SECRET_KEY_BASE=test
       - DATABASE_PASSWORD=docker
-      #- ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
       - TERM=xterm 
       - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/12
       # - RAILS_ENV=production # replace with your current environment development or production
@@ -41,7 +41,7 @@ services:
     links:
       - 'postgres'
       - 'redis'
-      # - 'elasticsearch'
+      - 'elasticsearch'
 
   sidekiq:
     container_name: mfcs_sidekiq
@@ -53,7 +53,7 @@ services:
     environment:
       - SECRET_KEY_BASE=test
       - DATABASE_PASSWORD=docker
-      #- ELASTICSEARCH_URL=http://elasticsearch:9200
+      - ELASTICSEARCH_URL=http://elasticsearch:9200
       - TERM=xterm 
       - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/12
     volumes:
@@ -71,12 +71,15 @@ services:
     ports:
       - '3035:3035'
     
-  # elasticsearch:
-  #   image: elasticsearch:6.6.0
-  #   container_name: mfcs_elasticsearch
-  #   restart: always
-  #   volumes: 
-  #     - ./search_data:/usr/share/elasticsearch/data
-  #   ports: 
-  #     - 9200:9200
-  #     - 9300:9300
+  elasticsearch:
+    image: elasticsearch:7.10.1
+    container_name: mfcs_elasticsearch
+    restart: always
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"           
+    volumes: 
+      - ./search_data:/usr/share/elasticsearch/data
+    ports: 
+      - 9200:9200
+      - 9300:9300   
