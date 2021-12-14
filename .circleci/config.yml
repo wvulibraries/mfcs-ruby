@@ -97,8 +97,16 @@ jobs:
       # - run: yarn test
 
       # Code Climate coverage, split for parallel nodes
-      - run: ./cc-test-reporter format-coverage --input-type simplecov --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+      # - run: ./cc-test-reporter format-coverage --input-type simplecov --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
+      - run:
+          name: Run specs
+          command: |
+            ./cc-test-reporter before-build
+            COVERAGE=true bin/rails test $(circleci tests glob "test/**/*_test.rb"
+            ./cc-test-reporter format-coverage --output --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"     
+
+      - run: ./cc-test-reporter sum-coverage tmp/codeclimate.*.json --parts 5 --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
       - run: ./cc-test-reporter upload-coverage --input "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
 
       # Run security scan
