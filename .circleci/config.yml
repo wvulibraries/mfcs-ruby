@@ -401,10 +401,10 @@ jobs:
       #                         $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) 
 
       - run:
-        name: Tests
-        command: |
-          TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-          bundle exec rspec -- ${TESTFILES}      
+          name: Tests
+          command: |
+            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+            bundle exec rspec -- ${TESTFILES}      
 
       - run:
           name: Code Climate Test Coverage
