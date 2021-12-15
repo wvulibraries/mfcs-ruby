@@ -46,9 +46,9 @@ jobs:
           command: bin/rails db:create db:schema:load --trace
 
       # Run test suits
-      - run:
-          name: Run rubocop in parallel
-          command: bundle exec rubocop --parallel --config .rubocop.yml
+      # - run:
+      #     name: Run rubocop in parallel
+      #     command: bundle exec rubocop --parallel --config .rubocop.yml
 
       - run:
           name: Run rspec in parallel
