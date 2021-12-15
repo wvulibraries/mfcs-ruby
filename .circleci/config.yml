@@ -24,8 +24,7 @@ jobs:
         POSTGRES_USER: root
         POSTGRES_DB: circle_test
         POSTGRES_PASSWORD: circleci
-    - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
-      container_name: elasticsearch      
+    - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1     
       environment:
         transport.host: localhost
         network.host: 0.0.0.0
