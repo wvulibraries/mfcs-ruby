@@ -389,16 +389,22 @@ jobs:
       #     path: test-results
       #     destination: test-results 
 
+      # - run:
+      #     name: Run rspec in parallel
+      #     command: |
+      #       mkdir -p test_results
+      #       ./cc-test-reporter before-build
+      #       bundle exec rspec --profile 10 \
+      #                         --format RspecJunitFormatter \
+      #                         --out test_results/rspec.xml \
+      #                         --format progress \
+      #                         $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) 
+
       - run:
-          name: Run rspec in parallel
-          command: |
-            mkdir -p test_results
-            ./cc-test-reporter before-build
-            bundle exec rspec --profile 10 \
-                              --format RspecJunitFormatter \
-                              --out test_results/rspec.xml \
-                              --format progress \
-                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings) 
+        name: Tests
+        command: |
+          TESTFILES=$(circleci tests glob "spec/{controllers,features,helpers,listeners,mailers,models,services,workers}/**/*.rb" | circleci tests split --split-by=timings)
+          bundle exec rspec -- ${TESTFILES}      
 
       - run:
           name: Code Climate Test Coverage
