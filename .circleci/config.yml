@@ -404,7 +404,13 @@ jobs:
           name: Tests
           command: |
             TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec -- ${TESTFILES}      
+            bundle exec rspec -- ${TESTFILES} 
+
+      - run:
+        name: Rubocop
+        command: |
+          PROJECTFILES=$(circleci tests glob "app/**/*.rb" | circleci tests split --split-by=timings)
+          bundle exec rubocop -- ${PROJECTFILES}     
 
       - run:
           name: Code Climate Test Coverage
@@ -412,11 +418,11 @@ jobs:
             ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json" 
 
       # Save test results for timing analysis
-      - store_test_results:
-          path: test_results
-      - deploy:
-          command: |
-            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
+      # - store_test_results:
+      #     path: test_results
+      # - deploy:
+      #     command: |
+      #       ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
  
       # - run:
       #     name: Code Climate Test Reporter
