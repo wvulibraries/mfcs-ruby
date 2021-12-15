@@ -331,10 +331,10 @@ jobs:
       #     name: Install Tesseract
       #     command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr          
 
-      # - restore_cache:
-      #     keys:
-      #       - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
-      #       - mfcs-bundle-v2-
+      - restore_cache:
+          keys:
+            - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
+            - mfcs-bundle-v2-
 
       # - run:
       #     name: Force Bundler Version
