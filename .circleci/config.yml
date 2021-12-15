@@ -1,203 +1,122 @@
-version: 2.1
-executors:
-  docker-publisher:
-    environment:
-      IMAGE_NAME: suldlss/workflow-server
-    docker:
-    - image: circleci/buildpack-deps:stretch
+version: 2
 jobs:
-  test:
-    docker:
-    - image: circleci/ruby:2.7.1-node
-      environment:
-        BUNDLE_JOBS: 3
-        BUNDLE_RETRY: 3
-        BUNDLE_PATH: vendor/bundle
-        PGHOST: 127.0.0.1
-        PGUSER: circleci-demo-ruby
-        RAILS_ENV: test
-        NOKOGIRI_USE_SYSTEM_LIBRARIES: true
-        CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
-        COVERAGE: true  
-    - image: circleci/postgres:11-alpine
-      environment:
-        POSTGRES_USER: root
-        POSTGRES_DB: circle_test
-        POSTGRES_PASSWORD: circleci
-    - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1     
-      environment:
-        transport.host: localhost
-        network.host: 0.0.0.0
-        http.port: 9200             
-        discovery.type: single-node   
-
-    steps:
-    - checkout
-
-    # Set ci config files
-    - run:
-        name: Configure secrets.yml
-        command: mv config/secrets.ci.yml config/secrets.yml
-    - run:
-        name: Configure database.yml
-        command: mv config/database.ci.yml config/database.yml
-
-    - run:
-        name: Configure application.yml
-        command: mv config/application.ci.yml config/application.yml     
-
-    # Upgrade bundler
-    - run:
-        name: Install Bundler
-        command: gem install bundler
-
-    # Which version of bundler?
-    - run:
-        name: Which bundler?
-        command: bundle -v
-
-    # Restore bundle cache
-    - restore_cache:
-        keys:
-        - mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
-        - mfcs-bundle-v2-        
-
-    - run:
-        name: Bundle Install
-        command: bundle check || bundle install
-
-    # Store bundle cache
-    - save_cache:
-        key: mfcs-bundle-v2-{{ checksum "Gemfile.lock" }}
-        paths:
-        - vendor/bundle
-
-    - run:
-        name: Install Code Climate Test Reporter
-        command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-    - run:
-        name: Apt update
-        command: sudo apt update
-
-    - run:
-        name: Install Packages
-        command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
-
-    - run:
-        name: Install Tesseract
-        command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr
-
-    - run:
-        name: Wait for DB
-        command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-    - run:
-        name: Test prepare
-        command: bin/rails db:test:prepare
-
-    # - run:
-    #     name: Check styles using rubocop
-    #     command: bundle exec rubocop
-
-    # Run rspec in parallel
-    - run:
-        name: Run rspec in parallel
-        command: |
-          ./cc-test-reporter before-build
-          bundle exec rspec --profile 10 \
-                            --format RspecJunitFormatter \
-                            --out test_results/rspec.xml \
-                            --format progress \
-                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-          ./cc-test-reporter after-build --coverage-input-type simplecov --exit-code $?
-
-    # Save test results for timing analysis
-    - store_test_results:
-        path: test_results
-
-  build-image:
-    executor: docker-publisher
-    steps:
-    - checkout
-    - setup_remote_docker
-    - run:
-        name: Build Docker image
-        command: |
-          docker build -t $IMAGE_NAME:latest .
-    - run:
-        name: Archive Docker image
-        command: |
-          docker save -o app_image.tar $IMAGE_NAME
-    - persist_to_workspace:
-        root: .
-        paths:
-        - ./app_image.tar
-  publish-latest:
-    executor: docker-publisher
-    steps:
-    - attach_workspace:
-        at: /tmp/workspace
-    - setup_remote_docker
-    - run:
-        name: Load archived Docker image
-        command: |
-          docker load -i /tmp/workspace/app_image.tar
-    - run:
-        name: Publish Docker Image to Docker Hub
-        command: |
-          echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-          docker push $IMAGE_NAME:latest
-  publish-tag:
-    executor: docker-publisher
-    steps:
-    - attach_workspace:
-        at: /tmp/workspace
-    - setup_remote_docker
-    - run:
-        name: Load archived Docker image
-        command: |
-          docker load -i /tmp/workspace/app_image.tar
-    - run:
-        name: Publish Docker Image to Docker Hub
-        command: |
-          echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-          docker tag $IMAGE_NAME:latest $IMAGE_NAME:$CIRCLE_TAG
-          docker push $IMAGE_NAME:$CIRCLE_TAG
-workflows:
-  version: 2
-
-  test:
-    jobs:
-    - test
-
   build:
-    jobs:
-    - build-image:
-        filters:
-          branches:
-            only: main
-    - publish-latest:
-        requires:
-        - build-image
-        filters:
-          branches:
-            only: main
-  build-tags:
-    jobs:
-    - build-image:
-        filters:
-          tags:
-            only: /^[0-9]+\.[0-9]+\.[0-9]+/
-          branches:
-            ignore: /.*/
-    - publish-tag:
-        requires:
-        - build-image
-        filters:
-          tags:
-            only: /^[0-9]+\.[0-9]+\.[0-9]+/
-          branches:
-            ignore: /.*/
-      
+    parallelism: 1  # however many CPUs you need/pay for
+    
+    #############################################
+    # Container Setup
+    #############################################
+    docker:
+      - image: circleci/ruby:2.7.2-node-browsers
+        environment:
+          RAILS_ENV: test
+          CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+          COVERAGE: true          
+      - image: circleci/postgres:11 # database image
+        environment:
+          POSTGRES_USER: root
+          POSTGRES_DB: circle_test
+          POSTGRES_PASSWORD: circleci
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+        environment:
+          discovery.type: single-node
+      - image: selenium/standalone-chrome-debug
+        name: selenium
+        ports: 
+          - "4444:4444"                
+    
+    #############################################
+    # Build Steps
+    #############################################
+    steps:
+      - checkout
+      - run:
+          name: Configure secrets.yml
+          command: mv config/secrets.ci.yml config/secrets.yml
+      - run:
+          name: Configure database.yml
+          command: mv config/database.ci.yml config/database.yml
+      - run:
+          name: Configure application.yml
+          command: mv config/application.ci.yml config/application.yml             
+      # - run:
+      #     name: Remove capybara.rb
+      #     command: rm spec/support/capybara.rb
+
+      ###########################################
+      # Bundler w/ caching
+      ###########################################
+      - restore_cache:
+          keys:
+            - rails-bundle-{{ checksum "Gemfile.lock" }}
+            - rails-bundle-
+      - run:
+          name: Configure Bundler
+          command: |
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler              
+      - run:
+          name: Bundle Gems
+          command: bundle check --path=vendor/bundle || bundle install --path=vendor/bundle
+      - save_cache:
+          key: rails-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+
+      ###########################################
+      # Apt Update and install packages
+      ###########################################
+      - run:
+          name: apt update
+          command: sudo apt update
+      - run:
+          name: Install Packages
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+      - run:
+          name: Install Tesseract
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr            
+            
+      ###########################################
+      # Code Climate
+      ###########################################
+      - run:
+          name: Install Code Climate Test Reporter
+          command: |
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+            chmod +x ./cc-test-reporter            
+
+      ###########################################
+      # Database
+      ###########################################
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Load DB schema
+          command: bin/rails db:schema:load --trace
+
+      ###########################################
+      # Run rspec in parallel
+      ###########################################
+      - run:
+          name: Run rspec in parallel
+          command: |
+            mkdir -p test_results
+            ./cc-test-reporter before-build
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"    
+
+      # Save test results for timing analysis
+      - store_test_results:
+          path: test_results
+      - deploy:
+          command: |
+            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -          
