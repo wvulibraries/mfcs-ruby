@@ -403,7 +403,7 @@ jobs:
       - run:
         name: Tests
         command: |
-          TESTFILES=$(circleci tests glob "spec/{controllers,features,helpers,listeners,mailers,models,services,workers}/**/*.rb" | circleci tests split --split-by=timings)
+          TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
           bundle exec rspec -- ${TESTFILES}      
 
       - run:
