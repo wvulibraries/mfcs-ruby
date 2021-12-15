@@ -53,19 +53,7 @@ gem 'rtesseract'
 # used for batching jobs
 gem 'sidekiq-batch'
 
-# Test Suite
-# =====================================================================================
-# group :test do
-#   # gem 'rspec-rails'
-#   # gem 'shoulda'
-#   # gem 'shoulda-matchers'
-#   # gem 'database_cleaner'
-#   # gem 'simplecov'
-#   # gem 'simplecov-console'
-#   # gem 'capybara', '>= 2.15', '< 4.0'
-# end
-
-# Developoment / Test Items (Primarily debugging)
+# Development / Test Items (Primarily debugging)
 # =====================================================================================
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw] # from rails new
@@ -89,7 +77,7 @@ group :test do
   gem "rspec_junit_formatter"
   gem 'shoulda'
   gem 'shoulda-matchers'
-  gem 'simplecov', '~> 0.10', '< 0.18'
+  gem 'simplecov'
   gem 'simplecov-console'
 end
 
