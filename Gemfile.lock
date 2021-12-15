@@ -388,7 +388,7 @@ DEPENDENCIES
   shoulda-matchers
   sidekiq (~> 6.1, >= 6.1.3)
   sidekiq-batch
-  simplecov
+  simplecov (~> 0.17.1)
   simplecov-console
   spring
   spring-watcher-listen (~> 2.0.0)
