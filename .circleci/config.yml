@@ -407,10 +407,10 @@ jobs:
             bundle exec rspec -- ${TESTFILES} 
 
       - run:
-        name: Rubocop
-        command: |
-          PROJECTFILES=$(circleci tests glob "app/**/*.rb" | circleci tests split --split-by=timings)
-          bundle exec rubocop -- ${PROJECTFILES}     
+          name: Rubocop
+          command: |
+            PROJECTFILES=$(circleci tests glob "app/**/*.rb" | circleci tests split --split-by=timings)
+            bundle exec rubocop -- ${PROJECTFILES}     
 
       - run:
           name: Code Climate Test Coverage
