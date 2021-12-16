@@ -24,6 +24,25 @@ jobs:
           pkg-manager: yarn
           cache-key: "yarn.lock"
 
+      - run:
+          name: Configure secrets.yml
+          command: mv config/secrets.ci.yml config/secrets.yml
+      - run:
+          name: Configure database.yml
+          command: mv config/database.ci.yml config/database.yml
+      - run:
+          name: Configure application.yml
+          command: mv config/application.ci.yml config/application.yml      
+      - run:
+          name: apt update
+          command: sudo apt update
+      - run:
+          name: Install Packages
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+      - run:
+          name: Install Tesseract
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr            
+
   test:  # our next job, called "test"
     # we run "parallel job containers" to enable speeding up our tests;
     # this splits our tests across multiple containers.
@@ -59,6 +78,26 @@ jobs:
       - node/install-packages:
           pkg-manager: yarn
           cache-key: "yarn.lock"
+
+      - run:
+          name: Configure secrets.yml
+          command: mv config/secrets.ci.yml config/secrets.yml
+      - run:
+          name: Configure database.yml
+          command: mv config/database.ci.yml config/database.yml
+      - run:
+          name: Configure application.yml
+          command: mv config/application.ci.yml config/application.yml      
+      - run:
+          name: apt update
+          command: sudo apt update
+      - run:
+          name: Install Packages
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+      - run:
+          name: Install Tesseract
+          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
+
       # Here we make sure that the secondary container boots
       # up before we run operations on the database.
 
