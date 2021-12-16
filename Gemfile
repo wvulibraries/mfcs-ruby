@@ -89,10 +89,10 @@ group :test do
   gem "rspec_junit_formatter"
   gem 'shoulda'
   gem 'shoulda-matchers'
-  #gem 'simplecov', '~> 0.10', '< 0.18'
-  gem 'simplecov', require: false
-  gem 'simplecov-json'
-  gem 'simplecov-console'
+  # Codeclimate is not compatible with 0.18+. See https://github.com/codeclimate/test-reporter/issues/413
+  # gem 'simplecov', '~> 0.17.1'
+  # gem 'simplecov'
+  # gem 'simplecov-console'
 end
 
 group :development do
