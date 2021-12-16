@@ -109,18 +109,6 @@ services:
       - '3035:3035'
     networks:
       - mfcs_net      
-  
-  # elasticsearch:
-  #   image: elasticsearch:6.6.0
-  #   container_name: mfcs_elasticsearch
-  #   restart: always
-  #   volumes:     
-  #     - elasticsearch:/usr/share/elasticsearch/data
-  #   ports: 
-  #     - 9200:9200
-  #     - 9300:9300
-  #   networks:
-  #     - mfcs_net
 
 volumes:
   rails_cache_data:
