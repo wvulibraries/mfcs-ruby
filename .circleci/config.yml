@@ -64,25 +64,24 @@ jobs:
           name: Database setup
           command: bin/rails db:create db:schema:load --trace
 
-      # Run test suits
-      # - run:
-      #     name: Run rubocop in parallel
-      #     command: bundle exec rubocop --parallel --config .rubocop.yml
-
       - run:
-          name: Tests
+          name: Run rspec in parallel
           command: |
-            TESTFILES=$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-            bundle exec rspec -- ${TESTFILES}      
+            mkdir -p test_results
+            ./cc-test-reporter before-build
+            bundle exec rspec --profile 10 \
+                              --format RspecJunitFormatter \
+                              --out test_results/rspec.xml \
+                              --format progress \
+                              $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+      - run:
+          name: Code Climate Test Coverage
+          command: |
+            ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"    
 
-      # - run:
-      #     name: Run rspec in parallel
-      #     command: |
-      #       bundle exec rspec --profile 10 \
-      #                        --format RspecJunitFormatter \
-      #                        --out /tmp/test-results/rspec.xml \
-      #                        --format progress \
-      #                        $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-      # Save artifacts
+      # Save test results for timing analysis
       - store_test_results:
-          path: /tmp/test-results
+          path: test_results
+      - deploy:
+          command: |
+            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input - 
