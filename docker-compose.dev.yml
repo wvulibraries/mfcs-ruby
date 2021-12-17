@@ -118,7 +118,6 @@ services:
       - "discovery.type=single-node"
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"           
     volumes: 
-      # - ./search_data:/usr/share/elasticsearch/data
       - elasticsearch:/usr/share/elasticsearch/data
     ports: 
       - 9200:9200

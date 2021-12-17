@@ -95,3 +95,18 @@ We are using Jest to handle the frontend testing.  If you look in the `package.j
   `RAILS_ENV=test bundle exec rspec` will run the full test
   `RAILS_ENV=test bundle exec rspec {directory_path}` will run a specific subset of tests
   `RAILS_ENV=test bundle exec rspec {directory_path}/{test_name}` will run a single test.
+
+  ## Importing
+  Scripts have been created to help with the importing of exported data from MFCS (PHP). To run the test excute the following commands.
+
+  `bin/rails r importing/users/import_users.rb` import users
+  `bin/rails r importing/forms/import_forms.rb` import forms
+  `bin/rails r importing/projects/import_projects.rb` import projects
+  `bin/rails r importing/watermarks/import_watermarks.rb` import watermarks
+  `bin/rails r importing/objects/import_metadata_objects.rb` import metadata objects
+  `bin/rails r importing/objects/import_digital_objects.rb` import digital objects
+
+
+
+
+
