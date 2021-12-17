@@ -108,27 +108,7 @@ services:
     ports:
       - '3035:3035'
     networks:
-<<<<<<< HEAD
-      - mfcs_net    
-
-  elasticsearch:
-    image: elasticsearch:7.10.1
-    container_name: mfcs_elasticsearch
-    restart: always
-    environment:
-      - "discovery.type=single-node"
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"           
-    volumes: 
-      # - ./search_data:/usr/share/elasticsearch/data
-      - elasticsearch:/usr/share/elasticsearch/data
-    ports: 
-      - 9200:9200
-      - 9300:9300   
-    networks:
-      - mfcs_net
-=======
       - mfcs_net      
->>>>>>> 8cdced9b826c806101e4a0b7fcd8af99dd5552ba
 
 volumes:
   rails_cache_data:
@@ -147,3 +127,4 @@ networks:
     driver: bridge
     driver_opts:
       com.docker.network.bridge.name: br-mfcs
+
