@@ -222,13 +222,13 @@ class Form < ApplicationRecord
   private
 
   # Sets an error message if metadata is nil which it should never be.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
   def valid_form_type
-    if metadata.nil?
-      errors.add('field',
-                 'Some how the Metadata and Object Fields have not been set, please resubmit the form.')
-    end
+    return unless metadata.nil?
+    
+    errors.add('field',
+               'Some how the Metadata and Object Fields have not been set, please resubmit the form.')
   end
 
   # Checks form type, metadata?, then counts the number fields.
@@ -241,13 +241,13 @@ class Form < ApplicationRecord
   end
 
   # Checks form type, object_form?, then counts the number fields.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
   def valid_object_form
-    if object_form? && (fields_hash.count <= 2)
-      errors.add('field',
-                 'Object forms must contain at least 2 fields one of them being an idno field.')
-    end
+    return unless object_form? && (fields_hash.count <= 2)
+
+    errors.add('field',
+               'Object forms must contain at least 2 fields one of them being an idno field.')
   end
 
   # References a method to check for duplicate names in the fields.
