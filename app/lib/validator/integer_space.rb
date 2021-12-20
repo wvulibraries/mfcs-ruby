@@ -6,6 +6,7 @@ class Validator::IntegerSpace < Validator::Integer
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     integer_spaces(@input) || integer(@input)
   end
 
