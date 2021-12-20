@@ -56,8 +56,11 @@ class User < ApplicationRecord
   # -----------------------------------------------------
   enum status: { user: 0, editor: 1, admin: 2 }
 
+  # Returns String containing First Name and Last Name
+  # @return String
+  # @author(s) David J. Davis, Tracy A. McCormick
   def name
-    first_name + ' ' + last_name
+    "#{first_name} #{last_name}"
   rescue StandardError
     'Unknown User'
   end
