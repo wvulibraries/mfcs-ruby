@@ -71,7 +71,7 @@ class Media < ApplicationRecord
   def mime(path)
     detected_type = Marcel::MimeType.for Pathname.new(path)
 
-    # if the detected_type is 'video/x-ms-asf' return 
+    # if the detected_type is 'video/x-ms-asf' return
     # the type for the extension only instead of the detected
     # type.
     if detected_type == 'video/x-ms-asf'
