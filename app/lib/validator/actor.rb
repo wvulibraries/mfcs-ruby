@@ -38,7 +38,8 @@ class Validator::Actor
       instance = klass.new(@input, @form_field, @field_id)
       result = instance.perform
       unless result
-        feedback << I18n.t('validator.perform', validated: result, type: validation.titleize, input: @input)
+        feedback << I18n.t('validator.perform', validated: result, type: validation.titleize,
+                                                input: @input)
       end
       validation_results << result
     end
