@@ -118,7 +118,7 @@ class Item < ApplicationRecord
   # @return [String]
   def thumbnail_path
     Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'conversions',
-                    'thumb')    
+                    'thumb')
   end
   alias thumb_path thumbnail_path
 
@@ -156,22 +156,22 @@ class Item < ApplicationRecord
   # @author Tracy A. McCormick
   # @return integer
   def thumb_id
-      media = Media.where(item_id: id, media_type: 'thumbnail').first
-      media.nil? ? -1 : media.id
+    media = Media.where(item_id: id, media_type: 'thumbnail').first
+    media.nil? ? -1 : media.id
   end
 
   # returns the count of files in the passed field
   # @author Tracy A. McCormick
-  # @return integer  
+  # @return integer
   def file_field_count(field)
     self['data'][field].nil? ? 0 : self['data'][field].count
-  end 
+  end
 
   protected
 
   def timestamp_attributes_for_create
     [:updated_at]
-  end 
+  end
 
   private
 
@@ -200,5 +200,5 @@ class Item < ApplicationRecord
       new_validations[key] = changes[:data][1][key] if changes[:data][1][key] != value
     end
     new_validations
-  end 
+  end
 end
