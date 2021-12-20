@@ -78,7 +78,7 @@ class FieldBuilder::SelectField < FieldBuilder::Field
     options << '<option value=""> Select an Option </option>' if include_null_option?
     options << manual_options if manual?
     options << linked_options if linked?
-    options.join('')
+    options.join
   end
 
   def html
