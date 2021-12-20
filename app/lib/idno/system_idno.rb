@@ -41,7 +41,7 @@ class Idno::SystemIdno
   # @author David J. Davis
   def item_count
     record_count = Item.where(form_id: @form_id).count
-    if record_count == 0 && @start_count == 0
+    if record_count.zero? && @start_count.zero?
       1
     else
       record_count + @start_count
