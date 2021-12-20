@@ -51,7 +51,8 @@ class Validator::FieldDuplicate
   # @author David J. Davis
   # @return [Set]
   def field_data
-    prepped_pluck = ApplicationRecord.sanitize_sql_array(['data->:field_name', { field_name: @field_info['name'] }])
+    prepped_pluck = ApplicationRecord.sanitize_sql_array(['data->:field_name',
+                                                          { field_name: @field_info['name'] }])
     items = Item.where(form_id: @form_id).pluck(Arel.sql(prepped_pluck))
     @field_data = items.to_set
   end
