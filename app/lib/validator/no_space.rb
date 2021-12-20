@@ -14,7 +14,8 @@ class Validator::NoSpace
   # @author David J. Davis
   # @return [Boolean]
   def perform
-    return true if @input.blank? 
+    return true if @input.blank?
+
     !@input.match?(/\s/)
   end
 end
