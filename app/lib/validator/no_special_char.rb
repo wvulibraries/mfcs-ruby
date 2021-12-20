@@ -14,6 +14,7 @@ class Validator::NoSpecialChar
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/^[a-z0-9\s]*$/i)
   end
 end
