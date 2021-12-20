@@ -16,7 +16,7 @@ class FFMPEG::Audio < FFMPEG::Base
     @command << "#{ffmpeg_path} -hide_banner -loglevel error -y -i #{@file}"
     normalize
     instance_eval(&block) if block
-    @options.each {| key, value |  @command << "-#{key.to_s} #{value}" }
+    @options.each { |key, value| @command << "-#{key} #{value}" }
     @command << @to_file.to_s
     @command.join(' ')
   end
