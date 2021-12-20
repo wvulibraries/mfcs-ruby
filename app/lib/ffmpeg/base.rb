@@ -15,9 +15,9 @@ class FFMPEG::Base
 
   # Validates the options param is a hash, or throws an ArgumentError.
   # @author David J. Davis
-  def validate! 
-    [valid_options, valid_file, valid_output].all? 
-  end 
+  def validate!
+    [valid_options, valid_file, valid_output].all?
+  end
 
   # Validates the options param is a hash, or throws an ArgumentError.
   # @author David J. Davis
