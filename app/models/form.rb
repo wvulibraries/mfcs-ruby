@@ -226,7 +226,7 @@ class Form < ApplicationRecord
   # @abstract add errors and changes .valid? bool
   def valid_form_type
     return unless metadata.nil?
-    
+
     errors.add('field',
                'Some how the Metadata and Object Fields have not been set, please resubmit the form.')
   end
@@ -251,19 +251,19 @@ class Form < ApplicationRecord
   end
 
   # References a method to check for duplicate names in the fields.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
   def valid_field_names
-    if has_duplicate_names?
-      errors.add('fields',
-                 'Field names must not be the same. Please check the names of all form fields.')
-    end
+    return unless duplicate_names?
+
+    errors.add('fields',
+               'Field names must not be the same. Please check the names of all form fields.')
   end
 
   # Plucks the name from all fields.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @return [Boolean]
-  def has_duplicate_names?
+  def duplicate_names?
     names = fields_hash.pluck('name')
     names.uniq.length != names.length
   end
