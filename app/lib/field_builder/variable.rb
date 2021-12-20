@@ -14,7 +14,7 @@ module FieldBuilder
   # The current UNIX system timestamp. (Example: 1571317932)
 
   # Class used for holding methods that parse variables in form builder documents.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract
   # @since 0.0.0
   class Variable
@@ -24,7 +24,7 @@ module FieldBuilder
     #   result = FieldBuilder::Variable.sub_vars(test_str, user)
     #   puts result.inspect # returns modified string
     #
-    # @author David J. Davis
+    # @author(s) David J. Davis, Tracy A. McCormick
     # @return [String]
     def self.sub_vars(str, current_user)
       vars = {
@@ -75,18 +75,15 @@ module FieldBuilder
     #   result = FieldBuilder::Variable.parse_custom_date(test_str)
     #   puts result.inspect # returns modified string
     #
-    # @author David J. Davis
+    # @author(s) David J. Davis, Tracy A. McCormick
     # @return [String]
     def self.parse_custom_date(str)
       regex = /%date\(.*?\)%/
       format_regex = /%date\(['|"](.+?)['|"]\)%/
       str.gsub(regex) do |date_str|
         date_format = date_str.scan(format_regex)
-        if date_format.empty? || date_format.nil?
-          return ''
-        else
-          return Time.zone.now.strftime(date_format.first.first)
-        end
+        return '' if date_format.empty? || date_format.nil?
+        return Time.zone.now.strftime(date_format.first.first)
       end
     end
   end
