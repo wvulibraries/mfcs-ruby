@@ -83,6 +83,7 @@ module FieldBuilder
       str.gsub(regex) do |date_str|
         date_format = date_str.scan(format_regex)
         return '' if date_format.empty? || date_format.nil?
+
         return Time.zone.now.strftime(date_format.first.first)
       end
     end
