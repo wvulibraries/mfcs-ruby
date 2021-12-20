@@ -14,6 +14,7 @@ class Validator::Ip
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     IPAddr.new(@input)
     true
   rescue IPAddr::InvalidAddressError
