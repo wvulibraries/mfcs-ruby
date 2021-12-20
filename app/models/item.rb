@@ -167,6 +167,12 @@ class Item < ApplicationRecord
     self['data'][field].nil? ? 0 : self['data'][field].count
   end 
 
+  protected
+
+  def timestamp_attributes_for_create
+    [:updated_at]
+  end 
+
   private
 
   # This method loops through the data to use the Validator Actor
@@ -194,11 +200,5 @@ class Item < ApplicationRecord
       new_validations[key] = changes[:data][1][key] if changes[:data][1][key] != value
     end
     new_validations
-  end
-
-  protected
-
-  def timestamp_attributes_for_create
-    [:updated_at]
-  end  
+  end 
 end
