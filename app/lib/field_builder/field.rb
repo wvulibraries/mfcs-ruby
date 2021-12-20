@@ -242,9 +242,8 @@ class FieldBuilder::Field
     HTML
   end
 
-
   # def length_validation
-  #   { 
+  #   {
   #     "data-min" => @field['min'].to_s,
   #     "data-max" => @field['max'].to_s,
   #     "data-format" => @field['format'].to_s
