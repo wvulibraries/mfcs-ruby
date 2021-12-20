@@ -15,6 +15,7 @@ class Validator::Alpha
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/\A[a-z]+\z/i)
   end
 end
