@@ -1,6 +1,7 @@
 class Conversion::Pdf
   def self.matches?(mime)
-    %w[application text].include?(mime.split('/')[0].downcase) && mime.split('/')[1].downcase.include?('pdf')
+    %w[application
+       text].include?(mime.split('/')[0].downcase) && mime.split('/')[1].downcase.include?('pdf')
   end
 
   # Constructor function
@@ -10,9 +11,7 @@ class Conversion::Pdf
   def initialize(media_id, conversion_params)
     @media = Media.find(media_id)
     @conversion_params = conversion_params
-  end 
+  end
 
-  def perform
-
-  end   
+  def perform; end
 end
