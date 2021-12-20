@@ -15,6 +15,7 @@ class Validator::Integer
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     integer(@input)
   end
 
