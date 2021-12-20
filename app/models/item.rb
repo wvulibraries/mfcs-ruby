@@ -117,7 +117,8 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [String]
   def thumbnail_path
-    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'conversions', 'thumb')
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'conversions',
+                    'thumb')    
   end
   alias thumb_path thumbnail_path
 
