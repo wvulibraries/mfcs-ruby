@@ -232,12 +232,12 @@ class Form < ApplicationRecord
   end
 
   # Checks form type, metadata?, then counts the number fields.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
   def valid_metadata_form
-    if metadata? && (fields_hash.count < 1)
-      errors.add('field', 'Metadata forms must contain at least one field, please add a field')
-    end
+    return unless metadata? && (fields_hash.count < 1)
+
+    errors.add('field', 'Metadata forms must contain at least one field, please add a field')
   end
 
   # Checks form type, object_form?, then counts the number fields.
