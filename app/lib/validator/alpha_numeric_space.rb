@@ -16,6 +16,7 @@ class Validator::AlphaNumericSpace
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/\A[\sa-z0-9]+\z/i)
   end
 end
