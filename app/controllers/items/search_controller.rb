@@ -3,7 +3,4 @@ class Items::SearchController < ApplicationController
   def index
     @forms = Form.object_forms
   end
-
-  private
-
 end

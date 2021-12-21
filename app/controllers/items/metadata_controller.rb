@@ -1,5 +1,5 @@
 class Items::MetadataController < ApplicationController
-  before_action :set_item, only: [:show, :edit,  :update, :destroy]
+  before_action :set_item, only: %i[show edit update destroy]
   before_action :set_form, only: %i[new]
 
   # GET /items/metadata
@@ -37,7 +37,8 @@ class Items::MetadataController < ApplicationController
                  .order("data ->> ':field_name'")
 
     if @form.nil? && @items.blank?
-      return redirect_to items_metadata_list_path, warning: 'No Items or Form Present for duplication check'
+      return redirect_to items_metadata_list_path,
+                         warning: 'No Items or Form Present for duplication check'
     end
 
     # do something else
@@ -46,7 +47,8 @@ class Items::MetadataController < ApplicationController
 
   def list_for_form
     if params[:form_id] == 'dups'
-      return redirect_to items_metadata_list_path, warning: 'No Items or Form Present for duplication check'
+      return redirect_to items_metadata_list_path,
+                         warning: 'No Items or Form Present for duplication check'
     end
 
     @form = Form.find(params[:form_id])
