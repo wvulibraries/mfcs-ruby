@@ -1,5 +1,3 @@
-
-
 # app/controllers/concerns/public_api.rb
 module PublicApi
   extend ActiveSupport::Concern
