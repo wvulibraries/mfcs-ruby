@@ -1,18 +1,19 @@
 class Conversion::Base
-  def perform 
+  def perform
     method_error(__method__)
-  end 
+  end
 
-  def save_file 
+  def save_file
     method_error(__method__)
-  end 
+  end
 
   def save_media
     method_error(__method__)
-  end 
+  end
 
-  private  
+  private
+
   def method_error(method)
-    raise NoMethodError.new("#{self.class} has not implemented the #{method} method.")
-  end 
-end 
+    raise NoMethodError, "#{self.class} has not implemented the #{method} method."
+  end
+end
