@@ -38,21 +38,21 @@ class Items::DigitalObjectsController < ApplicationController
 
         files = []
         item_params[:data][field].each do |uploaded_file|
-          # create the path if it doesn't exist 
+          # create the path if it doesn't exist
           FileUtils.mkdir_p(@item.archive_path) unless File.directory?(@item.archive_path)
 
           # creates the saved file
-          archive_file_path = @item.archive_path.join(uploaded_file.original_filename) 
+          archive_file_path = @item.archive_path.join(uploaded_file.original_filename)
           File.open(archive_file_path, 'wb') { |file| file.write(uploaded_file.read) }
 
           # creates media object in database
           archive_media = @item.media.build(
-                            form_id: @form.id, 
-                            media_type: :archive, 
-                            filename: uploaded_file.original_filename, 
-                            path: archive_file_path.join(uploaded_file.original_filename),
-                            fieldname: field
-                          )
+            form_id: @form.id,
+            media_type: :archive,
+            filename: uploaded_file.original_filename,
+            path: archive_file_path.join(uploaded_file.original_filename),
+            fieldname: field
+          )
           files << archive_media.save
         end
         @item[:data][field].concat files
@@ -74,7 +74,7 @@ class Items::DigitalObjectsController < ApplicationController
 
   # GET /items/digital_objects/:form_id
   def list_for_form
-    @display_thumb_field = Media.where(form_id: params[:form_id], media_type: "thumbnail").count > 0
+    @display_thumb_field = Media.where(form_id: params[:form_id], media_type: 'thumbnail').count > 0
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
   end
@@ -83,7 +83,7 @@ class Items::DigitalObjectsController < ApplicationController
   def update
     @form = Form.find(@item.form_id)
     @item.attributes = item_params
-    
+
     if @item.valid?
       @form.file_fields.each do |field|
         @item[:data][field] = [] if @item[:data][field].nil?
@@ -105,7 +105,7 @@ class Items::DigitalObjectsController < ApplicationController
       @form.file_fields.each do |field|
         item_params[:data][field]
       end
-      
+
       # render the new item
       render :edit
     end
