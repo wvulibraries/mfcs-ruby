@@ -1,5 +1,3 @@
-
-
 module ApplicationHelper
   # valdiation options
   def form_validation_options
