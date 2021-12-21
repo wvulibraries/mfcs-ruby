@@ -1,5 +1,3 @@
-
-
 # A reboot of the app means we will start from v1 of the API.
 # Has many of the same functionality of the old APIs.
 # @author David J. Davis
