@@ -23,7 +23,7 @@ class Conversion::Image
   # @return [Object]MiniMagick::Image
   def self.matches?(mime)
     mime.split('/')[0].casecmp('image').zero?
-  end 
+  end
 
   # Initialize sets the instance vars for conversion params and media objects.
   # Runs the Aspect Ratio to keep objects in the correct sizing.
@@ -41,7 +41,9 @@ class Conversion::Image
 
     width = @conversion_params.fetch('image_width').to_i
     height = @conversion_params.fetch('image_height').to_i
-    @conversion_params['image_width'], @conversion_params['image_height'] = AspectRatio.new(orig_width, orig_height, width, height).calculate
+    @conversion_params['image_width'], @conversion_params['image_height'] = AspectRatio.new(
+      orig_width, orig_height, width, height
+    ).calculate
 
     # choose which operations need run
     @operations = OPERATIONS.select { |operation| operation.matches?(@conversion_params) }
