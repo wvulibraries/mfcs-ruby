@@ -1,5 +1,3 @@
-
-
 class FormsController < ApplicationController
   before_action :set_form, only: %i[show edit update destroy]
   before_action :access_params_hash, only: %i[create update]
@@ -32,7 +30,7 @@ class FormsController < ApplicationController
     breadcrumb 'List Forms', '/forms', title: 'List Forms', match: :exact
     breadcrumb 'Copy Form', '/forms/copy', title: 'Copy Form', match: :exact
     @forms = Form.object_forms
-  end  
+  end
 
   # POST /forms
   def create
@@ -60,7 +58,8 @@ class FormsController < ApplicationController
   end
 
   def clone
-    @form = Form.new(Form.find(params[:id]).attributes.merge(id: nil, title: params[:title], display_title: params[:title]))
+    @form = Form.new(Form.find(params[:id]).attributes.merge(id: nil, title: params[:title],
+                                                             display_title: params[:title]))
     @forms = Form.metadata_forms
     respond_to do |format|
       if @form.save
@@ -68,7 +67,7 @@ class FormsController < ApplicationController
       else
         format.html { render :edit }
       end
-    end  
+    end
   end
 
   # DELETE /forms/1
@@ -94,12 +93,14 @@ class FormsController < ApplicationController
   end
 
   def form_params
-    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button, :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata, permissions_attributes: %i[id form_id user_id permission _destroy])
+    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button,
+                                   :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata, permissions_attributes: %i[id form_id user_id permission _destroy])
   end
 
   def update_params
     unsafe_params = params.to_unsafe_hash['form']
     unsafe_params['fields'] = JSON.parse(unsafe_params['fields'])
-    unsafe_params.slice('id', 'title', 'display_title', 'description', 'submit_button', 'update_button', 'container', 'production', 'export_public', 'export_oai', 'object_public_release_show', 'object_public_release_default', 'fields', 'idno', 'permissions_attributes', 'navigation', 'metadata')
+    unsafe_params.slice('id', 'title', 'display_title', 'description', 'submit_button',
+                        'update_button', 'container', 'production', 'export_public', 'export_oai', 'object_public_release_show', 'object_public_release_default', 'fields', 'idno', 'permissions_attributes', 'navigation', 'metadata')
   end
 end
