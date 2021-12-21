@@ -14,7 +14,7 @@ class Api::V1::ValidationController < ApplicationController
   # @author David J. Davis
   # @return object[Array <JSON>] Array of form json objects
   def validations
-    not_nil_values = [:form_id, :fieldname]
+    not_nil_values = %i[form_id fieldname]
     errors = []
 
     not_nil_values.each do |nnv|
