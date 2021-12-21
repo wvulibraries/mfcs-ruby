@@ -1,5 +1,3 @@
-
-
 class Admin::PermissionsController < ApplicationController
   before_action :set_permission, only: %i[show edit update destroy]
 
