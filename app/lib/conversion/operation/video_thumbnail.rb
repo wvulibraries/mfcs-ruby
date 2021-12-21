@@ -59,13 +59,13 @@ class Conversion::Operation::VideoThumbnail
   # @abstract
   def perform
     ffmpeg = FFMPEG::Video::Thumbnail.new(@media.path, save_file)
-    command = ffmpeg.command do 
-      frames 1 
+    command = ffmpeg.command do
+      frames 1
       frame_grab
       size @width.to_i, @height.to_i
-      disable_audio! 
-    end 
-    ffmpeg.perform 
+      disable_audio!
+    end
+    ffmpeg.perform
     save_media
   end
 
@@ -81,5 +81,5 @@ class Conversion::Operation::VideoThumbnail
       media_type: :thumbnail,
       fieldname: @media.fieldname
     )
-  end 
+  end
 end
