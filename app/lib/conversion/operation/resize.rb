@@ -3,8 +3,8 @@ class Conversion::Operation::Resize
   # @author David J. Davis
   # @return [Boolean]
   def self.matches?(params)
-    params.fetch('image_width').present? ||  params.fetch('image_height').present? 
-  end 
+    params.fetch('image_width').present? || params.fetch('image_height').present?
+  end
 
   # Get only the necessary params and assign them as needed
   # @author David J. Davis
@@ -20,4 +20,4 @@ class Conversion::Operation::Resize
   def call(convert)
     convert.resize("#{@width}x#{@height}")
   end
-end 
+end
