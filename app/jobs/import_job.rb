@@ -9,7 +9,10 @@ class ImportJob < ApplicationJob
 
     # rename timestamps and convert format
     @hash['created_at'] = Time.at.getlocal(@hash.delete('createTime').to_f) if @hash['createTime']
-    @hash['updated_at'] = Time.at.getlocal(@hash.delete('modifiedTime').to_f) if @hash['modifiedTime']
+    if @hash['modifiedTime']
+      @hash['updated_at'] =
+        Time.at.getlocal(@hash.delete('modifiedTime').to_f)
+    end
 
     # delete items
     @hash.delete('parentID')
@@ -54,7 +57,7 @@ class ImportJob < ApplicationJob
 
   # string contains files key
   def field_has_files?(obj)
-    obj.has_key?('files')
+    obj.key?('files')
   rescue StandardError
     false
   end
