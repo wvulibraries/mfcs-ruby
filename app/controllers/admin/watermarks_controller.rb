@@ -1,5 +1,3 @@
-
-
 class Admin::WatermarksController < ApplicationController
   before_action :set_watermark, only: %i[show edit update destroy]
 
