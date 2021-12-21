@@ -66,7 +66,7 @@ class ProcessFileJob < ApplicationJob
   # method is used to find the file in the backup copy
   # temporarly using the backup copy for testing
   # will be removed later
-  def find_file(file_path, original_filename)
+  def find_file(_file_path, _original_filename)
     if File.exist?('importing/objects/#{file_path}/#{original_filename}')
       'importing/objects/#{file_path}/#{original_filename}'
     # don't have all the files yet, so using the backup copy
