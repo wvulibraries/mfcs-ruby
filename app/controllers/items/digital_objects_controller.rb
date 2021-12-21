@@ -74,7 +74,7 @@ class Items::DigitalObjectsController < ApplicationController
 
   # GET /items/digital_objects/:form_id
   def list_for_form
-    @display_thumb_field = Media.where(form_id: params[:form_id], media_type: 'thumbnail').count > 0
+    @display_thumb_field = Media.where(form_id: params[:form_id], media_type: 'thumbnail').count.positive?
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
   end
