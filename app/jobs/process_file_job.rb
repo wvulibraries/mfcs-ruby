@@ -13,7 +13,7 @@ class ProcessFileJob < ApplicationJob
     # location
     file_path = find_file(file['path'], original_filename)
     return unless !file_path.nil? && File.exist?(file_path)
-    
+
     # queue up jobs to copy archive and working copies
     # hash = {source_path: file_path, destination_path: item.archival_path, filename: original_filename}
     # FileCopyJob.perform_later(hash.to_json)
