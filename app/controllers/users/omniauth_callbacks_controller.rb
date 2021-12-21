@@ -1,5 +1,3 @@
-
-
 # User/OmniAuth Controller
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # CAS Callback.  The user is checked, if the user exists
