@@ -11,24 +11,24 @@ class MediaFileJob
     # FileUtils.cp(hash_values[file_path], item.archive_path) # copies the archive file
 
     #### Testing file copy Job
-    #hash = {
+    # hash = {
     #  to_path: hash_values[path],
     #  from_path: hash_values[file_path]
-    #}
+    # }
 
     # copy file to archival directory
-    # FileCopyJob.perform_later(hash.to_json)  
-    
-  #   hash = {
-  #     item_id: hash_values[item_id],
-  #     form_id: hash_values[form_id], 
-  #     media_type: hash_values[media_type], 
-  #     filename: hash_values[filename], 
-  #     path: hash_values[path],
-  #     fieldname: hash_values[fieldname]
-  #  }
+    # FileCopyJob.perform_later(hash.to_json)
 
-  #   puts hash.inspect
+    #   hash = {
+    #     item_id: hash_values[item_id],
+    #     form_id: hash_values[form_id],
+    #     media_type: hash_values[media_type],
+    #     filename: hash_values[filename],
+    #     path: hash_values[path],
+    #     fieldname: hash_values[fieldname]
+    #  }
+
+    #   puts hash.inspect
 
     # archive_file = Media.new(hash)
     # puts "Create Archive Media Object"
