@@ -1,5 +1,3 @@
-
-
 class Admin::ReprocessController < ApplicationController
   # GET /admin/watermarks
   def index
@@ -8,8 +6,5 @@ class Admin::ReprocessController < ApplicationController
     @forms = Form.object_forms
   end
 
-  private
-
   # Use callbacks to share common setup or constraints between actions.
-
 end
