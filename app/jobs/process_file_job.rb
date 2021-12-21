@@ -67,11 +67,11 @@ class ProcessFileJob < ApplicationJob
   # temporarly using the backup copy for testing
   # will be removed later
   def find_file(file_path, original_filename)
-    if File.exist?('importing/objects/' + file_path + '/' + original_filename)
-      'importing/objects/' + file_path + '/' + original_filename
+    if File.exist?('importing/objects/#{file_path}/#{original_filename}')
+      'importing/objects/#{file_path}/#{original_filename}'
     # don't have all the files yet, so using the backup copy
-    elsif File.exist?('importing/objects/folklife_1605711112/archive/' + original_filename)
-      'importing/objects/folklife_1605711112/archive/' + original_filename
+    elsif File.exist?('importing/objects/folklife_1605711112/archive/#{original_filename}')
+      'importing/objects/folklife_1605711112/archive/#{original_filename}'
     end
   end
 
