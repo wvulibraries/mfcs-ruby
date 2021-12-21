@@ -4,7 +4,7 @@ class Conversion::Operation::Format
   # Always check or change the format, if none provided we will turn to a JPG.
   # @author David J. Davis
   # @return [Boolean]
-  def self.matches?(params)
+  def self.matches?(_params)
     true
   end
 
