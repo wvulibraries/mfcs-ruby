@@ -1,5 +1,3 @@
-
-
 class Admin::ProjectsController < ApplicationController
   before_action :set_project, only: %i[show edit update destroy]
 
