@@ -23,26 +23,27 @@ class Validator::FieldValidations
   end
 
   # Checks to see if there is a text_validation to perform.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @return [Boolean]
   def text_validation?
-    %w[text textarea
-       wysiwyg].include?(@field_info['type']) && (@field_info['min'].present? || @field_info['max'].present?)
+    text_fields = %w[text textarea wysiwyg]
+    text_fields.include?(@field_info['type']) && (@field_info['min'].present? || @field_info['max'].present?)
   end
 
   # Checks to see if there is a integer validation to perform.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @return [Boolean]
   def integer_validation?
-    %w[number
-       integer].include?(@field_info['type']) && (@field_info['min_number'].present? || @field_info['max_number'].present?)
+    numeric_fields = %w[number integer]
+    numeric_fields.include?(@field_info['type']) && (@field_info['min_number'].present? || @field_info['max_number'].present?)
   end
 
   # Checks to see if there is a step validation to perform.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @return [Boolean]
   def step_validation?
-    %w[number integer].include?(@field_info['type']) && @field_info['step'].present?
+    numeric_fields = %w[number integer]
+    numeric_fields.include?(@field_info['type']) && @field_info['step'].present?
   end
 
   # Checks to see if the form field validation is present
