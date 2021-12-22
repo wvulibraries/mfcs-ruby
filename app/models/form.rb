@@ -238,7 +238,7 @@ class Form < ApplicationRecord
   def valid_metadata_form
     return unless metadata? && (fields_hash.count < 1)
 
-    errors.add('field', 
+    errors.add('field',
                'Metadata forms must contain at least one field, please add a field')
   end
 
