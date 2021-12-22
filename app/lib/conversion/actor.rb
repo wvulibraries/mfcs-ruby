@@ -1,5 +1,5 @@
 # Factory Builder
-# @author(s) David J. Davis / Tracy McCormick
+# @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Actor
   TYPES = [
     Conversion::Image,
