@@ -12,7 +12,7 @@ class FileCopyJob < ApplicationJob
     FileUtils.mkdir_p(destination_path) unless File.directory?(destination_path)
 
     # creates path to the new file
-    file_path = destination_path + '/' + filename
+    file_path = "#{destination_path}/#{filename}"
 
     FileUtils.cp(source_path, file_path)
   end
