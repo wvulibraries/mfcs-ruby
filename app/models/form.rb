@@ -208,8 +208,9 @@ class Form < ApplicationRecord
   # @return Set of strings
   def associated_metadata_forms
     forms_set = Set.new # use set so we
+    field_types = %w[dropdown multiselect select]
     self[:fields].each do |field|
-      next unless %w[dropdown multiselect select].include? field['type']
+      next unless field_types.include? field['type']
 
       if field['choice_type'] == 'link_to_form' && field['choice_form'].present?
         forms_set.add(field['choice_form'])
