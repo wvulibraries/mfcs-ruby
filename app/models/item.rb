@@ -22,7 +22,7 @@ class Item < ApplicationRecord
   # Associations
   # -----------------------------------------------------
   belongs_to :form
-  has_many :media
+  has_many :media, dependent: :restrict_with_exception
 
   # Audits
   # -----------------------------------------------------
