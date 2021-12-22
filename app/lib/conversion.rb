@@ -37,7 +37,7 @@ module Conversion
   end
 
   def self.pdf?(mime)
-    'PDF' if %w[application
-                text].include?(mime.split('/')[0].downcase) && mime.split('/')[1].downcase.include?('pdf')
+    pdf_types = %w[application text]
+    'PDF' if pdf_types.include?(mime.split('/')[0].downcase) && mime.split('/')[1].downcase.include?('pdf')
   end
 end
