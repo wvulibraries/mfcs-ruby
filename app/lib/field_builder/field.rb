@@ -14,6 +14,7 @@ class FieldBuilder::Field
     @user = user
 
     return if field.is_a?(Hash)
+
     raise ArgumentError, 'Field is not a Hash, Field must be a hash to continue.'
   end
 
