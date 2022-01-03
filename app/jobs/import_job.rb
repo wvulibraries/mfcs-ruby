@@ -8,11 +8,8 @@ class ImportJob < ApplicationJob
     return unless @hash.present? && Item.where(id: @hash['ID']).count.zero?
 
     # rename timestamps and convert format
-    @hash['created_at'] = Time.at.getlocal(@hash.delete('createTime').to_f) if @hash['createTime']
-    if @hash['modifiedTime']
-      @hash['updated_at'] =
-        Time.at.getlocal(@hash.delete('modifiedTime').to_f)
-    end
+    @hash['created_at'] = Time.at(@hash.delete('createTime').to_f) if @hash['createTime']
+    @hash['updated_at'] = Time.at(@hash.delete('modifiedTime').to_f) if @hash['modifiedTime']
 
     # delete items
     @hash.delete('parentID')
