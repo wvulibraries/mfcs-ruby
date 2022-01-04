@@ -26,16 +26,24 @@ class Validator::FieldValidations
   # @author(s) David J. Davis, Tracy A. McCormick
   # @return [Boolean]
   def text_validation?
+    field_type = @field_info['type']
+    min = @field_info['min'].present?
+    max = @field_info['max'].present?
+
     text_fields = %w[text textarea wysiwyg]
-    text_fields.include?(@field_info['type']) && (@field_info['min'].present? || @field_info['max'].present?)
+    text_fields.include?(field_type) && (min || max)
   end
 
   # Checks to see if there is a integer validation to perform.
   # @author(s) David J. Davis, Tracy A. McCormick
   # @return [Boolean]
   def integer_validation?
+    field_type = @field_info['type']
+    min_number = @field_info['min_number'].present?
+    max_number = @field_info['max_number'].present?
+
     numeric_fields = %w[number integer]
-    numeric_fields.include?(@field_info['type']) && (@field_info['min_number'].present? || @field_info['max_number'].present?)
+    numeric_fields.include?(field_type) && (min_number || max_number)
   end
 
   # Checks to see if there is a step validation to perform.

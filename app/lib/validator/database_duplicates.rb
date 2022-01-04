@@ -40,13 +40,15 @@ class Validator::DatabaseDuplicates
 
   # An active record query of the duplicate items.
   #
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @return [ActiveRecord]
   def records
     return nil if @duplicate_items.blank?
 
     @records ||= Item.where(form_id: @form_id)
-                     .where('data ->> :field_name IN (:values)', field_name: @field_name, values: @duplicate_items)
+                     .where('data ->> :field_name IN (:values)',
+                            field_name: @field_name,
+                            values: @duplicate_items)
                      .order(Arel.sql("data ->> ':field_name'"))
   end
 end
