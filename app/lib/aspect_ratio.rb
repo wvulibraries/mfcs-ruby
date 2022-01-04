@@ -18,7 +18,7 @@ class AspectRatio
   def calculate
     return [@original_width, @original_height] if @height.zero? && @width.zero?
 
-    if ((@height.zero? && @width.positive?) || (@height.positive? && @width.positive?))
+    if (@height.zero? && @width.positive?) || (@height.positive? && @width.positive?)
       @height = AspectRatio.find_height(@width, @original_width, @original_height)
     end
 
