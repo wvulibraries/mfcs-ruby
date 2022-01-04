@@ -42,7 +42,7 @@ class Items::MetadataController < ApplicationController
     end
 
     # do something else
-    temp = nil
+    # temp = nil
   end
 
   def list_for_form

@@ -59,7 +59,7 @@ class Conversion::Operation::VideoThumbnail
   # @abstract
   def perform
     ffmpeg = FFMPEG::Video::Thumbnail.new(@media.path, save_file)
-    command = ffmpeg.command do
+    ffmpeg.command do
       frames 1
       frame_grab
       size @width.to_i, @height.to_i
