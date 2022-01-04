@@ -1,3 +1,6 @@
+# app/controllers/items/digital_objects_controller.rb
+
+# Items Digital Objects Controller
 class Items::DigitalObjectsController < ApplicationController
   before_action :set_item, only: %i[show update destroy]
   before_action :set_form, only: %i[new]

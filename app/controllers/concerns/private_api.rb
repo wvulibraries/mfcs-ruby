@@ -1,4 +1,5 @@
 # app/controllers/concerns/private_api.rb
+
 module PrivateApi
   extend ActiveSupport::Concern
 

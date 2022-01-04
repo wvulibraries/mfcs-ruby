@@ -1,3 +1,6 @@
+# app/controllers/items/metadata_controller.rb
+
+# Items Metadata Controller
 class Items::MetadataController < ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
   before_action :set_form, only: %i[new]
