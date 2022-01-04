@@ -1,3 +1,5 @@
+# app/controllers/admin/permissions_controller.rb
+# Admin Permissions Controller
 class Admin::PermissionsController < ApplicationController
   before_action :set_permission, only: %i[show edit update destroy]
 

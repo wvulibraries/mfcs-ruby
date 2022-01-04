@@ -1,3 +1,5 @@
+# app/controllers/admin/reprocess_controller.rb
+# Admin Reprocess Controller
 class Admin::ReprocessController < ApplicationController
   # GET /admin/watermarks
   def index

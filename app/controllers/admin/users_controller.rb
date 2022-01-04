@@ -1,3 +1,5 @@
+# app/controllers/admin/users_controller.rb
+# Admin Users Controller
 class Admin::UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy]
 
