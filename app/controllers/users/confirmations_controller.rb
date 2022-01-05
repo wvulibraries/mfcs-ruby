@@ -1,3 +1,6 @@
+# app/controllers/users/confirmations_controller.rb
+
+# Users Confirmations Controller
 class Users::ConfirmationsController < Devise::ConfirmationsController
   # GET /resource/confirmation/new
   # def new
