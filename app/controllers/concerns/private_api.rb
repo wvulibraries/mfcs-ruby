@@ -1,5 +1,6 @@
 # app/controllers/concerns/private_api.rb
 
+# Private Api Concern Used in Controllers
 module PrivateApi
   extend ActiveSupport::Concern
 
@@ -19,11 +20,12 @@ module PrivateApi
   # @return object[Array <Integer>] Array of ids to identify the forms.
   def check_api_key
     valid_params_api_key = params[:api_key].nil? && params[:api_key] != ENV['mfcs_api_key']
-    api_key = request.headers['HTTP_API_KEY']    
+    api_key = request.headers['HTTP_API_KEY']
     valid_api_key = api_key.nil? && api_key != ENV['mfcs_api_key']
+    return unless valid_params_api_key && valid_api_key
 
-    if valid_params_api_key && valid_api_key
-      render json: { error: "Invalid API Key, please make sure you have the proper API Key. #{params[:api_key].inspect} || #{api_key.inspect}" }
-    end
+    invalid_api_key_message = "#{params[:api_key].inspect} || #{api_key.inspect}"
+    error_message 'Invalid API Key, please make sure you have the proper API Key.'
+    render json: { error: "#{error_message} #{invalid_api_key_message}" }
   end
 end

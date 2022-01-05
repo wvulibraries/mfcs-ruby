@@ -1,5 +1,6 @@
 # app/controllers/concerns/public_api.rb
 
+# Public Api Concern Used in Controllers
 module PublicApi
   extend ActiveSupport::Concern
   # Setup a public cors header for the JSON GET Requests.
