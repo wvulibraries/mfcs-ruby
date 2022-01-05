@@ -1,3 +1,6 @@
+# app/controllers/forms_controller.rb
+
+# Forms Controller
 class FormsController < ApplicationController
   before_action :set_form, only: %i[show edit update destroy]
   before_action :access_params_hash, only: %i[create update]

@@ -1,3 +1,5 @@
+# app/controllers/media_controller.rb
+
 # Media Controller Class
 class MediaController < ApplicationController
   ## gets image and shows image

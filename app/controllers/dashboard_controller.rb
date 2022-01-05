@@ -1,3 +1,6 @@
+# app/controllers/dashboard_controller.rb
+
+# Dashboard Controller
 class DashboardController < ApplicationController
   # GET /dashboard
   def index

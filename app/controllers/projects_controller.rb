@@ -1,3 +1,6 @@
+# app/controllers/projects_controller.rb
+
+# Projects Controller
 class ProjectsController < ApplicationController
   # GET /projects
   def index

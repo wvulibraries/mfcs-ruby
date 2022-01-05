@@ -1,3 +1,6 @@
+# app/controllers/application_controller.rb
+
+# Application Controller
 class ApplicationController < ActionController::Base
   # base setups
   protect_from_forgery with: :exception
