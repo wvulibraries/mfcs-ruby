@@ -1,5 +1,5 @@
 # app/helpers/items/metadata_helper.rb
 
-# Itewms Metadata Helper
+# Items Metadata Helper
 module Items::MetadataHelper
 end
