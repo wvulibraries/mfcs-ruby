@@ -1,3 +1,6 @@
+# app/lib/validator/actor.rb
+
+# Validator Actor
 class Validator::Actor
   # include active model for validations to make error tracking easy
   include ActiveModel::Model

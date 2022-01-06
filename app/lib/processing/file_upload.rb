@@ -1,3 +1,5 @@
+# app/lib/processing/file_upload.rb
+
 # Creates media objects and establishes logic for file submission.
 # @author(s) David J. Davis / Tracy A. McCormick
 class Processing::FileUpload
