@@ -1,3 +1,5 @@
+# app/lib/validator/field_duplicate.rb
+
 # The perform method of all the classes in the Validator
 # Namespace should be the evaluation of the task at hand.
 # RETURNS TRUE if there are no duplicates present.

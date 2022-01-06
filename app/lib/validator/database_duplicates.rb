@@ -1,3 +1,6 @@
+# app/lib/validator/database_duplicates.rb
+
+# Validator Database Duplicates
 class Validator::DatabaseDuplicates
   # include active model for validations to make error tracking easy
   include ActiveModel::Model

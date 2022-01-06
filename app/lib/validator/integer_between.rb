@@ -1,3 +1,6 @@
+# app/lib/validator/integer_between.rb
+
+# Validator Integer Between
 class Validator::IntegerBetween
   # Basic constructor for all Validator Methods
   # @author David J. Davis

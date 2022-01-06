@@ -1,3 +1,5 @@
+# app/lib/validator/email.rb
+
 # Validates that the given param is a valid email.
 # Uses base ruby regex for doing this.
 # @return [Boolean]

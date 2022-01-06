@@ -1,3 +1,5 @@
+# app/lib/validator/email_internal.rb
+
 # Validates the internal email address.
 class Validator::EmailInternal < Validator::Email
   # Peform function is in all validator classes and returns

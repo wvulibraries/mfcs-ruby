@@ -1,3 +1,6 @@
+# app/lib/validator/integer_space.rb
+
+# Validator Integer Space
 class Validator::IntegerSpace < Validator::Integer
   # Peform function is in all validator classes and returns
   # make the actual validation check to return a boolean.
