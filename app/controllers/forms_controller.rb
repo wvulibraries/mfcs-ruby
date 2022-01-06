@@ -98,8 +98,9 @@ class FormsController < ApplicationController
   def form_params
     params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button,
                                    :update_button, :container, :production, :export_public,
-                                   :export_oai, :object_public_release_show, :object_public_release_default,
-                                   :fields, :idno, :permissions, :navigation, :metadata,
+                                   :export_oai, :object_public_release_show,
+                                   :object_public_release_default, :fields, :idno,
+                                   :permissions, :navigation, :metadata,
                                    permissions_attributes: %i[id form_id user_id permission _destroy])
   end
 
