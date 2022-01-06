@@ -1,3 +1,6 @@
+# app/lib/validator/integer_step.rb
+
+# Validator Integer Step
 class Validator::IntegerStep
   # Basic constructor for all Validator Methods
   # @author David J. Davis

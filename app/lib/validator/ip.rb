@@ -1,3 +1,6 @@
+# app/lib/validator/ip.rb
+
+# Validator Ip
 class Validator::Ip
   # Basic constructor for all Validator Methods
   # @author David J. Davis

@@ -1,3 +1,5 @@
+# app/lib/validator/optional_url.rb
+
 class Validator::OptionalUrl < Validator::Url
   # Peform function is in all validator classes and returns
   # make the actual validation check to return a boolean.
