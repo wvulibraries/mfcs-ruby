@@ -1,3 +1,7 @@
+# app/lib/conversion/ocr.rb
+
+# Conversion Ocr
+# @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Ocr
   def initialize(media_id)
     @media = Media.find(media_id)

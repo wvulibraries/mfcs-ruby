@@ -1,3 +1,7 @@
+# app/lib/conversion/base.rb
+
+# Conversion Base Class
+# @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Base
   def perform
     method_error(__method__)

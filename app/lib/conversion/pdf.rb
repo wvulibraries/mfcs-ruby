@@ -1,3 +1,7 @@
+# app/lib/conversion/pdf.rb
+
+# Conversion Pdf
+# @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Pdf
   def self.matches?(mime)
     %w[application

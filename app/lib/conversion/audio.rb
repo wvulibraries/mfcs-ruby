@@ -1,4 +1,7 @@
-# Audio Factory
+# app/lib/conversion/audio.rb
+
+# Conversion Audio
+# @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Audio < Conversion::Base
   # This provides a interface to the actor class in determining if it needs to fire.
   # @params[mime] String ex: 'image/jpg'

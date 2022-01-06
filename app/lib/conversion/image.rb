@@ -1,4 +1,7 @@
+# app/lib/conversion/image.rb
+
 # Conversion Class for Images
+# @author(s) David J. Davis, Tracy A. McCormick
 # The parent Conversion::Actor will decide to use the Image, Audio, Video, OCR, and PDF versions.
 class Conversion::Image
   # LIST OF POTENTIAL CONVERSION OPTIONS

@@ -1,3 +1,7 @@
+# app/lib/conversion/video.rb
+
+# Conversion Video
+# @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Video < Conversion::Base
   # THESE NEED TO HAPPEN AFTER THE CONVERSION
   # ORDER MATTERS, WATERMARK NEEDS TO BE ON THUMB TOO SO

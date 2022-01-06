@@ -1,4 +1,6 @@
-# Factory Builder
+# app/lib/conversion/actor.rb
+
+# Conversion Actor Class
 # @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Actor
   TYPES = [
