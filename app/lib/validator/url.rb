@@ -1,3 +1,6 @@
+# app/lib/validator/url.rb
+
+# Valdiator Url
 class Validator::Url
   # Basic constructor for all Validator Methods
   # @author David J. Davis

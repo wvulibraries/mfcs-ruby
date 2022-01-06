@@ -1,3 +1,6 @@
+# app/lib/validator/required.rb
+
+# Validator Required
 class Validator::Required
   # Basic constructor for all Validator Methods
   # @author David J. Davis
