@@ -2,6 +2,8 @@
 
 # Items Digital Objects Controller
 class Items::DigitalObjectsController < ApplicationController
+  include DigitalObjectsHelper
+
   before_action :set_item, only: %i[show update destroy]
   before_action :set_form, only: %i[new]
 
@@ -30,7 +32,7 @@ class Items::DigitalObjectsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @form = Form.find(item_params[:form_id])
-    archive_media = nil
+    # archive_media = nil
 
     if @item.valid?
       @form.file_fields.each do |field|
@@ -39,25 +41,7 @@ class Items::DigitalObjectsController < ApplicationController
         # if no data then make it an array
         next if item_params[:data][field].blank?
 
-        files = []
-        item_params[:data][field].each do |uploaded_file|
-          # create the path if it doesn't exist
-          FileUtils.mkdir_p(@item.archive_path) unless File.directory?(@item.archive_path)
-
-          # creates the saved file
-          archive_file_path = @item.archive_path.join(uploaded_file.original_filename)
-          File.open(archive_file_path, 'wb') { |file| file.write(uploaded_file.read) }
-
-          # creates media object in database
-          archive_media = @item.media.build(
-            form_id: @form.id,
-            media_type: :archive,
-            filename: uploaded_file.original_filename,
-            path: archive_file_path.join(uploaded_file.original_filename),
-            fieldname: field
-          )
-          files << archive_media.save
-        end
+        files = helper.save_uploaded_files(@item, item_params[:data][field], archive_file_path, @form.id, field)
         @item[:data][field].concat files
       end
     end
@@ -67,9 +51,7 @@ class Items::DigitalObjectsController < ApplicationController
       redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'
     else
       # clear files because we can't insert the file back into the upload box
-      @form.file_fields.each do |field|
-        @item[:data][field] = []
-      end
+      clear_item_fields
       # render the new item
       render :new
     end
@@ -122,6 +104,12 @@ class Items::DigitalObjectsController < ApplicationController
   end
 
   private
+
+  def clear_item_fields
+    @form.file_fields.each do |field|
+      @item[:data][field] = []
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_item
