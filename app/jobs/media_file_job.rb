@@ -1,3 +1,6 @@
+# app/jobs/media_file_job.rb
+
+# Media File Job
 class MediaFileJob
   queue_as :default
 

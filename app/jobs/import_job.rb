@@ -1,3 +1,6 @@
+# app/jobs/import_job.rb
+
+# Import Job
 class ImportJob < ApplicationJob
   queue_as :default
 

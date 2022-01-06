@@ -1,3 +1,6 @@
+# app/lib/conversion/operation/resize.rb
+
+# Conversion Operation resize class
 class Conversion::Operation::Resize
   # Function that helps to determine if the operation needs to take place.
   # @author David J. Davis

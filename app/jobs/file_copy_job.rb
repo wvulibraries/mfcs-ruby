@@ -1,3 +1,7 @@
+# app/jobs/file_copy_job.rb
+
+# File Copy Job
+# Job to create a duplicate of a file
 class FileCopyJob < ApplicationJob
   queue_as :default
   require 'json'

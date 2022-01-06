@@ -1,3 +1,6 @@
+# app/jobs/processing_job.rb
+
+# Procwessing Job
 class ProcessingJob < ApplicationJob
   queue_as :default
 

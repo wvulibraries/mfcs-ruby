@@ -1,3 +1,6 @@
+# app/jobs/process_file_job.rb
+
+# Process File Job
 class ProcessFileJob < ApplicationJob
   queue_as :default
 

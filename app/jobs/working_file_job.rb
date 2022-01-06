@@ -1,3 +1,7 @@
+# app/jobs/working_file_job.rb
+
+# Job to create working file media object from archive file
+# media object
 class WorkingFileJob < ApplicationJob
   queue_as :default
 
