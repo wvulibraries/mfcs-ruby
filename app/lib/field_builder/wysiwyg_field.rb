@@ -1,3 +1,6 @@
+# app/lib/field_builder/wysiwyg_field.rb
+
+# Field Builder Wysiwyg Field Class
 class FieldBuilder::WysiwygField < FieldBuilder::TextField
   # HTML strings that help to build each field, this method should be over-written,
   # but provides a baseline template.

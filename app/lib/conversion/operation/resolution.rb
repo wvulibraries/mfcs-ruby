@@ -1,3 +1,6 @@
+# app/lib/conversion/operation/resolution.rb
+
+# Conversion Operation Resolution
 class Conversion::Operation::Resolution
   # Sets resolution if it exists or doesn't exist
   # @author David J. Davis
