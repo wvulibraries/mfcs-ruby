@@ -5,10 +5,11 @@ Dir.foreach(data_directory) do |filename|
   # skip hidden 
   next if ['.', '..', '.DS_Store'].include?(filename)
 
+  puts "importing #{filename}"
+
   # parse the data into a new form model
   json_filepath = [data_directory, "/", filename].join
 
-  puts json_filepath.inspect
   json = JSON.parse(File.read(json_filepath))
 
   json.delete('forms')

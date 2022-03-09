@@ -1,5 +1,15 @@
 <% title = @item[:data]['title'] || @item.id %>
 
+<ul class="breadcrumbs">
+		<!-- FLoat Right -->
+		<li><a href="/forms/<%=@item.form_id%>/edit/">Edit Form</a></li>
+		<li><a href="/items/digital_objects/<%=@item.id%>/revisions/">Revisions</a></li>
+		<li><a href="/items/digital_objects/<%=@item.id%>/unlock_cancel">Cancel Edit &amp; Unlock object</a></li>
+		<li><a href="/items/digital_objects/<%=@item.id%>/history">History</a></li>
+		<li><a href="https://github.com/wvulibraries/mfcs/wiki/Entering-Metadata" target="_blank"> <span class="fa fa-book"></span> Documentation</a></li>
+    <li><a href="/items/digital_objects/<%=@item.id%>/reprocess">Reprocess Object</a></li>	
+</ul>
+
 <h2>Update <%= title %> </h2>
 
 <div class="row justify-content-start" data-controller="form-validations">

@@ -24,7 +24,7 @@ class ProcessFileJob < ApplicationJob
     # FileCopyJob.perform_later(hash.to_json)
 
     # copy file for archive and working copies
-    copy_file(file_path, item.archival_path, original_filename)
+    # copy_file(file_path, item.archival_path, original_filename)
     # self.copy_file(file_path, item.working_path, original_filename)
 
     # full path to the file

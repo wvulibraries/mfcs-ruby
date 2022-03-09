@@ -9,7 +9,7 @@ data_directory = 'importing/watermarks/data'
 
 Dir.glob(File.join(data_directory, '**', '*.json')).each do |file|
   next if File.directory?(file) # skip the loop if the file is a directory
-  puts file
+  puts "importing #{file}"
 
   @hash = JSON.parse(File.read(file))
   next if @hash == false

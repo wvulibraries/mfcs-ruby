@@ -104,7 +104,7 @@ Rails.application.routes.draw do
     resources :permissions
     resources :projects
     resources :users
-    resources :reprocess, only: [:index]
+    resources :reprocess, only: [:index, :update]
   end
 
   # Dashboard
@@ -141,17 +141,22 @@ Rails.application.routes.draw do
 
     # digital object route
     # ========================================================
-    get    '/digital_objects'                     => 'digital_objects#index',          as: 'digital_objects_index'
-    get    '/list/digital_objects/:form_id'       => 'digital_objects#list_for_form',  as: 'list_digital_objects'
+    get    '/digital_objects'                         => 'digital_objects#index',                as: 'digital_objects_index'
+    get    '/digital_objects/:form_id'                => 'digital_objects#list_for_form',        as: 'list_digital_objects' 
+    get    '/digital_objects/list/dataview/:form_id'  => 'digital_objects#form_dataview_list',   as: 'form_dataview_list' 
+    get    '/digital_objects/list/thumbnail/:form_id' => 'digital_objects#form_thumbnail_list',  as: 'form_thumbnail_list'
+    get    '/digital_objects/list/shelf/:form_id'     => 'digital_objects#form_shelf_list',      as: 'form_shelf_list'
+    
     get    '/duplicates/digital_objects/:form_id' => 'digital_objects#duplicates',     as: 'duplicate_digital_objects'
     get    '/digital_objects/new/'                => 'digital_objects#no_form',        as: 'digital_objects_no_form'
     get    '/digital_objects/new/:form_id'        => 'digital_objects#new',            as: 'new_digital_objects'
     post   '/digital_objects'                     => 'digital_objects#create',         as: 'create_digital_objects'
-    get    '/digital_objects/:id'                 => 'digital_objects#show',           as: 'show_digital_object'
+    get    '/digital_objects/:id/show'            => 'digital_objects#show',           as: 'show_digital_object'
     get    '/digital_objects/:id/edit'            => 'digital_objects#edit',           as: 'edit_digital_objects'
     patch  '/digital_objects/:id'                 => 'digital_objects#update',         as: 'patch_digital_objects'
     put    '/digital_objects/:id'                 => 'digital_objects#update',         as: 'put_digital_objects'
     delete '/digital_objects/:id'                 => 'digital_objects#destroy',        as: 'destroy_digital_object'
+    get    '/digital_objects/:id/reprocess'       => 'digital_objects#reprocess',      as: 'reprocess_digital_object'
 
     # search route
     # ========================================================
@@ -160,9 +165,12 @@ Rails.application.routes.draw do
 
   # media
   # ========================================================
-  get '/media/image/:id'  => 'media#index'
-  get '/media/thumb/:id'  => 'media#thumb'
-  
+  get '/media/image/:id'  => 'media#index', as: 'media_image'
+  get '/media/thumb/:id'  => 'media#thumb', as: 'media_thumb'
+  get '/media/audio/:id'  => 'media#audio', as: 'media_audio'
+  get '/media/video/:id'  => 'media#video', as: 'media_video'
+  get '/media/pdf/:id'    => 'media#pdf',  as: 'media_pdf'
+
   # API
   # ========================================================
   namespace :api do

@@ -6,8 +6,8 @@ services:
     image: postgres:11
     ports:
       - "5432:5432"
-    environment:
-      - POSTGRES_PASSWORD=docker
+    env_file:
+      - './env/.env.dev.db'       
     volumes:
       - postgres:/var/lib/postgresql/data
     networks:
@@ -34,25 +34,22 @@ services:
       timeout: 3s
       retries: 3               
 
-  mfcs: 
+  mfcs_ruby: 
     build: .
     tty: true
     stdin_open: true
-    container_name: mfcs
+    container_name: mfcs_ruby
     command: bash -c "rm -f tmp/pids/server.pid ; rm -rf tmp/cache ; bundle exec rails s -p 3000 -b 0.0.0.0"
-    environment:
-      - SECRET_KEY_BASE=test
-      - DATABASE_PASSWORD=docker
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - TERM=xterm 
-      - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/1
-      - RAILS_ENV=development # replace with your current environment development or production
+    env_file:
+      - './env/.env.dev.mfcs'     
     volumes:
       - .:/home/mfcs:cached
       - rails_cache_data:/app/tmp/cache
       - bundle_data:/usr/local/bundle
       - node_modules_data:/home/mfcs/node_modules
       - packs_data:/app/public/packs
+      - mfcs_tmp:/home/mfcs/tmp
+      - mfcs_storage:/home/mfcs/storage
       - ./importing:/home/mfcs/importing
 
       #- mfcs-data:/home/mfcs/data     
@@ -76,17 +73,15 @@ services:
       - 'redis'
     build: .
     command: bundle exec sidekiq -C config/sidekiq.yml
-    environment:
-      - SECRET_KEY_BASE=test
-      - DATABASE_PASSWORD=docker
-      - ELASTICSEARCH_URL=http://elasticsearch:9200
-      - TERM=xterm 
-      - REDIS_URL_SIDEKIQ=redis://mfcs_redis:6379/12
+    env_file:
+      - './env/.env.dev.mfcs'      
     restart: always      
     volumes:
       - ./:/home/mfcs:cached
       - rails_cache_data:/app/tmp/cache
-      - bundle_data:/usr/local/bundle      
+      - bundle_data:/usr/local/bundle  
+      - mfcs_tmp:/home/mfcs/tmp
+      - mfcs_storage:/home/mfcs/storage          
     networks:
       - mfcs_net
     depends_on:
@@ -96,9 +91,8 @@ services:
   webpacker:
     build: .
     container_name: mfcs_webpack
-    environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
+    env_file:
+      - './env/.env.dev.webpacker'
     command: bundle exec ./bin/webpack-dev-server --inline true
     volumes:
       - .:/home/mfcs:cached
@@ -114,9 +108,8 @@ services:
     image: elasticsearch:7.10.1
     container_name: mfcs_elasticsearch
     restart: always
-    environment:
-      - "discovery.type=single-node"
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"           
+    env_file:
+      - './env/.env.es'   
     volumes: 
       - elasticsearch:/usr/share/elasticsearch/data
     ports: 
@@ -130,12 +123,13 @@ volumes:
   bundle_data:
   node_modules_data:
   packs_data:
-
   redis:
   postgres:
   elasticsearch:
+  mfcs_tmp:
+  mfcs_storage:
+  
   #mfcs-data:
-  #mfcs-tmp:
 
 networks:
   mfcs_net:

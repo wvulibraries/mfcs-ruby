@@ -160,6 +160,15 @@ class Item < ApplicationRecord
     media.nil? ? -1 : media.id
   end
 
+  # returns the id of the first media object found
+  # or -1 if no conversion object is found.
+  # @author Tracy A. McCormick
+  # @return integer
+  def image_id
+    media = Media.where(item_id: id, media_type: 'conversion').first
+    media.nil? ? -1 : media.id
+  end  
+
   # returns the count of files in the passed field
   # @author Tracy A. McCormick
   # @return integer

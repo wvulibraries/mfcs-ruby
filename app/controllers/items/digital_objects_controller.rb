@@ -2,10 +2,13 @@
 
 # Items Digital Objects Controller
 class Items::DigitalObjectsController < ApplicationController
-  include DigitalObjectsHelper
+  # include DigitalObjectsHelper
 
   before_action :set_item, only: %i[show update destroy]
   before_action :set_form, only: %i[new]
+
+  # add a basic breadcrumb
+  breadcrumb 'Select A Form', '/forms'
 
   # GET /items/digital_objects
   def index
@@ -57,12 +60,26 @@ class Items::DigitalObjectsController < ApplicationController
     end
   end
 
-  # GET /items/digital_objects/:form_id
-  def list_for_form
-    media = Media.where(form_id: params[:form_id], media_type: 'thumbnail')
-    @display_thumb_field = media.count.positive?
+  # GET /items/digital_objects/dataview/:form_id
+  def form_dataview_list
+    media = Media.where(form_id: params[:form_id])
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  end
+
+  # GET /items/digital_objects/shelf/:form_id
+  def form_shelf_list
+    media = Media.where(form_id: params[:form_id])
+    @form = Form.find(params[:form_id])
+    @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  end  
+
+  # GET /items/digital_objects/:form_id
+  def form_thumbnail_list
+    media = Media.where(form_id: params[:form_id])
+    @display_thumb_field = media.count.positive?
+    @form = Form.find(params[:form_id])
+    @items = Item.order(:idno).where(form_id: params[:form_id], metadata: false)
   end
 
   # PATCH/PUT /items/digital_objects/1
@@ -101,6 +118,12 @@ class Items::DigitalObjectsController < ApplicationController
   def destroy
     @item.destroy
     redirect_to '/items/digital_objects', error: 'Digital object was successfully destroyed.'
+  end
+
+  # /item/digital_objects/:id/reprocess
+  def reprocess
+    ReprocessItemJob.perform_later(params[:id])
+    redirect_to '/items/digital_objects', error: 'Digital object Reprocessing Job Has been queued.'
   end
 
   private

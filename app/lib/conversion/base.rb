@@ -3,6 +3,8 @@
 # Conversion Base Class
 # @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Base
+  def initialize; end
+
   def perform
     method_error(__method__)
   end

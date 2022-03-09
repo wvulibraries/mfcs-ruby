@@ -96,6 +96,7 @@ class Media < ApplicationRecord
   def info
     {
       checksum: generate_checksum(path),
+      fieldname: fieldname,
       mime: mime(path),
       filename: filename,
       filesize: filesize(path),

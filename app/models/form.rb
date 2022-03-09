@@ -160,6 +160,15 @@ class Form < ApplicationRecord
     end
   end
 
+  def field_label(field_name)
+    self[:fields].each do |field|
+      return field['label'] if field['name'] == field_name
+    end
+
+    # return field_name if no label found
+    field_name.to_s.humanize
+  end
+
   # Returns a set of names that are fields to be displayed in the table.
   # @author Tracy A. McCormick
   # @return Set of strings
