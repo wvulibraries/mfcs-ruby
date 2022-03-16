@@ -117,13 +117,13 @@ class Items::DigitalObjectsController < ApplicationController
   # DELETE /items/digital_objects/1
   def destroy
     @item.destroy
-    redirect_to '/items/digital_objects', error: 'Digital object was successfully destroyed.'
+    redirect_to '/items/digital_objects', success: 'Digital object was successfully destroyed.'
   end
 
   # /item/digital_objects/:id/reprocess
   def reprocess
     ReprocessItemJob.perform_later(params[:id])
-    redirect_to '/items/digital_objects', error: 'Digital object Reprocessing Job Has been queued.'
+    redirect_to '/items/digital_objects', success: 'Digital object Reprocessing Job Has been queued.'
   end
 
   private

@@ -22,7 +22,8 @@ class Item < ApplicationRecord
   # Associations
   # -----------------------------------------------------
   belongs_to :form
-  has_many :media, dependent: :restrict_with_exception
+  #has_many :media, dependent: :restrict_with_exception
+  has_many :media, dependent: :destroy
 
   # Audits
   # -----------------------------------------------------
@@ -36,6 +37,9 @@ class Item < ApplicationRecord
   # -----------------------------------------------------
   after_initialize :set_defaults, unless: :persisted?
   before_save :idno_setups, unless: proc { idno_set? }
+
+  before_destroy :destroy_media 
+  after_destroy :remove_empty_folders, :remove_path
 
   # temporary
   # after_save :processing
@@ -176,6 +180,14 @@ class Item < ApplicationRecord
     self['data'][field].nil? ? 0 : self['data'][field].count
   end
 
+  # Destroy all thumbnail and converted media objects
+  # used mostly for reprocessing to delete old versions
+  # of generated files
+  def destroy_media
+    destroy_converted_media_objects
+    destroy_thumbnail_media_objects
+  end
+
   protected
 
   def timestamp_attributes_for_create
@@ -210,4 +222,57 @@ class Item < ApplicationRecord
     end
     new_validations
   end
+
+  # destroy media objects requires media_type
+  # conversions, thumbnail, working, archive 
+  # are valid media_types
+  # @author Tracy A. McCormick
+  def destroy_media_objects(media_type)
+    # find all converted media objects for this item
+    medias = Media.where(item_id: id, media_type: media_type)
+    # destroy each media objects
+    medias.each do |media|
+      media.destroy
+    end    
+  end
+
+  # Destroy all thumbnail and converted media objects
+  # used mostly for reprocessing to delete old versions
+  # of generated files
+  # @author Tracy A. McCormick  
+  def destroy_media
+    media_types = ['thumbnail', 'conversion', 'working', 'archive']
+    media_types.each { |media_type|
+      destroy_media_objects(media_type)    
+    }
+  end  
+
+  # remove empty folders for thumbnails, conversions, working and archive files
+  # @author Tracy A. McCormick    
+  def remove_empty_folders
+    # insure all folders are removed
+    FileUtils.rm_rf(thumbnail_path) if File.directory?(thumbnail_path) && Dir.empty?(thumbnail_path)     
+    FileUtils.rm_rf(conversion_path) if File.directory?(conversion_path) && Dir.empty?(conversion_path)     
+    FileUtils.rm_rf(working_path) if File.directory?(working_path) && Dir.empty?(working_path)     
+    FileUtils.rm_rf(archive_path) if File.directory?(archive_path) && Dir.empty?(archive_path) 
+  end
+
+  # remove long path for file storage derived from the uuid
+  # performs reverse recursion on the file path subfolders.
+  # @author Tracy A. McCormick  
+  def remove_path
+    # path to be removed
+    directory = Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path)
+
+    # return if the directory does not exist
+    return unless File.directory?(directory)
+
+    # loop to remove empty folders in path stop if not empty
+    loop do
+      FileUtils.rm_rf(directory) if File.directory?(directory) && Dir.empty?(directory) 
+      directory = Pathname.new(directory).parent.to_s
+      break if !Dir.empty?(directory)
+    end
+  end  
+  
 end

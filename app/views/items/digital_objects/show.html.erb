@@ -33,13 +33,24 @@
 
     <!-- Data Attribute List -->
     <% @item.data.each do |key, value| %>
-      <% unless key == 'files' %>
+      <% unless key["upload"] %>
         <div class="row p-1 m-0 border-bottom">
           <dt class="col"> <%= @form.field_label(key) %> </dt>
-          <dd class="col"> <%= value %> </dd>
+          <dd class="col"> <%=  @form.associated_metadata_field(key) ? DigitalObjects::MetadataPresenter.new(key, value).data : value %> </dd>
         </div>
       <% end %>
     <% end %>
+
+    <!-- Files Tab -->
+    <% @item.data.each do |key, value| %>
+      <% presenter = DigitalObjects::FilePresenter.new(value) %>
+      <% if key["upload"] %>
+        <div class="row p-1 m-0 border-bottom">
+          <dt class="col"> <%= @form.field_label(key) %> </dt>
+          <dd class="col"> <%= presenter.filename %> </dd>
+        </div>
+      <% end %>
+    <% end %>     
     
     <div class="row p-1 m-0 border-bottom"> 
       <% @form.file_fields.each do |f| %>

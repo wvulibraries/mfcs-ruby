@@ -5,6 +5,7 @@ class Conversion::Operation::Thumbnail
   # @author David J. Davis
   # @return [Boolean]
   def self.matches?(params)
+    File.open("./log/thumbnail-conversion.log", "w+") { |file| file.write(params) }
     params.fetch('thumbnail').to_s.casecmp('true').zero?
   end
 

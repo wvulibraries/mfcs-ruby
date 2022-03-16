@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     container_name: mfcs_db
-    image: postgres:11
+    image: postgres:14-alpine
     ports:
       - "5432:5432"
     env_file:
@@ -20,7 +20,7 @@ services:
         retries: 3                
 
   redis:
-    image: redis:5-alpine
+    image: redis:alpine
     container_name: mfcs_redis
     command: redis-server
     volumes:
@@ -64,7 +64,7 @@ services:
     networks:
       - mfcs_net
     tmpfs:
-      - /tmp                               
+      - /tmp                                   
 
   sidekiq:
     container_name: mfcs_sidekiq
@@ -105,7 +105,7 @@ services:
       - mfcs_net    
 
   elasticsearch:
-    image: elasticsearch:7.10.1
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
     container_name: mfcs_elasticsearch
     restart: always
     env_file:

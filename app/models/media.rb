@@ -19,6 +19,8 @@
 #  item_id       :integer
 #
 class Media < ApplicationRecord
+  require 'pathname'
+
   self.table_name = 'media'
 
   # INCLUDES
@@ -43,6 +45,8 @@ class Media < ApplicationRecord
   # Callbacks
   # -----------------------------------------------------
   before_save :file_info, unless: :persisted?
+
+  before_destroy :delete_file
 
   # Methods for File Handling
   # -----------------------------------------------------
@@ -110,4 +114,14 @@ class Media < ApplicationRecord
   def json
     info.to_json
   end
+
+  # Deletes file and empty folder before 
+  # the Media Object is destroyed
+  # @author Tracy A. McCormick  
+  def delete_file
+    directory = File.dirname(path)
+    FileUtils.rm_f(path)
+    FileUtils.rm_rf(directory) if File.directory?(directory) && Dir.empty?(directory) 
+  end
+
 end

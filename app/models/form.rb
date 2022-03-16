@@ -160,6 +160,10 @@ class Form < ApplicationRecord
     end
   end
 
+  # Returns label for field or humanize
+  # the passed field_name.
+  # @author Tracy A. McCormick
+  # @return string
   def field_label(field_name)
     self[:fields].each do |field|
       return field['label'] if field['name'] == field_name
@@ -227,6 +231,17 @@ class Form < ApplicationRecord
     end
 
     Form.find(forms_set.to_a)
+  end
+
+  # Checks to see if field_name has is linked to a metadata form
+  # @author Tracy A. McCormick
+  # @return boolean
+  def associated_metadata_field(field_name)
+    self[:fields].each do |field|
+      return true if field['name'] == field_name && field['choice_type'] == 'link_to_form'
+    end
+
+    false
   end
 
   private

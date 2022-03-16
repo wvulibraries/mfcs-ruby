@@ -1,7 +1,7 @@
 # app/jobs/media_file_job.rb
 
 # Media File Job
-class MediaFileJob
+class MediaFileJob < ApplicationJob
   queue_as :default
 
   def perform(json_values)
