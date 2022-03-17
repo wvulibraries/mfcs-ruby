@@ -4,7 +4,7 @@
   <div class="control-group">
       <label class="control-label" for="formSelect">Select a form to Reprocess</label>
       <div class="controls">
-          <select name="id" id="id">
+          <select name="form_id" id="id">
               <% forms_array = @forms.all.map { |form| [form.title || form.display_title, form.id] } %>
               <%= options_for_select(forms_array) %>
           </select>

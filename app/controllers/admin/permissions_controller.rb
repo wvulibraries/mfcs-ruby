@@ -5,6 +5,8 @@ class Admin::PermissionsController < ApplicationController
 
   # GET /admin/permissions
   def index
+    breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
+    breadcrumb 'Permissions', '/admin/permissions', title: 'Permissions', match: :exact    
     @permissions = Permission.all
   end
 

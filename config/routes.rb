@@ -99,12 +99,19 @@ Rails.application.routes.draw do
   
   # Admin 
   # ========================================================
+  get '/admin', to: 'admin#home', as: 'admin'
+
   namespace :admin do
     resources :watermarks, only: [:index, :create, :edit, :update, :destroy]
-    resources :permissions
+    resources :permissions, only: [:index, :create, :edit, :update, :destroy]
     resources :projects
     resources :users
-    resources :reprocess, only: [:index, :update]
+    resources :reprocess, only: [:index, :create, :edit, :update, :destroy]
+
+    # readonly
+    # ========================================================
+    get     '/readonly'          => 'readonly#index',            as: 'index_readonly'
+    post    '/readonly/toggle'   => 'readonly#toggle',           as: 'toggle_readonly'
   end
 
   # Dashboard

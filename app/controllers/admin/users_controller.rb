@@ -5,6 +5,8 @@ class Admin::UsersController < ApplicationController
 
   # GET /admin/users
   def index
+    breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
+    breadcrumb 'Users', '/admin/users', title: 'Users', match: :exact
     @users = User.all
   end
 

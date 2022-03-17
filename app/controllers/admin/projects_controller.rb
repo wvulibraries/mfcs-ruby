@@ -5,6 +5,8 @@ class Admin::ProjectsController < ApplicationController
 
   # GET /projects
   def index
+    breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
+    breadcrumb 'Projects', '/admin/projects', title: 'Admin', match: :exact
     @projects = Project.all
   end
 

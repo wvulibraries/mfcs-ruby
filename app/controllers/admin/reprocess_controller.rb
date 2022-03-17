@@ -1,6 +1,8 @@
 # app/controllers/admin/reprocess_controller.rb
 # Admin Reprocess Controller
 class Admin::ReprocessController < ApplicationController
+  # before_action :set_form, only: [:edit, :create, :update]
+
   # GET /admin/reprocess
   def index
     breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
@@ -8,20 +10,30 @@ class Admin::ReprocessController < ApplicationController
     @forms = Form.object_forms
   end
 
-  # POST /admin/rep/:form_id
-  def reprocess
-    if @watermark.update(watermark_params)
-      redirect_to admin_watermarks_url, success: 'Reprocess job was successfully queued.'
+  # GET /admin/reprocess/1
+  def edit; end
+
+  # POST /admin/reprocess
+  def create
+    @form = Form.find(params[:form_id])
+    # if form is valid
+    if !@form.nil?
+      ReprocessFormJob.perform_later(@form.id)
+      redirect_to :admin_reprocess_index, success: 'Form was successfully reprocessed.'
     else
-      render :index, error: 'Unable to queue reprocessing Job.'
+      redirect_to :admin_reprocess_index, error: "#{params[:form_id]} Form not found unable to reprocess."
     end
   end
+
+
+  # PATCH/PUT /admin/reprocess/update
+  def update; end  
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_form
-    @form = Form.find(params[:id])
+    @form = Form.find(params[:form_id])
   end
 
   # Only allow a trusted parameter "white list" through.
