@@ -6,8 +6,8 @@ class Conversion::Actor
   TYPES = [
     Conversion::Audio,
     Conversion::Image,
-    Conversion::Pdf
-    # Conversion::Video,
+    Conversion::Pdf,
+    Conversion::Video
   ].freeze
 
   # Constructor function

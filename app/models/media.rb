@@ -115,6 +115,13 @@ class Media < ApplicationRecord
     info.to_json
   end
 
+  # Checks mime type to see if file is a image
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def image?
+    "image".in? mime(path)
+  end
+
   # Deletes file and empty folder before 
   # the Media Object is destroyed
   # @author Tracy A. McCormick  
