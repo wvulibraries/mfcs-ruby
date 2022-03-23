@@ -6,6 +6,9 @@ class Conversion::Operation::WatermarkOverlay
   # @author David J. Davis
   # @return [Boolean]
   def self.matches?(params)
+    # return false if params are nil
+    return false if params.fetch('watermark').nil?
+
     params.fetch('watermark').to_s.casecmp('true').zero?
   end
 
@@ -51,6 +54,8 @@ class Conversion::Operation::WatermarkOverlay
   # @author David J. Davis
   # @return truthy
   def perform
+    # verify that media object is a image
+    return false unless @media.image?
     converted_file = MiniMagick::Image.open @file_path
     watermark = watermark_image.resize(size_the_watermark(converted_file.dimensions))
     result = converted_file.composite(watermark) do |image_composite|

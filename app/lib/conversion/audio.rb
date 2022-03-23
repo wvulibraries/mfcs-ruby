@@ -38,6 +38,9 @@ class Conversion::Audio < Conversion::Base
   # @author David J. Davis
   # @return [Object] Media Object
   def perform
+    # check to see if we are to run the conversion
+    return false unless @conversion_params['convert_audio']
+
     ffmpeg = FFMPEG::Audio.new(@media.path, save_file)
     rate = (@conversion_params['audio_bitrate'] || '128k')
     ffmpeg.command do

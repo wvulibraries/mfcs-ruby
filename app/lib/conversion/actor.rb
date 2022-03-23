@@ -4,10 +4,10 @@
 # @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Actor
   TYPES = [
-    Conversion::Image,
     Conversion::Audio,
-    Conversion::Video,
+    Conversion::Image,
     Conversion::Pdf
+    # Conversion::Video,
   ].freeze
 
   # Constructor function

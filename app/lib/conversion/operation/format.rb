@@ -5,7 +5,7 @@ class Conversion::Operation::Format
   # @author David J. Davis
   # @return [Boolean]
   def self.matches?(_params)
-    true
+    true # always run this method
   end
 
   # Takes params and sets them or sets a default value

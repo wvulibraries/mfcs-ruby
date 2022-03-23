@@ -7,7 +7,8 @@ class Conversion::Video < Conversion::Base
   # ORDER MATTERS, WATERMARK NEEDS TO BE ON THUMB TOO SO
   # THE THUMBNAIL HAPPENS AFTER WATERMARK.
   POST_CONVERSION = [
-    Conversion::Operation::VideoThumbnail
+    # Conversion::Operation::VideoImage,
+    Conversion::Operation::VideoThumbnail,
     # Conversion::Operation::WatermarkOverlay
   ].freeze
 

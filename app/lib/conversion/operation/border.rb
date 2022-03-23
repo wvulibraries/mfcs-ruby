@@ -5,6 +5,9 @@ class Conversion::Operation::Border
   # @author David J. Davis
   # @return [Boolean]
   def self.matches?(params)
+    # return false if params are nil
+    return false if params.fetch('border').nil?
+
     params.fetch('border').to_s.casecmp('true').zero?
   end
 

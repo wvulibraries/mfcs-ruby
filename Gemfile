@@ -18,6 +18,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # background jobs
 gem 'sidekiq', '~> 6.1', '>= 6.1.3'
+gem 'sidekiq-failures'
 
 # elasticsearch
 gem 'elasticsearch-model', '~> 6.0'

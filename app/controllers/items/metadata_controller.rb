@@ -69,7 +69,7 @@ class Items::MetadataController < ApplicationController
     @form = Form.find(item_params[:form_id])
 
     if @item.valid? && @item.save
-      redirect_to '/items/metadata', success: 'Metadata Object was successfully modified.'
+      redirect_back(fallback_location: root_path, success: 'Metadata Object was successfully modified.')
     else
       # render the new item
       render :new
@@ -82,7 +82,7 @@ class Items::MetadataController < ApplicationController
     @form = Form.find(item_params[:form_id])
 
     if @item.valid? && @item.save
-      redirect_to '/items/metadata', success: 'Metadata Object was successfully modified.'
+      redirect_back(fallback_location: root_path, success: 'Metadata Object was successfully modified.')
     else
       # render the new item
       render :edit
@@ -92,7 +92,7 @@ class Items::MetadataController < ApplicationController
   # DELETE /items/metadata/1
   def destroy
     @items.destroy
-    redirect_to item_url, notice: 'metadata was successfully destroyed.'
+    redirect_back(fallback_location: root_path, success: 'metadata was successfully destroyed.')
   end
 
   private

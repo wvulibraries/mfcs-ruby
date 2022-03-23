@@ -16,18 +16,10 @@ class WorkingFileJob < ApplicationJob
                    item.working_path)
     end
 
-    # hash = {source_path: media.path, destination_path: item.working_path}, filename: media.filename}
-    # FileCopyJob.perform_later(hash.to_json)
-
-    working_file = Media.new(media.attributes.merge(id: nil, media_type: :working,
+    working_media = Media.new(media.attributes.merge(id: nil, media_type: :working,
                                                     path: item.working_path.join(media.filename)))
-    working_file.save
+    working_media.save
 
-    # do we need so save the media object back to the item?
-    # item[:data][media.fieldname] << working_file
-    # item.save
-
-    ConvertingFileJob.perform_later(working_file.id)
-    # ProcessingJob.perform_later(working_file.id)
+    ConvertingFileJob.perform_later(working_media.id)
   end
-end
+end    

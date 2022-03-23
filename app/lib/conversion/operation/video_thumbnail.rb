@@ -5,6 +5,9 @@ class Conversion::Operation::VideoThumbnail
   # @author David J. Davis
   # @return [Boolean]
   def self.matches?(params)
+    # return false if params are nil
+    return false if params.fetch('thumbnail').nil?    
+
     params.fetch('thumbnail').to_s.casecmp('true').zero?
   end
 
