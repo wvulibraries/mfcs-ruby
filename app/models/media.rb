@@ -12,6 +12,7 @@
 #  ocr_text      :text
 #  path          :string
 #  size          :string
+#  soft_delete   :boolean
 #  virus_scanned :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -121,6 +122,13 @@ class Media < ApplicationRecord
   def image?
     "image".in? mime(path)
   end
+
+  # Checks mime type to see if file is a audio 
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def sound?
+    "audio".in? mime(path)
+  end  
 
   # Deletes file and empty folder before 
   # the Media Object is destroyed

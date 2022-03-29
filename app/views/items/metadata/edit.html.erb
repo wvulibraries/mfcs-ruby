@@ -1,6 +1,6 @@
 <% title = @item[:data]['title'] || @item.id %>
 
-<h2>Update <%= title %> </h2>
+<h1>Update Metadata</h1>
 
 <div class="row justify-content-start" data-controller="form-validations">
   <%= form_with model: @item, url: items_put_metadata_path, class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "put", data: {remote: false}, multipart: true do  |f| %>

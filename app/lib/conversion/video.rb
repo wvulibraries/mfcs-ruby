@@ -6,11 +6,11 @@ class Conversion::Video < Conversion::Base
   # THESE NEED TO HAPPEN AFTER THE CONVERSION
   # ORDER MATTERS, WATERMARK NEEDS TO BE ON THUMB TOO SO
   # THE THUMBNAIL HAPPENS AFTER WATERMARK.
-  POST_CONVERSION = [
-    # Conversion::Operation::VideoImage,
-    Conversion::Operation::VideoThumbnail,
-    # Conversion::Operation::WatermarkOverlay
-  ].freeze
+  # POST_CONVERSION = [
+  #   # Conversion::Operation::VideoImage,
+  #   Conversion::Operation::VideoThumbnail,
+  #   Conversion::Operation::WatermarkOverlay
+  # ].freeze
 
   # This provides a interface to the actor class in determining if it needs to fire.
   # @params[mime] String ex: 'image/jpg'
@@ -59,8 +59,8 @@ class Conversion::Video < Conversion::Base
     media = save_media
 
     # run post conversion operations Thumbnail Creation
-    post_conversion = POST_CONVERSION.select { |post_op| post_op.matches?(@conversion_params) }
-    post_conversion.each { |post_op| post_op.new(save_file, @conversion_params, media).perform }
+    # post_conversion = POST_CONVERSION.select { |post_op| post_op.matches?(@conversion_params) }
+    # post_conversion.each { |post_op| post_op.new(save_file, @conversion_params, media).perform }
   end
 
   # Saves the media that has been recently converted.

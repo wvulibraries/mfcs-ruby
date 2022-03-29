@@ -5,6 +5,8 @@ class Items::MetadataController < ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
   before_action :set_form, only: %i[new]
 
+  breadcrumb 'Select A Form', '/data_entry/select_form', title: 'Select a Form', match: :exact
+
   # GET /items/metadata
   def index
     @forms = Form.metadata_forms
@@ -19,6 +21,7 @@ class Items::MetadataController < ApplicationController
     @item.metadata = @form.metadata
     @item.form_id = params[:form_id]
     @item.public_release = @form.export_public
+    @items = Item.order(:idno).where(form_id: params[:form_id], metadata: true)
   end
 
   # # GET /items/metadata/new/
@@ -61,6 +64,7 @@ class Items::MetadataController < ApplicationController
   # GET /items/metadata/1/edit
   def edit
     @form = Form.find(@item.form_id)
+    breadcrumb @form.display_title, "/items/metadata/new/#{@form.id}", title: 'Select a Form' 
   end
 
   # POST /items/metadata
@@ -69,7 +73,7 @@ class Items::MetadataController < ApplicationController
     @form = Form.find(item_params[:form_id])
 
     if @item.valid? && @item.save
-      redirect_back(fallback_location: root_path, success: 'Metadata Object was successfully modified.')
+      redirect_back(fallback_location: root_path, success: I18n.t('metadata_object.created'))
     else
       # render the new item
       render :new
@@ -82,7 +86,7 @@ class Items::MetadataController < ApplicationController
     @form = Form.find(item_params[:form_id])
 
     if @item.valid? && @item.save
-      redirect_back(fallback_location: root_path, success: 'Metadata Object was successfully modified.')
+      redirect_back(fallback_location: root_path, success: I18n.t('metadata_object.updated'))
     else
       # render the new item
       render :edit
@@ -92,7 +96,7 @@ class Items::MetadataController < ApplicationController
   # DELETE /items/metadata/1
   def destroy
     @items.destroy
-    redirect_back(fallback_location: root_path, success: 'metadata was successfully destroyed.')
+    redirect_back(fallback_location: root_path, success: I18n.t('metadata_object.destroyed'))
   end
 
   private

@@ -8,7 +8,7 @@ class Items::DigitalObjectsController < ApplicationController
   before_action :set_form, only: %i[new]
 
   # add a basic breadcrumb
-  breadcrumb 'Select A Form', '/forms'
+  breadcrumb 'Select A Form', '/items/digital_objects', title: 'Select A Form', match: :exact
 
   # GET /items/digital_objects
   def index
@@ -35,7 +35,7 @@ class Items::DigitalObjectsController < ApplicationController
   def create
     @item = Item.new(item_params)
     @form = Form.find(item_params[:form_id])
-    # archive_media = nil
+    archive_media = nil
 
     if @item.valid?
       @form.file_fields.each do |field|
@@ -44,17 +44,37 @@ class Items::DigitalObjectsController < ApplicationController
         # if no data then make it an array
         next if item_params[:data][field].blank?
 
-        files = helper.save_uploaded_files(@item, item_params[:data][field], archive_file_path, @form.id, field)
+        files = []
+        item_params[:data][field].each do |uploaded_file|
+          # create the path if it doesn't exist 
+          FileUtils.mkdir_p(@item.archive_path) unless File.directory?(@item.archive_path)
+
+          # creates the saved file
+          archive_file_path = @item.archive_path.join(uploaded_file.original_filename) 
+          File.open(archive_file_path, 'wb') { |file| file.write(uploaded_file.read) }
+
+          # creates media object in database
+          archive_media = @item.media.build(
+                            form_id: @form.id, 
+                            media_type: :archive, 
+                            filename: uploaded_file.original_filename, 
+                            path: archive_file_path.join(uploaded_file.original_filename),
+                            fieldname: field
+                          )
+          files << archive_media.save
+        end
         @item[:data][field].concat files
       end
     end
 
     if @item.save
       WorkingFileJob.perform_later(archive_media.id)
-      redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'
+      redirect_to '/items/digital_objects', success: I18n.t('digital_object.created')
     else
       # clear files because we can't insert the file back into the upload box
-      clear_item_fields
+      @form.file_fields.each do |field|
+        @item[:data][field] = []
+      end
       # render the new item
       render :new
     end
@@ -72,7 +92,7 @@ class Items::DigitalObjectsController < ApplicationController
     media = Media.where(form_id: params[:form_id])
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
-  end  
+  end    
 
   # GET /items/digital_objects/:form_id
   def form_thumbnail_list
@@ -81,6 +101,14 @@ class Items::DigitalObjectsController < ApplicationController
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).where(form_id: params[:form_id], metadata: false)
   end
+
+  # GET /items/digital_objects/:form_id
+  # def list_for_form
+  #   media = Media.where(form_id: params[:form_id], media_type: 'thumbnail')
+  #   @display_thumb_field = media.count.positive?
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  # end
 
   # PATCH/PUT /items/digital_objects/1
   def update
@@ -102,7 +130,7 @@ class Items::DigitalObjectsController < ApplicationController
     end
 
     if @item.valid? && @item.save
-      redirect_to '/items/digital_objects', success: 'Digital object was successfully updated.'
+      redirect_back(fallback_location: root_path, success: I18n.t('digital_object.updated'))
     else
       # clear files because we can't insert the file back into the upload box
       @form.file_fields.each do |field|
@@ -117,16 +145,32 @@ class Items::DigitalObjectsController < ApplicationController
   # DELETE /items/digital_objects/1
   def destroy
     @item.destroy
-    redirect_to '/items/digital_objects', success: 'Digital object was successfully destroyed.'
-  end
 
-  # /item/digital_objects/:id/reprocess
-  def reprocess
-    ReprocessItemJob.perform_later(params[:id])
-    redirect_to '/items/digital_objects', success: 'Digital object Reprocessing Job Has been queued.'
+    # @item.update(soft_delete: true)
+    # @item.save
+
+    redirect_back(fallback_location: root_path, success: I18n.t('digital_object.destroyed'))
   end
 
   private
+
+  def save_uploaded_files(item, _item_field, archive_file_path, form_id, form_field)
+    files = []
+    form_field.each do |uploaded_file|
+      # create the path if it doesn't exist
+      FileUtils.mkdir_p(item.archive_path) unless File.directory?(item.archive_path)
+
+      # creates the saved file
+      archive_file_path = item.archive_path.join(uploaded_file.original_filename)
+      File.open(archive_file_path, 'wb') { |file| file.write(uploaded_file.read) }
+
+      # creates media object in database
+      archive_media = create_media(item, form_id, uploaded_file.original_filename,
+                                   archive_file_path, form_field)
+
+      files << archive_media.save
+    end
+  end  
 
   def clear_item_fields
     @form.file_fields.each do |field|

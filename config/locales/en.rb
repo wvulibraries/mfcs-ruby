@@ -57,6 +57,22 @@
                           ],
       no_spaces_error: 'Field may not have spaces in it, please replace spaces with `_` or `-`.',
     },
+    form: { 
+      edited: 'Form has been edited.',
+      no_items: 'This form currently has no items or objects associated with it.' 
+    },
+    digital_object: {
+      created: 'Digital Object has been created.',
+      updated: 'Digital Object has been updated.',
+      destroyed: 'Digital Object has been deleted.',
+
+    },
+    metadata_object: {
+      created: 'Metadata Object was successfully created.',
+      updated: 'Metadata Object was successfully modified.',
+      destroyed: 'metadata was successfully destroyed.',
+
+    },    
     validator: { 
       perform:  lambda do |key, options|
         if options[:validated]

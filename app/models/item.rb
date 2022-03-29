@@ -9,6 +9,7 @@
 #  metadata       :boolean
 #  modified_by    :integer
 #  public_release :boolean
+#  soft_delete    :boolean
 #  uuid           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -40,6 +41,9 @@ class Item < ApplicationRecord
 
   before_destroy :destroy_media 
   after_destroy :remove_empty_folders, :remove_path
+
+  # before_soft_delete :soft_delete_media   
+  # after_soft_delete :remove_empty_folders
 
   # temporary
   # after_save :processing
@@ -161,7 +165,7 @@ class Item < ApplicationRecord
   # @return integer
   def thumb_id
     media = Media.where(item_id: id, media_type: 'thumbnail').first
-    media.nil? ? -1 : media.id
+    media.nil? ? -2 : media.id
   end
 
   # returns the id of the first media object found
@@ -178,14 +182,6 @@ class Item < ApplicationRecord
   # @return integer
   def file_field_count(field)
     self['data'][field].nil? ? 0 : self['data'][field].count
-  end
-
-  # Destroy all thumbnail and converted media objects
-  # used mostly for reprocessing to delete old versions
-  # of generated files
-  def destroy_media
-    destroy_converted_media_objects
-    destroy_thumbnail_media_objects
   end
 
   protected
@@ -223,6 +219,7 @@ class Item < ApplicationRecord
     new_validations
   end
 
+  
   # destroy media objects requires media_type
   # conversions, thumbnail, working, archive 
   # are valid media_types
@@ -236,8 +233,7 @@ class Item < ApplicationRecord
     end    
   end
 
-  # Destroy all thumbnail and converted media objects
-  # used mostly for reprocessing to delete old versions
+  # Destroy all media objects for this item
   # of generated files
   # @author Tracy A. McCormick  
   def destroy_media
@@ -245,7 +241,30 @@ class Item < ApplicationRecord
     media_types.each { |media_type|
       destroy_media_objects(media_type)    
     }
-  end  
+  end    
+  
+  # Destroy all thumbnail and converted media objects
+  # used mostly for reprocessing to delete old versions
+  # of generated files
+  # @author Tracy A. McCormick  
+  def destroy_generated_media
+    media_types = ['thumbnail', 'conversion']
+    media_types.each { |media_type|
+      destroy_media_objects(media_type)    
+    }
+  end
+
+  # Soft Delete all media objects for this item
+  # @author Tracy A. McCormick  
+  def soft_delete_media
+    # destroy all generated media files
+    destroy_generated_media
+    # soft delete all media objects
+    medias.each do |media|
+      media.soft_delete == true
+      media.save
+    end 
+  end    
 
   # remove empty folders for thumbnails, conversions, working and archive files
   # @author Tracy A. McCormick    

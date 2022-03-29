@@ -114,6 +114,11 @@ Rails.application.routes.draw do
     post    '/readonly/toggle'   => 'readonly#toggle',           as: 'toggle_readonly'
   end
 
+  # Data Entry
+  # ========================================================
+  get '/data_entry/select_form', to: 'data_entry#index', as: 'data_entry_index' 
+
+
   # Dashboard
   # ========================================================
   get '/dashboard'              => 'dashboard#index',             as: 'dashboard_index'
@@ -140,11 +145,14 @@ Rails.application.routes.draw do
     get    '/metadata/new/:form_id'          => 'metadata#new',            as: 'new_metadata'
     post   '/metadata'                       => 'metadata#create',         as: 'create_metadata'
     get    '/metadata/:id/edit'              => 'metadata#edit',           as: 'edit_metadata'
+    get    '/metadata/:id/move'              => 'metadata#move',           as: 'move_metadata'
+    get    '/metadata/:id/find'              => 'metadata#find',           as: 'find_metadata'
     patch  '/metadata/:id'                   => 'metadata#update',         as: 'patch_metadata'
     put    '/metadata/:id'                   => 'metadata#update',         as: 'put_metadata'
     delete '/metadata/:id'                   => 'metadata#destroy',        as: 'destroy_metdata'
     get    '/list/metadata/:form_id'         => 'metadata#list_for_form',  as: 'metadata_list_form'
     get    '/duplicates/metadata/(:form_id)' => 'metadata#duplicates',     as: 'metadata_duplicates'
+
 
     # digital object route
     # ========================================================
