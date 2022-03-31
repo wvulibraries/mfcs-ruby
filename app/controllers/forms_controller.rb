@@ -9,7 +9,7 @@ class FormsController < ApplicationController
   def index
     breadcrumb 'List Forms', forms_path, title: 'List Forms'
     @form = Form.object_forms
-    @metadata_forms = Form.metadata_forms
+    @unused_forms = unused_forms
   end
 
   # GET /forms
@@ -105,6 +105,17 @@ class FormsController < ApplicationController
 
   # Private Methods
   private
+
+  # Returns a list of unused metadata forms 
+  # @author Tracy A. McCormick    
+  # @return [Array]
+  def unused_forms
+    used_forms = []
+    Form.object_forms.each do |form|
+      used_forms.concat(form.linked_forms)
+    end
+    Form.metadata_forms.find_all { |form| !used_forms.uniq.include?(form.id) }
+  end
 
   def set_breadcrumbs
     # add a basic breadcrumb
