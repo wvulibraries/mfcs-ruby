@@ -58,7 +58,7 @@ class Items::DigitalObjectsController < ApplicationController
                             form_id: @form.id, 
                             media_type: :archive, 
                             filename: uploaded_file.original_filename, 
-                            path: archive_file_path.join(uploaded_file.original_filename),
+                            path: archive_file_path,
                             fieldname: field
                           )
           files << archive_media.save
