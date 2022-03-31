@@ -8,7 +8,7 @@ class Items::DigitalObjectsController < ApplicationController
   before_action :set_form, only: %i[new]
 
   # add a basic breadcrumb
-  breadcrumb 'Select A Form', '/items/digital_objects', title: 'Select A Form', match: :exact
+  breadcrumb 'Select A Form', '/data_entry/select_form', title: 'Select A Form', match: :exact
 
   # GET /items/digital_objects
   def index
