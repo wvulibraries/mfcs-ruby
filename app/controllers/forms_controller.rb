@@ -85,14 +85,14 @@ class FormsController < ApplicationController
   def dataview
     media = Media.where(form_id: params[:id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
-    breadcrumb @form.display_title, "/forms/dataview/#{@form.id}"
+    set_breadcrumbs
   end
 
   # GET /forms/shelf/:id
   def shelf
     media = Media.where(form_id: params[:id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
-    breadcrumb @form.display_title, "/forms/dataview/#{@form.id}"
+    set_breadcrumbs
   end    
 
   # GET /forms/thumbnail/:id
@@ -100,11 +100,17 @@ class FormsController < ApplicationController
     media = Media.where(form_id: params[:id])
     @display_thumb_field = media.count.positive?
     @items = Item.order(:idno).where(form_id: params[:id], metadata: false)
-    breadcrumb @form.display_title, "/dataview/#{@form.id}" 
+    set_breadcrumbs
   end    
 
   # Private Methods
   private
+
+  def set_breadcrumbs
+    # add a basic breadcrumb
+    breadcrumb 'Select A Form', '/items/digital_objects', title: 'Select A Form', match: :exact
+    breadcrumb @form.display_title, "/dataview/#{@form.id}" 
+  end
 
   # set unsafe params for post
   def access_params_hash
