@@ -93,8 +93,11 @@ Rails.application.routes.draw do
 
   # forms
   # ========================================================
-  get '/forms/copy' => 'forms#copy', as: 'forms_copy'
+  get  '/forms/copy' => 'forms#copy', as: 'forms_copy'
   post '/forms/clone' => 'forms#clone', as: 'forms_clone'
+  get  '/forms/dataview/:id'  => 'forms#dataview',   as: 'forms_dataview' 
+  get  '/forms/thumbnail/:id' => 'forms#thumbnail',  as: 'forms_thumbnail'
+  get  '/forms/shelf/:id'     => 'forms#shelf',      as: 'forms_shelf'  
   resources :forms
   
   # Admin 
@@ -180,7 +183,7 @@ Rails.application.routes.draw do
 
   # media
   # ========================================================
-  get '/media/image/:id'  => 'media#index', as: 'media_image'
+  get '/media/image/:id'  => 'media#image', as: 'media_image'
   get '/media/thumb/:id'  => 'media#thumb', as: 'media_thumb'
   get '/media/audio/:id'  => 'media#audio', as: 'media_audio'
   get '/media/video/:id'  => 'media#video', as: 'media_video'

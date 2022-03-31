@@ -9,6 +9,7 @@
 #  metadata       :boolean
 #  modified_by    :integer
 #  public_release :boolean
+#  soft_delete    :boolean
 #  uuid           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -21,6 +22,7 @@ FactoryBot.define do
     updated_at { DateTime.now }
     created_at { DateTime.now }
     public_release { Faker::Boolean.boolean }
+    soft_delete { false }
 
     factory :metadata do
       data { {"title" => "#{Faker::Movies::LordOfTheRings.character}"} }

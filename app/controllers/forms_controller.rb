@@ -2,7 +2,7 @@
 
 # Forms Controller
 class FormsController < ApplicationController
-  before_action :set_form, only: %i[show edit update destroy]
+  before_action :set_form, only: %i[show edit update destroy dataview shelf thumbnail]
   before_action :access_params_hash, only: %i[create update]
 
   # GET /forms
@@ -80,6 +80,28 @@ class FormsController < ApplicationController
       format.html { redirect_to '/admin/forms', success: I18n.t('form.deleted') }
     end
   end
+
+  # GET /forms/dataview/:id
+  def dataview
+    media = Media.where(form_id: params[:id])
+    @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
+    breadcrumb @form.display_title, "/forms/dataview/#{@form.id}"
+  end
+
+  # GET /forms/shelf/:id
+  def shelf
+    media = Media.where(form_id: params[:id])
+    @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
+    breadcrumb @form.display_title, "/forms/dataview/#{@form.id}"
+  end    
+
+  # GET /forms/thumbnail/:id
+  def thumbnail
+    media = Media.where(form_id: params[:id])
+    @display_thumb_field = media.count.positive?
+    @items = Item.order(:idno).where(form_id: params[:id], metadata: false)
+    breadcrumb @form.display_title, "/dataview/#{@form.id}" 
+  end    
 
   # Private Methods
   private

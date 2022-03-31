@@ -85,6 +85,7 @@ class Items::DigitalObjectsController < ApplicationController
     media = Media.where(form_id: params[:form_id])
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+    breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
   end
 
   # GET /items/digital_objects/shelf/:form_id
@@ -92,6 +93,7 @@ class Items::DigitalObjectsController < ApplicationController
     media = Media.where(form_id: params[:form_id])
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+    breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
   end    
 
   # GET /items/digital_objects/:form_id
@@ -100,6 +102,7 @@ class Items::DigitalObjectsController < ApplicationController
     @display_thumb_field = media.count.positive?
     @form = Form.find(params[:form_id])
     @items = Item.order(:idno).where(form_id: params[:form_id], metadata: false)
+    breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}" 
   end
 
   # GET /items/digital_objects/:form_id

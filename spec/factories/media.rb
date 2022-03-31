@@ -12,6 +12,7 @@
 #  ocr_text      :text
 #  path          :string
 #  size          :string
+#  soft_delete   :boolean
 #  virus_scanned :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
