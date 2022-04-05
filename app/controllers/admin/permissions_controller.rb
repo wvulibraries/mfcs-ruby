@@ -6,7 +6,7 @@ class Admin::PermissionsController < ApplicationController
   # GET /admin/permissions
   def index
     breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
-    breadcrumb 'Permissions', '/admin/permissions', title: 'Permissions', match: :exact    
+    breadcrumb 'Permissions', '/admin/permissions', title: 'Permissions', match: :exact
     @permissions = Permission.all
   end
 
@@ -26,7 +26,7 @@ class Admin::PermissionsController < ApplicationController
     @permission = Permission.new(permission_params)
 
     if @permission.save
-      redirect_to [:admin, @permission], notice: 'Permission was successfully created.'
+      redirect_to [:admin, @permission], notice: I18n.t('permission.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class Admin::PermissionsController < ApplicationController
   # PATCH/PUT /admin/permissions/1
   def update
     if @permission.update(permission_params)
-      redirect_to [:admin, @permission], notice: 'Permission was successfully updated.'
+      redirect_to [:admin, @permission], notice: I18n.t('permission.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class Admin::PermissionsController < ApplicationController
   # DELETE /admin/permissions/1
   def destroy
     @permission.destroy
-    redirect_to admin_permissions_url, notice: 'Permission was successfully destroyed.'
+    redirect_to admin_permissions_url, notice: I18n.t('permission.destroyed')
   end
 
   private

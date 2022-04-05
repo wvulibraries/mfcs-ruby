@@ -6,7 +6,7 @@ class Admin::WatermarksController < ApplicationController
   # GET /admin/watermarks
   def index
     breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
-    breadcrumb 'Watermarks', '/admin/watermarks', title: 'Watermarks', match: :exact    
+    breadcrumb 'Watermarks', '/admin/watermarks', title: 'Watermarks', match: :exact
     @watermarks = Watermark.all
     @watermark = Watermark.new
   end

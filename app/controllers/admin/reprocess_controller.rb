@@ -19,15 +19,14 @@ class Admin::ReprocessController < ApplicationController
     # if form is valid
     if !@form.nil?
       ReprocessFormJob.perform_later(@form.id)
-      redirect_to :admin_reprocess_index, success: 'Form was successfully reprocessed.'
+      redirect_to :admin_reprocess_index, success: I18n.t('reprocess.success')
     else
       redirect_to :admin_reprocess_index, error: "#{params[:form_id]} Form not found unable to reprocess."
     end
   end
 
-
   # PATCH/PUT /admin/reprocess/update
-  def update; end  
+  def update; end
 
   private
 

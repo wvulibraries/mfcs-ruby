@@ -23,7 +23,7 @@ class Admin::UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      redirect_to [:admin, @user], notice: 'User was successfully created.'
+      redirect_to [:admin, @user], notice: I18n.t('user.created')
     else
       render :index
     end
@@ -32,16 +32,16 @@ class Admin::UsersController < ApplicationController
   # PATCH/PUT /admin/users/1
   def update
     if @user.update(user_params)
-      redirect_to admin_users_url, success: 'user was successfully updated.'
+      redirect_to admin_users_url, success: I18n.t('user.updated')
     else
-      render :edit, error: 'user was unable to update.'
+      render :edit, error: I18n.t('user.error')
     end
   end
 
   # DELETE /admin/users/1
   def destroy
     @user.destroy
-    redirect_to admin_users_url, success: 'user was successfully destroyed.'
+    redirect_to admin_users_url, success: I18n.t('user.destroyed')
   end
 
   private

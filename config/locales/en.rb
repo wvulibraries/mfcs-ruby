@@ -81,7 +81,27 @@
           "Error: Validation type #{options[:type]} does not validate against provided input of '#{options[:input]}'."
         end
       end 
-    }
+    },
+    permission: {
+      created: 'Permission was successfully created.',
+      updated: 'Permission was successfully modified.',
+      destroyed: 'Permission was successfully deleted.',
+    },
+    project: {
+      created: 'Project was successfully created.',
+      updated: 'Project was successfully modified.',
+      destroyed: 'Project was successfully deleted.',
+    },
+    user: {
+      created: 'User was successfully created.',
+      updated: 'User was successfully modified.',
+      destroyed: 'User was successfully deleted.',
+      error: 'user was unable to update.',
+    },
+    reprocess: {
+      success: 'Reprocessing was successful.',
+    },
+    
     # api: { 
     #   v1: { 
     #     validation: { 

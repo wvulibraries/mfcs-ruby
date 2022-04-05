@@ -26,7 +26,7 @@ class Admin::ProjectsController < ApplicationController
     @project = Project.new(project_params)
 
     if @project.save
-      redirect_to [:admin, @project], notice: 'Project was successfully created.'
+      redirect_to [:admin, @project], notice: I18n.t('project.created')
     else
       render :new
     end
@@ -35,7 +35,7 @@ class Admin::ProjectsController < ApplicationController
   # PATCH/PUT /projects/1
   def update
     if @project.update(project_params)
-      redirect_to [:admin, @project], notice: 'Project was successfully updated.'
+      redirect_to [:admin, @project], notice: I18n.t('project.updated')
     else
       render :edit
     end
@@ -44,7 +44,7 @@ class Admin::ProjectsController < ApplicationController
   # DELETE /projects/1
   def destroy
     @project.destroy
-    redirect_to admin_projects_url, notice: 'project was successfully destroyed.'
+    redirect_to admin_projects_url, notice: I18n.t('project.destroyed')
   end
 
   private
