@@ -101,7 +101,12 @@
     reprocess: {
       success: 'Reprocessing was successful.',
     },
-    
+    watermark: {
+      created: 'Watermark was successfully created.',
+      updated: 'Watermark was successfully modified.',
+      destroyed: 'Watermark was successfully destroyed.',
+      error: 'Watermark was unable to update.',
+    },
     # api: { 
     #   v1: { 
     #     validation: { 

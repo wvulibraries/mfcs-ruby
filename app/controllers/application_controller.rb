@@ -1,4 +1,5 @@
 # app/controllers/application_controller.rb
+include Pagy::Backend
 
 # Application Controller
 class ApplicationController < ActionController::Base

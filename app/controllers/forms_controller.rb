@@ -93,15 +93,16 @@ class FormsController < ApplicationController
     media = Media.where(form_id: params[:id])
     @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
     set_breadcrumbs
-  end    
+  end
 
   # GET /forms/thumbnail/:id
   def thumbnail
     media = Media.where(form_id: params[:id])
     @display_thumb_field = media.count.positive?
     @items = Item.order(:idno).where(form_id: params[:id], metadata: false)
+    @pagy, @items = pagy(@items, items: 10)
     set_breadcrumbs
-  end    
+  end
 
   # Private Methods
   private
@@ -109,7 +110,7 @@ class FormsController < ApplicationController
   def set_breadcrumbs
     # add a basic breadcrumb
     breadcrumb 'Select A Form', '/data_entry/select_form', title: 'Select A Form', match: :exact
-    breadcrumb @form.display_title, "/dataview/#{@form.id}" 
+    breadcrumb @form.display_title, "/dataview/#{@form.id}"
   end
 
   # set unsafe params for post

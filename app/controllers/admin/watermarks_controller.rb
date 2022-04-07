@@ -20,7 +20,7 @@ class Admin::WatermarksController < ApplicationController
     @watermarks = Watermark.all
 
     if @watermark.save
-      redirect_to admin_watermarks_url, success: 'Watermark was successfully created.'
+      redirect_to admin_watermarks_url, success: I18n.t('watermark.created')
     else
       render :index
     end
@@ -29,16 +29,16 @@ class Admin::WatermarksController < ApplicationController
   # PATCH/PUT /admin/watermarks/1
   def update
     if @watermark.update(watermark_params)
-      redirect_to admin_watermarks_url, success: 'Watermark was successfully updated.'
+      redirect_to admin_watermarks_url, success: I18n.t('watermark.updated')
     else
-      render :edit, error: 'Watermark was unable to update.'
+      render :edit, error: I18n.t('watermark.error')
     end
   end
 
   # DELETE /admin/watermarks/1
   def destroy
     @watermark.destroy
-    redirect_to admin_watermarks_url, success: 'Watermark was successfully destroyed.'
+    redirect_to admin_watermarks_url, success: I18n.t('watermark.destroyed')
   end
 
   private

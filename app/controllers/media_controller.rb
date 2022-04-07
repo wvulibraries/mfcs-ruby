@@ -21,6 +21,6 @@ class MediaController < ApplicationController
               { type: 'image/png', disposition: 'inline' })
 
     # send_file('app/frontend/packs/images/sound-icon.png',
-    # { type: 'image/png', disposition: 'inline' })    
+    # { type: 'image/png', disposition: 'inline' })
   end
 end

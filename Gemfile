@@ -52,6 +52,9 @@ gem 'rtesseract'
 # used for batching jobs
 gem 'sidekiq-batch'
 
+#pagination
+gem 'pagy', '~> 5.0'
+
 # Development / Test Items (Primarily debugging)
 # =====================================================================================
 group :development, :test do

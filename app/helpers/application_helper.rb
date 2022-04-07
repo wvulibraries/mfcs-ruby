@@ -1,5 +1,7 @@
 # app/helpers/application_helper.rb
 
+include  Pagy::Frontend
+
 # Application Helper
 module ApplicationHelper
   # valdiation options
