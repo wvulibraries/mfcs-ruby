@@ -81,25 +81,25 @@ class FormsController < ApplicationController
     end
   end
 
-  # GET /forms/dataview/:id
+  # GET /forms/dataview/:id/page/:page
   def dataview
     media = Media.where(form_id: params[:id])
-    @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
     set_breadcrumbs
   end
 
-  # GET /forms/shelf/:id
+  # GET /forms/shelf/:id/page/:page
   def shelf
     media = Media.where(form_id: params[:id])
-    @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
     set_breadcrumbs
   end    
 
-  # GET /forms/thumbnail/:id
+  # GET /forms/thumbnail/:id/page/:page
   def thumbnail
     media = Media.where(form_id: params[:id])
-    @display_thumb_field = media.count.positive?
-    @items = Item.order(:idno).where(form_id: params[:id], metadata: false)
+    # @display_thumb_field = media.count.positive?
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
     set_breadcrumbs
   end    
 
@@ -132,6 +132,10 @@ class FormsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_form
     @form = Form.find(params[:id])
+  end
+
+  def set_page
+    @page = params[:page] || 1
   end
 
   def form_params

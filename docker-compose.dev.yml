@@ -27,7 +27,7 @@ services:
       - redis:/var/lib/redis/data
     networks:
       - mfcs_net
-    restart: unless-stopped
+    restart: unless-stopped  
     healthcheck:
       test: redis-cli -h redis ping
       interval: 30s
@@ -41,7 +41,7 @@ services:
     container_name: mfcs_ruby
     command: bash -c "rm -f tmp/pids/server.pid ; rm -rf tmp/cache ; bundle exec rails s -p 3000 -b 0.0.0.0"
     env_file:
-      - './env/.env.dev.mfcs'     
+      - './env/.env.dev.mfcs'        
     volumes:
       - .:/home/mfcs:cached
       - rails_cache_data:/app/tmp/cache
@@ -64,7 +64,13 @@ services:
     networks:
       - mfcs_net
     tmpfs:
-      - /tmp                                   
+      - /tmp
+    restart: unless-stopped        
+    healthcheck:
+      test: curl --fail http://localhost:3000 || exit 1
+      interval: 30s
+      timeout: 3s
+      retries: 3                                          
 
   sidekiq:
     container_name: mfcs_sidekiq
@@ -112,6 +118,10 @@ services:
       - './env/.env.es'   
     volumes: 
       - elasticsearch:/usr/share/elasticsearch/data
+    healthcheck:
+      interval: 10s
+      retries: 80
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/    
     ports: 
       - 9200:9200
       - 9300:9300   

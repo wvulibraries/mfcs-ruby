@@ -69,6 +69,9 @@ class Conversion::Image
   # @author David J. Davis
   # @return [Object]MiniMagick::Image / Truthy
   def perform
+    # check to see if we are to run the conversion
+    # return false unless @conversion_params['convert'] == 'true'
+
     MiniMagick::Tool::Convert.new do |convert|
       convert << @media.path
       @operations.each { |operation| operation.new(@conversion_params).call(convert) }

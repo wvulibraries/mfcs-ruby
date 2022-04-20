@@ -70,7 +70,7 @@ class Conversion::Pdf
   # @return [Object]MiniMagick::Image / Truthy
   def perform
     # check to see if we are to run the conversion
-    # return false unless @conversion_params['convert_audio'] == 'true'
+    return false unless @conversion_params['convert'].to_s.casecmp('true').zero? || @conversion_params['thumbnail'].to_s.casecmp('true').zero?
 
     # run the operations
     pdf = MiniMagick::Image.open @media.path
@@ -79,10 +79,11 @@ class Conversion::Pdf
       @operations.each { |operation| operation.new(@conversion_params).call(convert) }
       convert << save_file
     end
+
     # save the conversion media object
     media = save_media
+
     # run post conversion operations Watermarking and Thumbnail Creation
-    puts @conversion_params
     post_conversion = POST_CONVERSION.select { |post_op| post_op.matches?(@conversion_params) }
     post_conversion.each { |post_op| post_op.new(save_file, @conversion_params, media).perform }    
   end
