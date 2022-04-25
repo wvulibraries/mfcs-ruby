@@ -109,8 +109,6 @@ services:
       - '3035:3035'
     networks:
       - mfcs_net      
-<<<<<<< HEAD
-=======
 
   # elasticsearch:
   #   image: elasticsearch:7.10.1
@@ -127,7 +125,6 @@ services:
   #     - 9300:9300   
   #   networks:
   #     - mfcs_net
->>>>>>> 633dd1fc2d12dbae3bb453eb4565570a22b540d7
 
 volumes:
   rails_cache_data:
