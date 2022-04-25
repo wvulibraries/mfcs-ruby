@@ -81,7 +81,7 @@ group :test do
   gem 'simplecov', require: false, group: :test
   # gem 'simplecov', '~> 0.17.1'
   # gem 'simplecov'
-  # gem 'simplecov-console'
+  gem 'simplecov-console'
 end
 
 group :development do
