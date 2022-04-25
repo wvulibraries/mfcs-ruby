@@ -1,5 +1,3 @@
-
-
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -53,19 +51,7 @@ gem 'rtesseract'
 # used for batching jobs
 gem 'sidekiq-batch'
 
-# Test Suite
-# =====================================================================================
-# group :test do
-#   # gem 'rspec-rails'
-#   # gem 'shoulda'
-#   # gem 'shoulda-matchers'
-#   # gem 'database_cleaner'
-#   # gem 'simplecov'
-#   # gem 'simplecov-console'
-#   # gem 'capybara', '>= 2.15', '< 4.0'
-# end
-
-# Developoment / Test Items (Primarily debugging)
+# Development / Test Items (Primarily debugging)
 # =====================================================================================
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw] # from rails new
