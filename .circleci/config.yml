@@ -1,80 +1,31 @@
-version: 2.1 # Use 2.1 to enable using orbs and other features.
-
-# Declare the orbs that we'll use in our config.
-# read more about orbs: https://circleci.com/docs/2.0/orb-intro/
-orbs:
-  ruby: circleci/ruby@1.0
-  node: circleci/node@2
-
+version: 2
 jobs:
-  build: # our first job, named "build"
+  build:
+    environment:
+    working_directory: ~/circleci-mfcs
     docker:
-      - image: cimg/ruby:2.7.2-node # use a tailored CircleCI docker image.
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
-
-    steps:
-      - checkout # pull down our git code.
-      - ruby/install-deps # use the ruby orb to install dependencies
-      # use the node orb to install our packages
-      # specifying that we use `yarn` and to cache dependencies with `yarn.lock`
-      # learn more: https://circleci.com/docs/2.0/caching/
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
-
-      - run:
-          name: Configure secrets.yml
-          command: mv config/secrets.ci.yml config/secrets.yml
-      - run:
-          name: Configure database.yml
-          command: mv config/database.ci.yml config/database.yml
-      - run:
-          name: Configure application.yml
-          command: mv config/application.ci.yml config/application.yml      
-      - run:
-          name: apt update
-          command: sudo apt update
-      - run:
-          name: Install Packages
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
-      - run:
-          name: Install Tesseract
-          command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr            
-
-  test:  # our next job, called "test"
-    # we run "parallel job containers" to enable speeding up our tests;
-    # this splits our tests across multiple containers.
-    parallelism: 3
-    # here we set TWO docker images.
-    docker:
-      - image: cimg/ruby:2.7.2-node # this is our primary docker image, where step commands run.
-        auth:
-          username: mydockerhub-user
-          password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+      - image: circleci/ruby:2.7.2-node-browsers
+        environment:
+          CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
+          RAILS_ENV: test
+          TEST_REPORT_PATH: "test/reports"
       - image: circleci/postgres:11 # database image
         environment:
           POSTGRES_USER: root
           POSTGRES_DB: circle_test
           POSTGRES_PASSWORD: circleci
-
-    # environment variables specific to Ruby/Rails, applied to the primary container.
-    environment:
-      BUNDLE_JOBS: "3"
-      BUNDLE_RETRY: "3"
-      PGHOST: 127.0.0.1
-      PGUSER: root
-      PGPASSWORD: circleci
-      RAILS_ENV: test
-
-    # A series of steps to run, some are similar to those in "build".
+      - image: docker.elastic.co/elasticsearch/elasticsearch:7.10.1
+        environment:
+          - cluster.name: elasticsearch
+          - xpack.security.enabled: false
+          - transport.host: localhost
+          - network.host: 127.0.0.1
+          - http.port: 9200
+          - discovery.type: single-node   
+      - image: circleci/redis # redis image        
+    parallelism: 2
     steps:
       - checkout
-      - ruby/install-deps
-      - node/install-packages:
-          pkg-manager: yarn
-          cache-key: "yarn.lock"
 
       - run:
           name: Configure secrets.yml
@@ -95,28 +46,67 @@ jobs:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
 
-      # Here we make sure that the secondary container boots
-      # up before we run operations on the database.
+      # Restore bundle cache
+      - type: cache-restore
+        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
 
       - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+          name: Force Bundler Version
+          command: |
+            sudo gem update --system
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
 
-      - run:
-          name: Database setup
-          command: bundle exec rails db:schema:load --trace
+      # Restore yarn cache
+      - type: cache-restore
+        key: mfcs-yarn-{{ checksum "yarn.lock" }}
 
-      # Run rspec in parallel
+      # Install gem dependencies
+      - run: bundle install --path vendor/bundle
 
-      - ruby/rspec-test
+      # Install Javascript dependencies
+      - run: bin/yarn install
 
-# We use workflows to orchestrate the jobs that we declared above.
+      # Store bundle cache
+      - type: cache-save
+        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
 
-workflows:
-  version: 2
-  build_and_test:     # The name of our workflow is "build_and_test"
-    jobs:             # The list of jobs we run as part of this workflow.
-      - build         # Run build first.
-      - test:         # Then run test,
-          requires:   # Test requires that build passes for it to run.
-            - build   # Finally, run the build job.
+      # Store yarn cache
+      - type: cache-save
+        key: mfcs-yarn-{{ checksum "yarn.lock" }}
+        paths:
+          - ~/.yarn-cache
+
+      # Database setup
+      - run: bin/rails db:create
+      - run: bin/rails db:schema:load
+
+      # Code Climate setup
+      - run: curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      - run: chmod +x ./cc-test-reporter
+
+      # Run Ruby unit tests and app integration tests in parallel
+      - type: shell
+        command: |
+          bin/rails test $(circleci tests glob "test/**/*_test.rb" | circleci tests split --split-by=timings)
+
+      # # Run Javascript unit tests
+      # - run: yarn test
+
+      # Code Climate coverage, split for parallel nodes
+      - run: ./cc-test-reporter format-coverage --input-type simplecov --output "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
+
+      # Run security scan
+      - run: bundle exec brakeman
+
+      # Save artifacts
+      - type: store_test_results
+        path: test/reports
+
+      - type: deploy
+          command: |
+            ./cc-test-reporter sum-coverage --output - coverage/codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -  
+

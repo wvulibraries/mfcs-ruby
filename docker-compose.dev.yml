@@ -109,6 +109,25 @@ services:
       - '3035:3035'
     networks:
       - mfcs_net      
+<<<<<<< HEAD
+=======
+
+  # elasticsearch:
+  #   image: elasticsearch:7.10.1
+  #   container_name: mfcs_elasticsearch
+  #   restart: always
+  #   environment:
+  #     - "discovery.type=single-node"
+  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"           
+  #   volumes: 
+  #     # - ./search_data:/usr/share/elasticsearch/data
+  #     - elasticsearch:/usr/share/elasticsearch/data
+  #   ports: 
+  #     - 9200:9200
+  #     - 9300:9300   
+  #   networks:
+  #     - mfcs_net
+>>>>>>> 633dd1fc2d12dbae3bb453eb4565570a22b540d7
 
 volumes:
   rails_cache_data:
