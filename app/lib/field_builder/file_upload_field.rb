@@ -8,7 +8,7 @@ class FieldBuilder::FileUploadField < FieldBuilder::Field
 
   def allowed_file_types
     "data-allowed-file-types='#{@field['allowed_file_types']}'"
-  end 
+  end
 
   def html
     hidden = hidden? ? 'hidden hide' : 'show'

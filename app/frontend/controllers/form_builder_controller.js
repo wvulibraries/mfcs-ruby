@@ -15,7 +15,8 @@ export default class extends Controller {
   static targets = ['formSettings', 'addFields', 'fieldSettings', 'warningMessage', 'fieldSettingsForm', 'textTemplate', 'textareaTemplate', 'idnoTemplate', 'formPreview', 'panes', 'fieldSettingsJSON', 'addIdnoField', 'addTitleField', 'addSingleTextField', 'addTextareaField', 'addNumberField', 'addSelectField', 'addMultiselectField', 'addFileField', 'addWysiwygField'];
 
   // Connect 
-  //  Basically Document Read Function
+  // Basically Document Read Function
+  // @author(s): David J. Davis, Tracy A. McCormick
   connect(){
     // this connects the first descision modal
     if(this.fieldSettingsJSONTarget.value == null || this.fieldSettingsJSONTarget.value == undefined || this.fieldSettingsJSONTarget.value == ''  || this.fieldSettingsJSONTarget.value.length < 1){ 
@@ -32,6 +33,7 @@ export default class extends Controller {
         // use field data to get and set information
         let type = field["type"]; 
         let template = field["type"] + 'Template';
+
         let fieldInfo = { 
           'json': field, 
           'id': field['field_id'], 
@@ -39,6 +41,16 @@ export default class extends Controller {
           'type': type, 
           'template': this.targets.find(template).innerHTML
         };
+
+        // if field_id is not set assign it a new id
+        if(field['field_id'] == undefined || field['field_id'] == null || field['field_id'] == ''){
+          fieldInfo['id'] = this.generateFieldID();
+        }
+
+        // if field is not valid call sortOrder to set it
+        if(field['sort_order'] == undefined || field['sort_order'] == null || field['sort_order'] == ''){
+          fieldInfo['sort'] = this.sortOrder();
+        }
 
         // sets html the initial preview
         let previewHTML = this.preview(fieldInfo);

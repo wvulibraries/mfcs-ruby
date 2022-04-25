@@ -1,13 +1,13 @@
 module Some
-  class AService 
+  class AService
     include ActiveModel::AttributeMethods
-    
+
     def initialize(num)
       @num = num
-    end 
+    end
 
     def perform
-      @num * @num  
-    end 
-  end 
-end 
+      @num * @num
+    end
+  end
+end

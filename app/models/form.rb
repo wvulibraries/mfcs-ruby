@@ -81,17 +81,17 @@ class Form < ApplicationRecord
 
   # Determines if the form is an object form
   # @author David J. Davis
-  # return boolean 
-  def object_form? 
-    self.metadata == false
-  end 
+  # return boolean
+  def object_form?
+    metadata == false
+  end
 
-  # Determines if the form is a metadata 
+  # Determines if the form is a metadata
   # @author David J. Davis
-  # return boolean 
-  def metadata? 
-    self.metadata == true 
-  end 
+  # return boolean
+  def metadata?
+    metadata == true
+  end
 
   # Get an array of linked metadata fields from the field hash
   # @author David J. Davis
@@ -108,7 +108,7 @@ class Form < ApplicationRecord
   def fields
     self[:fields].to_json if self[:fields].present?
   end
-  alias :fields_json :fields
+  alias fields_json fields
 
   # Returns as a fields hash for use in views that aren't javascript produced.
   # @author David J. Davis
@@ -160,6 +160,19 @@ class Form < ApplicationRecord
     end
   end
 
+  # Returns label for field or humanize
+  # the passed field_name.
+  # @author Tracy A. McCormick
+  # @return string
+  def field_label(field_name)
+    self[:fields].each do |field|
+      return field['label'] if field['name'] == field_name
+    end
+
+    # return field_name if no label found
+    field_name.to_s.humanize
+  end 
+
   # Returns a set of names that are fields to be displayed in the table.
   # @author Tracy A. McCormick
   # @return Set of strings
@@ -168,6 +181,7 @@ class Form < ApplicationRecord
       table_set = Set.new
       self[:fields].each do |field|
         next unless field['display_table']
+
         table_set.add(field['name'])
       end
       table_set
@@ -194,20 +208,22 @@ class Form < ApplicationRecord
   # Should only be one so the field is returned directly from the loop
   # @author David J. Davis
   # @return Set of strings
-  def idno_field 
-    return nil if self.metadata?
+  def idno_field
+    return nil if metadata?
+
     self[:fields].each do |field|
       return field if field['type'] == 'idno'
     end
-  end 
+  end
 
   # This grabs associated metadata fields for the forms.
   # @author David J. Davis
   # @return Set of strings
   def associated_metadata_forms
     forms_set = Set.new # use set so we
+    field_types = %w[dropdown multiselect select]
     self[:fields].each do |field|
-      next unless %w[dropdown multiselect select].include? field['type']
+      next unless field_types.include? field['type']
 
       if field['choice_type'] == 'link_to_form' && field['choice_form'].present?
         forms_set.add(field['choice_form'])
@@ -217,48 +233,66 @@ class Form < ApplicationRecord
     Form.find(forms_set.to_a)
   end
 
+  # Checks to see if field_name has is linked to a metadata form
+  # @author Tracy A. McCormick
+  # @return boolean
+  def associated_metadata_field(field_name)
+    self[:fields].each do |field|
+      return true if field['name'] == field_name && field['choice_type'] == 'link_to_form'
+    end
+
+    false
+  end
+
   private
+
   # Sets an error message if metadata is nil which it should never be.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
   def valid_form_type
-    if metadata.nil?
-      errors.add('field', 'Some how the Metadata and Object Fields have not been set, please resubmit the form.')
-    end   
+    return unless metadata.nil?
+
+    errors.add('field',
+               'Some how the Metadata and Object Fields have not been set, please resubmit the form.')
   end
 
   # Checks form type, metadata?, then counts the number fields.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
   def valid_metadata_form
-    if metadata? && (self.fields_hash.count < 1) 
-      errors.add('field', 'Metadata forms must contain at least one field, please add a field')
-    end 
-  end 
+    return unless metadata? && (fields_hash.count < 1)
+
+    errors.add('field',
+               'Metadata forms must contain at least one field, please add a field')
+  end
 
   # Checks form type, object_form?, then counts the number fields.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
   def valid_object_form
-    if object_form? && (self.fields_hash.count <= 2)
-      errors.add('field', 'Object forms must contain at least 2 fields one of them being an idno field.')
-    end 
-  end 
+    return unless object_form? && (fields_hash.count <= 2)
 
-  # References a method to check for duplicate names in the fields. 
-  # @author David J. Davis
+    errors.add('field',
+               'Object forms must contain at least 2 fields one of them being an idno field.')
+  end
+
+  # References a method to check for duplicate names in the fields.
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @abstract add errors and changes .valid? bool
-  def valid_field_names 
-    errors.add('fields', 'Field names must not be the same. Please check the names of all form fields.') if has_duplicate_names?
-  end 
-  
+  def valid_field_names
+    return unless duplicate_names?
+
+    errors.add('fields',
+               'Field names must not be the same. Please check the names of all form fields.')
+  end
+
   # Plucks the name from all fields.
-  # @author David J. Davis
+  # @author(s) David J. Davis, Tracy A. McCormick
   # @return [Boolean]
-  def has_duplicate_names?
+  def duplicate_names?
     names = fields_hash.pluck('name')
     names.uniq.length != names.length
-  end 
+  end
 
   # Setting some defaults for the forms to match current behaviors
   # of the existing app. These will be the defaults.

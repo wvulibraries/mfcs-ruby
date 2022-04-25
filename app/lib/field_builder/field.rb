@@ -1,5 +1,5 @@
 # Abstract base class for building Field HTML.
-# @author David J. Davis
+# @author(s) David J. Davis / Tracy A. McCormick
 # @abstract
 # @since 0.0.0
 class FieldBuilder::Field
@@ -7,15 +7,15 @@ class FieldBuilder::Field
   # @abstract
   # @param field [Hash] which is the hash of field info to turn into HTML
   # @param state [String] only ['insert', 'update', 'disabled', 'preview', 'create', 'edit']
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   def initialize(field, user, state = 'insert')
     @field = field
     @state = state.downcase
     @user = user
 
-    unless field.is_a?(Hash)
-      raise ArgumentError, 'Field is not a Hash, Field must be a hash to continue.'
-    end
+    return if field.is_a?(Hash)
+
+    raise ArgumentError, 'Field is not a Hash, Field must be a hash to continue.'
   end
 
   # Checks that the element is not disabled will be used in the HTML value.
@@ -242,9 +242,8 @@ class FieldBuilder::Field
     HTML
   end
 
-
   # def length_validation
-  #   { 
+  #   {
   #     "data-min" => @field['min'].to_s,
   #     "data-max" => @field['max'].to_s,
   #     "data-format" => @field['format'].to_s

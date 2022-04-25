@@ -1,3 +1,5 @@
+# app/lib/ffmpeg/video.rb
+
 # DSL for using the FFMPEG, resulting in a small focused wrapper.
 #
 # @author David J. Davis
@@ -15,7 +17,7 @@ class FFMPEG::Video < FFMPEG::Base
   def command(&block)
     @command << "#{ffmpeg_path} -hide_banner -loglevel error -y -i #{@file}"
     instance_eval(&block) if block
-    @options.each {| key, value |  @command << "-#{key.to_s} #{value}" }
+    @options.each { |key, value| @command << "-#{key} #{value}" }
     @command << @to_file.to_s
     @command.join(' ')
   end
@@ -37,7 +39,7 @@ class FFMPEG::Video < FFMPEG::Base
   # resizes to fit using either an increase or decrease in size.
   #
   # @return [String] The string needed to exec FFMPEG.
-  def size(width, height, force_aspect = true)
+  def size(width, height, force_aspect: true)
     if force_aspect
       metadata = self.metadata
       size = AspectRatio.new(metadata[:width], metadata[:height], width, height).calculate

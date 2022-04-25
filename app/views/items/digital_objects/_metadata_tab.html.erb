@@ -1,0 +1,23 @@
+<!-- Data Attribute List -->
+<div id="metadata" class="tab-pane">
+  <% @item.data.each do |key, value| %>
+    <% unless key["upload"] %>
+      <div class="row p-1 m-0 border-bottom">
+        <dt class="col"> <%= @form.field_label(key) %> </dt>
+        <dd class="col"> <%= @form.associated_metadata_field(key) ? DigitalObjects::MetadataPresenter.new(key, value).data : value %> </dd>
+      </div>
+    <% end %>
+  <% end %>
+
+  <!-- show files at bottom of metadata tab -->
+  <% @form.file_fields.each do |key, value| %>
+    <div class="row p-1 m-0 border-bottom">
+      <dt class="col"><%= @form.field_label(key) %> </dt>
+      <% if DigitalObjects::UploadFieldPresenter.new(@item.id).uploaded_files?(key) %>
+        <dd class="col"><a href="javascript:;" onclick="$('#filesTab').click();">Click to view files tab</a></dd>
+      <% else %>
+        <dd class="col">No files uploaded</dd>
+      <% end %>
+    </div>
+  <% end %>            
+</div>

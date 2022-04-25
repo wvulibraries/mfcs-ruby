@@ -1,18 +1,25 @@
-class Conversion::Base
-  def perform 
-    method_error(__method__)
-  end 
+# app/lib/conversion/base.rb
 
-  def save_file 
+# Conversion Base Class
+# @author(s) David J. Davis, Tracy A. McCormick
+class Conversion::Base
+  def initialize; end
+
+  def perform
     method_error(__method__)
-  end 
+  end
+
+  def save_file
+    method_error(__method__)
+  end
 
   def save_media
     method_error(__method__)
-  end 
+  end
 
-  private  
+  private
+
   def method_error(method)
-    raise NoMethodError.new("#{self.class} has not implemented the #{method} method.")
-  end 
-end 
+    raise NoMethodError, "#{self.class} has not implemented the #{method} method."
+  end
+end

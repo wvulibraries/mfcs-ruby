@@ -1,5 +1,6 @@
+# app/helpers/application_helper.rb
 
-
+# Application Helper
 module ApplicationHelper
   # valdiation options
   def form_validation_options

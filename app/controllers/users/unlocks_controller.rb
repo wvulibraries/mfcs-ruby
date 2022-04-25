@@ -1,5 +1,6 @@
+# app/controllers/users/unlocks_controller.rb
 
-
+# Users Unlocks Controller
 class Users::UnlocksController < Devise::UnlocksController
   # GET /resource/unlock/new
   # def new

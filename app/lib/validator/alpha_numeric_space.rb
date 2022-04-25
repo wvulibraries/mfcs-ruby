@@ -1,3 +1,5 @@
+# app/lib/validator/alpha_numeric_space.rb
+
 # Validates alpha numerical characters with spaces
 # @author David J. Davis
 class Validator::AlphaNumericSpace
@@ -16,6 +18,7 @@ class Validator::AlphaNumericSpace
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/\A[\sa-z0-9]+\z/i)
   end
 end

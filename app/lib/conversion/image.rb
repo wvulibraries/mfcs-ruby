@@ -1,4 +1,7 @@
+# app/lib/conversion/image.rb
+
 # Conversion Class for Images
+# @author(s) David J. Davis, Tracy A. McCormick
 # The parent Conversion::Actor will decide to use the Image, Audio, Video, OCR, and PDF versions.
 class Conversion::Image
   # LIST OF POTENTIAL CONVERSION OPTIONS
@@ -23,7 +26,7 @@ class Conversion::Image
   # @return [Object]MiniMagick::Image
   def self.matches?(mime)
     mime.split('/')[0].casecmp('image').zero?
-  end 
+  end
 
   # Initialize sets the instance vars for conversion params and media objects.
   # Runs the Aspect Ratio to keep objects in the correct sizing.
@@ -41,7 +44,9 @@ class Conversion::Image
 
     width = @conversion_params.fetch('image_width').to_i
     height = @conversion_params.fetch('image_height').to_i
-    @conversion_params['image_width'], @conversion_params['image_height'] = AspectRatio.new(orig_width, orig_height, width, height).calculate
+    @conversion_params['image_width'], @conversion_params['image_height'] = AspectRatio.new(
+      orig_width, orig_height, width, height
+    ).calculate
 
     # choose which operations need run
     @operations = OPERATIONS.select { |operation| operation.matches?(@conversion_params) }
@@ -64,6 +69,9 @@ class Conversion::Image
   # @author David J. Davis
   # @return [Object]MiniMagick::Image / Truthy
   def perform
+    # check to see if we are to run the conversion
+    # return false unless @conversion_params['convert'] == 'true'
+
     MiniMagick::Tool::Convert.new do |convert|
       convert << @media.path
       @operations.each { |operation| operation.new(@conversion_params).call(convert) }

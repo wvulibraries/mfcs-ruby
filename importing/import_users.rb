@@ -1,14 +1,16 @@
-data_directory = 'importing/users/data' 
+data_directory = 'importing/users' 
 count = Dir[File.join(data_directory, '**', '*')].count { |file| File.file?(file) }
 
+puts "Starting import of Users"
 Dir.foreach(data_directory) do |filename|
   # skip hidden 
   next if ['.', '..', '.DS_Store'].include?(filename)
 
+  puts "importing #{filename}"
+
   # parse the data into a new form model
   json_filepath = [data_directory, "/", filename].join
 
-  puts json_filepath.inspect
   json = JSON.parse(File.read(json_filepath))
 
   next if json == false || User.where(id: json['ID']).present?
@@ -41,12 +43,16 @@ Dir.foreach(data_directory) do |filename|
 
   # temporary adjustment for when email address is blank 
   # needs corrected in MFCS (PROD)
-  if json['email'].blank?
-    json['email'] = "#{json['first_name']}.#{json['last_name']}@mail.wvu.edu"
-  end
+  json['email'] = "#{json['username']}@mail.wvu.edu" if json['email'].blank?
 
-  u = User.new(json)
-  u.save(validate: false)
+  if User.where(email: json['email']).count == 0
+      u = User.new(json)
+      u.save(validate: false)
+  else
+      puts "User #{json['email']} already exists"
+      # adding id to beginning to insure uniqueness
+      json['email'] = "#{json['id']}_#{json['email']}"
+  end
 end
 
 # force reset for id sequence on table since we are importing.

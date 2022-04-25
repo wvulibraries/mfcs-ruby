@@ -1,3 +1,5 @@
+# app/lib/validator/alpha_space.rb
+
 # Validates a variety of alphabetical with spaces.
 class Validator::AlphaSpace
   # Basic constructor for all Validator Methods
@@ -15,6 +17,7 @@ class Validator::AlphaSpace
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/\A[\sa-z]+\z/i)
   end
 end

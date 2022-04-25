@@ -1,3 +1,5 @@
+# app/lib/validator/email.rb
+
 # Validates that the given param is a valid email.
 # Uses base ruby regex for doing this.
 # @return [Boolean]
@@ -17,6 +19,7 @@ class Validator::Email
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     email(@input)
   end
 

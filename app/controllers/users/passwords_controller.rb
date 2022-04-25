@@ -1,5 +1,6 @@
+# app/controllers/users/passwords_controller.rb
 
-
+# Users Passwords Controller
 class Users::PasswordsController < Devise::PasswordsController
   # GET /resource/password/new
   # def new

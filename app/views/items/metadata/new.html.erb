@@ -1,9 +1,37 @@
-<h2>Create Metadata <span class="decorative-text"> <%= @form.display_title %> </span></h2>
-
+<h1>Create Metadata</h1>
+<h2><span class="decorative-text"> <%= @form.display_title %> </span></h2>
 <div class="row justify-content-start" data-controller="form-validations">
   <%= form_with model: @item, url: "/items/metadata", class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "post", data: {remote: false}, multipart: true do  |f| %>
     <%# FORM         ==================================== %>
     <%= render 'form', f: f, form_type: 'create' %>
     <%# END FORM     ==================================== %>
   <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered" summary="Metadata Object Listing">
+    <thead>
+      <tr class="headerRow">
+        <% @items.first.data.each do |key, value| %>
+          <th class="col"> <%= key.capitalize %></th>
+        <% end %>      
+        <th class="header text-center">Edit</th>
+        <th class="header text-center">Search</th>
+        <th class="header text-center">Move</th>            
+      </tr>
+    </thead>
+
+    <tbody>
+    <% @items.each do |item| %>
+        <tr>
+          <% item.data.each do |key, value| %>
+            <td class="col"> <%= value %> </td>
+          <% end %>        
+          <td class="text-center"><%= link_to raw('<span class="fas fa-edit"></span>'), items_edit_metadata_path(item) %> </th>            
+          <td class="text-center"><%= link_to raw('<span class="fas fa-search"></span>'), items_find_metadata_path(item) %></td>
+          <td class="text-center"><%= link_to raw('<span class="fas fa-route"></span>'), items_move_metadata_path(item) %></td>          
+        </tr>
+      <% end %>
+    </tbody>
+  </table> 
 </div>

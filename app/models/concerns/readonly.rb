@@ -1,5 +1,3 @@
-
-
 # For models that need readonly status
 module Readonly
   extend ActiveSupport::Concern

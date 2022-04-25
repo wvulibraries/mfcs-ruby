@@ -1,3 +1,6 @@
+# app/lib/validator/actor.rb
+
+# Validator Actor
 class Validator::Actor
   # include active model for validations to make error tracking easy
   include ActiveModel::Model
@@ -38,7 +41,8 @@ class Validator::Actor
       instance = klass.new(@input, @form_field, @field_id)
       result = instance.perform
       unless result
-        feedback << I18n.t('validator.perform', validated: result, type: validation.titleize, input: @input)
+        feedback << I18n.t('validator.perform', validated: result, type: validation.titleize,
+                                                input: @input)
       end
       validation_results << result
     end

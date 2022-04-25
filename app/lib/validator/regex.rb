@@ -1,3 +1,5 @@
+# app/lib/validator/regex.rb
+
 # Validates Input Against Form Regex Supplied by Users.
 class Validator::Regex
   # Basic constructor for all Validator Methods
@@ -15,6 +17,7 @@ class Validator::Regex
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     regex(@input, @field_info['validation_regex'])
   end
 

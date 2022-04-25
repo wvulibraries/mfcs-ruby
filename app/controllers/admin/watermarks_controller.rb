@@ -1,10 +1,12 @@
-
-
+# app/controllers/admin/watermarks_controller.rb
+# Admin Watermarks Controller
 class Admin::WatermarksController < ApplicationController
   before_action :set_watermark, only: %i[show edit update destroy]
 
   # GET /admin/watermarks
   def index
+    breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
+    breadcrumb 'Watermarks', '/admin/watermarks', title: 'Watermarks', match: :exact    
     @watermarks = Watermark.all
     @watermark = Watermark.new
   end

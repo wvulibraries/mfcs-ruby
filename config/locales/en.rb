@@ -40,9 +40,9 @@
     },  
     form_builder: { 
       image_file_types: [['jpg', 'JPG'], ['png', 'PNG'], ['gif', 'GIF'], ['bmp', 'BMP'], ['webp', 'WEBP']],
-      audio_bitrates: [['700kbs (Low Quality)', 700], ['1200kbs (Fast Streaming)', 1200], ['2400kbs (YouTube Quality)', 2400], ['5000kbs (HD Quality)', 5000], ['12000kbs (HDTV Quality)', 12000]],
+      audio_bitrates: [['32kbs (Speeches)', 32], ['64kbs (Fast Streaming)', 64], ['128kbs (Recommended)', 128], ['192kbs (Average Quality)', 192], ['256kbs (Best Quality)', 256], ['320kbs (High Quality)', 320]],
       audio_formats: [['MP3 (Recommended)', 'mp3'], ['OGG', 'ogg'], ['WAV', 'wav']],
-      video_bitrates: [['32kbs (Speeches)', 32], ['64kbs (Fast Streaming)', 64], ['128kbs (Recommended)', 128], ['192kbs (High Quality)', 192], ['256kbs (Best Quality)', 256]],
+      video_bitrates: [['700kbs (Low Quality)', 700], ['1200kbs (Fast Streaming)', 1200], ['2400kbs (YouTube Quality)', 2400], ['5000kbs (HD Quality)', 5000], ['12000kbs (HDTV Quality)', 12000]],
       video_formats: [['AVI', 'avi'], ['MOV', 'mov'], ['MP4 (Recommended)', 'mp4'], ['3GP', '3gp'], ['WEBM', 'webm'], ['OGV', 'ogv']],
       watermark_location: [
                             ['Top Left', 'NorthWest'], 
@@ -57,6 +57,22 @@
                           ],
       no_spaces_error: 'Field may not have spaces in it, please replace spaces with `_` or `-`.',
     },
+    form: { 
+      edited: 'Form has been edited.',
+      no_items: 'This form currently has no items or objects associated with it.' 
+    },
+    digital_object: {
+      created: 'Digital Object has been created.',
+      updated: 'Digital Object has been updated.',
+      destroyed: 'Digital Object has been deleted.',
+
+    },
+    metadata_object: {
+      created: 'Metadata Object was successfully created.',
+      updated: 'Metadata Object was successfully modified.',
+      destroyed: 'metadata was successfully destroyed.',
+
+    },    
     validator: { 
       perform:  lambda do |key, options|
         if options[:validated]

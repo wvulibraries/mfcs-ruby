@@ -1,10 +1,12 @@
-
-
+# app/controllers/admin/permissions_controller.rb
+# Admin Permissions Controller
 class Admin::PermissionsController < ApplicationController
   before_action :set_permission, only: %i[show edit update destroy]
 
   # GET /admin/permissions
   def index
+    breadcrumb 'Admin', '/admin', title: 'Admin', match: :exact
+    breadcrumb 'Permissions', '/admin/permissions', title: 'Permissions', match: :exact    
     @permissions = Permission.all
   end
 

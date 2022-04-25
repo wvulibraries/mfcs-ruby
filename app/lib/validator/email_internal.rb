@@ -1,3 +1,5 @@
+# app/lib/validator/email_internal.rb
+
 # Validates the internal email address.
 class Validator::EmailInternal < Validator::Email
   # Peform function is in all validator classes and returns
@@ -6,7 +8,8 @@ class Validator::EmailInternal < Validator::Email
   # @author David J. Davis
   # @return [Boolean]
   def perform
-    return true if @input.blank? 
+    return true if @input.blank?
+
     email_internal(@input) && email(@input)
   end
 

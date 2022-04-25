@@ -1,0 +1,18 @@
+<div class="row" id="results"></div>
+    <div class="row">
+        <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#metadata" aria-expanded="true">Metadata</a></li>
+        <li class=""><a data-toggle="tab" href="#files" id="filesTab" aria-expanded="false">Files</a></li>
+        <li class=""><a data-toggle="tab" href="#project" aria-expanded="false">Project</a></li>
+        <li class=""><a data-toggle="tab" href="#publicUrls" aria-expanded="false">Public Urls &amp; OAI</a></li>
+        <!-- <li><a data-toggle="tab" href="#children">Children</a></li> -->
+        </ul>
+    </div>
+
+    <div class="tab-content">
+        <%= render 'metadata_tab' %>
+        <%= render 'files_tab' %>
+        <%= render 'projects_tab' %>
+        <%= render 'public_urls_oai_tab' %>
+    </div>
+</div>

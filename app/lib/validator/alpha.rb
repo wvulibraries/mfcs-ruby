@@ -1,3 +1,5 @@
+# app/lib/validator/alpha.rb
+
 # Validator Class that checks for Alphabetical characters only.
 class Validator::Alpha
   # Basic constructor for all Validator Methods
@@ -15,6 +17,7 @@ class Validator::Alpha
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/\A[a-z]+\z/i)
   end
 end

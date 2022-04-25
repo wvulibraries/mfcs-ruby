@@ -1,6 +1,6 @@
+# app/controllers/users/omniauth_callbacks_controller.rb
 
-
-# User/OmniAuth Controller
+# Users OmniAuth Callbacks Controller
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # CAS Callback.  The user is checked, if the user exists
   # then authentication is performed.

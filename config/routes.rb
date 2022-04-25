@@ -93,19 +93,34 @@ Rails.application.routes.draw do
 
   # forms
   # ========================================================
-  get '/forms/copy' => 'forms#copy', as: 'forms_copy'
-  post '/forms/clone' => 'forms#clone', as: 'forms_clone'
+  get  '/forms/copy'                     => 'forms#copy', as: 'forms_copy'
+  post '/forms/clone'                    => 'forms#clone', as: 'forms_clone'
+  get  '/forms/dataview/:id/page/:page'  => 'forms#dataview',   as: 'forms_dataview' 
+  get  '/forms/thumbnail/:id/page/:page' => 'forms#thumbnail',  as: 'forms_thumbnail'
+  get  '/forms/shelf/:id/page/:page'     => 'forms#shelf',      as: 'forms_shelf'  
   resources :forms
   
   # Admin 
   # ========================================================
+  get '/admin', to: 'admin#home', as: 'admin'
+
   namespace :admin do
     resources :watermarks, only: [:index, :create, :edit, :update, :destroy]
-    resources :permissions
+    resources :permissions, only: [:index, :create, :edit, :update, :destroy]
     resources :projects
     resources :users
-    resources :reprocess, only: [:index]
+    resources :reprocess, only: [:index, :create, :edit, :update, :destroy]
+
+    # readonly
+    # ========================================================
+    get     '/readonly'          => 'readonly#index',            as: 'index_readonly'
+    post    '/readonly/toggle'   => 'readonly#toggle',           as: 'toggle_readonly'
   end
+
+  # Data Entry
+  # ========================================================
+  get '/data_entry/select_form', to: 'data_entry#index', as: 'data_entry_index' 
+
 
   # Dashboard
   # ========================================================
@@ -116,16 +131,20 @@ Rails.application.routes.draw do
   get '/dashboard/obsolete/'    => 'dashboard#obsolete',          as: 'dashboard_obsolete'
   get '/dashboard/virus/'       => 'dashboard#virus',             as: 'dashboard_virus'
 
-  # Item Routes 
+  # Item Routes
   # ========================================================
-  get 'item/list/:form_id' => 'item#list'
-  get 'item/search' => 'item#search'
+  get '/item/list/:form_id'     => 'item#list', as: 'item_list'
+  get '/item/search'            => 'item#search', as: 'item_search'
 
   # Projects Routes 
   # ========================================================
   get '/projects' => 'projects#index', as: 'projects_list'
   
   namespace :items do
+    get '/:id/download_zip'  => 'items#download_zip',   as: 'download_zip'
+    get '/:id/thumb'         => 'items#thumb',          as: 'items_thumb'
+    get '/:id'               => 'items#show',           as: 'items_show'
+
     # metadata routes 
     # ========================================================
     get    '/metadata'                       => 'metadata#index',          as: 'metadata_list'
@@ -133,25 +152,30 @@ Rails.application.routes.draw do
     get    '/metadata/new/:form_id'          => 'metadata#new',            as: 'new_metadata'
     post   '/metadata'                       => 'metadata#create',         as: 'create_metadata'
     get    '/metadata/:id/edit'              => 'metadata#edit',           as: 'edit_metadata'
+    get    '/metadata/:id/move'              => 'metadata#move',           as: 'move_metadata'
+    get    '/metadata/:id/find'              => 'metadata#find',           as: 'find_metadata'
     patch  '/metadata/:id'                   => 'metadata#update',         as: 'patch_metadata'
     put    '/metadata/:id'                   => 'metadata#update',         as: 'put_metadata'
     delete '/metadata/:id'                   => 'metadata#destroy',        as: 'destroy_metdata'
     get    '/list/metadata/:form_id'         => 'metadata#list_for_form',  as: 'metadata_list_form'
     get    '/duplicates/metadata/(:form_id)' => 'metadata#duplicates',     as: 'metadata_duplicates'
 
+
     # digital object route
     # ========================================================
-    get    '/digital_objects'                     => 'digital_objects#index',          as: 'digital_objects_index'
-    get    '/list/digital_objects/:form_id'       => 'digital_objects#list_for_form',  as: 'list_digital_objects'
+    get    '/digital_objects'                         => 'digital_objects#index',                as: 'digital_objects_index'
+    get    '/digital_objects/:form_id'                => 'digital_objects#list_for_form',        as: 'list_digital_objects' 
+    
     get    '/duplicates/digital_objects/:form_id' => 'digital_objects#duplicates',     as: 'duplicate_digital_objects'
     get    '/digital_objects/new/'                => 'digital_objects#no_form',        as: 'digital_objects_no_form'
     get    '/digital_objects/new/:form_id'        => 'digital_objects#new',            as: 'new_digital_objects'
     post   '/digital_objects'                     => 'digital_objects#create',         as: 'create_digital_objects'
-    get    '/digital_objects/:id'                 => 'digital_objects#show',           as: 'show_digital_object'
+    get    '/digital_objects/:id/show'            => 'digital_objects#show',           as: 'show_digital_object'
     get    '/digital_objects/:id/edit'            => 'digital_objects#edit',           as: 'edit_digital_objects'
     patch  '/digital_objects/:id'                 => 'digital_objects#update',         as: 'patch_digital_objects'
     put    '/digital_objects/:id'                 => 'digital_objects#update',         as: 'put_digital_objects'
     delete '/digital_objects/:id'                 => 'digital_objects#destroy',        as: 'destroy_digital_object'
+    get    '/digital_objects/:id/reprocess'       => 'digital_objects#reprocess',      as: 'reprocess_digital_object'
 
     # search route
     # ========================================================
@@ -160,9 +184,15 @@ Rails.application.routes.draw do
 
   # media
   # ========================================================
-  get '/media/image/:id'  => 'media#index'
-  get '/media/thumb/:id'  => 'media#thumb'
-  
+  get '/media/image/:id'  => 'media#image', as: 'media_image'
+  get '/media/thumb/:id'  => 'media#thumb', as: 'media_thumb'
+  get '/media/audio/:id'  => 'media#audio', as: 'media_audio'
+  get '/media/video/:id'  => 'media#video', as: 'media_video'
+  get '/media/pdf/:id'    => 'media#pdf',  as: 'media_pdf'
+
+  get '/media/original/:id' => 'media#original', as: 'media_original'
+  get '/media/converted/:id' => 'media#converted', as: 'media_converted'
+
   # API
   # ========================================================
   namespace :api do

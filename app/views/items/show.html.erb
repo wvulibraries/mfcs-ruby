@@ -1,0 +1,92 @@
+<div class="container-fluid">
+  <h2> View Digital Object</h2>
+  <div class="row">
+    <div class="col-md-3" id="show-menu">
+      <ul class="menu">
+      <li><a href="/items/digital_objects/new/<%= @form.id %>">Add New Record</a></li>
+      <% if @form.associated_metadata_forms.present? %>
+          <% @form.associated_metadata_forms.each do |md_form| %>
+            <li>
+              <a href="/forms/<%=md_form.id%>/edit"> <%= md_form.title %></a>
+            </li>
+        <% end %>
+      <% end %> 
+      </ul>
+    </div>
+
+    <div class="col-md-9" id="show-tabs">
+      <div class="row" id="results"></div>
+        <div class="row">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#metadata" aria-expanded="true">Metadata</a></li>
+            <li class=""><a data-toggle="tab" href="#files" id="filesTab" aria-expanded="false">Files</a></li>
+            <li class=""><a data-toggle="tab" href="#project" aria-expanded="false">Project</a></li>
+            <li class=""><a data-toggle="tab" href="#publicUrls" aria-expanded="false">Public Urls &amp; OAI</a></li>
+            <!-- <li><a data-toggle="tab" href="#children">Children</a></li> -->
+          </ul>
+        </div>
+        <div class="tab-content">
+
+          <!-- Data Attribute List -->
+          <div id="metadata" class="tab-pane fade in active">
+            <% @item.data.each do |key, value| %>
+              <% unless key["upload"] %>
+                <div class="row p-1 m-0 border-bottom">
+                  <dt class="col"> <%= @form.field_label(key) %> </dt>
+                  <dd class="col"> <%= @form.associated_metadata_field(key) ? DigitalObjects::MetadataPresenter.new(key, value).data : value %> </dd>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div class="tab-pane" id="files">
+            <a class="btn btn-primary" <%= link_to "Download All Files (Zip)", "/items/#{@item.id}/download_zip", target: "_blank" %></a><br><br>
+            <!-- Files Tab -->
+            <ul class="filePreviews">
+            <% @item.data.each do |key, value| %>
+              <% if key["upload"] %>
+                <div class="filePreviewField">
+                  <header><i class="fa fa-folder-open"></i> <%= key.titleize %></header>
+                  <% value.each do |file| %>
+                    <% presenter = DigitalObjects::FilePresenter.new(file) %>              
+                    <ul class="filePreviews">
+                      <li><span class="filename span6"><i class="fa fa-file-sound-o"></i> <%= presenter.filename %> </span>
+                        <span class="dropdowns span6"> 
+                          <div class="btn-group">	
+                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">		Preview <span class="caret"></span></a>
+                            <ul class="dropdown-menu fileModalPreview">
+                              <% presenter.preview_links.each do |link| %>
+                                <li><a tabindex="-1" href="<%= link[:url] %>"> <%= link[:label] %> </a></li>
+                              <% end %>                      
+                            </ul>
+                          </div> 
+                          
+                          <div class="btn-group">	
+                            <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">		Download <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                              <% presenter.download_links.each do |link| %>
+                                <li><a tabindex="-1" <%= link_to link[:label], link[:url], target: "_blank" %> </a></li>
+                              <% end %>
+                            </ul>
+                          </div> 
+                        </span>
+                        <br>
+                        <span class="filesize">File size:  <%= presenter.size %> </span><br>
+                        <span class="file_checksum checksum_pass">Checksum: <%= presenter.checksum %></span><br>
+                        <span class="file_dir">Location: <%= presenter.location %></span>
+                      </li>
+                    </ul>
+                  <% end %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
+
+          <div id="project" class="tab-project">
+          </div>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

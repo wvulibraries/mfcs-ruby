@@ -39,6 +39,9 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 
 @import '../../components/navigation/navigation';
 
+@import '../../components/items/file_preview_field'; // file preview
+@import '../../components/items/nav_tabs'; // Tabs
+@import '../../components/items/menu'; // Tabs
 
 // Bootstrap Modal Overwrite 
 // ----------------------------------------------------------------------------------
@@ -77,4 +80,8 @@ $fa-font-path: '~@fortawesome/fontawesome-free/webfonts';
 // Trix Editor 
 .trix-button-group--file-tools { 
   display:none !important; 
+}
+
+.nav-tabs {
+  margin-bottom:20px;
 }

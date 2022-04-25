@@ -1,3 +1,5 @@
+# app/controllers/api/v1/validation_controller.rb
+
 # A reboot of the app means we will start from v1 of the API.
 # Has many of the same functionality of the old APIs.
 # @author David J. Davis
@@ -14,7 +16,7 @@ class Api::V1::ValidationController < ApplicationController
   # @author David J. Davis
   # @return object[Array <JSON>] Array of form json objects
   def validations
-    not_nil_values = [:form_id, :fieldname]
+    not_nil_values = %i[form_id fieldname]
     errors = []
 
     not_nil_values.each do |nnv|

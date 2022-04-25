@@ -1,3 +1,6 @@
+# app/lib/validator/ip.rb
+
+# Validator Ip
 class Validator::Ip
   # Basic constructor for all Validator Methods
   # @author David J. Davis
@@ -14,6 +17,7 @@ class Validator::Ip
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     IPAddr.new(@input)
     true
   rescue IPAddr::InvalidAddressError

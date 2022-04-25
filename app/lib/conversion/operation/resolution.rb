@@ -1,10 +1,13 @@
+# app/lib/conversion/operation/resolution.rb
+
+# Conversion Operation Resolution
 class Conversion::Operation::Resolution
   # Sets resolution if it exists or doesn't exist
   # @author David J. Davis
   # @return [Boolean]
-  def self.matches?(params)
+  def self.matches?(_params)
     true # always run this method
-  end 
+  end
 
   # Get only the necessary params and assign a default if needed.
   # @author David J. Davis
@@ -19,4 +22,4 @@ class Conversion::Operation::Resolution
   def call(convert)
     convert.density(@resolution)
   end
-end 
+end

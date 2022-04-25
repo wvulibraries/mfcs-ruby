@@ -1,10 +1,7 @@
-/objects/
+/old/*
 /objects/*
-/forms/data/
-/forms/data/*
-/projects/data/
-/projects/data/*
-/users/
+/folklife_*
+/forms/*
+/projects/*
 /users/*
-/watermarks/
 /watermarks/*

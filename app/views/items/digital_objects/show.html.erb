@@ -1,67 +1,12 @@
+<div class="container-fluid">
+  <h2> View Digital Object</h2>
+  <div class="row">
+    <div class="col-md-3" id="show-menu">
+      <%= render 'object_navigation' %>
+    </div>
 
-<h2> Digital Object <%= @item['data']['title'] || @item['data']['idno'] %></h2>
-
-<dl class="border p-0 m-0">
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> ID </dt> 
-    <dd class="col"><%= @item.id %> </dd>
+    <div class="col-md-9" id="show-tabs">
+      <%= render 'tab_content' %>
+    </div>
   </div>
-  
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Form Title </dt> 
-    <dd class="col"><%= @form.display_title || @form.title %> </dd>
-  </div>
-
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Form ID </dt> 
-    <dd class="col"><%= @form.id %> </dd>
-  </div>
-
-  <!-- Data Attribute List -->
-  <% @item.data.each do |key, value| %>
-    <% unless key == 'files' %>
-      <div class="row p-1 m-0 border-bottom">
-        <dt class="col"> <%= key.capitalize %> </dt>
-        <dd class="col"> <%= value %> </dd>
-      </div>
-    <% end %>
-  <% end %>
-
-  <div class="row p-1 m-0 border-bottom"> 
-    <% @form.file_fields.each do |f| %>
-      <dt class="col"> Number of Files for <%= f %> </dt>  
-      <dd class="col"> <%= @item.file_field_count(f) %> </dd>
-    <% end %>
-  </div>
-  
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Public Release </dt> 
-    <dd class="col"><%= @item.public_release %> </dd>
-  </div>
-
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Created </dt> 
-    <dd class="col"><%= @item.created_at %> </dd>
-  </div>
-
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Created By: </dt> 
-    <dd class="col"><%= @item.created_by %></dd>
-  </div>
-
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Updated </dt> 
-    <dd class="col"><%= @item.updated_at %> </dd>
-  </div>
-
-
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Modified By: </dt> 
-    <dd class="col"><%= @item.modified_by %></dd>
-  </div>
-
-  <div class="row p-1 m-0 border-bottom">
-    <dt class="col"> Number of Versions </dt> 
-    <dd class="col"><%= @item.audits.count %> </dd>
-  </div>
-</dl>
+</div>

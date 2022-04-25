@@ -9,11 +9,15 @@
 #  metadata       :boolean
 #  modified_by    :integer
 #  public_release :boolean
+#  soft_delete    :boolean
 #  uuid           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
 #  form_id        :integer
 #
+
+require 'zip'
+
 class Item < ApplicationRecord
   # Context
   # -----------------------------------------------------
@@ -22,7 +26,8 @@ class Item < ApplicationRecord
   # Associations
   # -----------------------------------------------------
   belongs_to :form
-  has_many :media
+  #has_many :media, dependent: :restrict_with_exception
+  has_many :media, dependent: :destroy
 
   # Audits
   # -----------------------------------------------------
@@ -36,6 +41,12 @@ class Item < ApplicationRecord
   # -----------------------------------------------------
   after_initialize :set_defaults, unless: :persisted?
   before_save :idno_setups, unless: proc { idno_set? }
+
+  before_destroy :destroy_media 
+  after_destroy :remove_empty_folders, :remove_path
+
+  # before_soft_delete :soft_delete_media   
+  # after_soft_delete :remove_empty_folders
 
   # temporary
   # after_save :processing
@@ -117,7 +128,8 @@ class Item < ApplicationRecord
   # @author David J. Davis
   # @return [String]
   def thumbnail_path
-    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'conversions', 'thumb')
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'conversions',
+                    'thumb')
   end
   alias thumb_path thumbnail_path
 
@@ -127,6 +139,10 @@ class Item < ApplicationRecord
   # @return [String]
   def export_path
     Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'exports')
+  end
+
+  def storage_path
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path)
   end
 
   # Splits the UUID into a path string
@@ -155,16 +171,58 @@ class Item < ApplicationRecord
   # @author Tracy A. McCormick
   # @return integer
   def thumb_id
-      media = Media.where(item_id: id, media_type: 'thumbnail').first
-      media.nil? ? -1 : media.id
+    media = Media.where(item_id: id, media_type: 'thumbnail').first
+    media.nil? ? self.data['type'] : 0
   end
+
+  # returns the id of the first media object found
+  # or -1 if no conversion object is found.
+  # @author Tracy A. McCormick
+  # @return integer
+  def image_id
+    media = Media.where(item_id: id, media_type: 'conversion').first
+    media.nil? ? -1 : media.id
+  end  
 
   # returns the count of files in the passed field
   # @author Tracy A. McCormick
-  # @return integer  
+  # @return integer
   def file_field_count(field)
     self['data'][field].nil? ? 0 : self['data'][field].count
-  end 
+  end
+
+  def download_all
+    # set zip filename
+    zip_file_name = "#{id}_#{Time.now.strftime('%Y%m%d%H%M%S')}.zip"
+
+    # create export directory
+    FileUtils.mkdir_p(export_path) unless File.exist?(export_path)
+
+    Zip::File.open(export_path.join(zip_file_name), Zip::File::CREATE) do | zipfile |
+      Dir["#{working_path}/**/**"].map{|e|e.sub %r[^#{working_path}/],''}.reject{|f|f==zip_file_name}.each do | item |
+        zipfile.add(item, File.join(working_path, item))
+      end
+      if File.exist?(conversion_path)
+        Dir["#{conversion_path}/**/**"].map{|e|e.sub %r[^#{conversion_path}/],''}.reject{|f|f==zip_file_name}.each do | item |
+          zipfile.add(item, File.join(conversion_path, item))
+        end  
+      end
+      if File.exists?(thumbnail_path) 
+        Dir["#{thumbnail_path}/**/**"].map{|e|e.sub %r[^#{thumbnail_path}/],''}.reject{|f|f==zip_file_name}.each do | item |
+          zipfile.add(item, File.join(thumbnail_path, item))
+        end   
+      end      
+    end
+
+    # return the location of the zip file
+    return export_path.join(zip_file_name)
+  end
+  
+  protected
+
+  def timestamp_attributes_for_create
+    [:updated_at]
+  end
 
   private
 
@@ -195,9 +253,79 @@ class Item < ApplicationRecord
     new_validations
   end
 
-  protected
+  
+  # destroy media objects requires media_type
+  # conversions, thumbnail, working, archive 
+  # are valid media_types
+  # @author Tracy A. McCormick
+  def destroy_media_objects(media_type)
+    # find all converted media objects for this item
+    medias = Media.where(item_id: id, media_type: media_type)
+    # destroy each media objects
+    medias.each do |media|
+      media.destroy
+    end    
+  end
 
-  def timestamp_attributes_for_create
-    [:updated_at]
+  # Destroy all media objects for this item
+  # of generated files
+  # @author Tracy A. McCormick  
+  def destroy_media
+    media_types = ['thumbnail', 'conversion', 'working', 'archive']
+    media_types.each { |media_type|
+      destroy_media_objects(media_type)    
+    }
+  end    
+  
+  # Destroy all thumbnail and converted media objects
+  # used mostly for reprocessing to delete old versions
+  # of generated files
+  # @author Tracy A. McCormick  
+  def destroy_generated_media
+    media_types = ['thumbnail', 'conversion']
+    media_types.each { |media_type|
+      destroy_media_objects(media_type)    
+    }
+  end
+
+  # Soft Delete all media objects for this item
+  # @author Tracy A. McCormick  
+  def soft_delete_media
+    # destroy all generated media files
+    destroy_generated_media
+    # soft delete all media objects
+    medias.each do |media|
+      media.soft_delete == true
+      media.save
+    end 
+  end    
+
+  # remove empty folders for thumbnails, conversions, working and archive files
+  # @author Tracy A. McCormick    
+  def remove_empty_folders
+    # insure all folders are removed
+    FileUtils.rm_rf(thumbnail_path) if File.directory?(thumbnail_path) && Dir.empty?(thumbnail_path)     
+    FileUtils.rm_rf(conversion_path) if File.directory?(conversion_path) && Dir.empty?(conversion_path)     
+    FileUtils.rm_rf(working_path) if File.directory?(working_path) && Dir.empty?(working_path)     
+    FileUtils.rm_rf(archive_path) if File.directory?(archive_path) && Dir.empty?(archive_path) 
+  end
+
+  # remove long path for file storage derived from the uuid
+  # performs reverse recursion on the file path subfolders.
+  # @author Tracy A. McCormick  
+  def remove_path
+    # path to be removed
+    directory = Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path)
+
+    # return if the directory does not exist
+    return unless File.directory?(directory)
+
+    # loop to remove empty folders in path stop if not empty
+    loop do
+      FileUtils.rm_rf(directory) if File.directory?(directory) && Dir.empty?(directory) 
+      directory = Pathname.new(directory).parent.to_s
+      break if !Dir.empty?(directory)
+    end
   end  
+  
 end

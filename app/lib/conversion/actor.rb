@@ -1,11 +1,13 @@
-# Factory Builder
-# @author(s) David J. Davis / Tracy McCormick
+# app/lib/conversion/actor.rb
+
+# Conversion Actor Class
+# @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Actor
   TYPES = [
-    Conversion::Image,
     Conversion::Audio,
-    Conversion::Video,
-    Conversion::Pdf
+    Conversion::Image,
+    Conversion::Pdf,
+    Conversion::Video
   ].freeze
 
   # Constructor function
@@ -20,11 +22,9 @@ class Conversion::Actor
 
   # Sets up the conversions that will be called.  If the matcher is accepted.
   # @return Class [Object]
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy McCormick
   def conversion
-    @conversion = TYPES.select do |conversion_type|
-      conversion_type.matches?(@media.mime_type)
-    end.first
+    @conversion = TYPES.find { |conversion_type| conversion_type.matches?(@media.mime_type) }
   end
 
   # Perform is a connector service that performs the actual conversions

@@ -1,3 +1,5 @@
+# app/lib/validator/date.rb
+
 # Validates as a edtf date.  Edtf will silently fail
 # as nil if the edtf date is not valid. See
 # specs for full examples of valid edtf dates.
@@ -18,6 +20,7 @@ class Validator::Date
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     !Date.edtf(@input).nil?
   end
 end
