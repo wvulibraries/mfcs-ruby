@@ -9,6 +9,7 @@
 #  metadata       :boolean
 #  modified_by    :integer
 #  public_release :boolean
+#  soft_delete    :boolean
 #  uuid           :string
 #  created_at     :datetime         not null
 #  updated_at     :datetime         not null
@@ -33,6 +34,7 @@ RSpec.describe Item, type: :model do
     it { should have_db_column(:updated_at).of_type(:datetime) }
     it { should have_db_column(:form_id).of_type(:integer) }
     it { should have_db_column(:uuid).of_type(:string) }
+    it { should have_db_column(:soft_delete).of_type(:boolean) }
   end
   
   # Associations
@@ -94,7 +96,7 @@ RSpec.describe Item, type: :model do
       system.value = false
       system.save
       expect(@klass.destroy).to be_truthy
-    end
+    end   
   end
   
   # Database Examples 
@@ -123,6 +125,12 @@ RSpec.describe Item, type: :model do
       item.delete
       expect(Item.where(id: item.id)).to be_empty
     end 
+
+    it 'should soft delete properly' do 
+      item = FactoryBot.create(:complete_digital_object_user) 
+      item.soft_delete = true
+      expect(item.soft_delete).to be true
+    end     
 
     it 'should an item has duplicates and is not valid' do
       item = FactoryBot.create(:complete_digital_object_user)

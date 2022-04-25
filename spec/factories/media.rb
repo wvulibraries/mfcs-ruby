@@ -12,6 +12,7 @@
 #  ocr_text      :text
 #  path          :string
 #  size          :string
+#  soft_delete   :boolean
 #  virus_scanned :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -41,6 +42,11 @@ FactoryBot.define do
       filename { 'storm.wav' }
       path { Rails.root.join('spec','fixtures', 'files', 'storm.wav') }
     end 
+
+    factory :pdf do
+      filename { 'test.pdf' }
+      path { Rails.root.join('spec','fixtures', 'files', 'test.pdf') }
+    end    
 
     factory :video do
       filename { 'test.mov' }

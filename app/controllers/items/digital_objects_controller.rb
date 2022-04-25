@@ -1,6 +1,14 @@
+# app/controllers/items/digital_objects_controller.rb
+
+# Items Digital Objects Controller
 class Items::DigitalObjectsController < ApplicationController
+  # include DigitalObjectsHelper
+
   before_action :set_item, only: %i[show update destroy]
   before_action :set_form, only: %i[new]
+
+  # add a basic breadcrumb
+  breadcrumb 'Select A Form', '/data_entry/select_form', title: 'Select A Form', match: :exact
 
   # GET /items/digital_objects
   def index
@@ -50,7 +58,7 @@ class Items::DigitalObjectsController < ApplicationController
                             form_id: @form.id, 
                             media_type: :archive, 
                             filename: uploaded_file.original_filename, 
-                            path: archive_file_path.join(uploaded_file.original_filename),
+                            path: archive_file_path,
                             fieldname: field
                           )
           files << archive_media.save
@@ -61,7 +69,7 @@ class Items::DigitalObjectsController < ApplicationController
 
     if @item.save
       WorkingFileJob.perform_later(archive_media.id)
-      redirect_to '/items/digital_objects', success: 'Digital object was successfully created.'
+      redirect_to '/items/digital_objects', success: I18n.t('digital_object.created')
     else
       # clear files because we can't insert the file back into the upload box
       @form.file_fields.each do |field|
@@ -72,18 +80,44 @@ class Items::DigitalObjectsController < ApplicationController
     end
   end
 
+  # GET /items/digital_objects/dataview/:form_id
+  # def form_dataview_list
+  #   media = Media.where(form_id: params[:form_id])
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  #   breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
+  # end
+
+  # # GET /items/digital_objects/shelf/:form_id
+  # def form_shelf_list
+  #   media = Media.where(form_id: params[:form_id])
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  #   breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
+  # end    
+
+  # # GET /items/digital_objects/:form_id
+  # def form_thumbnail_list
+  #   media = Media.where(form_id: params[:form_id])
+  #   @display_thumb_field = media.count.positive?
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).where(form_id: params[:form_id], metadata: false)
+  #   breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}" 
+  # end
+
   # GET /items/digital_objects/:form_id
-  def list_for_form
-    @display_thumb_field = Media.where(form_id: params[:form_id], media_type: "thumbnail").count > 0
-    @form = Form.find(params[:form_id])
-    @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
-  end
+  # def list_for_form
+  #   media = Media.where(form_id: params[:form_id], media_type: 'thumbnail')
+  #   @display_thumb_field = media.count.positive?
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  # end
 
   # PATCH/PUT /items/digital_objects/1
   def update
     @form = Form.find(@item.form_id)
     @item.attributes = item_params
-    
+
     if @item.valid?
       @form.file_fields.each do |field|
         @item[:data][field] = [] if @item[:data][field].nil?
@@ -99,13 +133,13 @@ class Items::DigitalObjectsController < ApplicationController
     end
 
     if @item.valid? && @item.save
-      redirect_to '/items/digital_objects', success: 'Digital object was successfully updated.'
+      redirect_back(fallback_location: root_path, success: I18n.t('digital_object.updated'))
     else
       # clear files because we can't insert the file back into the upload box
       @form.file_fields.each do |field|
         item_params[:data][field]
       end
-      
+
       # render the new item
       render :edit
     end
@@ -114,10 +148,38 @@ class Items::DigitalObjectsController < ApplicationController
   # DELETE /items/digital_objects/1
   def destroy
     @item.destroy
-    redirect_to '/items/digital_objects', error: 'Digital object was successfully destroyed.'
+
+    # @item.update(soft_delete: true)
+    # @item.save
+
+    redirect_back(fallback_location: root_path, success: I18n.t('digital_object.destroyed'))
   end
 
   private
+
+  def save_uploaded_files(item, _item_field, archive_file_path, form_id, form_field)
+    files = []
+    form_field.each do |uploaded_file|
+      # create the path if it doesn't exist
+      FileUtils.mkdir_p(item.archive_path) unless File.directory?(item.archive_path)
+
+      # creates the saved file
+      archive_file_path = item.archive_path.join(uploaded_file.original_filename)
+      File.open(archive_file_path, 'wb') { |file| file.write(uploaded_file.read) }
+
+      # creates media object in database
+      archive_media = create_media(item, form_id, uploaded_file.original_filename,
+                                   archive_file_path, form_field)
+
+      files << archive_media.save
+    end
+  end  
+
+  def clear_item_fields
+    @form.file_fields.each do |field|
+      @item[:data][field] = []
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_item

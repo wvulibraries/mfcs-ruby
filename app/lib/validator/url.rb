@@ -1,3 +1,6 @@
+# app/lib/validator/url.rb
+
+# Valdiator Url
 class Validator::Url
   # Basic constructor for all Validator Methods
   # @author David J. Davis
@@ -14,6 +17,7 @@ class Validator::Url
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     url(@input)
   end
 

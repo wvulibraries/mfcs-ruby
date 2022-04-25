@@ -1,3 +1,5 @@
+# app/lib/file_inspector/type.rb
+
 # Looks into File Type Form Established Mime
 class FileInspector::Type
   TYPES = [

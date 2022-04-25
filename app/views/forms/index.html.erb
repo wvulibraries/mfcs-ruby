@@ -1,5 +1,3 @@
-  <% used_forms = [] %>
-  
   <div class="col-12" id="test"> 
     <h2> Select a Form </h2>
   </div>
@@ -20,11 +18,19 @@
           <div class="col-4 col-md-6 col-lg-2">
             <div class="row no-gutters">
               <button class="col btn btn-default border-left rounded-0 p-1"> 
-                <span class="fas fa-list-ol"></span>
+                <a href="/forms/dataview/<%=f.id%>/page/1"
+                  <span class="fas fa-list-ol"></span>
+                </a>
               </button>
-              <button class="col btn btn-default border-left rounded-0 p-1">       <span class="fas fa-list-ul"></span>
+              <button class="col btn btn-default border-left rounded-0 p-1">       
+                <a href="/forms/shelf/<%=f.id%>/page/1"
+                  <span class="fas fa-list-ul"></span>
+                </a>          
               </button>
-              <button class="col btn btn-default border-left rounded-0 p-1">       <span class="fas fa-images"></span>
+              <button class="col btn btn-default border-left rounded-0 p-1">
+                 <a href="/forms/thumbnail/<%=f.id%>/page/1"
+                    <span class="fas fa-images"></span>
+                 </a>
               </button>
               <% if mdf.present? %>
                 <button class="col btn btn-default border-left rounded-0 p-1"
@@ -53,11 +59,10 @@
 
 <div class="col-12"> 
 <h3> Unassigned Metadata Forms </h3>
-  <% unused_forms = @metadata_forms.find_all { |form| !used_forms.uniq.include?(form.id) } %>
   <ul>
-  <% unused_forms.each do |uf| %> 
+  <% @unused_forms.each do |uf| %> 
     <li>
-      <a href="<%=uf.id%>">
+      <a href="<%=uf.id%>/edit">
         <%= uf.display_title %>
       </a>
     </li> 

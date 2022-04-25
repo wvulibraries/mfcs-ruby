@@ -1,14 +1,15 @@
+# app/controllers/forms_controller.rb
 
-
+# Forms Controller
 class FormsController < ApplicationController
-  before_action :set_form, only: %i[show edit update destroy]
+  before_action :set_form, only: %i[show edit update destroy dataview shelf thumbnail]
   before_action :access_params_hash, only: %i[create update]
 
   # GET /forms
   def index
     breadcrumb 'List Forms', forms_path, title: 'List Forms'
     @form = Form.object_forms
-    @metadata_forms = Form.metadata_forms
+    @unused_forms = unused_forms
   end
 
   # GET /forms
@@ -32,7 +33,7 @@ class FormsController < ApplicationController
     breadcrumb 'List Forms', '/forms', title: 'List Forms', match: :exact
     breadcrumb 'Copy Form', '/forms/copy', title: 'Copy Form', match: :exact
     @forms = Form.object_forms
-  end  
+  end
 
   # POST /forms
   def create
@@ -60,7 +61,8 @@ class FormsController < ApplicationController
   end
 
   def clone
-    @form = Form.new(Form.find(params[:id]).attributes.merge(id: nil, title: params[:title], display_title: params[:title]))
+    @form = Form.new(Form.find(params[:id]).attributes.merge(id: nil, title: params[:title],
+                                                             display_title: params[:title]))
     @forms = Form.metadata_forms
     respond_to do |format|
       if @form.save
@@ -68,7 +70,7 @@ class FormsController < ApplicationController
       else
         format.html { render :edit }
       end
-    end  
+    end
   end
 
   # DELETE /forms/1
@@ -79,8 +81,47 @@ class FormsController < ApplicationController
     end
   end
 
+  # GET /forms/dataview/:id/page/:page
+  def dataview
+    media = Media.where(form_id: params[:id])
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
+    set_breadcrumbs
+  end
+
+  # GET /forms/shelf/:id/page/:page
+  def shelf
+    media = Media.where(form_id: params[:id])
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
+    set_breadcrumbs
+  end    
+
+  # GET /forms/thumbnail/:id/page/:page
+  def thumbnail
+    media = Media.where(form_id: params[:id])
+    # @display_thumb_field = media.count.positive?
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
+    set_breadcrumbs
+  end    
+
   # Private Methods
   private
+
+  # Returns a list of unused metadata forms 
+  # @author Tracy A. McCormick    
+  # @return [Array]
+  def unused_forms
+    used_forms = []
+    Form.object_forms.each do |form|
+      used_forms.concat(form.linked_forms)
+    end
+    Form.metadata_forms.find_all { |form| !used_forms.uniq.include?(form.id) }
+  end
+
+  def set_breadcrumbs
+    # add a basic breadcrumb
+    breadcrumb 'Select A Form', '/data_entry/select_form', title: 'Select A Form', match: :exact
+    breadcrumb @form.display_title, "/dataview/#{@form.id}" 
+  end
 
   # set unsafe params for post
   def access_params_hash
@@ -93,13 +134,25 @@ class FormsController < ApplicationController
     @form = Form.find(params[:id])
   end
 
+  def set_page
+    @page = params[:page] || 1
+  end
+
   def form_params
-    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button, :update_button, :container, :production, :export_public, :export_oai, :object_public_release_show, :object_public_release_default, :fields, :idno, :permissions, :navigation, :metadata, permissions_attributes: %i[id form_id user_id permission _destroy])
+    params.fetch(:form, {}).permit(:id, :title, :display_title, :description, :submit_button,
+                                   :update_button, :container, :production, :export_public,
+                                   :export_oai, :object_public_release_show,
+                                   :object_public_release_default, :fields, :idno,
+                                   :permissions, :navigation, :metadata,
+                                   permissions_attributes: %i[id form_id user_id permission _destroy])
   end
 
   def update_params
     unsafe_params = params.to_unsafe_hash['form']
     unsafe_params['fields'] = JSON.parse(unsafe_params['fields'])
-    unsafe_params.slice('id', 'title', 'display_title', 'description', 'submit_button', 'update_button', 'container', 'production', 'export_public', 'export_oai', 'object_public_release_show', 'object_public_release_default', 'fields', 'idno', 'permissions_attributes', 'navigation', 'metadata')
+    unsafe_params.slice('id', 'title', 'display_title', 'description', 'submit_button',
+                        'update_button', 'container', 'production', 'export_public',
+                        'export_oai', 'object_public_release_show', 'object_public_release_default',
+                        'fields', 'idno', 'permissions_attributes', 'navigation', 'metadata')
   end
 end

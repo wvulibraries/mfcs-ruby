@@ -149,15 +149,15 @@ RSpec.describe Form, type: :model do
       end
     end 
 
-    context '.has_duplicate_names?' do 
+    context '.duplicate_names?' do 
       it 'should return true for having duplicate names' do
         form_stub = FactoryBot.build_stubbed :duplicate_invalid_object_form
-        expect(form_stub.send(:has_duplicate_names?)).to be true
+        expect(form_stub.send(:duplicate_names?)).to be true
       end
 
       it 'should return false for not having duplicate names' do
         form_stub = FactoryBot.build_stubbed :complete_object_form_system 
-        expect(form_stub.send(:has_duplicate_names?)).to be false
+        expect(form_stub.send(:duplicate_names?)).to be false
       end
     end 
   end

@@ -56,7 +56,7 @@ class FFMPEG::Video::Thumbnail < FFMPEG::Base
   # @param [Integer||String] height of the thumb
   #
   # @return [Array || @command]
-  def size(width, height, force_aspect = true)
+  def size(width, height, force_aspect: true)
     if force_aspect
       metadata = self.metadata
       size = AspectRatio.new(metadata[:width], metadata[:height], width, height).calculate

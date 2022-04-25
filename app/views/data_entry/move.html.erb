@@ -1,0 +1,35 @@
+
+<section class="main"><div class="widthContainer">
+<header class="page-header">
+ <h1></h1>
+</header>
+
+<nav id="breadcrumbs">
+ <ul class="breadcrumb">
+   <li><a href="/">Home</a></li>
+   <li><a href="//dataEntry/selectForm.php">Select a Form</a></li>
+   <li class="pull-right"><a href="//formCreator/index.php?id=">Edit Form</a></li>
+   <li class="pull-right noDivider"><a href="https://github.com/wvulibraries/mfcs/wiki/Subject-Headings" target="_blank"> <i class="fa fa-book"></i> Documentation</a></li>
+ </ul>
+</nav>
+
+<div class="row-fluid">
+
+ <p>You are moving the selected metadata object from the '<strong>shared-- names</strong>' form to another. Only compatible forms are listed.</p>
+
+
+ <form action="/dataEntry/move.php" method="post">
+   <input type="hidden" name="engineCSRFCheck" value="742d90934ab45d41d6add05990e80130">
+   <input type="hidden" name="objectID" value="171253">
+
+   <select name="form" class="form-control">
+     <option value="NULL">-- Select an Item --</option>
+   </select>
+   <br>
+
+   <input type="submit" name="moveSubmit" value="Move Object">
+ </form>
+
+</div>
+
+</div></section>

@@ -1,3 +1,5 @@
+# app/lib/validator/alpha_numeric.rb
+
 # Validates a variety of alpha numerical characters
 class Validator::AlphaNumeric
   # Basic constructor for all Validator Methods
@@ -15,6 +17,7 @@ class Validator::AlphaNumeric
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/\A[a-z0-9]+\Z/i)
   end
 end

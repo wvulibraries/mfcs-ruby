@@ -1,8 +1,11 @@
-# Audio Factory
-class Conversion::Audio < Conversion::Base 
+# app/lib/conversion/audio.rb
+
+# Conversion Audio
+# @author(s) David J. Davis, Tracy A. McCormick
+class Conversion::Audio < Conversion::Base
   # This provides a interface to the actor class in determining if it needs to fire.
-  # @params[mime] String ex: 'image/jpg' 
-  # @author David J. Davis 
+  # @params[mime] String ex: 'image/jpg'
+  # @author David J. Davis
   # @return boolean.
   def self.matches?(mime)
     mime.split('/')[0].casecmp('audio').zero?
@@ -15,7 +18,7 @@ class Conversion::Audio < Conversion::Base
   def initialize(media_id, conversion_params)
     @media = Media.find(media_id)
     @conversion_params = conversion_params
-  end 
+  end
 
   # Save file sets the directory and pathname for the conversion
   # also makes sure that the file is changed to the proper format.
@@ -35,14 +38,17 @@ class Conversion::Audio < Conversion::Base
   # @author David J. Davis
   # @return [Object] Media Object
   def perform
-    ffmpeg = FFMPEG::Audio.new(@media.path, save_file) 
+    # check to see if we are to run the conversion
+    return false unless @conversion_params['convert_audio']
+
+    ffmpeg = FFMPEG::Audio.new(@media.path, save_file)
     rate = (@conversion_params['audio_bitrate'] || '128k')
-    ffmpeg.command do 
+    ffmpeg.command do
       bitrate rate
-    end 
-    ffmpeg.perform 
+    end
+    ffmpeg.perform
     save_media
-  end 
+  end
 
   # Saves the media that has been recently converted.
   # @author David J. Davis
@@ -57,5 +63,4 @@ class Conversion::Audio < Conversion::Base
       fieldname: @media.fieldname
     )
   end
-
-end 
+end

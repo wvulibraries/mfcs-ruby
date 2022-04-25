@@ -1,9 +1,17 @@
-<h2>Create Digital Object <span class="decorative-text"> <%= @form.display_title %> </span></h2>
+<h3>Create Digital Object - <%= @form.display_title %></h3>
+<br>
+<div class="row">
+  <div class="col-md-3" id="show-menu">
+    <h4> Object Navigation </h4>
+    <%= render 'object_navigation' %>
+  </div>
 
-<div class="row justify-content-start" data-controller="form-validations">
-  <%= form_with model: @item, url: "/items/digital_objects", class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "post", data: {remote: false}, multipart: true do  |f| %>
-    <%# FORM         ==================================== %>
-    <%= render 'form', f: f, form_type: 'create' %>
-    <%# END FORM     ==================================== %>
-  <% end %>
+  <div class="col-md-9" data-controller="form-validations">
+    <h4> Data Entry </h4>
+    <%= form_with model: @item, url: "/items/digital_objects", class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "post", data: {remote: false}, multipart: true do  |f| %>
+      <%# FORM         ==================================== %>
+      <%= render 'form', f: f, form_type: 'create' %>
+      <%# END FORM     ==================================== %>
+    <% end %>
+  </div>
 </div>

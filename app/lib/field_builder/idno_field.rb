@@ -39,7 +39,8 @@ class FieldBuilder::IdnoField < FieldBuilder::Field
   # @return [String] HTML
 
   def html
-    return "" if managed_by_system?  
+    return '' if managed_by_system?
+
     hidden = hidden? ? 'hidden hide' : 'show'
     <<-HTML
     <div class="form-field #{@state} #{hidden}">

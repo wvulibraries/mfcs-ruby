@@ -1,3 +1,6 @@
+# app/lib/validator/text_length.rb
+
+# Validator Text Length
 class Validator::TextLength
   # Setup Callbacks and Active Model Features
   include ActiveModel::Model

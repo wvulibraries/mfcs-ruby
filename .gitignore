@@ -56,3 +56,6 @@ yarn-debug.log*
 /data/*
 /tests/*
 docker-reset.sh
+
+# Ignore Coverage Files
+/coverage/*

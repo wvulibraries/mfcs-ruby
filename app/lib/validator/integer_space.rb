@@ -1,3 +1,6 @@
+# app/lib/validator/integer_space.rb
+
+# Validator Integer Space
 class Validator::IntegerSpace < Validator::Integer
   # Peform function is in all validator classes and returns
   # make the actual validation check to return a boolean.
@@ -6,6 +9,7 @@ class Validator::IntegerSpace < Validator::Integer
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     integer_spaces(@input) || integer(@input)
   end
 

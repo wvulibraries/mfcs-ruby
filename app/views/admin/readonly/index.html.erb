@@ -1,0 +1,7 @@
+<h1>Read Only Mode</h1>
+<a href="https://github.com/wvulibraries/mfcs/wiki/Read-Only-Mode" target="_blank"> <span class="fa fa-book"></span> Documentation</a></li>
+
+<div><p> System is currently in <%= @mode %></p></div>
+
+<%= link_to 'Toggle', admin_toggle_readonly_url, method: :toggle, data: { confirm: 'Are you sure?' } %>
+

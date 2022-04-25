@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_13_205805) do
+ActiveRecord::Schema.define(version: 2022_03_25_144558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(version: 2021_07_13_205805) do
     t.string "uuid"
     t.integer "modified_by"
     t.integer "created_by"
+    t.boolean "soft_delete"
   end
 
   create_table "media", force: :cascade do |t|
@@ -119,6 +120,7 @@ ActiveRecord::Schema.define(version: 2021_07_13_205805) do
     t.integer "media_type"
     t.string "fieldname"
     t.text "ocr_text"
+    t.boolean "soft_delete"
   end
 
   create_table "permissions", force: :cascade do |t|

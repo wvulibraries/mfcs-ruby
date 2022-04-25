@@ -5,6 +5,9 @@ class Conversion::Operation::VideoThumbnail
   # @author David J. Davis
   # @return [Boolean]
   def self.matches?(params)
+    # return false if params are nil
+    return false if params.fetch('thumbnail').nil?    
+
     params.fetch('thumbnail').to_s.casecmp('true').zero?
   end
 
@@ -59,13 +62,13 @@ class Conversion::Operation::VideoThumbnail
   # @abstract
   def perform
     ffmpeg = FFMPEG::Video::Thumbnail.new(@media.path, save_file)
-    command = ffmpeg.command do 
-      frames 1 
+    ffmpeg.command do
+      frames 1
       frame_grab
       size @width.to_i, @height.to_i
-      disable_audio! 
-    end 
-    ffmpeg.perform 
+      disable_audio!
+    end
+    ffmpeg.perform
     save_media
   end
 
@@ -81,5 +84,5 @@ class Conversion::Operation::VideoThumbnail
       media_type: :thumbnail,
       fieldname: @media.fieldname
     )
-  end 
+  end
 end

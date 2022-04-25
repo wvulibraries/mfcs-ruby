@@ -1,3 +1,6 @@
+# app/lib/validator/database_duplicates.rb
+
+# Validator Database Duplicates
 class Validator::DatabaseDuplicates
   # include active model for validations to make error tracking easy
   include ActiveModel::Model
@@ -10,7 +13,7 @@ class Validator::DatabaseDuplicates
   def initialize(form_id, field_name)
     @form_id = form_id
     @field_name = field_name
-    self.duplicate_items
+    duplicate_items
   end
 
   # The perform method of all the classes in the Validator Namespace should be
@@ -29,7 +32,8 @@ class Validator::DatabaseDuplicates
   # @author David J. Davis
   # @return [Array]
   def duplicate_items
-    prepared_query = ApplicationRecord.sanitize_sql_array(['data->:field_name', { field_name: @field_name }])
+    prepared_query = ApplicationRecord.sanitize_sql_array(['data->:field_name',
+                                                           { field_name: @field_name }])
     @duplicate_items = Item.where(form_id: @form_id)
                            .pluck(Arel.sql(prepared_query))
                            .group_by { |e| e }
@@ -39,13 +43,15 @@ class Validator::DatabaseDuplicates
 
   # An active record query of the duplicate items.
   #
-  # @author David J. Davis
+  # @author(s) David J. Davis / Tracy A. McCormick
   # @return [ActiveRecord]
   def records
     return nil if @duplicate_items.blank?
 
     @records ||= Item.where(form_id: @form_id)
-                     .where('data ->> :field_name IN (:values)', field_name: @field_name, values: @duplicate_items)
+                     .where('data ->> :field_name IN (:values)',
+                            field_name: @field_name,
+                            values: @duplicate_items)
                      .order(Arel.sql("data ->> ':field_name'"))
   end
 end

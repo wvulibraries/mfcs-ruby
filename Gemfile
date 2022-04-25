@@ -18,6 +18,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 
 # background jobs
 gem 'sidekiq', '~> 6.1', '>= 6.1.3'
+gem 'sidekiq-failures'
 
 # elasticsearch
 gem 'elasticsearch-model', '~> 6.0'
@@ -29,7 +30,7 @@ gem 'omniauth', '~> 1.9'
 gem 'omniauth-cas', '~> 1.1', '>= 1.1.1'
 
 # Log all changes to models
-gem "audited", "~> 4.9"
+gem 'audited', '~> 4.9'
 
 # metadata / library of congress specific
 gem 'edtf', '~> 3.0', '>= 3.0.4'
@@ -44,9 +45,10 @@ gem 'figaro'
 # convert user strings to regex
 gem 'to_regexp', '~> 0.2.1'
 
-# files 
+# files
 gem 'mini_magick', '~> 4.11' # wrapper for imagemagick
 gem 'rtesseract'
+gem 'rubyzip'
 
 # used for batching jobs
 gem 'sidekiq-batch'
@@ -71,11 +73,12 @@ group :test do
   gem 'capybara', '>= 2.15', '< 4.0'
   gem 'database_cleaner'
   gem 'rspec-html-matchers'
+  gem 'rspec_junit_formatter'
   gem 'rspec-rails'
-  gem "rspec_junit_formatter"
   gem 'shoulda'
   gem 'shoulda-matchers'
   # Codeclimate is not compatible with 0.18+. See https://github.com/codeclimate/test-reporter/issues/413
+  gem 'simplecov', require: false, group: :test
   # gem 'simplecov', '~> 0.17.1'
   # gem 'simplecov'
   # gem 'simplecov-console'

@@ -1,3 +1,6 @@
+# app/lib/field_builder/textarea_field.rb
+
+# Field Builder Text Area Field
 class FieldBuilder::TextareaField < FieldBuilder::TextField
   # HTML strings that help to build each field, this method should be over-written,
   # but provides a baseline template.

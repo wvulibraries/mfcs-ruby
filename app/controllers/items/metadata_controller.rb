@@ -1,6 +1,11 @@
+# app/controllers/items/metadata_controller.rb
+
+# Items Metadata Controller
 class Items::MetadataController < ApplicationController
-  before_action :set_item, only: [:show, :edit,  :update, :destroy]
+  before_action :set_item, only: %i[show edit update destroy]
   before_action :set_form, only: %i[new]
+
+  breadcrumb 'Select A Form', '/data_entry/select_form', title: 'Select a Form', match: :exact
 
   # GET /items/metadata
   def index
@@ -16,6 +21,7 @@ class Items::MetadataController < ApplicationController
     @item.metadata = @form.metadata
     @item.form_id = params[:form_id]
     @item.public_release = @form.export_public
+    @items = Item.order(:idno).where(form_id: params[:form_id], metadata: true)
   end
 
   # # GET /items/metadata/new/
@@ -37,16 +43,18 @@ class Items::MetadataController < ApplicationController
                  .order("data ->> ':field_name'")
 
     if @form.nil? && @items.blank?
-      return redirect_to items_metadata_list_path, warning: 'No Items or Form Present for duplication check'
+      return redirect_to items_metadata_list_path,
+                         warning: 'No Items or Form Present for duplication check'
     end
 
     # do something else
-    temp = nil
+    # temp = nil
   end
 
   def list_for_form
     if params[:form_id] == 'dups'
-      return redirect_to items_metadata_list_path, warning: 'No Items or Form Present for duplication check'
+      return redirect_to items_metadata_list_path,
+                         warning: 'No Items or Form Present for duplication check'
     end
 
     @form = Form.find(params[:form_id])
@@ -56,6 +64,7 @@ class Items::MetadataController < ApplicationController
   # GET /items/metadata/1/edit
   def edit
     @form = Form.find(@item.form_id)
+    breadcrumb @form.display_title, "/items/metadata/new/#{@form.id}", title: 'Select a Form' 
   end
 
   # POST /items/metadata
@@ -64,7 +73,7 @@ class Items::MetadataController < ApplicationController
     @form = Form.find(item_params[:form_id])
 
     if @item.valid? && @item.save
-      redirect_to '/items/metadata', success: 'Metadata Object was successfully modified.'
+      redirect_back(fallback_location: root_path, success: I18n.t('metadata_object.created'))
     else
       # render the new item
       render :new
@@ -77,7 +86,7 @@ class Items::MetadataController < ApplicationController
     @form = Form.find(item_params[:form_id])
 
     if @item.valid? && @item.save
-      redirect_to '/items/metadata', success: 'Metadata Object was successfully modified.'
+      redirect_back(fallback_location: root_path, success: I18n.t('metadata_object.updated'))
     else
       # render the new item
       render :edit
@@ -87,7 +96,7 @@ class Items::MetadataController < ApplicationController
   # DELETE /items/metadata/1
   def destroy
     @items.destroy
-    redirect_to item_url, notice: 'metadata was successfully destroyed.'
+    redirect_back(fallback_location: root_path, success: I18n.t('metadata_object.destroyed'))
   end
 
   private

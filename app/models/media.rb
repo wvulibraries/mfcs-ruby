@@ -12,6 +12,7 @@
 #  ocr_text      :text
 #  path          :string
 #  size          :string
+#  soft_delete   :boolean
 #  virus_scanned :boolean
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -19,6 +20,8 @@
 #  item_id       :integer
 #
 class Media < ApplicationRecord
+  require 'pathname'
+
   self.table_name = 'media'
 
   # INCLUDES
@@ -43,6 +46,8 @@ class Media < ApplicationRecord
   # Callbacks
   # -----------------------------------------------------
   before_save :file_info, unless: :persisted?
+
+  before_destroy :delete_file
 
   # Methods for File Handling
   # -----------------------------------------------------
@@ -71,7 +76,7 @@ class Media < ApplicationRecord
   def mime(path)
     detected_type = Marcel::MimeType.for Pathname.new(path)
 
-    # if the detected_type is 'video/x-ms-asf' return 
+    # if the detected_type is 'video/x-ms-asf' return
     # the type for the extension only instead of the detected
     # type.
     if detected_type == 'video/x-ms-asf'
@@ -96,6 +101,7 @@ class Media < ApplicationRecord
   def info
     {
       checksum: generate_checksum(path),
+      fieldname: fieldname,
       mime: mime(path),
       filename: filename,
       filesize: filesize(path),
@@ -109,4 +115,46 @@ class Media < ApplicationRecord
   def json
     info.to_json
   end
+
+  # Checks mime type to see if file is a image
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def image?
+    "image".in? mime(path)
+  end
+
+  # Checks mime type to see if file is a audio 
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def sound?
+    "audio".in? mime(path)
+  end  
+
+  # Checks mime type to see if file is a pdf 
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def pdf?
+    "pdf".in? mime(path)
+  end
+
+  # Checks mime type to see if file is a video
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def video?
+    "video".in? mime(path)
+  end  
+
+  def text?
+    "text".in? mime(path)
+  end
+
+  # Deletes file and empty folder before 
+  # the Media Object is destroyed
+  # @author Tracy A. McCormick  
+  def delete_file
+    directory = File.dirname(path)
+    FileUtils.rm_f(path)
+    FileUtils.rm_rf(directory) if File.directory?(directory) && Dir.empty?(directory) 
+  end
+
 end

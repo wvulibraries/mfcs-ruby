@@ -1,0 +1,70 @@
+  <div class="col-12" id="test"> 
+  <h2> Select a Form </h2>
+</div>
+
+
+<% @form.each do |f| %>
+  <% unique_id = "form_#{f.id}" %>
+  <% mdf = f.associated_metadata_forms %>
+  <div class="card card-default col-12 mb-1">
+    <div class="card-header row no-gutters border p-0">
+        <div class="col-8 col-md-6 col-lg-10">
+          <div class="row no-gutters"> 
+            <a href="/items/digital_objects/new/<%=f.id%>/" class="form-link col d-inline-block p-1 btn btn-default rounded-0 border-right text-left"> <%= f.title || f.display_title %> </a>
+          </div> 
+        </div> 
+
+        <div class="col-4 col-md-6 col-lg-2">
+          <div class="row no-gutters">
+            <button class="col btn btn-default border-left rounded-0 p-1"> 
+              <a href="/forms/dataview/<%=f.id%>/page/1"
+                <span class="fas fa-list-ol"></span>
+              </a>
+            </button>
+            <button class="col btn btn-default border-left rounded-0 p-1">       
+              <a href="/forms/shelf/<%=f.id%>/page/1"
+                <span class="fas fa-list-ul"></span>
+              </a>          
+            </button>
+            <button class="col btn btn-default border-left rounded-0 p-1">
+               <a href="/forms/thumbnail/<%=f.id%>/page/1"
+                  <span class="fas fa-images"></span>
+               </a>
+            </button>
+            <% if mdf.present? %>
+              <button class="col btn btn-default border-left rounded-0 p-1"
+              type="button" data-toggle="collapse" data-target="#<%= unique_id %>" aria-expanded="false" aria-controls="<%= unique_id %>"
+              >       <span class="fas fa-plus-square"></span>
+              </button>
+            <% end %>
+          </div>
+      </div>
+    </div>
+    <div class="collapse" id="<%=unique_id%>">
+      <div class="card-body border">
+        <% if mdf.present? %>
+          <ul>
+            <% mdf.each do |md_form| %>
+              <li>
+                <a href="/items/metadata/new/<%=md_form.id%>/"> <%= md_form.title %></a>
+              </li>
+            <% end %>
+          </ul>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<div class="col-12"> 
+<h3> Unassigned Metadata Forms </h3>
+<ul>
+<% @unused_forms.each do |uf| %> 
+  <li>
+    <a href="/items/digital_objects/new/<%=uf.id%>">
+      <%= uf.display_title %>
+    </a>
+  </li> 
+<% end %>
+</ul>
+</div>

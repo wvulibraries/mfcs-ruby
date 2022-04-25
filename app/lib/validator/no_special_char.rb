@@ -1,3 +1,6 @@
+# app/lib/validator/no_special_char.rb
+
+# Validator No Special Characters
 class Validator::NoSpecialChar
   # Basic constructor for all Validator Methods
   # @author David J. Davis
@@ -14,6 +17,7 @@ class Validator::NoSpecialChar
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     @input.match?(/^[a-z0-9\s]*$/i)
   end
 end

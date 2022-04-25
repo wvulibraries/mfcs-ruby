@@ -1,3 +1,5 @@
+# app/lib/validator/no_space.rb
+
 # Validates that there are no spaces in a given string.
 class Validator::NoSpace
   # Basic constructor for all Validator Methods
@@ -14,7 +16,8 @@ class Validator::NoSpace
   # @author David J. Davis
   # @return [Boolean]
   def perform
-    return true if @input.blank? 
+    return true if @input.blank?
+
     !@input.match?(/\s/)
   end
 end

@@ -11,29 +11,28 @@ end
 
 def update_field(field)
   field['allowed_file_types'] = field.delete('allowedExtensions') if field['allowedExtensions']
-  field['choice_type'] = field.delete('choicesType') if field['choicesType']
+
+  if field['choicesType'].eql? "form"
+    field['choice_type'] = "link_to_form"
+  else
+    field['choice_type'] = "manual"
+  end
+
+  # field['choice_type'] = field['choicesType'].eql? "form" ? "link_to_form" : "manual"  
+
+  field['sort'] = (field['position'].to_i + 1).to_s
+  field.delete('position')
+
   field['choice_null'] = field.delete('choicesNull') if field['choicesNull']
   field['default_choice'] = field.delete('choicesDefault') if field['choicesDefault']  
-  field["choice_array"] = field.delete('choicesOptions').join(",") if field['choicesOptions']  
+  field["choice_array"] = field.delete('choicesOptions').join(",") if field['choicesOptions']
+  field['choice_form'] = field.delete('choicesForm') if field['choicesForm'] 
   field['type'] = 'text' if field['type'] == 'url'
   field['image_height'] = field.delete('convertHeight') if field['convertHeight']
   field['image_width'] = field.delete('convertWidth') if field['convertWidth']
   field['image_format'] = field.delete('convertFormat') if field['convertFormat']
   field['image_resolution'] = field.delete('convertResolution') if field['convertResolution']
   field['audio_bitrate'] = field.delete('bitRate') if field['bitRate']
-   
-  case field['audio_bitrate']
-  when "32"
-    field['audio_bitrate'] = 700
-  when "64"
-    field['audio_bitrate'] = 1200 
-  when "192"
-    field['audio_bitrate'] = 5000
-  when "256"
-    field['audio_bitrate'] = 12000
-  else  
-    field['audio_bitrate'] = 2400
-  end
   
   # set to the default resolution if thumbnailFormat is set 
   # previous version didn't set the thumbnail_resolution
@@ -89,12 +88,14 @@ def update_field(field)
 end
 
 
-data_directory = 'importing/forms/data' 
+data_directory = 'importing/forms' 
 count = Dir[File.join(data_directory, '**', '*.json')].count { |file| File.file?(file) }
 
 Dir.foreach(data_directory) do |filename|
   # skip hidden 
   next if ['.', '..', '.DS_Store'].include?(filename)
+
+  puts "importing #{filename}"
 
   # parse the data into a new form model
   json_filepath = [data_directory, "/", filename].join

@@ -65,6 +65,13 @@ The beauty behind the stimulus controllers are how the bindings happen.  Stimulu
 # TESTING SUITE
 MFCS is tested using two different test suites.  A test suite for the frontend work, and a test suite for the backend work.  
 
+## RSPEC
+We are using Rspec to handle the backend testing.
+
+`RAILS_ENV=test bundle exec rspec` will run the full test
+`RAILS_ENV=test bundle exec rspec {directory_path}` will run a specific subset of tests
+`RAILS_ENV=test bundle exec rspec {directory_path}/{test_name}` will run a single test.
+
 ## JEST
 We are using Jest to handle the frontend testing.  If you look in the `package.json` file you will notice some setup requirements. 
 
@@ -89,9 +96,19 @@ We are using Jest to handle the frontend testing.  If you look in the `package.j
 
   `yarn run jest` will run the javascript tests setup in the `spec/javascript` folder.  Remember the naming conention must have `*.spec.js` or `*.test.js`.  This is based on preference, but using RSPEC for the backend testing makes me feel more comfortable with `spec` over `test`. 
 
-  ## RSPEC
-  We are using Rspec and Shoulda matchers in the backend for testing our models.  There will be a possibility of doing integration tests too, but we want to see how far our JavaScript tests will reach before adding the complexity of more tests to the suite.  
+  ## Importing
+  Scripts have been created to help with the importing of exported data from MFCS (PHP). To run the individual imports excute the following commands.
 
-  `RAILS_ENV=test bundle exec rspec` will run the full test
-  `RAILS_ENV=test bundle exec rspec {directory_path}` will run a specific subset of tests
-  `RAILS_ENV=test bundle exec rspec {directory_path}/{test_name}` will run a single test.
+  `bin/rails r importing/users/import_users.rb` import users
+  `bin/rails r importing/forms/import_forms.rb` import forms
+  `bin/rails r importing/projects/import_projects.rb` import projects
+  `bin/rails r importing/watermarks/import_watermarks.rb` import watermarks
+  `bin/rails r importing/objects/import_metadata_objects.rb` import metadata objects
+  `bin/rails r importing/objects/import_digital_objects.rb` import digital objects
+
+  To run all the import scrips run `sh ./import.sh`
+
+
+
+
+

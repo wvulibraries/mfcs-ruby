@@ -1,3 +1,6 @@
+# app/lib/validator/integer_between.rb
+
+# Validator Integer Between
 class Validator::IntegerBetween
   # Basic constructor for all Validator Methods
   # @author David J. Davis
@@ -14,6 +17,7 @@ class Validator::IntegerBetween
   # @return [Boolean]
   def perform
     return true if @input.blank?
+
     min = @field_info['min_number'].to_i
     max = @field_info['max_number'].to_i
     return true if max.zero? || min == max
