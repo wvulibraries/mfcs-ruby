@@ -26,12 +26,12 @@
     <tbody>
     <% @items.each do |item| %>
         <tr>
-          <td><%= item.created_at %> </th>
-          <td><%= item.updated_at %> </th>
-          <td><%= item.id %> </th>
-          <td><%= item.idno %> </th>
-          <td><%= item.data['title'] %> </th> 
-          <td class="text-center"><%= link_to raw('<span class="fas fa-eye"></span>'), items_show_digital_object_path(item) %> </th>            
+          <td><%= item.created_at %> </td>
+          <td><%= item.updated_at %> </td>
+          <td><%= item.id %> </td>
+          <td><%= item.idno %> </td>
+          <td><%= item.data['title'] %> </td> 
+          <td class="text-center"><%= link_to raw('<span class="fas fa-eye"></span>'), items_show_digital_object_path(item) %> </td>            
           <td class="text-center"><%= link_to raw('<span class="fas fa-edit"></span>'), items_edit_digital_objects_path(item) %></td>
           <td class="text-center"><%= link_to raw('<span class="fas fa-trash"></span>'), items_destroy_digital_object_path(item), method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>

@@ -5,15 +5,14 @@ class DigitalObjects::FilePresenter
         @field_data = field
         
         # get working media
-        # @archive = Media.find(@field_data['id'])
         @archive = Media.where(filename: @field_data['filename'], media_type: :archive).first
         @working = Media.where(filename: filename, media_type: :working).first || nil
         @converted = Media.where(path: path_to_converted_file).first || nil
     end  
 
-    def field_data
-        @field_data
-    end 
+    # def field_data
+    #     @field_data
+    # end 
 
     def filename
         @archive.filename
@@ -24,11 +23,11 @@ class DigitalObjects::FilePresenter
     end
 
     def checksum
-        @field_data['checksum']
+        @archive.checksum
     end
 
     def size
-        @field_data['size']
+        @archive.size
     end
 
     def location
@@ -87,70 +86,88 @@ class DigitalObjects::FilePresenter
         thumbnail_media.id
     end 
 
-    def fa_icon
-        # return font awesome icon for file type
-        #FileInspector::Type.new(@field_data['mime_type']).file_type
-
-        # case FileInspector::Type.new(@field_data['mime_type']).file_type
-        # when "Image"
-        #     "fa-file-image-o"
-        # when "Audio"
-        #     "fa-file-audio-o"
-        # when "Video"
-        #     "fa-file-video-o"
-        # # when "Text"
-        # #     "fa fa-file-pdf-o"
-        # else
-        #     "fa-file-o"
-        # end
-
-        # return "fa fa-file-image-o" "image".in?(@field_data['mime_type'])
-        # return "fa fa-file-sound-o" "audio".in?(@field_data['mime_type'])
-        # return "fa fa-file-video-o" "video".in?(@field_data['mime_type'])
-        # return "fa fa-file-pdf-o" "pdf".in?(@field_data['mime_type'])
-        # return "fa fa-file-word-o" "word".in?(@field_data['mime_type'])
-        # return "fa fa-file-excel-o" "excel".in?(@field_data['mime_type'])
-        # return "fa fa-file-powerpoint-o" "powerpoint".in?(@field_data['mime_type'])
-        # return "fa fa-file-archive-o" "archive".in?(@field_data['mime_type'])
-        # return "fa fa-file-code-o" "code".in?(@field_data['mime_type'])
-        # return "fa fa-file-text-o" "text".in?(@field_data['mime_type'])
-        # return "fa fa-file-o" "other".in?(@field_data['mime_type'])       
-    end  
-    
     def download_links
         list_array = []
-        list_array  <<  { url: "/media/original/#{@working.id}", label: "Original" } if @working.id.present?
-
-        if @converted.present?
-            # label = "Converted Audio" if @converted.sound?
-            # label = "Converted Image" if @converted.image?
-            # label = "Converted Video" if @converted.video?
-            # label = "Converted PDF" if @converted.pdf?
-            # label = "Converted Text" if @converted.text?
-            label = "Converted"
-
-            list_array  <<  { url: "/media/converted/#{@converted.id}", label: label }
-         end         
+        list_array  <<  { url: "/media/original/#{self.id}", label: "Original" }
+        list_array  <<  { url: "/media/converted/#{@converted.id}", label: field_label } if @converted  
+        # download thumbnail
+                   
     end
 
     def preview_links
         list_array = []
         # list_array  <<  { url: "/media/original/#{@working.id}", label: "Original" } if @working.id.present?
 
-        if @converted 
-            if @converted.image? 
-                list_array  <<  { url: "/media/image/#{@converted.id}", label: "Converted Image" }
-            elsif @converted.sound?
-                list_array  <<  { url: "/media/audio/#{@converted.id}", label: "Converted Audio" }
-            elsif @converted.video?
-                list_array  <<  { url: "/media/video/#{@converted.id}", label: "Converted Video" }
-            elsif @converted.pdf?
-                list_array  <<  { url: "/media/image/#{@converted.id}", label: "Converted Pdf" }
-            elsif @converted.text?
-                list_array  <<  { url: "/media/document/#{@converted.id}", label: "Converted Text or Document" }
-            end            
+        list_array  <<  create_preview_link if @converted 
+    end
+
+    def create_preview_link
+        if @converted.image? 
+            { url: "/media/image/#{@converted.id}", label: "Converted Image" }
+        elsif @converted.sound?
+            { url: "/media/audio/#{@converted.id}", label: "Converted Audio" }
+        elsif @converted.video?
+            { url: "/media/video/#{@converted.id}", label: "Converted Video" }
+        elsif @converted.pdf?
+            { url: "/media/pdf/#{@converted.id}", label: "Converted Pdf" }
+        elsif @converted.text?
+            { url: "/media/text/#{@converted.id}", label: "Converted Text or Document" }
         end 
     end
+    
+    def fa_icon
+        # return font awesome icon for file type
+        FileInspector::Type.new(@field_data['mime_type']).file_type
+
+        case FileInspector::Type.new(@field_data['mime_type']).file_type
+        when "Image"
+            "fa fa-file-image"
+        when "Audio"
+            "fa fa-file-audio"
+        when "Video"
+            "fa fa-file-video"
+        when "Pdf"
+            "fa fa-file-pdf"
+        when "Text"
+            "fa fa-file-text"
+        else
+            "fa fa-file"
+        end      
+    end 
+
+    def field_label
+        if @converted.image? 
+          "Converted Image"
+        elsif @converted.sound?
+           "Converted Audio"
+        elsif @converted.video?
+           "Converted Video"
+        elsif @converted.pdf?
+           "Converted Pdf"
+        elsif @converted.text?
+           "Converted Text or Document"
+        end  
+    end
+
+    # def preview_links
+    #     list_array = []
+    #     # list_array  <<  { url: "/media/original/#{@working.id}", label: "Original" } if @working.id.present?
+
+    #     if @converted 
+    #         if @converted.image? 
+    #             list_array  <<  { url: "/media/image/#{@converted.id}", label: "Converted Image" }
+    #         elsif @converted.sound?
+    #             list_array  <<  { url: "/media/audio/#{@converted.id}", label: "Converted Audio" }
+    #         elsif @converted.video?
+    #             list_array  <<  { url: "/media/video/#{@converted.id}", label: "Converted Video" }
+    #         elsif @converted.pdf?
+    #             list_array  <<  { url: "/media/image/#{@converted.id}", label: "Converted Pdf" }
+    #         elsif @converted.text?
+    #             list_array  <<  { url: "/media/document/#{@converted.id}", label: "Converted Text or Document" }
+    #         end  
+    #         list_array  <<  { url: "/media/document/#{@converted.id}", label: "Converted Text or Document" }          
+    #     end 
+    # end
   
 end
   

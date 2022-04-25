@@ -165,9 +165,6 @@ Rails.application.routes.draw do
     # ========================================================
     get    '/digital_objects'                         => 'digital_objects#index',                as: 'digital_objects_index'
     get    '/digital_objects/:form_id'                => 'digital_objects#list_for_form',        as: 'list_digital_objects' 
-    get    '/digital_objects/list/dataview/:form_id'  => 'digital_objects#form_dataview_list',   as: 'form_dataview_list' 
-    get    '/digital_objects/list/thumbnail/:form_id' => 'digital_objects#form_thumbnail_list',  as: 'form_thumbnail_list'
-    get    '/digital_objects/list/shelf/:form_id'     => 'digital_objects#form_shelf_list',      as: 'form_shelf_list'
     
     get    '/duplicates/digital_objects/:form_id' => 'digital_objects#duplicates',     as: 'duplicate_digital_objects'
     get    '/digital_objects/new/'                => 'digital_objects#no_form',        as: 'digital_objects_no_form'
