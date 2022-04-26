@@ -7,3 +7,5 @@
 /importing/watermarks/*
 /importing/folklife_*
 /data/*
+/scripts/docker_images/*
+/scripts/postgres-db-dump/*
