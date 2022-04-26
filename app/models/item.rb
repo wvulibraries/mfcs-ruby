@@ -15,6 +15,9 @@
 #  updated_at     :datetime         not null
 #  form_id        :integer
 #
+
+require 'zip'
+
 class Item < ApplicationRecord
   # Context
   # -----------------------------------------------------
@@ -138,6 +141,10 @@ class Item < ApplicationRecord
     Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path, 'exports')
   end
 
+  def storage_path
+    Rails.root.join(Rails.configuration.mfcs['data_store'], form_id.to_s, uuid_path)
+  end
+
   # Splits the UUID into a path string
   # @author David J. Davis
   # @return [String]
@@ -165,7 +172,7 @@ class Item < ApplicationRecord
   # @return integer
   def thumb_id
     media = Media.where(item_id: id, media_type: 'thumbnail').first
-    media.nil? ? -2 : media.id
+    media.nil? ? self.data['type'] : 0
   end
 
   # returns the id of the first media object found
@@ -184,6 +191,33 @@ class Item < ApplicationRecord
     self['data'][field].nil? ? 0 : self['data'][field].count
   end
 
+  def download_all
+    # set zip filename
+    zip_file_name = "#{id}_#{Time.now.strftime('%Y%m%d%H%M%S')}.zip"
+
+    # create export directory
+    FileUtils.mkdir_p(export_path) unless File.exist?(export_path)
+
+    Zip::File.open(export_path.join(zip_file_name), Zip::File::CREATE) do | zipfile |
+      Dir["#{working_path}/**/**"].map{|e|e.sub %r[^#{working_path}/],''}.reject{|f|f==zip_file_name}.each do | item |
+        zipfile.add(item, File.join(working_path, item))
+      end
+      if File.exist?(conversion_path)
+        Dir["#{conversion_path}/**/**"].map{|e|e.sub %r[^#{conversion_path}/],''}.reject{|f|f==zip_file_name}.each do | item |
+          zipfile.add(item, File.join(conversion_path, item))
+        end  
+      end
+      if File.exists?(thumbnail_path) 
+        Dir["#{thumbnail_path}/**/**"].map{|e|e.sub %r[^#{thumbnail_path}/],''}.reject{|f|f==zip_file_name}.each do | item |
+          zipfile.add(item, File.join(thumbnail_path, item))
+        end   
+      end      
+    end
+
+    # return the location of the zip file
+    return export_path.join(zip_file_name)
+  end
+  
   protected
 
   def timestamp_attributes_for_create

@@ -3,11 +3,19 @@
 # Conversion Video
 # @author(s) David J. Davis, Tracy A. McCormick
 class Conversion::Video < Conversion::Base
+  # LIST OF POTENTIAL CONVERSION OPTIONS
+  # THESE ARE LISTED DURING CONVERSION OPERATIONS
+  # OPERATIONS = [
+  #   Conversion::Operation::Border,
+  #   Conversion::Operation::Resize,
+  #   Conversion::Operation::Resolution,
+  #   Conversion::Operation::Format
+  # ].freeze
+
   # THESE NEED TO HAPPEN AFTER THE CONVERSION
   # ORDER MATTERS, WATERMARK NEEDS TO BE ON THUMB TOO SO
   # THE THUMBNAIL HAPPENS AFTER WATERMARK.
   # POST_CONVERSION = [
-  #   # Conversion::Operation::VideoImage,
   #   Conversion::Operation::VideoThumbnail,
   #   Conversion::Operation::WatermarkOverlay
   # ].freeze

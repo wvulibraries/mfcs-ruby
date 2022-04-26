@@ -1,6 +1,6 @@
 require 'json'
 
-data_directory = 'importing/objects/data' 
+data_directory = 'importing/objects' 
 
 Dir.glob(File.join(data_directory, '**', '*.json')).each do |file|
   next if File.directory?(file) # skip the loop if the file is a directory

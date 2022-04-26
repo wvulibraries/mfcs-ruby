@@ -20,7 +20,9 @@ def update_field(field)
 
   # field['choice_type'] = field['choicesType'].eql? "form" ? "link_to_form" : "manual"  
 
-  field['position'] = (field['position'].to_i + 1).to_s
+  field['sort'] = (field['position'].to_i + 1).to_s
+  field.delete('position')
+
   field['choice_null'] = field.delete('choicesNull') if field['choicesNull']
   field['default_choice'] = field.delete('choicesDefault') if field['choicesDefault']  
   field["choice_array"] = field.delete('choicesOptions').join(",") if field['choicesOptions']
@@ -86,7 +88,7 @@ def update_field(field)
 end
 
 
-data_directory = 'importing/forms/data' 
+data_directory = 'importing/forms' 
 count = Dir[File.join(data_directory, '**', '*.json')].count { |file| File.file?(file) }
 
 Dir.foreach(data_directory) do |filename|

@@ -1,0 +1,8 @@
+<ul class="objectNav">
+    <li><a href="/items/digital_objects/new/<%= @form.id %>">Add New Record</a></li>
+    <% if @form.associated_metadata_forms.present? %>
+        <% @form.associated_metadata_forms.each do |md_form| %>
+            <li><a href="/items/metadata/new/<%=md_form.id%>/"> <%= md_form.title %></a></li>
+        <% end %>
+    <% end %> 
+</ul>

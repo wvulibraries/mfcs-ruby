@@ -9,7 +9,7 @@ class FormsController < ApplicationController
   def index
     breadcrumb 'List Forms', forms_path, title: 'List Forms'
     @form = Form.object_forms
-    @metadata_forms = Form.metadata_forms
+    @unused_forms = unused_forms
   end
 
   # GET /forms
@@ -81,31 +81,47 @@ class FormsController < ApplicationController
     end
   end
 
-  # GET /forms/dataview/:id
+  # GET /forms/dataview/:id/page/:page
   def dataview
     media = Media.where(form_id: params[:id])
-    @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
     set_breadcrumbs
   end
 
-  # GET /forms/shelf/:id
+  # GET /forms/shelf/:id/page/:page
   def shelf
     media = Media.where(form_id: params[:id])
-    @items = Item.order(:idno).limit(25).where(form_id: params[:id], metadata: false)
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
     set_breadcrumbs
   end
 
-  # GET /forms/thumbnail/:id
+  # GET /forms/thumbnail/:id/page/:page
   def thumbnail
     media = Media.where(form_id: params[:id])
+<<<<<<< HEAD
     @display_thumb_field = media.count.positive?
     @items = Item.order(:idno).where(form_id: params[:id], metadata: false)
     @pagy, @items = pagy(@items)
+=======
+    # @display_thumb_field = media.count.positive?
+    @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
+>>>>>>> main
     set_breadcrumbs
   end
 
   # Private Methods
   private
+
+  # Returns a list of unused metadata forms 
+  # @author Tracy A. McCormick    
+  # @return [Array]
+  def unused_forms
+    used_forms = []
+    Form.object_forms.each do |form|
+      used_forms.concat(form.linked_forms)
+    end
+    Form.metadata_forms.find_all { |form| !used_forms.uniq.include?(form.id) }
+  end
 
   def set_breadcrumbs
     # add a basic breadcrumb
@@ -122,6 +138,10 @@ class FormsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_form
     @form = Form.find(params[:id])
+  end
+
+  def set_page
+    @page = params[:page] || 1
   end
 
   def form_params

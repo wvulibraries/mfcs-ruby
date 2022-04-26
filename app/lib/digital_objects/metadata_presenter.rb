@@ -12,13 +12,17 @@ class DigitalObjects::MetadataPresenter
         # loop over item_ids and get the associated metadata
         @item_ids.map do |item_id|
             if item_id.eql?("")
-                meta_data << "cannot find item_id"
+                meta_data << "Item not found"
             else
                 item = Item.find(item_id)
                 # get the metadata field
                 meta_data << item.data[@field_name]
             end
         end
-        meta_data
+        if meta_data.count == 1
+            return meta_data.first
+        else
+            return meta_data
+        end
     end
 end

@@ -1,21 +1,17 @@
-<% title = @item[:data]['title'] || @item.id %>
+<h3>Edit Digital Object - <%= @form.display_title %></h3>
+<br>
+<div class="row">
+  <div class="col-md-3" id="show-menu">
+    <h4> Object Navigation </h4>
+    <%= render 'object_navigation' %>
+  </div>
 
-<ul class="breadcrumbs">
-		<!-- FLoat Right -->
-		<li><a href="/forms/<%=@item.form_id%>/edit/">Edit Form</a></li>
-		<li><a href="/items/digital_objects/<%=@item.id%>/revisions/">Revisions</a></li>
-		<li><a href="/items/digital_objects/<%=@item.id%>/unlock_cancel">Cancel Edit &amp; Unlock object</a></li>
-		<li><a href="/items/digital_objects/<%=@item.id%>/history">History</a></li>
-		<li><a href="https://github.com/wvulibraries/mfcs/wiki/Entering-Metadata" target="_blank"> <span class="fa fa-book"></span> Documentation</a></li>
-    <li><a href="/items/digital_objects/<%=@item.id%>/reprocess">Reprocess Object</a></li>	
-</ul>
-
-<h2>Update <%= title %> </h2>
-
-<div class="row justify-content-start" data-controller="form-validations">
-  <%= form_with model: @item, url: items_put_digital_objects_path, class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "put", data: {remote: false}, multipart: true do  |f| %>
-    <%# FORM         ==================================== %>
-    <%= render 'form', f: f, form_type: 'update' %>
-    <%# END FORM     ==================================== %>
-  <% end %>
+  <div class="col-md-9" data-controller="form-validations">
+    <h4> Data Entry </h4>
+    <%= form_with model: @item, url: items_put_digital_objects_path, class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "put", data: {remote: false}, multipart: true do  |f| %>
+      <%# FORM         ==================================== %>
+      <%= render 'form', f: f, form_type: 'update' %>
+      <%# END FORM     ==================================== %>
+    <% end %>
+  </div>
 </div>

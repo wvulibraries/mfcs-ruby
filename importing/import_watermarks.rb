@@ -5,7 +5,7 @@ def update_key(name)
     @hash[name.to_s.underscore] = @hash.delete(name)
 end
 
-data_directory = 'importing/watermarks/data' 
+data_directory = 'importing/watermarks' 
 
 Dir.glob(File.join(data_directory, '**', '*.json')).each do |file|
   next if File.directory?(file) # skip the loop if the file is a directory

@@ -1,93 +1,12 @@
-
-<h2> Digital Object <%= @item['data']['title'] || @item['data']['idno'] %></h2>
-
-<div>
-  <ul>
-		<!-- FLoat Right -->
-    <li><a href="/items/digital_objects/<%= @item.id %>/edit">Edit Object</a></li>
-    <li><a href="https://github.com/wvulibraries/mfcs/wiki/Object-Viewing" target="_blank"> <span class="fa fa-book"></span> Documentation</a></li>
-	</ul>
-</div>
-
-<div>
-    <ul class="menu">
-        <li><a href="/items/digital_objects/new/<%= @form.id %>">Add New Record</a></li>
-        <% if @form.associated_metadata_forms.present? %>
-          <% @form.associated_metadata_forms.each do |md_form| %>
-            <li>
-              <a href="/forms/<%=md_form.id%>/edit"> <%= md_form.title %></a>
-            </li>
-        <% end %>
-    </ul>
-  <% end %>    
-</div>
-
-<div>
-  <!--- copied from old mfcs needs refactored --->
-  <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#metadata" aria-expanded="true">Metadata</a></li>
-    <li class=""><a data-toggle="tab" href="#files" id="filesTab" aria-expanded="false">Files</a></li>
-    <li><a data-toggle="tab" href="#project">Project</a></li>
-    <li><a data-toggle="tab" href="#publicUrls">Public Urls &amp; OAI</a></li>
-  </ul>
-
-    <!-- Data Attribute List -->
-    <% @item.data.each do |key, value| %>
-      <% unless key["upload"] %>
-        <div class="row p-1 m-0 border-bottom">
-          <dt class="col"> <%= @form.field_label(key) %> </dt>
-          <dd class="col"> <%=  @form.associated_metadata_field(key) ? DigitalObjects::MetadataPresenter.new(key, value).data : value %> </dd>
-        </div>
-      <% end %>
-    <% end %>
-
-    <!-- Files Tab -->
-    <% @item.data.each do |key, value| %>
-      <% presenter = DigitalObjects::FilePresenter.new(value) %>
-      <% if key["upload"] %>
-        <div class="row p-1 m-0 border-bottom">
-          <dt class="col"> <%= @form.field_label(key) %> </dt>
-          <dd class="col"> <%= presenter.filename %> </dd>
-        </div>
-      <% end %>
-    <% end %>     
-    
-    <div class="row p-1 m-0 border-bottom"> 
-      <% @form.file_fields.each do |f| %>
-        <dt class="col"> Number of Files for <%= f %> </dt>  
-        <dd class="col"> <%= @item.file_field_count(f) %> </dd>
-      <% end %>
-    </div>
-    
-    <div class="row p-1 m-0 border-bottom">
-      <dt class="col"> Public Release </dt> 
-      <dd class="col"><%= @item.public_release %> </dd>
+<div class="container-fluid">
+  <h2> View Digital Object</h2>
+  <div class="row">
+    <div class="col-md-3" id="show-menu">
+      <%= render 'object_navigation' %>
     </div>
 
-    <div class="row p-1 m-0 border-bottom">
-      <dt class="col"> Created </dt> 
-      <dd class="col"><%= @item.created_at %> </dd>
+    <div class="col-md-9" id="show-tabs">
+      <%= render 'tab_content' %>
     </div>
-
-    <div class="row p-1 m-0 border-bottom">
-      <dt class="col"> Created By: </dt> 
-      <dd class="col"><%= @item.created_by %></dd>
-    </div>
-
-    <div class="row p-1 m-0 border-bottom">
-      <dt class="col"> Updated </dt> 
-      <dd class="col"><%= @item.updated_at %> </dd>
-    </div>
-
-
-    <div class="row p-1 m-0 border-bottom">
-      <dt class="col"> Modified By: </dt> 
-      <dd class="col"><%= @item.modified_by %></dd>
-    </div>
-
-    <div class="row p-1 m-0 border-bottom">
-      <dt class="col"> Number of Versions </dt> 
-      <dd class="col"><%= @item.audits.count %> </dd>
-    </div>
-  </dl>
+  </div>
 </div>

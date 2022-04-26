@@ -22,7 +22,11 @@ class ImportJob < ApplicationJob
       files_hash = { }    
       @hash['data'].each { |key, value| 
         if self.field_has_files?(value)
-          files_hash[key] = value
+          if value['files'].is_a?(Hash)
+            if value['files'].has_key?('archive')
+              files_hash[key] = value
+            end
+          end
           @hash['data'].delete(key)
         end
       }
@@ -102,7 +106,6 @@ class ImportJob < ApplicationJob
 
       # copy file for archive and working copies
       self.copy_file(file_path, item.archival_path, original_filename)
-      self.copy_file(file_path, item.working_path, original_filename)
 
       # full path to the file
       archive_file_path = item.archival_path.join(original_filename) 
@@ -123,26 +126,14 @@ class ImportJob < ApplicationJob
       # add archive media to item
       item[:data][field_name] << archive_media
 
+      # set soft delete to false
+      item.soft_delete = false
+
       # save updated item
       item.record_timestamps=false
       item.save
 
-      # WorkingFileJob.perform_later(archive_media.id)      
-
-      # update hash values for working copy
-      hash_values[:media_type] = :working
-      hash_values[:path] = item.working_path.join(original_filename) 
-
-      # creates archive media object in database
-      working_media = Media.new(hash_values)
-      working_media.save     
-
-      form = Form.where(id: item.form_id).first
-
-      # puts "Starting Conversions for: #{working_media.id} #{original_filename}"
-      Conversion::Actor.new(working_media.id, form.organized_hash[working_media.fieldname]).perform
-
-      # ConvertingFileJob.perform_later(working_media.id)
+      WorkingFileJob.perform_later(archive_media.id)      
     end
   end
   

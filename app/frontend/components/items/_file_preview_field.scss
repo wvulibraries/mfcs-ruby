@@ -1,0 +1,82 @@
+// File Preview
+// =============================================================================
+
+$fileColor: lighten(#333F48,60%);
+
+.filePreviewField{
+  float:left;
+  clear:both;
+  width:100%;
+  margin-bottom: 30px;
+  border:1px solid darken($fileColor, 10%);
+
+    header{
+      font-size: 18px;
+      font-weight: bold;
+      border-bottom:1px solid darken($fileColor, 10%);
+      padding:10px;
+      background: $fileColor;
+    }
+
+    section{
+      display: none;
+      padding: 10px;
+    }
+
+    .filePreviews {
+      list-style: none;
+      margin:0;
+      padding:0;
+
+      > li{
+        display:block;
+        float:left;
+        width:100%;
+        padding:10px;
+        &:nth-of-type(even){
+          background:lighten($fileColor,10%);
+        }
+      }
+
+      span { margin-top:0; margin-bottom:0; }
+
+      .dropdowns{
+        text-align:right;
+      }
+
+      .btn-group{
+        margin:0;
+      }
+
+      .filename{
+        font-weight: bold;
+        font-size: 14px;
+        margin-top:5px;
+      }
+
+      .filesize, .file_checksum, .file_dir {
+        font-size:12px;
+        font-weight:200;
+        letter-spacing:1px;
+        font-style:oblique;
+      }
+
+      .filesize, .file_dir {
+        color:lighten(#000,50%);
+      }
+
+      .checksum_not_checked {
+        color: #76710c;
+      }
+
+      .checksum_fail {
+        color: red;
+      }
+
+      .checksum_pass {
+        color: green;
+      }
+
+      i { margin-right:10px; }
+    }
+}

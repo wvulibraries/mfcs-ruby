@@ -93,11 +93,11 @@ Rails.application.routes.draw do
 
   # forms
   # ========================================================
-  get  '/forms/copy' => 'forms#copy', as: 'forms_copy'
-  post '/forms/clone' => 'forms#clone', as: 'forms_clone'
-  get  '/forms/dataview/:id'  => 'forms#dataview',   as: 'forms_dataview' 
-  get  '/forms/thumbnail/:id' => 'forms#thumbnail',  as: 'forms_thumbnail'
-  get  '/forms/shelf/:id'     => 'forms#shelf',      as: 'forms_shelf'  
+  get  '/forms/copy'                     => 'forms#copy', as: 'forms_copy'
+  post '/forms/clone'                    => 'forms#clone', as: 'forms_clone'
+  get  '/forms/dataview/:id/page/:page'  => 'forms#dataview',   as: 'forms_dataview' 
+  get  '/forms/thumbnail/:id/page/:page' => 'forms#thumbnail',  as: 'forms_thumbnail'
+  get  '/forms/shelf/:id/page/:page'     => 'forms#shelf',      as: 'forms_shelf'  
   resources :forms
   
   # Admin 
@@ -131,16 +131,20 @@ Rails.application.routes.draw do
   get '/dashboard/obsolete/'    => 'dashboard#obsolete',          as: 'dashboard_obsolete'
   get '/dashboard/virus/'       => 'dashboard#virus',             as: 'dashboard_virus'
 
-  # Item Routes 
+  # Item Routes
   # ========================================================
-  get 'item/list/:form_id' => 'item#list'
-  get 'item/search' => 'item#search'
+  get '/item/list/:form_id'     => 'item#list', as: 'item_list'
+  get '/item/search'            => 'item#search', as: 'item_search'
 
   # Projects Routes 
   # ========================================================
   get '/projects' => 'projects#index', as: 'projects_list'
   
   namespace :items do
+    get '/:id/download_zip'  => 'items#download_zip',   as: 'download_zip'
+    get '/:id/thumb'         => 'items#thumb',          as: 'items_thumb'
+    get '/:id'               => 'items#show',           as: 'items_show'
+
     # metadata routes 
     # ========================================================
     get    '/metadata'                       => 'metadata#index',          as: 'metadata_list'
@@ -161,9 +165,6 @@ Rails.application.routes.draw do
     # ========================================================
     get    '/digital_objects'                         => 'digital_objects#index',                as: 'digital_objects_index'
     get    '/digital_objects/:form_id'                => 'digital_objects#list_for_form',        as: 'list_digital_objects' 
-    get    '/digital_objects/list/dataview/:form_id'  => 'digital_objects#form_dataview_list',   as: 'form_dataview_list' 
-    get    '/digital_objects/list/thumbnail/:form_id' => 'digital_objects#form_thumbnail_list',  as: 'form_thumbnail_list'
-    get    '/digital_objects/list/shelf/:form_id'     => 'digital_objects#form_shelf_list',      as: 'form_shelf_list'
     
     get    '/duplicates/digital_objects/:form_id' => 'digital_objects#duplicates',     as: 'duplicate_digital_objects'
     get    '/digital_objects/new/'                => 'digital_objects#no_form',        as: 'digital_objects_no_form'
@@ -188,6 +189,9 @@ Rails.application.routes.draw do
   get '/media/audio/:id'  => 'media#audio', as: 'media_audio'
   get '/media/video/:id'  => 'media#video', as: 'media_video'
   get '/media/pdf/:id'    => 'media#pdf',  as: 'media_pdf'
+
+  get '/media/original/:id' => 'media#original', as: 'media_original'
+  get '/media/converted/:id' => 'media#converted', as: 'media_converted'
 
   # API
   # ========================================================

@@ -130,6 +130,24 @@ class Media < ApplicationRecord
     "audio".in? mime(path)
   end  
 
+  # Checks mime type to see if file is a pdf 
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def pdf?
+    "pdf".in? mime(path)
+  end
+
+  # Checks mime type to see if file is a video
+  # @author Tracy A. McCormick    
+  # @return [Boolean]
+  def video?
+    "video".in? mime(path)
+  end  
+
+  def text?
+    "text".in? mime(path)
+  end
+
   # Deletes file and empty folder before 
   # the Media Object is destroyed
   # @author Tracy A. McCormick  

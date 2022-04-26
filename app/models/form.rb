@@ -171,7 +171,7 @@ class Form < ApplicationRecord
 
     # return field_name if no label found
     field_name.to_s.humanize
-  end
+  end 
 
   # Returns a set of names that are fields to be displayed in the table.
   # @author Tracy A. McCormick

@@ -81,29 +81,29 @@ class Items::DigitalObjectsController < ApplicationController
   end
 
   # GET /items/digital_objects/dataview/:form_id
-  def form_dataview_list
-    # media = Media.where(form_id: params[:form_id])
-    @form = Form.find(params[:form_id])
-    @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
-    breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
-  end
+  # def form_dataview_list
+  #   media = Media.where(form_id: params[:form_id])
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  #   breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
+  # end
 
-  # GET /items/digital_objects/shelf/:form_id
-  def form_shelf_list
-    # media = Media.where(form_id: params[:form_id])
-    @form = Form.find(params[:form_id])
-    @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
-    breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
-  end    
+  # # GET /items/digital_objects/shelf/:form_id
+  # def form_shelf_list
+  #   media = Media.where(form_id: params[:form_id])
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).limit(25).where(form_id: params[:form_id], metadata: false)
+  #   breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}"
+  # end    
 
-  # GET /items/digital_objects/:form_id
-  def form_thumbnail_list
-    media = Media.where(form_id: params[:form_id])
-    @display_thumb_field = media.count.positive?
-    @form = Form.find(params[:form_id])
-    @items = Item.order(:idno).where(form_id: params[:form_id], metadata: false)
-    breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}" 
-  end
+  # # GET /items/digital_objects/:form_id
+  # def form_thumbnail_list
+  #   media = Media.where(form_id: params[:form_id])
+  #   @display_thumb_field = media.count.positive?
+  #   @form = Form.find(params[:form_id])
+  #   @items = Item.order(:idno).where(form_id: params[:form_id], metadata: false)
+  #   breadcrumb @form.display_title, "/items/digital_objects/list/dataview/#{@form.id}" 
+  # end
 
   # GET /items/digital_objects/:form_id
   # def list_for_form
