@@ -100,7 +100,7 @@ class FormsController < ApplicationController
     media = Media.where(form_id: params[:id])
     @display_thumb_field = media.count.positive?
     @items = Item.order(:idno).where(form_id: params[:id], metadata: false)
-    @pagy, @items = pagy(@items, items: 10)
+    @pagy, @items = pagy(@items)
     set_breadcrumbs
   end
 
