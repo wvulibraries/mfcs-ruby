@@ -18,23 +18,23 @@ services:
     networks:
       - mfcs_net
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
-    container_name: mfcs_elasticsearch
-    restart: always
-    env_file:
-      - './env/.env.es'   
-    volumes: 
-      - elasticsearch:/usr/share/elasticsearch/data
-    ports: 
-      - 9200:9200
-      - 9300:9300  
-    healthcheck:
-      interval: 10s
-      retries: 80
-      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/    
-    networks:
-      - mfcs_net  
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+  #   container_name: mfcs_elasticsearch
+  #   restart: always
+  #   env_file:
+  #     - './env/.env.es'   
+  #   volumes: 
+  #     - elasticsearch:/usr/share/elasticsearch/data
+  #   ports: 
+  #     - 9200:9200
+  #     - 9300:9300  
+  #   healthcheck:
+  #     interval: 10s
+  #     retries: 80
+  #     test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/    
+  #   networks:
+  #     - mfcs_net  
 
   redis:
     image: redis:alpine
@@ -78,44 +78,49 @@ services:
       - ./importing:/home/mfcs/importing      
     depends_on:
       - db
-      - elasticsearch
+      # - elasticsearch
       - redis
     networks:
       - mfcs_net
-
-  sidekiq:
-    <<: *app_base 
-    command: bundle exec sidekiq -C config/sidekiq.yml
-    container_name: mfcs_sidekiq
-    restart: unless-stopped   
-    env_file:
-      - './env/.env.dev.mfcs'  
-    volumes:
-      - ./:/home/mfcs:cached
-      - rails_cache_data:/app/tmp/cache
-      - bundle_data:/usr/local/bundle  
-      - mfcs_tmp:/home/mfcs/tmp
-      - mfcs_storage:/home/mfcs/storage           
-    depends_on:
-      - db
-      - redis  
 
   webpacker:
     <<: *app_base
     env_file:
       - './env/.env.dev.webpacker'    
     command: bundle exec ./bin/webpack-dev-server --inline true
+    container_name: mfcs_webpacker
+    restart: unless-stopped    
     ports:
       - '3035:3035' 
     volumes:
       - .:/home/mfcs:cached
       - bundle_data:/usr/local/bundle
       - node_modules_data:/home/mfcs/node_modules
-      - packs_data:/app/public/packs           
+      - packs_data:/app/public/packs 
+      - mfcs_tmp:/home/mfcs/tmp          
     depends_on:
       - db
     networks:
       - mfcs_net
+
+  sidekiq:
+    <<: *app_base
+    env_file:
+      - './env/.env.dev.mfcs'  
+    command: bundle exec sidekiq -C config/sidekiq.yml
+    container_name: mfcs_sidekiq
+    restart: unless-stopped    
+    volumes:
+      - ./:/home/mfcs:cached
+      - rails_cache_data:/app/tmp/cache
+      - bundle_data:/usr/local/bundle  
+      - mfcs_tmp:/home/mfcs/tmp
+      - mfcs_storage:/home/mfcs/storage    
+    depends_on:
+      - postgres
+      - redis 
+    networks:
+      - mfcs_net 
 
 volumes:
   rails_cache_data:

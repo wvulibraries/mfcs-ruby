@@ -110,32 +110,26 @@ services:
     networks:
       - mfcs_net      
 
-  # elasticsearch:
-  #   image: elasticsearch:7.10.1
-  #   container_name: mfcs_elasticsearch
-  #   restart: always
-  #   environment:
-  #     - "discovery.type=single-node"
-  #     - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"           
-  #   volumes: 
-  #     # - ./search_data:/usr/share/elasticsearch/data
-  #     - elasticsearch:/usr/share/elasticsearch/data
-  #   image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
-  #   container_name: mfcs_elasticsearch
-  #   restart: always
-  #   env_file:
-  #     - './env/.env.es'   
-  #   volumes: 
-  #     - elasticsearch:/usr/share/elasticsearch/data
-  #   healthcheck:
-  #     interval: 10s
-  #     retries: 80
-  #     test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/    
-  #   ports: 
-  #     - 9200:9200
-  #     - 9300:9300   
-  #   networks:
-  #     - mfcs_net
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.2
+    container_name: mfcs_elasticsearch
+    restart: always
+    # env_file:
+    #   - './env/.env.es'  
+    environment:
+      - "discovery.type=single-node"
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m -Dlog4j2.formatMsgNoLookups=true"           
+    volumes: 
+      - elasticsearch:/usr/share/elasticsearch/data
+    healthcheck:
+      interval: 10s
+      retries: 80
+      test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:9200/    
+    ports: 
+      - 9200:9200
+      - 9300:9300   
+    networks:
+      - mfcs_net
 
 volumes:
   rails_cache_data:
