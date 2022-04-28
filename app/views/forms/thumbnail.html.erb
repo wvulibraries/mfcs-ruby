@@ -41,7 +41,6 @@
       </tbody>
     </table>
     <%# Render the navigation bar in your views %>
-    
     <div data-controller="pagy-initializer">
       <%== pagy_bootstrap_nav(@pagy) %> 
       <%== pagy_items_selector_js(@pagy, item_name: 'Item'.pluralize(@pagy.count)) %>

@@ -14,7 +14,7 @@
     <div class="row p-1 m-0 border-bottom">
       <dt class="col"><%= @form.field_label(key) %> </dt>
       <% if DigitalObjects::UploadFieldPresenter.new(@item.id).uploaded_files?(key) %>
-        <dd class="col"><a href="javascript:;" onclick="$('#filesTab').click();">Click to view files tab</a></dd>
+        <dd class="col"><a href="javascript:;" onclick="$('#filesTab').tab('show');">Click to view files tab</a></dd>
       <% else %>
         <dd class="col">No files uploaded</dd>
       <% end %>

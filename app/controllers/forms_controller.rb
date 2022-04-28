@@ -98,14 +98,9 @@ class FormsController < ApplicationController
   # GET /forms/thumbnail/:id/page/:page
   def thumbnail
     media = Media.where(form_id: params[:id])
-<<<<<<< HEAD
-    @display_thumb_field = media.count.positive?
-    @items = Item.order(:idno).where(form_id: params[:id], metadata: false)
-    @pagy, @items = pagy(@items)
-=======
     # @display_thumb_field = media.count.positive?
     @items = Item.order(:idno).limit(15).where(form_id: params[:id], metadata: false)
->>>>>>> main
+    @pagy, @items = pagy(@items, items: 8)
     set_breadcrumbs
   end
 

@@ -59,7 +59,7 @@ services:
     links:
       - 'postgres'
       - 'redis'
-      - 'elasticsearch'
+      #- 'elasticsearch'
       - 'webpacker'
     networks:
       - mfcs_net
