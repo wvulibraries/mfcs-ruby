@@ -6,7 +6,7 @@
 # @since 0.0.0
 # @attr [Command] Takes a block and references the from_file and to_file.
 #
-class FFMPEG::Video < FFMPEG::Base
+class Ffmpeg::Video < Ffmpeg::Base
   # This builds the command from a string
   # @author David J.Davis
   #
@@ -27,7 +27,7 @@ class FFMPEG::Video < FFMPEG::Base
   #
   # @return [Hash]
   def metadata
-    @metadata ||= FFMPEG::Video::Metadata.new(@file).fetch
+    @metadata ||= Ffmpeg::Video::Metadata.new(@file).fetch
   end
 
   # Uses a force commend to force the original aspect ratio on the height and width.

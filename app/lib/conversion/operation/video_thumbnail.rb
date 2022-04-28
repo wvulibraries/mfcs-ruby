@@ -61,7 +61,7 @@ class Conversion::Operation::VideoThumbnail
   # @author(s) David J. Davis / Tracy A. McCormick
   # @abstract
   def perform
-    ffmpeg = FFMPEG::Video::Thumbnail.new(@media.path, save_file)
+    ffmpeg = Ffmpeg::Video::Thumbnail.new(@media.path, save_file)
     ffmpeg.command do
       frames 1
       frame_grab

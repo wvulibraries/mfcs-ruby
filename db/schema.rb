@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_25_144558) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_04_26_164529) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "hstore"
   enable_extension "plpgsql"
@@ -21,7 +20,7 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.string "record_type", null: false
     t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
-    t.datetime "created_at", null: false
+    t.datetime "created_at", precision: nil, null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
@@ -32,8 +31,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.string "content_type"
     t.text "metadata"
     t.bigint "byte_size", null: false
-    t.string "checksum", null: false
-    t.datetime "created_at", null: false
+    t.string "checksum"
+    t.datetime "created_at", precision: nil, null: false
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -58,7 +57,7 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.string "comment"
     t.string "remote_address"
     t.string "request_uuid"
-    t.datetime "created_at"
+    t.datetime "created_at", precision: nil
     t.index ["associated_type", "associated_id"], name: "associated_index"
     t.index ["auditable_type", "auditable_id", "version"], name: "auditable_index"
     t.index ["created_at"], name: "index_audits_on_created_at"
@@ -82,8 +81,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.string "display_title"
     t.string "object_title_field"
     t.string "link_title"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.jsonb "fields", default: [], array: true
     t.jsonb "navigation", default: [], array: true
     t.jsonb "permissions", default: [], array: true
@@ -97,8 +96,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.boolean "metadata"
     t.string "idno"
     t.boolean "public_release"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "uuid"
     t.integer "modified_by"
     t.integer "created_by"
@@ -115,8 +114,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.jsonb "file_errors"
     t.boolean "virus_scanned"
     t.string "mime_type"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "media_type"
     t.string "fieldname"
     t.text "ocr_text"
@@ -127,8 +126,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.bigint "user_id", null: false
     t.bigint "form_id", null: false
     t.integer "permission"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["form_id"], name: "index_permissions_on_form_id"
     t.index ["user_id"], name: "index_permissions_on_user_id"
   end
@@ -136,15 +135,15 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
   create_table "projects", force: :cascade do |t|
     t.string "name"
     t.string "project_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "systems", force: :cascade do |t|
     t.string "name"
     t.boolean "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -156,16 +155,16 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
     t.boolean "active"
     t.string "email"
     t.boolean "form_creator"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.string "username"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
     t.inet "current_sign_in_ip"
     t.inet "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -174,8 +173,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_144558) do
 
   create_table "watermarks", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"

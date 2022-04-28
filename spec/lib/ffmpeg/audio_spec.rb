@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FFMPEG::Audio, type: :model do
+RSpec.describe Ffmpeg::Audio, type: :model do
   let(:file) { Rails.root.join('spec','fixtures', 'files', 'storm.wav')  }
   let(:to_file) { Rails.root.join('tests', 'data', 'files', 'storm.mp3') }
   let(:test_file_dir) { Rails.root.join('tests', 'data', 'files') }

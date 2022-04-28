@@ -1,5 +1,5 @@
 # Base Initializer for the FFMPEG Classes
-class FFMPEG::Base
+class Ffmpeg::Base
   # Sets up the instance variables and validates that they are the information needed.
   # @param from_file [String || Pathname]
   # @param options [Hash]

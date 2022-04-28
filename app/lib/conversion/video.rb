@@ -53,7 +53,7 @@ class Conversion::Video < Conversion::Base
   # @author(s) David J. Davis / Tracy A. McCormick
   # @return [Object] Media Object
   def perform
-    ffmpeg = FFMPEG::Video.new(@media.path, save_file)
+    ffmpeg = Ffmpeg::Video.new(@media.path, save_file)
     rate = (@conversion_params['video_bitrate'] || '8M')
     width = @conversion_params.fetch('video_width').to_i
     height = @conversion_params.fetch('video_height').to_i

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FFMPEG::Base, type: :model do
+RSpec.describe Ffmpeg::Base, type: :model do
   let(:file) { Rails.root.join('spec','fixtures', 'files', 'test.mov')  }
   let(:to_file) { Rails.root.join('tests', 'data', 'files', 'test.mp4') }
 

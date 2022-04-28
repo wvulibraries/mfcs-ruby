@@ -4,7 +4,7 @@
 # @since 0.0.0
 # @attr [Command] Takes a block and references the from_file and to_file.
 #
-class FFMPEG::Video::Thumbnail < FFMPEG::Base
+class Ffmpeg::Video::Thumbnail < Ffmpeg::Base
   # SAMPLE COMMAND
   # 'ffmpeg -y -i InputFile.FLV -vframes 1 -an -s 400x222 -ss 30 OutputFile.jpg'
 
@@ -28,7 +28,7 @@ class FFMPEG::Video::Thumbnail < FFMPEG::Base
   #
   # @return [Hash]
   def metadata
-    @metadata ||= FFMPEG::Video::Metadata.new(@file).fetch
+    @metadata ||= Ffmpeg::Video::Metadata.new(@file).fetch
   end
 
   # Default number of frames, but setup to be possibly better in the future.

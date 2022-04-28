@@ -4,7 +4,7 @@
 # @since 0.0.0
 # @attr [Command] Takes a block and references the from_file and to_file.
 #
-class FFMPEG::Audio < FFMPEG::Base
+class Ffmpeg::Audio < Ffmpeg::Base
   # This builds the command from a string
   # @author David J.Davis
   #

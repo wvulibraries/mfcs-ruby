@@ -1,7 +1,7 @@
 # app/lib/ffmpeg/video/metadata.rb
 
 # FFMPEG Video Metadata Class
-class FFMPEG::Video::Metadata
+class Ffmpeg::Video::Metadata
   def initialize(file)
     @file = file
   end

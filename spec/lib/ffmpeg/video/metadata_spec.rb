@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe FFMPEG::Video::Metadata, type: :model do
+RSpec.describe Ffmpeg::Video::Metadata, type: :model do
   let(:file) { Rails.root.join('spec','fixtures', 'files', 'test.mov')  }
 
   context '.init' do

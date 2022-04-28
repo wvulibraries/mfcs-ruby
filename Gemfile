@@ -7,8 +7,9 @@ ruby '2.7.2'
 # ================================================================
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
-gem 'rails', '~> 6.1', '>= 6.1.3'
+gem 'rails', '~> 7.0.0'
 gem 'webpacker', '~> 5.2', '>= 5.2.1'
+gem 'sprockets-rails'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -30,7 +31,7 @@ gem 'omniauth', '~> 1.9'
 gem 'omniauth-cas', '~> 1.1', '>= 1.1.1'
 
 # Log all changes to models
-gem 'audited', '~> 4.9'
+gem 'audited', '~> 5.0'
 
 # metadata / library of congress specific
 gem 'edtf', '~> 3.0', '>= 3.0.4'
@@ -78,15 +79,15 @@ group :test do
   gem 'shoulda'
   gem 'shoulda-matchers'
   # Codeclimate is not compatible with 0.18+. See https://github.com/codeclimate/test-reporter/issues/413
-  gem 'simplecov', require: false, group: :test
-  # gem 'simplecov', '~> 0.17.1'
+  # gem 'simplecov', require: false, group: :test
+  gem 'simplecov', '~> 0.17.1', group: :test
   # gem 'simplecov'
   gem 'simplecov-console'
 end
 
 group :development do
   gem 'annotate'
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'

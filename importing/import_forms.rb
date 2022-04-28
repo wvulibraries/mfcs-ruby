@@ -23,6 +23,7 @@ def update_field(field)
   field['sort'] = (field['position'].to_i + 1).to_s
   field.delete('position')
 
+  field['choice_form_field'] = field.delete('choicesField') if field['choicesField']
   field['choice_null'] = field.delete('choicesNull') if field['choicesNull']
   field['default_choice'] = field.delete('choicesDefault') if field['choicesDefault']  
   field["choice_array"] = field.delete('choicesOptions').join(",") if field['choicesOptions']

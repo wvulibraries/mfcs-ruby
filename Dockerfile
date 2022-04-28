@@ -1,5 +1,9 @@
 FROM ruby:2.7.2
 
+RUN mkdir -p /home/mfcs
+WORKDIR /home/mfcs
+ADD ./ /home/mfcs
+
 # Install capybara-webkit deps
 RUN apt update \
     && apt-get install -y xvfb git qt5-default libqt5webkit5-dev \
@@ -37,15 +41,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\
     && apt-get update \
     && apt-get install -y yarn
 		
-# Install our dependencies and rails
-RUN gem install bundler \
-	&& gem install rails \
-	&& mkdir -p /home/mfcs
+RUN \
+  gem update --system --quiet && \
+  gem install bundler && \
+  gem install rails  && \
+  bundle install
 
-# ENV RAILS_ENV development
-# ENV RACK_ENV development
-
-WORKDIR /home/mfcs
-COPY ./ /home/mfcs
-RUN bundle install --jobs=4 --retry=3 
 RUN yarn install && yarn upgrade
