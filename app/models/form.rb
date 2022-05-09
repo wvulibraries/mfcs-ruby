@@ -244,6 +244,16 @@ class Form < ApplicationRecord
     false
   end
 
+  def project_ids
+    project_ids = []
+    self[:fields].each do |field|
+      next unless field['type'] == 'project'
+
+      project_ids << field['choice_project_id']
+    end
+    project_ids
+  end  
+
   private
 
   # Sets an error message if metadata is nil which it should never be.

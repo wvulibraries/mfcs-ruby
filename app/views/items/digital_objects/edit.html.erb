@@ -6,12 +6,7 @@
     <%= render 'object_navigation' %>
   </div>
 
-  <div class="col-md-9" data-controller="form-validations">
-    <h4> Data Entry </h4>
-    <%= form_with model: @item, url: items_put_digital_objects_path, class: 'col-xs-12 col-md-10 mx-auto mb-2', method: "put", data: {remote: false}, multipart: true do  |f| %>
-      <%# FORM         ==================================== %>
-      <%= render 'form', f: f, form_type: 'update' %>
-      <%# END FORM     ==================================== %>
-    <% end %>
+  <div class="col-md-9" id="show-tabs" data-controller="form-validations">
+    <%= render 'form_tab_content' %>
   </div>
 </div>

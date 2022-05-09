@@ -137,7 +137,7 @@ class Import
   
       # save old file info
       files_hash = { }    
-      @hash['data'].each { |key, value| 
+      @hash['data'].each { |key, value|
         if self.field_has_files?(value)
           if value['files'].is_a?(Hash) && value['files'].has_key?('archive')
             # puts value['files'].inspect
@@ -207,7 +207,8 @@ class Import
       next if File.directory?(file) # skip the loop if the file is a directory
     
       puts "importing #{file}"
-      @hash = JSON.parse(File.read(file))
+      file_contents = File.read(file)
+      @hash = JSON.parse(file_contents)
       next if @hash == false || @hash['metadata'].to_i == 1 || Item.where(id: @hash['ID']).present?
     
       self.import_file(file)

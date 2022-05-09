@@ -4,10 +4,25 @@ RUN mkdir -p /home/mfcs
 WORKDIR /home/mfcs
 ADD ./ /home/mfcs
 
+# Update all the things
+RUN apt-get update
+
+# Generate UTF-8 locale
+RUN apt-get install -y locales
+RUN dpkg-reconfigure locales && \
+  locale-gen C.UTF-8 && \
+  /usr/sbin/update-locale LANG=C.UTF-8
+RUN echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen && locale-gen
+
+# Set UTF-8
+ENV LC_ALL C.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
 # Install capybara-webkit deps
-RUN apt update \
-    && apt-get install -y xvfb git qt5-default libqt5webkit5-dev \
-                          gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
+# RUN apt update \
+#     && apt-get install -y xvfb git qt5-default libqt5webkit5-dev \
+#                           gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x                        
 
 # Use JEMALLOC instead
 # JEMalloc is a faster garbage collection for Ruby.

@@ -15,6 +15,7 @@ class Processing::FileUpload
     @directories = create_directories
     @archive_media = create_archive_media
     @working_media = create_working_media
+    save
   end
 
   def archival_path
@@ -23,6 +24,10 @@ class Processing::FileUpload
 
   def working_path
     @directories[:working]
+  end
+
+  def archive_media
+    @archive_media
   end
 
   attr_reader :archive_media, :working_media
@@ -89,5 +94,7 @@ class Processing::FileUpload
     set_versions
     @archive_media.save
     @working_media.save
+    # queue up the job to convert the file
+    ConvertingFileJob.perform_later(@working_media.id)
   end
 end

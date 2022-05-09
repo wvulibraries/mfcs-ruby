@@ -4,8 +4,18 @@
     <% unless key["upload"] %>
       <div class="row p-1 m-0 border-bottom">
         <dt class="col"> <%= @form.field_label(key) %> </dt>
-        <dd class="col"> <%= @form.associated_metadata_field(key) ? DigitalObjects::MetadataPresenter.new(key, value).data : value %> </dd>
-      </div>
+        <dd class="col">
+          <% if @form.associated_metadata_field(key) %>
+            <ul>
+              <% DigitalObjects::MetadataPresenter.new(value).data.each do |md| %>
+                <li><%= md %></li>
+              <% end %>
+            </ul>
+          <% else %>
+            <%= value %>
+          <% end %>
+        </dd>
+    </div>
     <% end %>
   <% end %>
 

@@ -13,4 +13,8 @@ bin/rails r importing/import_forms.rb
 echo "Importing Metadata Objects"
 bin/rails r importing/import_metadata_objects.rb 
 # echo "Importing Digital Objects"
-# bin/rails r importing/objects/import_digital_objects.rb
+# bin/rails r importing/import_digital_objects.rb
+
+# Used for testing purposes only sample data from collection
+echo "Importing Sample of Folklife Digital Objects"
+bin/rails r importing/import_objects.rb

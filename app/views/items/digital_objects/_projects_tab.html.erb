@@ -1,27 +1,12 @@
 <div class="tab-pane" id="project">
     <h2>Change Project Membership</h2>
-    <form method="post">
-        <ul class="checkboxList">
-            <li><label class="checkbox" for="project_19"><input type="checkbox" id="project_19" name="projects[]" value="19" disabled=""> Arch Moore Photographs</label></li>
-            <li><label class="checkbox" for="project_16"><input type="checkbox" id="project_16" name="projects[]" value="16" disabled=""> Arthurdale Planned Community</label></li>
-            <li><label class="checkbox" for="project_12"><input type="checkbox" id="project_12" name="projects[]" value="12" disabled=""> Civil War</label></li>
-            <li><label class="checkbox" for="project_5"><input type="checkbox" id="project_5" name="projects[]" value="5" disabled=""> Clarysville Hospital</label></li>
-            <li><label class="checkbox" for="project_9"><input type="checkbox" id="project_9" name="projects[]" value="9" disabled=""> Coal Mines &amp; Mining</label></li>
-            <li><label class="checkbox" for="project_13"><input type="checkbox" id="project_13" name="projects[]" value="13" disabled=""> Folk Music</label></li>
-            <li><label class="checkbox" for="project_2"><input type="checkbox" id="project_2" name="projects[]" value="2" disabled=""> Guide to Archives &amp; Manuscripts</label></li>
-            <li><label class="checkbox" for="project_4"><input type="checkbox" id="project_4" name="projects[]" value="4" disabled=""> Holt, Rush Dew (1905-1955). Papers</label></li>
-            <li><label class="checkbox" for="project_8"><input type="checkbox" id="project_8" name="projects[]" value="8" disabled=""> Jerry West</label></li>
-            <li><label class="checkbox" for="project_14"><input type="checkbox" id="project_14" name="projects[]" value="14" disabled=""> Logging &amp; Lumbering</label></li>
-            <li><label class="checkbox" for="project_1"><input type="checkbox" id="project_1" name="projects[]" value="1" disabled=""> Printed Ephemera Collection</label></li>
-            <li><label class="checkbox" for="project_17"><input type="checkbox" id="project_17" name="projects[]" value="17" disabled=""> Rivers and Floods</label></li>
-            <li><label class="checkbox" for="project_7"><input type="checkbox" id="project_7" name="projects[]" value="7" disabled=""> Rockefeller Holiday Cards</label></li>
-            <li><label class="checkbox" for="project_21"><input type="checkbox" id="project_21" name="projects[]" value="21" disabled=""> Rockefeller SSCI</label></li>
-            <li><label class="checkbox" for="project_20"><input type="checkbox" id="project_20" name="projects[]" value="20" disabled=""> Rockefeller Speeches</label></li>
-            <li><label class="checkbox" for="project_6"><input type="checkbox" id="project_6" name="projects[]" value="6" disabled=""> Storer College</label></li>  
-            <li><label class="checkbox" for="project_18"><input type="checkbox" id="project_18" name="projects[]" value="18" disabled=""> USS West Virginia </label></li>
-            <li><label class="checkbox" for="project_3"><input type="checkbox" id="project_3" name="projects[]" value="3" disabled=""> West Virginia History OnView</label></li>
-            <li><label class="checkbox" for="project_11"><input type="checkbox" id="project_11" name="projects[]" value="11" disabled=""> West Virginia Statehood</label></li>
-            <li><label class="checkbox" for="project_10"><input type="checkbox" id="project_10" name="projects[]" value="10" disabled=""> West Virginia University</label></li>
-            <li><label class="checkbox" for="project_15"><input type="checkbox" id="project_15" name="projects[]" value="15" disabled=""> World War II</label></li></ul>        
-    </form>
+    <% presenter = DigitalObjects::ProjectsPresenter.new %>
+    <ul class="checkboxList">
+        <% presenter.project_list.each do |project| %>
+            <li>
+                <input type="checkbox" name="project_ids[]" value="<%= project[:id] %>" id="project_<%= project[:id] %>" <%= @item.project_ids.include?(project[:id]) ? 'checked' : '' %> />
+                <label for="project_<%= project[:id] %>"><%= project[:name] %></label>
+            </li>
+        <% end %>
+    </ul>
 </div>

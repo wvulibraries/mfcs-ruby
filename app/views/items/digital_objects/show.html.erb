@@ -1,12 +1,12 @@
-<div class="container-fluid">
-  <h2> View Digital Object</h2>
-  <div class="row">
-    <div class="col-md-3" id="show-menu">
-      <%= render 'object_navigation' %>
-    </div>
+<h3>View Digital Object - <%= @form.display_title %></h3>
+<br>
+<div class="row">
+  <div class="col-md-3" id="show-menu">
+    <h4> Object Navigation </h4>
+    <%= render 'object_navigation' %>
+  </div>
 
-    <div class="col-md-9" id="show-tabs">
-      <%= render 'tab_content' %>
-    </div>
+  <div class="col-md-9" id="show-tabs">
+    <%= render 'tab_content' %>
   </div>
 </div>

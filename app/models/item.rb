@@ -182,7 +182,15 @@ class Item < ApplicationRecord
   def image_id
     media = Media.where(item_id: id, media_type: 'conversion').first
     media.nil? ? -1 : media.id
-  end  
+  end
+
+  def identifier
+    if self['data']['identifier'].to_s != ''
+      self['data']['identifier'].to_s
+    else
+      self['data']['idno'].to_s
+    end
+  end
 
   # returns the count of files in the passed field
   # @author Tracy A. McCormick
@@ -216,6 +224,10 @@ class Item < ApplicationRecord
 
     # return the location of the zip file
     return export_path.join(zip_file_name)
+  end
+
+  def project_ids
+    Form.find(form_id).project_ids
   end
   
   protected

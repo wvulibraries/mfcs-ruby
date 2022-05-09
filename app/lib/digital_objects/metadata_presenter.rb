@@ -1,8 +1,6 @@
 class DigitalObjects::MetadataPresenter
 
-    def initialize(field_name, item_ids)
-        @field_name = field_name
-
+    def initialize(item_ids)
         # insure we have an array of item_ids
         @item_ids = item_ids.is_a?(Array) ? item_ids : [item_ids]
     end
@@ -15,14 +13,12 @@ class DigitalObjects::MetadataPresenter
                 meta_data << "Item not found"
             else
                 item = Item.find(item_id)
+                form = Form.find(item.form_id)
+
                 # get the metadata field
-                meta_data << item.data[@field_name]
+                meta_data << item.data[form.object_title_field]
             end
         end
-        if meta_data.count == 1
-            return meta_data.first
-        else
-            return meta_data
-        end
+        meta_data
     end
 end

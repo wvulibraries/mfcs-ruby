@@ -69,7 +69,7 @@ class Items::DigitalObjectsController < ApplicationController
 
     if @item.save
       WorkingFileJob.perform_later(archive_media.id)
-      redirect_to '/items/digital_objects', success: I18n.t('digital_object.created')
+      redirect_to "/items/digital_objects/#{@item.id}/show", success: I18n.t('digital_object.created')
     else
       # clear files because we can't insert the file back into the upload box
       @form.file_fields.each do |field|
@@ -83,7 +83,7 @@ class Items::DigitalObjectsController < ApplicationController
   # PATCH/PUT /items/digital_objects/1
   def update
     @form = Form.find(@item.form_id)
-    @item.attributes = item_params
+    # @item.attributes = item_params
 
     if @item.valid?
       @form.file_fields.each do |field|
@@ -92,7 +92,7 @@ class Items::DigitalObjectsController < ApplicationController
         if item_params[:data][field].present?
           item_params[:data][field].each do |uploaded_file|
             file_upload = Processing::FileUpload.new(@item.id, uploaded_file, field)
-            files << file_upload.save
+            files << file_upload.archive_media
           end
         end
         @item[:data][field].concat files
