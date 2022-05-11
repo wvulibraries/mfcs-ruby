@@ -3,11 +3,14 @@
     <!-- Files Tab -->
     <ul class="filePreviews">
         <% @item.data.each do |key, value| %>
-            <% if key["upload"] %>
+            <!-- only show upload fields that have files -->
+            <% if key["upload"] && value.count > 0 %>
                 <div class="filePreviewField">
                    <header><i class="fa fa-folder-open"></i> <%= key.titleize %></header>
                     <% value.each do |file| %>
-                        <% presenter = DigitalObjects::FilePresenter.new(file) %>              
+                        <% presenter = DigitalObjects::FilePresenter.new(file) %>  
+                        <%= file.inspect %>
+                                  
                         <ul class="filePreviews">
                             <li><span class="filename "><%= raw("<i class=\"#{presenter.fa_icon}\"></i>") %><%= presenter.filename %> </span>
                                 <span class="dropdowns"> 

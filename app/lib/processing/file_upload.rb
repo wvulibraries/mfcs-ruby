@@ -14,7 +14,7 @@ class Processing::FileUpload
     @fieldname = fieldname
     @directories = create_directories
     @archive_media = create_archive_media
-    @working_media = create_working_media
+    # @working_media = create_working_media
     save
   end
 
@@ -44,17 +44,17 @@ class Processing::FileUpload
     )
   end
 
-  def create_working_media
-    # creates media object in database
-    Media.new(
-      form_id: @item.form_id,
-      item_id: @item.id,
-      media_type: :working,
-      filename: @uploaded_file.original_filename,
-      path: @directories[:working].join(@uploaded_file.original_filename),
-      fieldname: @fieldname
-    )
-  end
+  # def create_working_media
+  #   # creates media object in database
+  #   Media.new(
+  #     form_id: @item.form_id,
+  #     item_id: @item.id,
+  #     media_type: :working,
+  #     filename: @uploaded_file.original_filename,
+  #     path: @directories[:working].join(@uploaded_file.original_filename),
+  #     fieldname: @fieldname
+  #   )
+  # end
 
   # Checks to make sure the path is created and savable.
   # @author(s) David J. Davis / Tracy A. McCormick
@@ -91,10 +91,17 @@ class Processing::FileUpload
   # @author(s) David J. Davis / Tracy A. McCormick
   # @return [String][JSON]
   def save
-    set_versions
+    # set_versions
+
+    # Create Archive Media
+    save_file(@directories[:archives])
     @archive_media.save
-    @working_media.save
+
+    # queue working file job will also run conversions if necessary
+    WorkingFileJob.perform_later(archive_media.id) 
+
+    # @working_media.save
     # queue up the job to convert the file
-    ConvertingFileJob.perform_later(@working_media.id)
+    # ConvertingFileJob.perform_later(@working_media.id)
   end
 end
