@@ -2,7 +2,8 @@ class DigitalObjects::FilePresenter
     def initialize(file)
         @file = file.freeze
         @working = Media.where(filename: @file['filename'], media_type: :working).first
-        #@converted = Media.where(path: converted_file_location, media_type: :converted).first unless converted_file_location.nil?
+        @item = Item.find(@file['item_id'])
+        @converted = Media.where(filename: converted_filename, media_type: :converted).first
     end
 
     def filename
@@ -17,17 +18,13 @@ class DigitalObjects::FilePresenter
         @file['checksum']
     end
 
-    def data
-        @file.read
-    end
-
     def size
         @file['size']
     end
 
     def converted?
-        # does converted file exist?
-        @converted.nil? ? false : true
+        return false if @converted.nil?
+        return true if @converted
     end
 
     # def field_data
@@ -48,7 +45,7 @@ class DigitalObjects::FilePresenter
 
     def location
         # return location of archive file without full path
-        archive_path.sub!('/home/mfcs/data', '')
+        archive_path.sub!('/home/mfcs', '')
     end
 
     # def archive_media_id
@@ -62,12 +59,8 @@ class DigitalObjects::FilePresenter
     # end
 
     def converted_media_id
-        # return id of converted media
-        if converted?
-            @converted.id
-        else
-            nil
-        end
+        @converted = Media.where(filename: converted_filename).first
+        @converted.id
     end
 
     def full_file_path
@@ -76,34 +69,42 @@ class DigitalObjects::FilePresenter
         path.sub!(filename, '')
     end
 
-    #def converted_file_path
+    def converted_file_path
         # return full path to converted file
-    #    @file['path'].sub!(filename, '').sub!('archives', 'conversions')
+        @item.conversion_path.to_s
+    end
 
-        #@file['path'].sub!(filename, '').sub!('archives', 'conversions')
-        # "/home/mfcs/data/114/2defbb0d/9f26/461b/a3c2/e134c60a09d6/conversions/"
-    #end
+    def converted_filename
+        # return array of converted files
+        if converted_file_path != nil
+            file = Dir.glob(converted_file_path + "/*").find { |f| f.include?(File.basename(filename, ".*")) }
+            return File.basename(file) unless file.nil?
+        end
+        ""
+    end
+
+    # check the converted_file_path to see if it exists and is not empty
+    def converted_file_exists?
+        File.exist?(converted_file_path) && File.size(converted_file_path) > 0
+    end
 
     def converted_file_location
-        converted_path = @file['path'].sub!(filename, '').sub!('archives', 'conversions')
-        # return location of the converted file
-        if File.exist?(converted_path)
-          return converted_path + Dir.entries(converted_path).find { |f| f.include?(File.basename(filename, ".*")) }
-        else
-            return nil
-        end
-    end  
-
-    def thumbnail
-        # change path to /data/converted/thumbnail
-        thumbnail_file_path = full_file_path.sub!('archives', 'conversions/thumbnail')
-
-
         # return location of the converted file
         if File.exist?(converted_file_path)
-            return converted_file_path + Dir.entries(thumbnail_file_path).find { |f| f.include?(File.basename(filename, ".*")) }
+          return Dir.glob(converted_file_path + "/*").find { |f| f.include?(File.basename(filename, ".*")) }
         end
-    end
+        return nil
+    end  
+
+    # def thumbnail
+    #     # change path to /data/converted/thumbnail
+    #     thumbnail_file_path = full_file_path.sub!('archives', 'conversions/thumbnail')
+
+    #     # return location of the converted file
+    #     if File.exist?(thumbnail_file_path)
+    #         return thumbnail_file_path + Dir.entries(thumbnail_file_path).find { |f| f.include?(File.basename(filename, ".*")) }
+    #     end
+    # end
 
     # def thumbnail_media_id
     #     # change path to /data/converted
@@ -117,28 +118,29 @@ class DigitalObjects::FilePresenter
     def download_links
         list_array = []
         list_array  <<  { url: "/media/original/#{@working.id}", label: "Original" }
-        #list_array  <<  { url: "/media/converted/#{@converted.id}", label: field_label } if converted?
-        # download thumbnail
-                   
+        list_array  <<  { url: "/media/original/#{converted_media_id}", label: field_label } if converted_file_exists?
+        # list_array  <<  { url: "/media/converted/#{@converted.id}", label: field_label } if converted_file_exists?
+        # download thumbnail                  
     end
 
     def preview_links
         list_array = []
-        list_array  <<  { url: "/media/original/#{@working.id}", label: "Original" } if @working.id.present?
-        #list_array  <<  create_preview_link
+        list_array  <<  { url: "/media/original/#{@working.id}", label: "Original" }
+        # list_array  <<  { url: "/media/original/#{converted_media_id}", label: field_label } if converted_file_exists?
+        list_array  <<  create_preview_link if converted_file_exists?
     end
 
     def create_preview_link
         if @converted.image? 
-            { url: "/media/image/#{@converted.id}", label: "Converted Image" }
+            { url: "/media/image/#{@converted.id}", label: field_label }
         elsif @converted.sound?
-            { url: "/media/audio/#{@converted.id}", label: "Converted Audio" }
+            { url: "/media/audio/#{@converted.id}", label: field_label }
         elsif @converted.video?
-            { url: "/media/video/#{@converted.id}", label: "Converted Video" }
+            { url: "/media/video/#{@converted.id}", label: field_label }
         elsif @converted.pdf?
-            { url: "/media/pdf/#{@converted.id}", label: "Converted Pdf" }
+            { url: "/media/pdf/#{@converted.id}", label: field_label }
         elsif @converted.text?
-            { url: "/media/text/#{@converted.id}", label: "Converted Text or Document" }
+            { url: "/media/text/#{@converted.id}", label: field_label }
         end 
     end
     
@@ -160,19 +162,39 @@ class DigitalObjects::FilePresenter
         end      
     end 
 
-    # def field_label
-    #     if @converted.image? 
-    #       "Converted Image"
-    #     elsif @converted.sound?
-    #        "Converted Audio"
-    #     elsif @converted.video?
-    #        "Converted Video"
-    #     elsif @converted.pdf?
-    #        "Converted Pdf"
-    #     elsif @converted.text?
-    #        "Converted Text or Document"
-    #     end  
-    # end
+    def field_label
+        # return field label for file type
+        case FileInspector::Type.new(@file['mime_type']).file_type
+        when "Image"
+            "Converted Image"
+        when "Audio"
+            "Converted Audio"
+        when "Video"
+            "Converted Video"
+        when "Pdf"
+            "Converted Pdf"
+        when "Text"
+            "Converted Text or Document"
+        else
+            "Unknown"
+        end      
+    end 
+
+    def route_media_path
+         # return field label for file type
+         case FileInspector::Type.new(@file['mime_type']).file_type
+         when "Image"
+             "image"
+         when "Audio"
+             "audio"
+         when "Video"
+             "video"
+         when "Pdf"
+             "pdf"
+         else
+             "Unknown"
+         end   
+    end       
 
     # def preview_links
     #     list_array = []

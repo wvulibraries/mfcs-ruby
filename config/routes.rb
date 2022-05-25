@@ -81,6 +81,9 @@ Rails.application.routes.draw do
   # After Permissions and User Testing is added, this will need to be 
   # scoped for ADMIN permissions only.
   mount Sidekiq::Web => '/sidekiq'
+  # authenticate :user, lambda { |u| u.admin? } do
+  #   mount Sidekiq::Web => '/sidekiq'
+  # end  
 
   # Home
   # ========================================================

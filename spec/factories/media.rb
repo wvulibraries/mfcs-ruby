@@ -43,6 +43,18 @@ FactoryBot.define do
       path { Rails.root.join('spec','fixtures', 'files', 'storm.wav') }
     end 
 
+    factory :working_audio do
+      media_type { 1 }
+      filename { 'storm.wav' }
+      path { Rails.root.join('spec','fixtures', 'files', 'storm.wav') }
+    end   
+    
+    factory :conversion_audio do
+      media_type { 2 }
+      filename { 'storm.mp3' }
+      path { Rails.root.join('spec','fixtures', 'files', 'storm.mp3') }
+    end    
+
     factory :pdf do
       filename { 'test.pdf' }
       path { Rails.root.join('spec','fixtures', 'files', 'test.pdf') }
