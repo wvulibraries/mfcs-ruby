@@ -70,3 +70,5 @@ docker-reset.sh
 # Ignore Docker Images and Database Dump
 /scripts/docker_images/*
 /scripts/postgres-db-dump/*
+coverage/.resultset.json
+coverage/.last_run.json
