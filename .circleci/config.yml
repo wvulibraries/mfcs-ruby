@@ -8,13 +8,12 @@ jobs:
       RAILS_ENV: test
       RACK_ENV: test
       COVERAGE: true
-      TZ: /usr/share/zoneinfo/America/Chicago
+      TZ: /usr/share/zoneinfo/America/NewYork
     docker:
       - image: circleci/ruby:2.7.2-node-browsers
         environment:
-          CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
-          RAILS_ENV: test
-          TEST_REPORT_PATH: "test/reports"
+          PGHOST: 127.0.0.1
+          PGUSER: root
       - image: circleci/postgres:11 # database image
         environment:
           POSTGRES_USER: root
@@ -59,9 +58,9 @@ jobs:
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
           environment:
             DOCKERIZE_VERSION: v0.6.1
-      - run:
-          name: install system libraries
-          command: sudo apt-get update && sudo apt-get -y install imagemagick postgresql-client
+      # - run:
+      #     name: install system libraries
+      #     command: sudo apt-get update && sudo apt-get -y install postgresql-client
       - run:
           name: Force Bundler Version
           command: |
@@ -76,7 +75,7 @@ jobs:
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
-      # - run: bundle exec rake assets:precompile
+      - run: bundle exec bin/rails assets:precompile
       - run:
           name: Install Code Climate Test Reporter
           command: |
