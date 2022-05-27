@@ -53,7 +53,7 @@ jobs:
       # Restore bundle cache
       - type: cache-restore
         key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
-        
+
       - run:
           name: install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
@@ -76,7 +76,7 @@ jobs:
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
-      - run: bundle exec rake assets:precompile
+      # - run: bundle exec rake assets:precompile
       - run:
           name: Install Code Climate Test Reporter
           command: |
@@ -96,7 +96,7 @@ jobs:
       - run:
           name: Setup Database
           command: |
-            bundle exec rake db:create db:structure:load
+            bundle exec rake db:create db:schema:load
       - run:
           name: Run tests
           command: |
@@ -132,7 +132,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/bikeindex/bike_index
+          at: ~/circleci-mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
