@@ -10,7 +10,7 @@ jobs:
       COVERAGE: true
       TZ: /usr/share/zoneinfo/America/NewYork
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
+      - image: cimg/ruby:2.7.2-node-browsers
         environment:
           PGHOST: 127.0.0.1
           PGUSER: root
@@ -27,7 +27,7 @@ jobs:
           - network.host: 127.0.0.1
           - http.port: 9200
           - discovery.type: single-node             
-      - image: circleci/redis # redis image  
+      - image: cimg/redis # redis image  
     steps:
       - checkout
       - run:

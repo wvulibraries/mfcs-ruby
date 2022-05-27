@@ -74,7 +74,7 @@ RSpec.describe DigitalObjects::FilePresenter do
 
         it "returns the full_file_path" do
             presenter = described_class.new(file_info)
-            expect(presenter.full_file_path).to eq("/home/mfcs/spec/fixtures/files/")
+            expect(presenter.full_file_path).to eq(Rails.root.join("spec", "fixtures", "files").to_s + "/")
         end
 
         it "returns the converted_file_path" do
