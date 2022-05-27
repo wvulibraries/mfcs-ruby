@@ -23,8 +23,7 @@ class DigitalObjects::FilePresenter
     end
 
     def converted?
-        return false if @converted.nil?
-        return true if @converted
+        !@converted.nil?
     end
 
     # def field_data
@@ -59,7 +58,7 @@ class DigitalObjects::FilePresenter
     # end
 
     def converted_media_id
-        @converted = Media.where(filename: converted_filename).first
+        #@converted = Media.where(filename: converted_filename).first
         @converted.id
     end
 
@@ -76,7 +75,7 @@ class DigitalObjects::FilePresenter
 
     def converted_filename
         # return array of converted files
-        if converted_file_path != nil
+        if File.exist?(converted_file_path)
             file = Dir.glob(converted_file_path + "/*").find { |f| f.include?(File.basename(filename, ".*")) }
             return File.basename(file) unless file.nil?
         end
@@ -126,8 +125,8 @@ class DigitalObjects::FilePresenter
     def preview_links
         list_array = []
         list_array  <<  { url: "/media/original/#{@working.id}", label: "Original" }
-        # list_array  <<  { url: "/media/original/#{converted_media_id}", label: field_label } if converted_file_exists?
-        list_array  <<  create_preview_link if converted_file_exists?
+        list_array  <<  { url: "/media/original/#{converted_media_id}", label: field_label } if converted_file_exists?
+        #list_array  <<  create_preview_link if converted_file_exists?
     end
 
     def create_preview_link
