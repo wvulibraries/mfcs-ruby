@@ -88,7 +88,7 @@ jobs:
       - save_cache:
           key: v2-dep-{{ .Branch }}-{{ epoch }}
           paths:
-            - ./vendor/bundle
+            # - ./vendor/bundle
             - ~/.bundle
             #- public/assets
             #- tmp/cache/assets/sprockets
@@ -106,7 +106,6 @@ jobs:
             bundle exec rspec --profile 10 \
                               --color \
                               --order random \
-                              --format RspecJunitFormatter \
                               --out test-results/rspec/rspec.xml \
                               --format progress \
                               -- ${TESTFILES}

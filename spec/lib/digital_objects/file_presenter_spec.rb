@@ -67,10 +67,10 @@ RSpec.describe DigitalObjects::FilePresenter do
             expect(presenter.converted?).to eq(false)
         end
 
-        # it "returns the location" do
-        #     presenter = described_class.new(file_info)
-        #     expect(presenter.location).to eq(media.path)
-        # end
+        it "returns the location" do
+            presenter = described_class.new(file_info)
+            expect(presenter.location).to eq(media.path)
+        end
 
         it "returns the full_file_path" do
             presenter = described_class.new(file_info)
