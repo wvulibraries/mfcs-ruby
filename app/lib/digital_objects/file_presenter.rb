@@ -58,7 +58,9 @@ class DigitalObjects::FilePresenter
     # end
 
     def converted_media_id
-        #@converted = Media.where(filename: converted_filename).first
+        # find media if @converted is nil
+        @converted = Media.where(filename: converted_filename).first if @converted.nil?
+        # return id of converted media
         @converted.id
     end
 
