@@ -6,6 +6,10 @@ SimpleCov.start do
   add_filter '/spec/'
 end
 
+SimpleCov.formatters = [
+  SimpleCov::Formatter::JSONFormatter
+]
+
 RSpec.configure do |config|
   # expectations
   config.expect_with :rspec do |expectations|
