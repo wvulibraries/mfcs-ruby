@@ -27,7 +27,7 @@ jobs:
           - network.host: 127.0.0.1
           - http.port: 9200
           - discovery.type: single-node             
-      - image: cimg/redis # redis image  
+      - image: circleci/redis # redis image  
     steps:
       - checkout
       - run:
