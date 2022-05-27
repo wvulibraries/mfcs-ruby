@@ -75,7 +75,8 @@ jobs:
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
-      - run: bundle exec bin/rails assets:precompile
+      # - need webpacker and bable to compile assets
+      # - run: bundle exec bin/rails assets:precompile
       - run:
           name: Install Code Climate Test Reporter
           command: |
