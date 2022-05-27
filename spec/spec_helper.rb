@@ -1,14 +1,22 @@
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
-ENV["RAILS_ENV"] ||= 'test'
+ENV["RACK_ENV"] ||= ENV["ENVIRONMENT"] ||= "test"
 
-require 'simplecov'
-require "simplecov_json_formatter"
+if ENV["COVERAGE"]
+  require "simplecov"
+  require "simplecov_json_formatter"
 
-SimpleCov.start do
-  add_filter '/spec/'
+  SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
+
+  SimpleCov.start do
+    add_group "lib", "lib"
+    add_group "spec", "spec"
+
+    maximum_coverage_drop 2
+    # FIXME: JRuby reports different coverage on multi-line boolean statements like in `dead_job.rb`
+    minimum_coverage_by_file 70 # 95
+    minimum_coverage 95
+  end
 end
-
-SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
 
 RSpec.configure do |config|
   # expectations
