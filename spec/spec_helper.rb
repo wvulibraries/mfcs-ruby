@@ -2,13 +2,13 @@
 ENV["RAILS_ENV"] ||= 'test'
 
 require 'simplecov'
+require "simplecov_json_formatter"
+
 SimpleCov.start do
   add_filter '/spec/'
 end
 
-SimpleCov.formatters = [
-  SimpleCov::Formatter::JSONFormatter
-]
+SimpleCov.formatter = SimpleCov::Formatter::JSONFormatter
 
 RSpec.configure do |config|
   # expectations

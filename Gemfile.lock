@@ -166,6 +166,7 @@ GEM
     hashie (5.0.0)
     i18n (1.10.0)
       concurrent-ruby (~> 1.0)
+    json (2.6.2)
     listen (3.7.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -182,7 +183,7 @@ GEM
     mini_magick (4.11.0)
     mini_mime (1.1.2)
     minitest (5.15.0)
-    msgpack (1.5.1)
+    msgpack (1.5.2)
     multi_json (1.15.0)
     multipart-post (2.1.1)
     net-imap (0.2.3)
@@ -336,6 +337,9 @@ GEM
       simplecov
       terminal-table
     simplecov-html (0.12.3)
+    simplecov-json (0.2.3)
+      json
+      simplecov
     simplecov_json_formatter (0.1.4)
     spring (2.1.1)
     spring-watcher-listen (2.0.1)
@@ -420,6 +424,7 @@ DEPENDENCIES
   sidekiq-failures
   simplecov
   simplecov-console
+  simplecov-json
   spring
   spring-watcher-listen (~> 2.0.0)
   sprockets-rails
