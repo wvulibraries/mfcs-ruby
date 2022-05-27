@@ -22,7 +22,7 @@ class Import
     # location
     file_path = self.find_file(file['path'], original_filename)
 
-    if file_path != nil && File.exists?(file_path)
+    if file_path != nil && File.exist?(file_path)
       # get Item
       item = Item.find(item_id)
 
@@ -80,11 +80,11 @@ class Import
   # temporarly using the backup copy for testing
   # will be removed later
   def find_file(file_path, original_filename)
-    if File.exists?('importing/objects/' + file_path + '/' + original_filename)
+    if File.exist?('importing/objects/' + file_path + '/' + original_filename)
       path = 'importing/objects/' + file_path + '/' + original_filename      
     # don't have all the files yet, so using the backup copy
     # for testing
-    elsif File.exists?('importing/folklife_1605711112/archive/' + original_filename)
+    elsif File.exist?('importing/folklife_1605711112/archive/' + original_filename)
       path = 'importing/folklife_1605711112/archive/' + original_filename
     else
       path = nil

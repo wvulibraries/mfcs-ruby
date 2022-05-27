@@ -215,7 +215,7 @@ class Item < ApplicationRecord
           zipfile.add(item, File.join(conversion_path, item))
         end  
       end
-      if File.exists?(thumbnail_path) 
+      if File.exist?(thumbnail_path) 
         Dir["#{thumbnail_path}/**/**"].map{|e|e.sub %r[^#{thumbnail_path}/],''}.reject{|f|f==zip_file_name}.each do | item |
           zipfile.add(item, File.join(thumbnail_path, item))
         end   

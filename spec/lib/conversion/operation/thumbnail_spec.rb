@@ -12,7 +12,7 @@ RSpec.describe Conversion::Operation::Thumbnail, type: :model do
     filename = File.basename(file) 
     new_location = "#{test_file_dir}/#{filename}"
 
-    FileUtils.mkdir_p(test_file_dir) unless File.exists?(test_file_dir)
+    FileUtils.mkdir_p(test_file_dir) unless File.exist?(test_file_dir)
     FileUtils.cp(file, new_location)
 
     @test_file = new_location 
@@ -173,7 +173,7 @@ RSpec.describe Conversion::Operation::Thumbnail, type: :model do
   
   context '.save_media' do
     before(:each) do
-      FileUtils.mkdir_p(test_file_dir) unless File.exists?(test_file_dir)
+      FileUtils.mkdir_p(test_file_dir) unless File.exist?(test_file_dir)
     end 
 
     # it 'should save the media' do 

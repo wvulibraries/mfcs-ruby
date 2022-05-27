@@ -66,7 +66,7 @@ RSpec.describe Ffmpeg::Audio, type: :model do
 
   context '.perform' do 
     before(:each) do
-      FileUtils.mkdir_p(test_file_dir) unless File.exists?(test_file_dir)
+      FileUtils.mkdir_p(test_file_dir) unless File.exist?(test_file_dir)
     end 
 
     it 'expects the perform to be false because command has not been called.' do 

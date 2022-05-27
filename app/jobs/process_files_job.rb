@@ -29,7 +29,7 @@ class ProcessFilesJob < ApplicationJob
 
   #         file_path = find_file(file['path'], original_filename)
 
-  #         if file_path != nil && File.exists?(file_path)
+  #         if file_path != nil && File.exist?(file_path)
   #           # copy file from the importing directory to the data directory
   #           #self.copy_file(file_path, item.archival_path, original_filename)
   #           #FileCopyJob.perform_later(file_path, item.archival_path, original_filename)
@@ -37,7 +37,7 @@ class ProcessFilesJob < ApplicationJob
   #           hash = {source_path: file_path, destination_path: item.archival_path, filename: original_filename}
   #           FileCopyJob.perform_later(hash.to_json)
 
-  #           while File.exists?(item.archival_path.join(original_filename)) == false
+  #           while File.exist?(item.archival_path.join(original_filename)) == false
   #             sleep 1
   #           end
 
@@ -73,7 +73,7 @@ class ProcessFilesJob < ApplicationJob
   #           hash[:destination_path] = item.working_path
   #           FileCopyJob.perform_later(hash.to_json)
 
-  #           while File.exists?(item.working_path.join(original_filename)) == false
+  #           while File.exist?(item.working_path.join(original_filename)) == false
   #             sleep 1
   #           end
 
