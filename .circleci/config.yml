@@ -76,7 +76,7 @@ jobs:
           command: yarn install --cache-folder ~/.cache/yarn
       - run: 
           name: Webpacker Install
-          command: bundle exec rake webpacker:compile
+          command: ./bin/webpack-dev-server
       - run:
           name: Install Code Climate Test Reporter
           command: |
