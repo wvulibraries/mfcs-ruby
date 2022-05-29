@@ -14,6 +14,11 @@ jobs:
         environment:
           PGHOST: 127.0.0.1
           PGUSER: root
+      - image: cimg/ruby:2.7.2-node
+        command: bundle exec ./bin/webpack-dev-server --inline true
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: root        
       - image: circleci/postgres:11 # database image
         environment:
           POSTGRES_USER: root
@@ -93,6 +98,8 @@ jobs:
             #- public/assets
             #- tmp/cache/assets/sprockets
             - ~/.cache/yarn
+            - public/packs-test
+ 
       - run:
           name: Setup Database
           command: |
