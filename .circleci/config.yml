@@ -49,10 +49,27 @@ jobs:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
 
-      # Restore bundle cache
-      - type: cache-restore
-        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
-
+      - restore_cache:
+          name: Restore gem cache
+          keys:
+            - gem-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+            - gem-cache-v4-{{ arch }}-{{ .Branch }}
+            - gem-cache-v4-{{ arch }}
+            - gem-cache-v4
+      - restore_cache:
+          name: Restore yarn cache
+          keys:
+            - yarn-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - yarn-cache-v4-{{ arch }}-{{ .Branch }}
+            - yarn-cache-v4-{{ arch }}
+            - yarn-cache-v4
+      - restore_cache:
+          name: Restore assets cache
+          keys:
+            - assets-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "dependency_checksum" }}
+            - assets-cache-v4-{{ arch }}-{{ .Branch }}
+            - assets-cache-v4-{{ arch }}
+            - assets-cache-v4
       - run:
           name: install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
@@ -86,15 +103,21 @@ jobs:
           name: Wait for PostgreSQL to start
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
       - save_cache:
-          key: v2-dep-{{ .Branch }}-{{ epoch }}
+          name: Save gem cache
           paths:
-            - ./vendor/bundle
-            - ~/.bundle
-            #- public/assets
-            #- tmp/cache/assets/sprockets
+            - vendor/bundle
+          key: gem-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
+      - save_cache:
+          name: Save yarn cache
+          paths:
             - ~/.cache/yarn
-            - ./node_modules
-            - ./public/packs-test
+          key: yarn-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - save_cache:
+          name: Save assets cache
+          paths:
+            - public/packs-test
+            - tmp/cache/webpacker
+          key: assets-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "dependency_checksum" }}
       - run:
           name: Setup Database
           command: |
