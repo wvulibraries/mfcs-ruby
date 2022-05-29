@@ -44,8 +44,7 @@ export default class Validation {
    * @return {boolean} returns true if string is empty or not a string.
   */
   static isEmpty(input){
-    if (input == null) return true; 
-    if (typeof input == 'undefined') return true; 
+    if ((input == null) || (typeof input == 'undefined')) return true; 
     if (typeof input == 'string') { 
       let str = input.replace(/\s/gi, '');
       return str.length === 0;
