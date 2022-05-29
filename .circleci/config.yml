@@ -14,11 +14,6 @@ jobs:
         environment:
           PGHOST: 127.0.0.1
           PGUSER: root
-      - image: cimg/ruby:2.7.2-node
-        command: bundle exec ./bin/webpack-dev-server --inline true
-        environment:
-          PGHOST: 127.0.0.1
-          PGUSER: root        
       - image: circleci/postgres:11 # database image
         environment:
           POSTGRES_USER: root
@@ -76,12 +71,12 @@ jobs:
       - run:
           name: bundle gems
           command: bundle install --jobs=4 --retry=3
-      # So that we can compile assets, since we use node & yarn
       - run:
           name: Yarn Install
           command: yarn install --cache-folder ~/.cache/yarn
-      # - need webpacker and bable to compile assets
-      # - run: bundle exec bin/rails assets:precompile
+      - run: 
+          name: Webpacker Install
+          command: bundle exec ./bin/webpack-dev-server --inline true
       - run:
           name: Install Code Climate Test Reporter
           command: |
@@ -93,13 +88,13 @@ jobs:
       - save_cache:
           key: v2-dep-{{ .Branch }}-{{ epoch }}
           paths:
-            # - ./vendor/bundle
+            - ./vendor/bundle
             - ~/.bundle
             #- public/assets
             #- tmp/cache/assets/sprockets
             - ~/.cache/yarn
-            - public/packs-test
- 
+            - ./node_modules
+            - ./public
       - run:
           name: Setup Database
           command: |
