@@ -49,27 +49,13 @@ jobs:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
 
-      - restore_cache:
-          name: Restore gem cache
-          keys:
-            - gem-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - gem-cache-v4-{{ arch }}-{{ .Branch }}
-            - gem-cache-v4-{{ arch }}
-            - gem-cache-v4
-      - restore_cache:
-          name: Restore yarn cache
-          keys:
-            - yarn-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-cache-v4-{{ arch }}-{{ .Branch }}
-            - yarn-cache-v4-{{ arch }}
-            - yarn-cache-v4
-      - restore_cache:
-          name: Restore assets cache
-          keys:
-            - assets-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "dependency_checksum" }}
-            - assets-cache-v4-{{ arch }}-{{ .Branch }}
-            - assets-cache-v4-{{ arch }}
-            - assets-cache-v4
+      # Restore bundle cache
+      - type: cache-restore
+        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
+
+      - type: cache-restore
+        key: mfcs-yarn-{{ checksum "yarn.lock" }}       
+
       - run:
           name: install dockerize
           command: wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
@@ -102,22 +88,19 @@ jobs:
       - run:
           name: Wait for PostgreSQL to start
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
-      - save_cache:
-          name: Save gem cache
-          paths:
-            - vendor/bundle
-          key: gem-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-      - save_cache:
-          name: Save yarn cache
-          paths:
-            - ~/.cache/yarn
-          key: yarn-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "yarn.lock" }}
-      - save_cache:
-          name: Save assets cache
-          paths:
-            - public/packs-test
-            - tmp/cache/webpacker
-          key: assets-cache-v4-{{ arch }}-{{ .Branch }}-{{ checksum "dependency_checksum" }}
+
+      # Store bundle cache
+      - type: cache-save
+        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Store yarn cache
+      - type: cache-save
+        key: mfcs-yarn-{{ checksum "yarn.lock" }}
+        paths:
+          - ~/.yarn-cache
+
       - run:
           name: Setup Database
           command: |
