@@ -38,10 +38,7 @@ jobs:
           command: mv config/database.ci.yml config/database.yml
       - run:
           name: Configure application.yml
-          command: mv config/application.ci.yml config/application.yml      
-      - run:
-          name: Configure webpacker.yml
-          command: mv config/webpacker.yml config/webpacker.yml            
+          command: mv config/application.ci.yml config/application.yml              
       - run:
           name: apt update
           command: sudo apt update
@@ -79,7 +76,7 @@ jobs:
           command: yarn install --cache-folder ~/.cache/yarn
       - run: 
           name: Webpacker Install
-          command: bundle exec ./bin/webpack-dev-server --inline true
+          command: bundle exec rake webpacker:compile
       - run:
           name: Install Code Climate Test Reporter
           command: |
