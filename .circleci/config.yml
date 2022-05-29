@@ -40,6 +40,9 @@ jobs:
           name: Configure application.yml
           command: mv config/application.ci.yml config/application.yml      
       - run:
+          name: Configure webpacker.yml
+          command: mv config/webpacker.yml config/webpacker.yml            
+      - run:
           name: apt update
           command: sudo apt update
       - run:
@@ -94,7 +97,7 @@ jobs:
             #- tmp/cache/assets/sprockets
             - ~/.cache/yarn
             - ./node_modules
-            - ./public
+            - ./public/packs-test
       - run:
           name: Setup Database
           command: |
