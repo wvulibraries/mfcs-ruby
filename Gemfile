@@ -78,11 +78,8 @@ group :test do
   gem 'rspec-rails'
   gem 'shoulda'
   gem 'shoulda-matchers'
-  # Codeclimate is not compatible with 0.18+. See https://github.com/codeclimate/test-reporter/issues/413
-  # gem 'simplecov', require: false, group: :test
   gem 'simplecov', group: :test
   gem "simplecov-json" # For CodeClimate
-  # gem 'simplecov'
   gem 'simplecov-console'
 end
 
