@@ -7,12 +7,12 @@ class Items::ItemsController < ApplicationController
   # GET /items/1
   def show
     @form = Form.find(@item.form_id)
-  end  
+  end
 
   ## gets image and shows image
   def thumb
     media = Media.where(item_id: params[:id], media_type: 'thumbnail').first
-    file_to_send = media ? { path: media.path, type: media.mime_type } : set_default_image 
+    file_to_send = media ? { path: media.path, type: media.mime_type } : set_default_image
     send_file(file_to_send[:path], { type: file_to_send[:type], disposition: 'inline' })
   end
 
@@ -20,8 +20,50 @@ class Items::ItemsController < ApplicationController
     zip_file = @item.download_all
     send_file(zip_file, { type: 'application/zip', disposition: 'attachment' })
   end
-  
-  private 
+
+  def download_zip_b
+    zip_file = @item.download_all
+    send_file(zip_file, { type: 'application/zip', disposition: 'attachment' })
+  end
+
+  def download_zip_c
+    zip_file = @item.download_all
+    send_file(zip_file, { type: 'application/zip', disposition: 'attachment' })
+  end
+
+  def download_zip_d
+    zip_file = @item.download_all
+    send_file(zip_file, { type: 'application/zip', disposition: 'attachment' })
+  end
+
+  def download_zip_e
+    zip_file = @item.download_all
+    send_file(zip_file, { type: 'application/zip', disposition: 'attachment' })
+  end
+
+  def download_zip_f
+    zip_file = @item.download_all
+    send_file(zip_file, { type: 'application/zip', disposition: 'attachment' })
+  end
+
+  def download_zip_g
+    zip_file = @item.download_all
+    send_file(zip_file, { type: 'application/zip', disposition: 'attachment' })
+    if zip_file
+      if zip_file.exists?
+        p 'test' 
+        if 1 + 1 == 2
+          p 'test'
+        end
+      else
+        p 'other test'
+      end
+    else
+      p 'test'
+    end
+  end
+
+  private
 
   # Use callbacks to share common setup or constraints between actions.
   def set_item
@@ -52,5 +94,4 @@ class Items::ItemsController < ApplicationController
     # No Image Found
     return { path: 'app/frontend/packs/images/no-image.png', type: 'image/png' }
   end
-
 end
