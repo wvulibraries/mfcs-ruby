@@ -24,6 +24,30 @@ class Items::MetadataController < ApplicationController
     @items = Item.order(:idno).where(form_id: params[:form_id], metadata: true)
   end
 
+  def new_b
+    @item = Item.new
+    @item.metadata = @form.metadata
+    @item.form_id = params[:form_id]
+    @item.public_release = @form.export_public
+    @items = Item.order(:idno).where(form_id: params[:form_id], metadata: true)
+  end
+
+  def new_c
+    @item = Item.new
+    @item.metadata = @form.metadata
+    @item.form_id = params[:form_id]
+    @item.public_release = @form.export_public
+    @items = Item.order(:idno).where(form_id: params[:form_id], metadata: true)
+  end
+
+  def new_d
+    @item = Item.new
+    @item.metadata = @form.metadata
+    @item.form_id = params[:form_id]
+    @item.public_release = @form.export_public
+    @items = Item.order(:idno).where(form_id: params[:form_id], metadata: true)
+  end
+
   # # GET /items/metadata/new/
   # def no_form
   #   redirect_to '/items/metadata', notice: 'no metadata form.'
@@ -43,8 +67,49 @@ class Items::MetadataController < ApplicationController
                  .order("data ->> ':field_name'")
 
     if @form.nil? && @items.blank?
-      return redirect_to items_metadata_list_path,
-                         warning: 'No Items or Form Present for duplication check'
+      redirect_to items_metadata_list_path,
+                  warning: 'No Items or Form Present for duplication check'
+    end
+
+    # do something else
+    # temp = nil
+  end
+
+  def duplicates_b
+    @form = Form.find(params[:form_id])
+
+    metadata_arry = Item.where(form_id: params[:form_id]).pluck(:data)
+    titles = metadata_arry.map { |x| x[params[:field_name]] }
+                          .sort.chunk { |e| e }
+                          .select { |_e, chunk| chunk.size > 1 }
+                          .map(&:first)
+
+    @items = Item.where(form_id: params[:form_id])
+                 .where('data ->> :field_name IN (:values)', field_name: params[:field_name], values: titles)
+                 .order("data ->> ':field_name'")
+
+    if @form.nil? && @items.blank?
+      redirect_to items_metadata_list_path,
+                  warning: 'No Items or Form Present for duplication check'
+    end
+
+    # do something else
+    # temp = nil
+    @form = Form.find(params[:form_id])
+
+    metadata_arry = Item.where(form_id: params[:form_id]).pluck(:data)
+    titles = metadata_arry.map { |x| x[params[:field_name]] }
+                          .sort.chunk { |e| e }
+                          .select { |_e, chunk| chunk.size > 1 }
+                          .map(&:first)
+
+    @items = Item.where(form_id: params[:form_id])
+                 .where('data ->> :field_name IN (:values)', field_name: params[:field_name], values: titles)
+                 .order("data ->> ':field_name'")
+
+    if @form.nil? && @items.blank?
+      redirect_to items_metadata_list_path,
+                  warning: 'No Items or Form Present for duplication check'
     end
 
     # do something else
@@ -64,7 +129,7 @@ class Items::MetadataController < ApplicationController
   # GET /items/metadata/1/edit
   def edit
     @form = Form.find(@item.form_id)
-    breadcrumb @form.display_title, "/items/metadata/new/#{@form.id}", title: 'Select a Form' 
+    breadcrumb @form.display_title, "/items/metadata/new/#{@form.id}", title: 'Select a Form'
   end
 
   # POST /items/metadata
