@@ -6,5 +6,5 @@
 # Purpose : This script is used to import mfcs development database 
 # Run script from the scripts folder on host machine
 echo "Restoring MFCS Dev Database"
-file=$(ls -t ./scripts/postgres-db-dump/*.sql | head -1)
+file=$(ls -t ./postgres-db-dump/*.sql | head -1)
 cat $file | docker exec -i mfcs_db psql -U postgres
