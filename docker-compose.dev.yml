@@ -35,7 +35,9 @@ services:
       retries: 3               
 
   mfcs_ruby: 
-    build: .
+    build: 
+      context: ./
+      dockerfile: Dockerfile
     tty: true
     stdin_open: true
     container_name: mfcs_ruby
@@ -77,7 +79,9 @@ services:
     links:
       - 'postgres'
       - 'redis'
-    build: .
+    build: 
+      context: ./
+      dockerfile: Dockerfile
     command: bundle exec sidekiq -C config/sidekiq.yml
     env_file:
       - './env/.env.dev.mfcs'      
@@ -95,7 +99,9 @@ services:
       - redis         
 
   webpacker:
-    build: .
+    build: 
+      context: ./
+      dockerfile: Dockerfile
     container_name: mfcs_webpack
     env_file:
       - './env/.env.dev.webpacker'
