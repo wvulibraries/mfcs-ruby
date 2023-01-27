@@ -106,7 +106,7 @@ We are using Jest to handle the frontend testing.  If you look in the `package.j
   `bin/rails r importing/objects/import_metadata_objects.rb` import metadata objects
   `bin/rails r importing/objects/import_digital_objects.rb` import digital objects
 
-  To run all the import scrips run `sh ./import.sh`
+  To run all the import scripts run `sh ./import.sh`
 
 
 
