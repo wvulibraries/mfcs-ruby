@@ -23,6 +23,8 @@ services:
     image: redis:alpine
     container_name: mfcs_redis
     command: redis-server
+    env_file:
+      - './env/.env.dev.redis'
     volumes:
       - redis:/var/lib/redis/data
     networks:
