@@ -17,6 +17,8 @@ services:
     container_name: mfcs_redis
     command: redis-server
     restart: always
+    env_file:
+      - './env/.env.prod.redis'
     volumes:
       - ./redis:/var/lib/redis/data
 
