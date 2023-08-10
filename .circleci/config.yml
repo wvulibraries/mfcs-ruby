@@ -85,7 +85,7 @@ jobs:
           command: bundle install --path vendor/bundle
       - run:
           name: Yarn Install
-          command: yarn install --cache-folder ~/.cache/yarn
+          command: yarn install --frozen-lockfile
       # - run:
       #     name: Precompile assets
       #     command: RAILS_ENV=test bundle exec rails webpacker:compile
