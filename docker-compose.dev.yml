@@ -3,7 +3,7 @@ version: '3'
 services:
   postgres:
     container_name: mfcs_db
-    image: postgres:14-alpine
+    image: postgres:15.2-alpine
     ports:
       - "5432:5432"
     env_file:
@@ -14,10 +14,11 @@ services:
       - mfcs_net 
     restart: unless-stopped
     healthcheck:
-        test: pg_isready -U postgres -h postgres
-        interval: 30s
-        timeout: 3s
-        retries: 3                
+      test: ["CMD-SHELL", "pg_isready", "-d", "postgres"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s                  
 
   redis:
     image: redis:alpine
@@ -54,8 +55,13 @@ services:
       - packs_data:/app/public/packs
       - mfcs_tmp:/home/mfcs/tmp
       - mfcs_storage:/home/mfcs/storage
-      - ./importing:/home/mfcs/importing
-
+      # testing php mfcs exports / imports
+      - ./data/forms:/home/mfcs/importing/forms
+      - ./data/objects:/home/mfcs/importing/objects
+      - ./data/projects:/home/mfcs/importing/projects
+      - ./data/users:/home/mfcs/importing/users
+      - ./data/watermarks:/home/mfcs/importing/watermarks
+      - ./data/folklife_1605711112:/home/mfcs/importing/folklife_1605711112
       #- mfcs-data:/home/mfcs/data     
     ports:
       - "3000:3000" 
