@@ -48,7 +48,7 @@ jobs:
           command: sudo apt update
       - run:
           name: Install Packages
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg  
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg yarn
       - run:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
@@ -143,7 +143,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/circleci-mfcs/mfcs
+          at: ~/circleci-mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
