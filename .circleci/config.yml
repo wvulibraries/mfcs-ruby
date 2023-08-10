@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/circleci-mfcs
+    working_directory: ~/circleci-mfcs/mfcs
     parallelism: 4
     shell: /bin/bash --login
     environment:
@@ -139,7 +139,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/circleci-mfcs
+          at: ~/circleci-mfcs/mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
