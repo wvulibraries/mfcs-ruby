@@ -29,6 +29,8 @@ jobs:
           - discovery.type: single-node             
       - image: circleci/redis # redis image  
     steps:
+      - attach_workspace:
+          at: ~/circleci-mfcs/mfcs    
       - checkout
       - run:
           name: Configure secrets.yml
