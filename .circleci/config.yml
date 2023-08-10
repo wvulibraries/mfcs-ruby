@@ -28,19 +28,21 @@ jobs:
           - http.port: 9200
           - discovery.type: single-node             
       - image: circleci/redis # redis image  
-    steps:
-      - attach_workspace:
-          at: ~/circleci-mfcs/mfcs    
-      - checkout
+    steps:    
+      - checkout:
+            path: ~/circleci-mfcs
+      - run:
+          name: Configure timezone
+          command: sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
       - run:
           name: Configure secrets.yml
-          command: mv mfcs/config/secrets.ci.yml mfcs/config/secrets.yml
+          command: mv config/secrets.ci.yml config/secrets.yml
       - run:
           name: Configure database.yml
-          command: mv mfcs/config/database.ci.yml mfcs/config/database.yml
+          command: mv config/database.ci.yml config/database.yml
       - run:
           name: Configure application.yml
-          command: mv mfcs/config/application.ci.yml mfcs/config/application.yml              
+          command: mv config/application.ci.yml config/application.yml              
       - run:
           name: apt update
           command: sudo apt update
@@ -137,11 +139,11 @@ jobs:
       - image: cimg/ruby:2.7.2-node
     environment:
        CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
-    working_directory: ~/circleci-mfcs/mfcs
+    working_directory: ~/circleci-mfcs
 
     steps:
       - attach_workspace:
-          at: ~/circleci-mfcs/mfcs
+          at: ~/circleci-mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
