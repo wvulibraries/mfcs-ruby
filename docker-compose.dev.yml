@@ -48,7 +48,8 @@ services:
     env_file:
       - './env/.env.dev.mfcs'        
     volumes:
-      - .:/home/mfcs:cached
+      - ./mfcs:/home/mfcs
+      - ./scripts:/home/mfcs/scripts
       - rails_cache_data:/app/tmp/cache
       - bundle_data:/usr/local/bundle
       - node_modules_data:/home/mfcs/node_modules
@@ -56,6 +57,8 @@ services:
       - mfcs_tmp:/home/mfcs/tmp
       - mfcs_storage:/home/mfcs/storage
       # testing php mfcs exports / imports
+      - ./data/logs:/home/mfcs/log
+      - ./data/mfcs-data:/home/mfcs/data
       - ./data/forms:/home/mfcs/importing/forms
       - ./data/objects:/home/mfcs/importing/objects
       - ./data/projects:/home/mfcs/importing/projects
@@ -95,7 +98,8 @@ services:
       - './env/.env.dev.mfcs'      
     restart: always      
     volumes:
-      - ./:/home/mfcs:cached
+      - ./mfcs:/home/mfcs:cached
+      - ./data/mfcs-data:/home/mfcs/data      
       - rails_cache_data:/app/tmp/cache
       - bundle_data:/usr/local/bundle  
       - mfcs_tmp:/home/mfcs/tmp
@@ -115,7 +119,7 @@ services:
       - './env/.env.dev.webpacker'
     command: bundle exec ./bin/webpack-dev-server --inline true
     volumes:
-      - .:/home/mfcs:cached
+      - ./mfcs:/home/mfcs:cached
       - bundle_data:/usr/local/bundle
       - node_modules_data:/home/mfcs/node_modules
       - packs_data:/app/public/packs      

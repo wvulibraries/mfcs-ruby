@@ -1,8 +1,14 @@
 FROM ruby:2.7.7
 
-RUN mkdir -p /home/mfcs
-WORKDIR /home/mfcs
-ADD ./ /home/mfcs
+ENV NODE_VERSION=14
+ENV PROJECT_PATH=mfcs
+
+RUN mkdir -p /home/${PROJECT_PATH}
+WORKDIR /home/${PROJECT_PATH}
+ADD ./${PROJECT_PATH}/Gemfile /home/${PROJECT_PATH}/Gemfile
+ADD ./${PROJECT_PATH}/Gemfile.lock /home/${PROJECT_PATH}/Gemfile.lock
+ADD ./${PROJECT_PATH}/package.json /home/${PROJECT_PATH}/package.json
+ADD ./${PROJECT_PATH}/yarn.lock /home/${PROJECT_PATH}/yarn.lock
 
 # Update all the things
 RUN apt-get update
@@ -47,8 +53,9 @@ RUN apt-get install -y graphicsmagick ghostscript ffmpeg libgs-dev
 # -------------------------------------------------------------------------------------------------
 
 # Node.js
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - \
-    && apt-get install -y nodejs
+# -------------------------------------------------------------------------------------------------
+RUN curl -sL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+	&& apt-get -y install nodejs
 
 # yarn
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -\

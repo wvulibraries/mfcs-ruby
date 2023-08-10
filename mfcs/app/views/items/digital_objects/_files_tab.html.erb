@@ -9,7 +9,7 @@
                    <header><i class="fa fa-folder-open"></i> <%= key.titleize %></header>
                     <% value.each do |file| %>
                         <% presenter = DigitalObjects::FilePresenter.new(file) %>  
-                        <%= file.inspect %>
+                        <% file.inspect %>
                                   
                         <ul class="filePreviews">
                             <li><span class="filename "><%= raw("<i class=\"#{presenter.fa_icon}\"></i>") %><%= presenter.filename %> </span>

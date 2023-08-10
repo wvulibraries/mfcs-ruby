@@ -12,11 +12,14 @@ class DigitalObjects::MetadataPresenter
             if item_id.eql?("")
                 meta_data << "Item not found"
             else
-                item = Item.find(item_id)
-                form = Form.find(item.form_id)
+                # item = @item_ids
+                # stop here for now and inspect item
 
-                # get the metadata field
-                meta_data << item.data[form.object_title_field]
+                # item = Item.find(item_id)
+                # form = Form.find(item.form_id)
+
+                # # get the metadata field
+                # meta_data << item.data[form.object_title_field]
             end
         end
         meta_data
