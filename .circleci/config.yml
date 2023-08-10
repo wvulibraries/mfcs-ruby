@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/circleci-mfcs/mfcs
+    working_directory: ~/circleci-mfcs
     parallelism: 4
     shell: /bin/bash --login
     environment:
@@ -32,7 +32,7 @@ jobs:
       - checkout
       - run:
           name: Configure secrets.yml
-          command: mv config/secrets.ci.yml config/secrets.yml
+          command: mv mfcs/config/secrets.ci.yml mfcs/config/secrets.yml
       - run:
           name: Configure database.yml
           command: mv config/database.ci.yml config/database.yml
