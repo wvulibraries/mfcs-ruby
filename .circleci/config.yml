@@ -42,7 +42,13 @@ jobs:
           command: mv config/database.ci.yml config/database.yml
       - run:
           name: Configure application.yml
-          command: mv config/application.ci.yml config/application.yml              
+          command: mv config/application.ci.yml config/application.yml  
+      - run:
+          name: Remove Gemfile.lock
+          command: rm Gemfile.lock
+      - run:
+          name: Touch Gemfile.lock
+          command: touch Gemfile.lock                        
       - run:
           name: apt update
           command: sudo apt update
@@ -73,13 +79,13 @@ jobs:
       # - run:
       #     name: install system libraries
       #     command: sudo apt-get update && sudo apt-get -y install postgresql-client
-      - run:
-          name: Force Bundler Version
-          command: |
-            sudo gem update --system
-            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
-            source $BASH_ENV
-            gem install bundler
+      # - run:
+      #     name: Force Bundler Version
+      #     command: |
+      #       sudo gem update --system
+      #       echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+      #       source $BASH_ENV
+      #       gem install bundler
       - run:
           name: bundle gems
           command: bundle install --jobs=4 --retry=3
