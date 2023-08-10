@@ -30,7 +30,7 @@ jobs:
       - image: circleci/redis # redis image  
     steps:    
       - checkout:
-            path: ~/circleci-mfcs/mfcs
+            path: ~/circleci-mfcs
       - run:
           name: Configure timezone
           command: sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
@@ -143,7 +143,7 @@ jobs:
 
     steps:
       - attach_workspace:
-          at: ~/circleci-mfcs
+          at: ~/circleci-mfcs/mfcs
       - run:
           name: Install Code Climate Test Reporter
           command: |
