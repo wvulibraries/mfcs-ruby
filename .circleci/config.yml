@@ -33,7 +33,7 @@ jobs:
             path: ~/circleci-mfcs
       - run:
           name: Configure timezone
-          command: sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+          command: ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
       - run:
           name: Configure secrets.yml
           command: mv config/secrets.ci.yml config/secrets.yml
