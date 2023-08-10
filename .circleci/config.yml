@@ -35,10 +35,10 @@ jobs:
           command: mv mfcs/config/secrets.ci.yml mfcs/config/secrets.yml
       - run:
           name: Configure database.yml
-          command: mv config/database.ci.yml config/database.yml
+          command: mv mfcs/config/database.ci.yml mfcs/config/database.yml
       - run:
           name: Configure application.yml
-          command: mv config/application.ci.yml config/application.yml              
+          command: mv mfcs/config/application.ci.yml mfcs/config/application.yml              
       - run:
           name: apt update
           command: sudo apt update
