@@ -48,7 +48,7 @@ jobs:
           command: sudo apt update
       - run:
           name: Install Packages
-          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg yarn
+          command: sudo apt-get install -y graphicsmagick ghostscript ffmpeg
       - run:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
