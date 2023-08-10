@@ -57,10 +57,19 @@ jobs:
       - run:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
+      - run:
+          name: Install Python 3.8
+          command: |
+            sudo apt-get install -y software-properties-common
+            sudo add-apt-repository -y ppa:deadsnakes/ppa
+            sudo apt-get update
+            sudo apt-get install -y python3.8 python3.8-dev python3.8-venv
+            sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
+            sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 
       # Restore bundle cache
-      # - type: cache-restore
-      #   key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
+      - type: cache-restore
+        key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
 
       # - type: cache-restore
       #   key: mfcs-yarn-{{ checksum "yarn.lock" }}       
@@ -85,7 +94,7 @@ jobs:
           command: bundle install --path vendor/bundle
       - run:
           name: Yarn Install
-          command: yarn install --frozen-lockfile
+          command: yarn install --cache-folder ~/.cache/yarn
       # - run:
       #     name: Precompile assets
       #     command: RAILS_ENV=test bundle exec rails webpacker:compile
@@ -141,10 +150,10 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: cimg/ruby:2.7.7-node
+      - image: cimg/ruby:2.7.7
     environment:
        CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
-    working_directory: ~/circleci-mfcs
+    working_directory: ~/circleci-mfcs/mfcs
 
     steps:
       - attach_workspace:
