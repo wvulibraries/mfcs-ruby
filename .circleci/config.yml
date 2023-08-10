@@ -30,7 +30,7 @@ jobs:
       - image: circleci/redis # redis image  
     steps:    
       - checkout:
-            path: ~/circleci-mfcs
+            path: ~/circleci-mfcs/mfcs
       - run:
           name: Configure timezone
           command: sudo ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
