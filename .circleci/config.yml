@@ -10,7 +10,7 @@ jobs:
       COVERAGE: true
       TZ: /usr/share/zoneinfo/America/NewYork
     docker:
-      - image: cimg/ruby:2.7.7-browsers
+      - image: cimg/ruby:2.7.8-browsers
         environment:
           PGHOST: 127.0.0.1
           PGUSER: root
@@ -57,22 +57,13 @@ jobs:
       - run:
           name: Install Tesseract
           command: sudo apt-get install -y libleptonica-dev libtesseract-dev tesseract-ocr  
-      - run:
-          name: Install Python 3.8
-          command: |
-            sudo apt-get install -y software-properties-common
-            sudo add-apt-repository -y ppa:deadsnakes/ppa
-            sudo apt-get update
-            sudo apt-get install -y python3.8 python3.8-dev python3.8-venv
-            sudo update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
-            sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.8 1
 
       # Restore bundle cache
       - type: cache-restore
         key: mfcs-bundle-{{ checksum "Gemfile.lock" }}
 
-      # - type: cache-restore
-      #   key: mfcs-yarn-{{ checksum "yarn.lock" }}       
+      - type: cache-restore
+        key: mfcs-yarn-{{ checksum "yarn.lock" }}       
 
       - run:
           name: install dockerize
@@ -150,7 +141,7 @@ jobs:
 
   upload-coverage:
     docker:
-      - image: cimg/ruby:2.7.7
+      - image: cimg/ruby:2.7.8
     environment:
        CC_TEST_REPORTER_ID: eb58b59e9b4910607d1a8fbc2b5c179188627f4d7502dedae51c6929e1500af1
     working_directory: ~/circleci-mfcs/mfcs
