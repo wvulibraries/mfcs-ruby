@@ -2,7 +2,7 @@ version: '3'
 
 services:
   postgres:
-    container_name: mfcs_db
+    container_name: db
     image: postgres:15.2-alpine
     ports:
       - "5432:5432"
@@ -50,10 +50,10 @@ services:
     volumes:
       - ./mfcs:/home/mfcs
       - ./scripts:/home/mfcs/scripts
-      - rails_cache_data:/app/tmp/cache
+      - rails_cache_data:/home/mfcs/app/tmp/cache
       - bundle_data:/usr/local/bundle
       - node_modules_data:/home/mfcs/node_modules
-      - packs_data:/app/public/packs
+      - ./data/packs_data:/home/mfcs/app/public/packs
       - mfcs_tmp:/home/mfcs/tmp
       - mfcs_storage:/home/mfcs/storage
       # testing php mfcs exports / imports
@@ -100,7 +100,7 @@ services:
     volumes:
       - ./mfcs:/home/mfcs:cached
       - ./data/mfcs-data:/home/mfcs/data      
-      - rails_cache_data:/app/tmp/cache
+      - rails_cache_data:/home/mfcs/app/tmp/cache
       - bundle_data:/usr/local/bundle  
       - mfcs_tmp:/home/mfcs/tmp
       - mfcs_storage:/home/mfcs/storage          
@@ -122,7 +122,7 @@ services:
       - ./mfcs:/home/mfcs:cached
       - bundle_data:/usr/local/bundle
       - node_modules_data:/home/mfcs/node_modules
-      - packs_data:/app/public/packs      
+      - ./data/packs_data:/home/mfcs/app/public/packs  
     ports:
       - '3035:3035'
     networks:
@@ -153,7 +153,7 @@ volumes:
   rails_cache_data:
   bundle_data:
   node_modules_data:
-  packs_data:
+  # packs_data:
   redis:
   postgres:
   elasticsearch:

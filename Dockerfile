@@ -1,4 +1,4 @@
-FROM ruby:2.7.7
+FROM ruby:2.7.8
 
 ENV NODE_VERSION=14
 ENV PROJECT_PATH=mfcs

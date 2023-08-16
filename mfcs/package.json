@@ -2,7 +2,10 @@
   "name": "mfcs",
   "private": true,
   "dependencies": {
-    "@babel/core": "^7.0.0",
+    "@babel/core": "^7.22.10",
+    "@babel/preset-env": "^7.22.10",
+    "@babel/preset-react": "^7.22.5",
+    "@babel/preset-typescript": "^7.22.5",
     "@fortawesome/fontawesome-free": "^6.1.1",
     "@rails/activestorage": "^6.0.3-4",
     "@rails/ujs": "^6.0.3",
@@ -11,6 +14,7 @@
     "babel-plugin-module-resolver": "^3.2.0",
     "bootstrap": "^4.3.1",
     "edtf": "^2.7.1",
+    "file-loader": "^6.2.0",
     "jquery": "^3.4.1",
     "lodash": "^4.17.15",
     "node-sass": "6.0.0",
@@ -26,6 +30,10 @@
   "devDependencies": {
     "babel-jest": "^24.9.0",
     "babel-preset-es2015": "^6.24.1",
+    "babel-plugin-macros": "^3.1.0", 
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.18.6",
+    "@babel/plugin-transform-runtime": "^7.18.6",
     "html-loader-jest": "^0.2.1",
     "jest": "^24.9.0",
     "jsdom-mount": "^0.1.0",
@@ -50,6 +58,13 @@
     "transform": {
       "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
     }
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-env",
+      "@babel/preset-react",
+      "@babel/preset-typescript"
+    ]
   },
   "scripts": {
     "test": "jest"

@@ -72,3 +72,4 @@ docker-reset.sh
 /scripts/postgres-db-dump/*
 coverage/.resultset.json
 coverage/.last_run.json
+mfcs/log/development.log
