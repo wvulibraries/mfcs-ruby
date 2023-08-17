@@ -50,7 +50,7 @@
                   <% value.each do |file| %>
                     <% presenter = DigitalObjects::FilePresenter.new(file) %>              
                     <ul class="filePreviews">
-                      <li><span class="filename span6"><i class="fa fa-file-sound-o"></i> <%= presenter.filename %> </span>
+                      <li><span class="filename span6"><i class="#{presenter.fa_icon}"></i> <%= presenter.filename %> </span>
                         <span class="dropdowns span6"> 
                           <div class="btn-group">	
                             <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">		Preview <span class="caret"></span></a>
