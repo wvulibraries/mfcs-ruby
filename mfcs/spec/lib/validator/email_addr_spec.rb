@@ -31,7 +31,7 @@ RSpec.describe Validator::EmailAddr, type: :model do
     end
 
     it 'valid email - faker data' do
-      base = described_class.new(Faker::Internet.free_email, {}, 1)
+      base = described_class.new(Faker::Internet.email, {}, 1)
       expect(base.perform).to be true
     end
 

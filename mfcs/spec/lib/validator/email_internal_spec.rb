@@ -34,7 +34,7 @@ RSpec.describe Validator::EmailInternal, type: :model do
     end
     
     it 'valid email, but not internal' do
-      base = described_class.new(Faker::Internet.free_email, {}, 1)
+      base = described_class.new(Faker::Internet.email, {}, 1)
       expect(base.perform).to be false
     end
 
@@ -51,7 +51,7 @@ RSpec.describe Validator::EmailInternal, type: :model do
 
   context '.email_internal' do
     it 'valid email, but not internal' do
-      email = Faker::Internet.free_email
+      email = Faker::Internet.email
       base = described_class.new(email, {}, 1)
       expect(base.email_internal(email)).to be false
     end
