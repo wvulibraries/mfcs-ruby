@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     working_directory: ~/circleci-mfcs/mfcs
-    parallelism: 1
+    parallelism: 4
     shell: /bin/bash --login
     environment:
       RAILS_ENV: test
