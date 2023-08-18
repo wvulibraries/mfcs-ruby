@@ -202,7 +202,7 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.9)
-    nokogiri (1.15.3-x86_64-linux)
+    nokogiri (1.15.4-x86_64-linux)
       racc (~> 1.4)
     omniauth (1.9.2)
       hashie (>= 3.4.6)
@@ -413,7 +413,7 @@ DEPENDENCIES
   pry
   pry-rails
   puma (~> 3.11)
-  rails (~> 7.0.0)
+  rails (~> 7.0.7)
   rspec-html-matchers
   rspec-rails
   rspec_junit_formatter
@@ -435,7 +435,7 @@ DEPENDENCIES
   sprockets-rails
   to_regexp (~> 0.2.1)
   web-console (>= 3.3.0)
-  webpacker (~> 5.2, >= 5.2.1)
+  webpacker (~> 5.4, >= 5.4.4)
 
 RUBY VERSION
    ruby 2.7.8p225
