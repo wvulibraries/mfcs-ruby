@@ -1,12 +1,9 @@
 require 'rails_helper'
-require 'sidekiq/testing'
-Sidekiq::Testing.fake!
 
 RSpec.describe WorkingFileJob, type: :job do
-  include ActiveJob::TestHelper
   let(:media) { FactoryBot.create :media }
   let(:job) { described_class.perform_later(media.id) }
-
+  
   it 'queues the job' do
     expect { job }.to have_enqueued_job(described_class)
       .with(media.id)
@@ -21,4 +18,13 @@ RSpec.describe WorkingFileJob, type: :job do
       }.to have_enqueued_job
     end
   end
+
+  describe "#perform" do
+    it "creates working copy" do
+      ActiveJob::Base.queue_adapter = :test
+      WorkingFileJob.perform_now(media.id)
+      # count for filename should be 2 (original + working copy)
+      expect(Media.where(filename: media.filename).count).to eq 2
+    end
+  end  
 end
