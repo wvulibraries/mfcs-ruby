@@ -71,3 +71,6 @@ mfcs/log/development.log
 # Ignore Tmp Folder
 /mfcs/tmp/*
 
+# Ignore Test Data
+/mfcs/tests/data/*
+
