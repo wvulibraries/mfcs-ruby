@@ -6,7 +6,7 @@
 module Conversion
   def self.determine_type(mime)
     if Conversion.audio?(mime)
-      'Image'
+      'Audio'
     elsif Conversion.video?(mime)
       'Video'
     elsif Conversion.image?(mime)

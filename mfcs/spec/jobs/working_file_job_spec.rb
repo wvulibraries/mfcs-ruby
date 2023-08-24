@@ -11,7 +11,7 @@ RSpec.describe WorkingFileJob, type: :job do
   end
 
   describe "#perform_later" do
-    it "creates working copy" do
+    it "creates a queued job" do
       ActiveJob::Base.queue_adapter = :test
       expect {
         WorkingFileJob.perform_later(1)

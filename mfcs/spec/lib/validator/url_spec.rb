@@ -26,7 +26,7 @@ RSpec.describe Validator::Url, type: :model do
     end
 
     valid_options = [ 
-      Faker::Internet.url, 
+      Faker::Internet.url(host: 'example.com', path: '/foobar.html'), 
       'ftp://ftpserver.com/path/to/image.png',
       'ssh://user@host.example.com',
       'ssh://user@host.example.com:2222',
