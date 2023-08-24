@@ -64,8 +64,8 @@ docker-reset.sh
 # Ignore Docker Images and Database Dump
 /scripts/docker_images/*
 /scripts/postgres-db-dump/*
-coverage/.resultset.json
-coverage/.last_run.json
+mfcs/coverage/.resultset.json
+mfcs/coverage/.last_run.json
 mfcs/log/development.log
 
 # Ignore Tmp Folder
