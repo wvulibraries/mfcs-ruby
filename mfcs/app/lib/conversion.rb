@@ -1,5 +1,5 @@
 # Module for the Conversion that determines the type of method that is going to be used.  # Might abstract to an Actor Class.
-# @author David J. Davis
+# @author(s) David J. Davis, Tracy A. McCormick
 # @return [Boolean]
 # Setup Conversion 1 For the Test
 # ================================================================================

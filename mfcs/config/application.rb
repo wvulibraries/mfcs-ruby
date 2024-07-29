@@ -50,5 +50,7 @@ module Mfcs
 
     # Config MFCS Data Store
     config.mfcs = config_for(:mfcs)
+
+    config.active_record.legacy_connection_handling = false
   end
 end
